@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>2nd February 2021</creationDate>
+	<creationDate>9th February 2021</creationDate>
 	<version>0.1.0</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
@@ -12,7 +12,7 @@
 
 	<scriptfile>script.xbpeople.php</scriptfile>
 
-	<media destination="com_xbfilms" folder="media">
+	<media destination="com_xbpeople" folder="media">
 		<filename>index.html</filename>
 		<folder>css</folder>
 	</media>
@@ -27,17 +27,32 @@
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
-			<folder>sql</folder>
 			<folder>tables</folder>
-			<folder>uploads</folder>
 			<folder>views</folder>
 		</files>
 
 		<languages folder="admin/language">
-			<language tag="en-GB">en-GB/en-GB.com_xbfilms.ini</language>
-			<language tag="en-GB">en-GB/en-GB.com_xbfilms.sys.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_xbpeople.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_xbpeople.sys.ini</language>
 		</languages>
 		
+		<menu img="class:xbpeople" 
+			link="option=com_xbpeople" view="persons">
+			xbPeople
+		</menu>
+		<submenu>
+			<menu link="option=com_xbpeople&amp;view=persons" 
+				view="persons" img="class:xbpeople-persons"
+				alt="Xbpeople/Persons">
+					com_xbpeople_people					
+			</menu>
+		</submenu>
 	</administration>
+
+	<updateservers>
+		<server type="extension" priority="1" name="xbFilms Updates">
+			http://www.crosborne.co.uk/jupdates/update_xbpeople.xml
+		</server>
+	 </updateservers>
 
 </extension>

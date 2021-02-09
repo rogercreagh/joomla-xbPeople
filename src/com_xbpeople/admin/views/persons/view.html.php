@@ -1,8 +1,8 @@
 <?php
 /*******
- * @package xbFilms
+ * @package xbPeople
  * @filesource admin/views/persons/view.html.php
- * @version 0.1.0 22nd November 2020
+ * @version 0.1.0 8th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
-class XbfilmsViewPersons extends JViewLegacy {
+class XbpeopleViewPersons extends JViewLegacy {
 
     function display($tpl = null) {
         // Get application
-        $app = JFactory::getApplication();
-        $context = "xbfilms.list.admin.persons";
+        $app = Factory::getApplication();
+        $context = "xbpeople.list.admin.persons";
         // Get data from the model
         $this->items		= $this->get('Items');
         $this->pagination	= $this->get('Pagination');
@@ -28,11 +30,11 @@ class XbfilmsViewPersons extends JViewLegacy {
         $this->searchTitle = $this->state->get('filter.search');
         $this->catid 		= $this->state->get('catid');
         if ($this->catid>0) {
-            $this->cat 		= XbfilmsHelper::getCat($this->catid);
+            $this->cat 		= XbpeopleHelper::getCat($this->catid);
         }
         
         if ($this->getLayout() !== 'modal') {
-            XbfilmsHelper::addSubmenu('persons');
+            XbpeopleHelper::addSubmenu('persons');
         }
         
         // Check for errors.
@@ -56,27 +58,27 @@ class XbfilmsViewPersons extends JViewLegacy {
     }
     
     protected function addToolBar() {
-        $canDo = XbfilmsHelper::getActions();
+        $canDo = XbpeopleHelper::getActions();
         
         $bar = JToolbar::getInstance('toolbar');
         
-        JToolBarHelper::title(JText::_('COM_XBFILMS').': '.JText::_('COM_XBFILMS_TITLE_PEOPLEMANAGER'), 'users' );
+        ToolBarHelper::title(JText::_('COM_XBFILMS').': '.JText::_('COM_XBPEOPLE_TITLE_PEOPLEMANAGER'), 'users' );
         
         if ($canDo->get('core.create') > 0) {
-            JToolBarHelper::addNew('person.add');
+            ToolBarHelper::addNew('person.add');
         }
         if ($canDo->get('core.edit') || ($canDo->get('core.edit.own'))) {
-            JToolBarHelper::editList('person.edit');
+            ToolBarHelper::editList('person.edit');
         }
         if ($canDo->get('core.edit.state')) {
-            JToolbarHelper::publish('person.publish', 'JTOOLBAR_PUBLISH', true);
-            JToolbarHelper::unpublish('person.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-            JToolBarHelper::archiveList('person.archive');
+            ToolbarHelper::publish('person.publish', 'JTOOLBAR_PUBLISH', true);
+            ToolbarHelper::unpublish('person.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+            ToolBarHelper::archiveList('person.archive');
         }
         if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-           JToolBarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'person.delete','JTOOLBAR_EMPTY_TRASH');
+           ToolBarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'person.delete','JTOOLBAR_EMPTY_TRASH');
         } else if ($canDo->get('core.edit.state')) {
-           JToolBarHelper::trash('person.trash');
+           ToolBarHelper::trash('person.trash');
         }
         
         // Add a batch button
@@ -90,14 +92,14 @@ class XbfilmsViewPersons extends JViewLegacy {
         }
         
         if ($canDo->get('core.admin')) {
-            JToolBarHelper::preferences('com_xbfilms');
+            ToolBarHelper::preferences('com_xbpeople');
         }
     }
     
     protected function setDocument()
     {
-        $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_XBFILMS_ADMIN_PEOPLE'));
+        $document = Factory::getDocument();
+        $document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_PEOPLE'));
     }
     
 }

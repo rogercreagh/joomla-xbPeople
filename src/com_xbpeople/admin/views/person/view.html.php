@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.1.0 2nd February 2021
+ * @version 0.1.0 8th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,6 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 class XbpeopleViewPerson extends JViewLegacy {
     
@@ -40,36 +43,52 @@ class XbpeopleViewPerson extends JViewLegacy {
     }
     
     protected function addToolBar() {
-        $input = JFactory::getApplication()->input;
+
+    	$input = Factory::getApplication()->input;
+        $input->set('hidemainmenu', true);
+        $user = Factory::getUser();
+        $userId = $user->get('id');
+        $checkedOut     = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+        
+        $canDo = $this->canDo;
+        
         
         // Hide Joomla Administrator Main menu
         $input->set('hidemainmenu', true);
         
         $isNew = ($this->item->id == 0);
         
-        $title = JText::_( 'COM_XBPEOPLE' ).': ';
+        $title = Text::_( 'COM_XBPEOPLE' ).': ';
         if ($isNew) {
-            $title .= JText::_('COM_XBPEOPLE_TITLE_NEWPERSON');
+            $title .= Text::_('COM_XBPEOPLE_TITLE_NEWPERSON');
+        } elseif ($checkedOut) {
+        	$title = Text::_('COM_XBPEOPLE_TITLE_VIEWPERSON');
         } else {
-            $title .= JText::_('COM_XBPEOPLE_TITLE_EDITPERSON');
+            $title .= Text::_('COM_XBPEOPLE_TITLE_EDITPERSON');
         }
         
-        JToolbarHelper::title($title, 'user');
+        ToolbarHelper::title($title, 'user');
         
-        JToolbarHelper::apply('person.apply');
-        JToolbarHelper::save('person.save');
-        JToolbarHelper::save2new('person.save2new');
+        ToolbarHelper::apply('person.apply');
+        ToolbarHelper::save('person.save');
+        ToolbarHelper::save2new('person.save2new');
+        if (XbpeopleHelper::checkComponent('com_xbfilms')) {
+	        ToolbarHelper::custom('personcat.save2film', 'users', '', 'Save &amp; Films', false) ;
+        }
+        if (XbpeopleHelper::checkComponent('com_xbbooks')) {
+        	ToolbarHelper::custom('personcat.save2book', 'user', '', 'Save &amp; Books', false) ;
+        }
         if ($isNew) {
-            JToolbarHelper::cancel('person.cancel','JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('person.cancel','JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::cancel('person.cancel','JTOOLBAR_CLOSE');
+            ToolbarHelper::cancel('person.cancel','JTOOLBAR_CLOSE');
         }
     }
     
     protected function setDocument() {
         $isNew = ($this->item->id < 1);
-        $document = JFactory::getDocument();
-        $document->setTitle($isNew ? JText::_('COM_XBPEOPLE_PERSON_CREATING') :
-            JText::_('COM_XBPEOPLE_PERSON_EDITING'));
+        $document = Factory::getDocument();
+        $document->setTitle($isNew ? Text::_('COM_XBPEOPLE_PERSON_CREATING') :
+            Text::_('COM_XBPEOPLE_PERSON_EDITING'));
     }
 }

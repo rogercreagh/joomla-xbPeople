@@ -1,13 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- xbFilms config.xml v0.1.0 9th February 2021 -->
 <config>
+	<fieldset name="general"
+		label="General"
+		description="General settings"
+		>
+ 		<field name="pathnote"
+			type="note"
+			label="Image Paths"
+			description="These set the default folders for posters and pictures. This is only used as the starting point when inserting images, you can then navigate to any other folder under /images if you wish. The defaults are /images/xbfilms which is created on installation."
+			class="info"
+		/>	
+		<field name="portrait_path" type="folderlist" 
+			default="images/xbpeople" directory="images" 
+	        label="Portrait images folder" 
+	        description="Default folder for picture for people and characters. This only constrains which folder is initially shown when selecting image" 
+	        recursive="true" hide_none="true" 
+        />
+		<field
+			name="def_new_percat"
+			type="category"
+			label="New Person Category"
+			extension="com_xbpeople"
+			description="Default category for all new and imported people. You can select a different category when creating an individual item, and a different default for a specific import. This just provides a general fallback - if not set it will default to 'Uncategorised'."
+			>			
+			<option value="" >Select default for new items</option>
+		</field>
+  		<field name="people_sort"
+			type="radio"
+			default="0"
+			label="Name Order"
+			description="In all views names are displayed as 'Firstnames Lastname'. List views can be sorted by both Lastname and Firstname. This setting determines the order for name lists used in selectors (eg in seach/filter options) which will be listed alphabetically according to tis setting."
+ 			class="btn-group btn-group-yesno"
+			>
+				<option value="0" >First Last</option>
+				<option value="1">Last, First</option>
+		</field>			
+		<field
+			name="def_new_charcat"
+			type="category"
+			label="New Character Category"
+			extension="com_xbpeople"
+			description="Default category for all new and imported characters. You can select a different category when creating an individual item, and a different default for a specific import. This just provides a general fallback - if not set it will default to 'Uncategorised'."
+			>			
+			<option value="" >Select default for new items</option>
+		</field>
+		<field name="extlink_target"
+			type="radio"
+			default="1"
+			label="External Link Target"
+			description="Open external links in new tab/window or replace existing page. NB this only applies to links added in the 'External Links' field for Films and People."
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >Same Tab</option>
+			<option value="1">New Tab</option>
+		</field>	
+	</fieldset>		
+
+	<fieldset name="meta"
+		label="Metadata"
+		description="These options only affect the metadata for xbfilms pages. If they are left blank the defaults from System|Global Configuration|Site will be used."
+		>
+		<field name="metanote1"
+  type="note"
+			description="Default values/options specified below are only used when a new item is first saved. Once there is data in the metadata fields then that will be used. The individual 'Show' options below are used when the page is displayed whether or not data is present."
+			class="alert"
+		/>
+
+		<field name="show_rights"
+			type="radio"
+			default="0"
+			label="Show Meta.rights"
+			description="If no default is set below, or no value is entered for the item then the global system configurtion default will be used."
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field name="def_rights" 
+			type="text" 
+			default="Creative Commons Attribution Non-Commercial Share-alike" 
+			label="Default Content Rights" 
+			description="Text to be copied to metadata Content Rights for item if left blank when saved. If both the item rights and this option are blank then the global setting will be used." 
+			size="150" showon="show_rights:1"
+		/>	
+
+		<field name="show_desc"
+			type="radio"
+			default="0"
+			label="Show Meta.description"
+			description="If Yes and no value is entered for the item then the global system configurtion default will be used."
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="summary_metadesc"
+			type="radio"
+			default="0"
+			label="Summary to Description"
+			description="Copy item summary to item metadata description if left blank when saved."
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field name="show_author"
+			type="radio"
+			default="0"
+			label="Show Meta.author"
+			description="For review pages the reviewer name will be used, for film &amp; people pages the created_by_alias will be used if set, if not the default below will be used. List pages will use the default below."
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field name="def_author" 
+			type="text" 
+			default="" 
+			label="Default Author" 
+			description="Used for list views and single film/people pages if created_by_alias is blank." 
+			size="150" 
+		/>	
+			
+		<field name="metanote2"
+  type="note"
+			description="NB the Keywords metatag is pretty much deprecated now and you probably don't want to bother with this next option unless you have a particular reason."
+			class="alert"
+		/>
+		<field name="show_keywords"
+			type="radio"
+			default="0"
+			label="Show Meta.keywords"
+			description="If you are using meta keywords you have the option below to copy tags to the keywords when the item is created"
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field name="tags_keywords"
+			type="radio"
+			default="0"
+			label="Tags to Keywords"
+			description="Copy tags for item to metadata keywords. NB this only works when there is nothing already in the Keyword field"
+ 			class="btn-group btn-group-yesno"
+ 			showon="show_keywords:1"
+			>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>	
+		<field name="metanote3"
+  type="note"
+			description="Joomla inserts a default 'generator' metatag [Joomla! - Open Source Content Management] on all pages. You can change it here for xbFilms pages only. To change it globally use a separate extension."
+			class="alert"
+		/>
+		<field name="show_generator"
+			type="list"
+			default="0"
+			label="Show Meta.generator"
+			description=""
+		>
+			<option value="0" >Hide</option>
+			<option value="1">Use xbFilms value below</option>
+			<option value="2">Use system default</option>
+		</field>
+		
+		<field name="def_generator" 
+			type="text" 
+			default="xbFilms component for Joomla" 
+			label="Meta.generator" 
+			description="Leave blank to remove the generator tag." 
+			size="100" showon="show_generator:1"
+		/>	
+		
+	</fieldset>
+
     <fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
 	>
 		<field
-			name="rules"
-			type="rules"
+			name="rules" type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			class="inputbox"
 			validate="rules"

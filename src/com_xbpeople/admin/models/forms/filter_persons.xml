@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- xbPeople admin/models/forms/filter_persons.xml v0.1.0 8th February 2021 -->
+<form>
+	<fields name="filter"  addfieldpath="administrator/components/com_xbpeople/models/fields">
+		<field
+			name="search" type="text"
+			label="COM_XBPEOPLE_SEARCH_IN_NAME"
+			description="COM_XBPEOPLE_SEARCH_PERSON"
+			hint="JSEARCH_FILTER"
+			class="js-stools-search-string"
+		/>
+		<field
+			name="published" type="status"
+			label="JOPTION_SELECT_PUBLISHED"
+			description="JOPTION_SELECT_PUBLISHED_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		<field name="rolefilt" type="radio"
+			label="All or Orphans"
+			description="Does this show?"
+			default="all"
+			onchange="this.form.submit();"			
+  			class="btn-group btn-small radiotop"
+		>
+			<option value="all">COM_XBPEOPLE_ALLPEOPLE</option>
+			<option value="orphans">COM_XBPEOPLE_CAPORPHANS</option>
+		</field>
+		<field
+			name="category_id" type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			extension="com_xbpeople"
+			description="JOPTION_FILTER_CATEGORY_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+		<field
+			name="tagfilt" type="tag"
+			label="JOPTION_FILTER_TAG"
+			description="JOPTION_FILTER_TAG_DESC"
+			multiple="true"
+			class="multipleTags"
+			mode="nested"
+			onchange="this.form.submit();"
+		/>
+		<field name="taglogic" type="radio"
+			default="0"
+			label="COM_XBPEOPLE_MULTITAG_LBL"
+			description="COM_XBPEOPLE_MULTITAG_DESC"
+  			class="btn-group btn-small radiotop"
+		>
+			<option value="1" onchange="this.form.submit();">COM_XBPEOPLE_CAPALL</option>
+			<option value="0" onchange="this.form.submit();">COM_XBPEOPLE_CAPANY</option>
+			<option value="2" onchange="this.form.submit();">COM_XBPEOPLE_CAPEXCLUDE</option>
+		</field>	
+	</fields>
+	<fields name="list">
+  		<field name="fullordering" type="hidden" default="" />
+  		
+		<field
+			name="limit" type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

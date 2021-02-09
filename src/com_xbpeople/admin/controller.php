@@ -12,4 +12,10 @@ defined('_JEXEC') or die;
 class XbpeopleController extends JControllerLegacy
 {
 	protected $default_view = 'persons';
+	
+	public function display ($cachable = false, $urlparms = false){
+		require_once JPATH_COMPONENT.'/helpers/xbpeople.php';
+		
+		return parent::display();
+	}
 }

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/xbpeople.php
- * @version 0.1.0 2nd February 2021
+ * @version 0.1.0 9th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,14 +13,16 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 
+if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
+	//Factory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNODIRECTOR'),'warning');
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	return false;
+}
+
 $document = Factory::getDocument();
 $cssFile = Uri::root(true)."/media/com_people/css/xb.css";
 $document->addStyleSheet($cssFile);
 
-if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
-	Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNODIRECTOR'),'warning');
-	return false;
-}
 
 JLoader::register('XbpeopleHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbpeople.php');
 
