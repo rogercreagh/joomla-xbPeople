@@ -2,13 +2,13 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
 	<creationDate>9th February 2021</creationDate>
-	<version>0.1.0</version>
+	<version>0.0.5</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
 	<copyright>(c) Roger Creagh-Osborne, 2021. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
-	<description>xbPeople Component</description>
+	<description>COM_XBPEOPLE_XML_DESCRIPTION</description>
 
 	<scriptfile>script.xbpeople.php</scriptfile>
 
@@ -17,6 +17,21 @@
 		<folder>css</folder>
 	</media>
 
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
@@ -27,6 +42,7 @@
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
+			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
@@ -50,8 +66,8 @@
 	</administration>
 
 	<updateservers>
-		<server type="extension" priority="1" name="xbFilms Updates">
-			http://www.crosborne.co.uk/jupdates/update_xbpeople.xml
+		<server type="extension" priority="1" name="xbPeople Updates">
+			http://www.crosborne.uk/jupdates/update_xbpeople.xml
 		</server>
 	 </updateservers>
 

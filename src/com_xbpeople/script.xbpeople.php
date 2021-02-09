@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.1.0 8th February 2021
+ * @version 0.1.0 9th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -17,10 +17,6 @@ class com_xbpeopleInstallerScript
 	
 	public function preflight($route, $installer)
 	{
-		//test if xbbooks or xbfilms are installed - if not do nothing (no standalone)
-	    $parent = $installer->getParent();
-    	$this->ver = $parent->get('manifest')->version ;
-    		       
     }
     
     function install($parent)
@@ -37,14 +33,30 @@ class com_xbpeopleInstallerScript
     
     function uninstall($parent)
     {
-    	//test if xbbooks or xbfilms installed
+      	$db = Factory::getDbo();
+    	// prevent categories being deleted
+    	$db->setQuery(
+    		$db->getQuery(true)
+    			->update('#__categories')
+    			->set('extension='.$db->q('!com_xbpeople!'))
+    			->where('extension='.$db->q('com_xbpeople'))
+		)
+    		->execute();
+        $cnt = $db->getAffectedRows(); 
+   	    $message = $cnt.' xbPeople categories renamed as !<i>name</i>!, run cpanel RestorePeopleCats in xbBooks/Films cpanel to recover them';
+        Factory::getApplication()->enqueueMessage($message,'Info');
+        echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
+            border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';   	
+    	echo '<p>Uninstalling xbPeople component v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'.</p>';
+    	echo '</div>';
+/***
+    	    //test if xbbooks or xbfilms installed
     	$showcats='default';
-    	$db = JFactory::getDBO();
+    	$db = Factory::getDBO();
     	$db->setQuery('SELECT extension_id FROM #__extensions WHERE element = '.$db->quote('com_xbfilms'));
     	$eid = $db->loadResult();
     	if ($eid) {
     		$showcats = $parent->getParam('show_cats',$eid);
-    		
     	}
     	//if they are then 
     		//message to effect that categories need restoring
@@ -62,6 +74,7 @@ class com_xbpeopleInstallerScript
     	echo $shocats.'<p>The xbPeople component version '.$this->ver.' has been uninstalled.</p>';
     	echo '</div>';
     	return false;
+    	***/
     }
     
     function update($parent)
@@ -79,13 +92,29 @@ class com_xbpeopleInstallerScript
     	$message = 'Postflight messages: <br />';
     	if ($type=='install') {
         	//create portrait folder
-/****         	if (!file_exists(JPATH_ROOT.'/images/xbpeople')) {
+        	if (!file_exists(JPATH_ROOT.'/images/xbpeople')) {
          		mkdir(JPATH_ROOT.'/images/xbpeople',0775);
          		$message .= 'Portrait folder created (/images/xbpeople/).<br />';
         	} else{
          		$message .= '"/images/xbpeople/" already exists.<br />';
          	}
-         	// Recover categories if they exist
+            $db = Factory::getDbo();
+            $app = Factory::getApplication();
+            $prefix = $app->get('dbprefix');
+        // Recover categories if they exist
+			$qry = $db->getQuery(true);
+         	$qry->update('#__categories')
+         	  ->set('extension='.$db->q('com_xbpeople'))
+         		->where('extension='.$db->q('!com_xbpeople!'));
+         	$db->setQuery($qry); 
+         	try {
+	    		$db->execute();
+	    		$cnt = $db->getAffectedRows();
+         	} catch (Exception $e) {
+         		throw new Exception($e->getMessage());
+         	}
+         	$message .= $cnt.' xbPeople categories restored';
+/****          	
          	$db = JFactory::getDbo();   		
 			$qry = $db->getQuery(true);
          	$qry->update('#__categories')
@@ -144,14 +173,11 @@ class com_xbpeopleInstallerScript
             	$message .= '"Import.People" already exists. ';
             }           
 ****/                       
-/*********************
+/*********************/
             //set up indicies for characters and persons tables - can't be done in install.sql as they may already exists
             //mysql doesn't support create index if not exists. 
             $message .= '<br />Testing people & character indicies ';
             
-            $db = Factory::getDbo();
-            $app = Factory::getApplication();
-            $prefix = $app->get('dbprefix');
             $querystr = 'ALTER TABLE `'.$prefix.'xbpersons` ADD INDEX `personaliasindex` (`alias`)';
             $err=false;
             try {
@@ -185,9 +211,9 @@ class com_xbpeopleInstallerScript
             if (!$err) {
             	$message .= '- characteraliasindex created OK.';
             }
-            **********************/     
+           /**********************/     
 
-           // Factory::getApplication()->enqueueMessage($message,'Info');  
+           Factory::getApplication()->enqueueMessage($message,'Info');  
         }
         
     }
