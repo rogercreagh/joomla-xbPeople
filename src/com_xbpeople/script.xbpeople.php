@@ -24,7 +24,7 @@ class com_xbpeopleInstallerScript
     	echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
 	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';
 
-        echo '<h3>xbPeople component installed</h3>';
+        echo '<h3>Installing xbPeople component...</h3>';
         echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
         echo '<p>For help and information see <a href="http://crosborne.co.uk/xbpeopledoc" target="_blank">
             www.crosborne.co.uk/xbpeopledoc</a></p>';
@@ -32,8 +32,7 @@ class com_xbpeopleInstallerScript
     }
     
     function uninstall($parent)
-    {
-    	
+    {   	
       	$db = Factory::getDbo();
       	$db->setQuery('SELECT extension_id FROM #__extensions
 			WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks'));

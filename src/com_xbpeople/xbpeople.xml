@@ -2,7 +2,7 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
 	<creationDate>9th February 2021</creationDate>
-	<version>0.0.6</version>
+	<version>0.0.6.1</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
