@@ -58,7 +58,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
       <div class="span12">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_XBPEOPLE_FIELDSET_GENERAL')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_XBPEOPLE_CAPGENERAL')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid">
@@ -66,18 +66,17 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 						<fieldset class="form-vertical">
     	     				<?php echo $this->form->renderField('year_born'); ?>
         	 				<?php echo $this->form->renderField('year_died'); ?>
-         					<?php echo $this->form->renderField('nationality'); ?>
 						</fieldset>
-    				</div>
+					</div>
+					<div class="span7">
+         					<?php echo $this->form->renderField('nationality'); ?>
+ 							<?php echo $this->form->renderField('ext_links'); ?>					
+   				</div>
         		</div>
           		<div class="row-fluid">
 					<div class="span12">
 						<fieldset class="form-horizontal">
 							<div style="max-width:1200px;"><?php echo $this->form->renderField('biography'); ?></div>
-						</fieldset>
-						<fieldset class="form-horizontal">
-          					<hr />
-							<?php echo $this->form->renderField('ext_links'); ?>					
 						</fieldset>
 					</div>        		
         		</div>		
@@ -113,7 +112,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
         		</div>
 			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JFIELDSET_PUBLISHING')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_XBPEOPLE_CAPPUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>

@@ -33,8 +33,15 @@ class com_xbpeopleInstallerScript
     
     function uninstall($parent)
     {
+    	
       	$db = Factory::getDbo();
-    	// prevent categories being deleted
+      	$db->setQuery('SELECT extension_id FROM #__extensions
+			WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks'));
+      	$eid = $db->loadResult();
+      	if ($eid) {
+      		
+      	}
+      	// prevent categories being deleted
     	$db->setQuery(
     		$db->getQuery(true)
     			->update('#__categories')
@@ -53,11 +60,6 @@ class com_xbpeopleInstallerScript
     	    //test if xbbooks or xbfilms installed
     	$showcats='default';
     	$db = Factory::getDBO();
-    	$db->setQuery('SELECT extension_id FROM #__extensions WHERE element = '.$db->quote('com_xbfilms'));
-    	$eid = $db->loadResult();
-    	if ($eid) {
-    		$showcats = $parent->getParam('show_cats',$eid);
-    	}
     	//if they are then 
     		//message to effect that categories need restoring
 	     	$db = JFactory::getDbo();
@@ -89,7 +91,7 @@ class com_xbpeopleInstallerScript
     }
     
     function postflight($type, $parent) {
-    	$message = 'Postflight messages: <br />';
+    	$message = 'Postflight messages ('.$type.') : <br />';
     	if ($type=='install') {
         	//create portrait folder
         	if (!file_exists(JPATH_ROOT.'/images/xbpeople')) {
@@ -113,35 +115,30 @@ class com_xbpeopleInstallerScript
          	} catch (Exception $e) {
          		throw new Exception($e->getMessage());
          	}
-         	$message .= $cnt.' xbPeople categories restored';
-/****          	
-         	$db = JFactory::getDbo();   		
-			$qry = $db->getQuery(true);
-         	$qry->update('#__categories')
-         		>set('extension=SUBSTR(extension, 2, CHAR_LENGTH(extension) -2)')
-         		>where('extension='.$db->q('!com_xbpeople!'));
-         	$db->setQuery($qry); 
-         	try {
-	    		$db->execute();
-	    		$cnt = $db->getAffectedRows();
-         	} catch (Exception $e) {
-         		throw new Exception($e->getMessage());
-         	}
-         	$message = $cnt.' xbPeople categories restored';
-         	JFactory::getApplication()->enqueueMessage($message,'Info');
+         	$message .= $cnt.' existing xbPeople categories restored';
+/****/        	
          	
          	// set up com_xbpeople categories. Need to test if they already exist. Uncategorised-P and Imported-P. For persons and characters
-
-        	$message='PostInstall Actions:<br />';
-        	$db = Factory::getDbo();
-            $query = $db->getQuery(true);
+         	$category_data['id'] = 0;
+         	$category_data['parent_id'] = 0;
+         	$category_data['extension'] = 'com_xbpeople';
+         	$category_data['published'] = 1;
+         	$category_data['language'] = '*';
+         	$category_data['params'] = array('category_layout' => '','image' => '');
+         	$category_data['metadata'] = array('author' => '','robots' => '');
+         	
+         	$basePath = JPATH_ADMINISTRATOR.'/components/com_categories';
+         	require_once $basePath.'/models/category.php';
+         	$config  = array('table_path' => $basePath.'/tables');
+         	$category_model = new CategoriesModelCategory($config);
+         	
+         	$query = $db->getQuery(true);
             $query->select('id')->from($db->quoteName('#__categories'))->where($db->quoteName('alias')." = ".$db->quote('uncategorised'));
             $query->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
             $db->setQuery($query);
             $id =0;
             $res = $db->loadResult();
             if (!($res>0)) {
-                $category_data['extension'] = 'com_xbpeople';
                 $category_data['title'] = 'Uncat.People';
                 $category_data['alias'] = 'uncategorised';
                 $category_data['description'] = 'Default category for xbPeople and Characters not otherwise assigned';
@@ -151,7 +148,7 @@ class com_xbpeopleInstallerScript
                     $message .= '"Uncat.People" (id='. $category_model->getItem()->id.') - OK ';
                 }   
             } else{
-            	$message .= '"Uncat.People" already exists. ';
+            	$message .= '"Uncat.People" (id='.$res.') already exists. ';
             }
             $query->clear();
             $query->select('id')->from($db->quoteName('#__categories'))->where($db->quoteName('alias')." = ".$db->quote('imported'));
@@ -160,23 +157,22 @@ class com_xbpeopleInstallerScript
             $res =0;
             $res = $db->loadResult();
             if (!($res>0)) {
-                $category_data['extension'] = 'com_xbpeople';
                 $category_data['title'] = 'Import.People';
                 $category_data['alias'] = 'imported';
                 $category_data['description'] = 'Default category for imported xbPeople and Characters';
                 if(!$category_model->save($category_data)){
                     $message .= '[Error creating Imported category for people: '.$category_model->getError().'] ';
                 }else{
-                    $message .= '"Import.People" (id='. $category_model->getItem()->id.') - OK ';
+                    $message .= '"Import.People" (id='. $category_model->getItem()->id.') created OK ';
                 }
             } else{
-            	$message .= '"Import.People" already exists. ';
+            	$message .= '"Import.People" (id='.$res.') already exists. ';
             }           
-****/                       
+/****/                       
 /*********************/
             //set up indicies for characters and persons tables - can't be done in install.sql as they may already exists
             //mysql doesn't support create index if not exists. 
-            $message .= '<br />Testing people & character indicies ';
+            $message .= '<br />Testing people & character indicies... ';
             
             $querystr = 'ALTER TABLE `'.$prefix.'xbpersons` ADD INDEX `personaliasindex` (`alias`)';
             $err=false;

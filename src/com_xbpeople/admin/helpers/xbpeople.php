@@ -21,22 +21,22 @@ class XbpeopleHelper extends ContentHelper {
 	public static function addSubmenu($vName = 'persons') {
 		JHtmlSidebar::addEntry(
 				JText::_('COM_XBPEOPLE_ICONMENU_PEOPLE'),
-				'index.php?option=com_xbfilms&view=persons',
+				'index.php?option=com_xbpeople&view=persons',
 				$vName == 'persons'
 				);
 		JHtmlSidebar::addEntry(
 				JText::_('COM_XBPEOPLE_ICONMENU_NEWPERSON'),
-				'index.php?option=com_xbfilms&view=person&layout=edit',
+				'index.php?option=com_xbpeople&view=person&layout=edit',
 				$vName == 'person'
 				);
 		JHtmlSidebar::addEntry(
 				JText::_('COM_XBPEOPLE_ICONMENU_CHARS'),
-				'index.php?option=com_xbfilms&view=characters',
+				'index.php?option=com_xbpeople&view=characters',
 				$vName == 'characters'
 				);
 		JHtmlSidebar::addEntry(
 				JText::_('COM_XBPEOPLE_ICONMENU_NEWCHAR'),
-				'index.php?option=com_xbfilms&view=character&layout=edit',
+				'index.php?option=com_xbpeople&view=character&layout=edit',
 				$vName == 'character'
 				);
 		JHtmlSidebar::addEntry(
@@ -59,7 +59,7 @@ class XbpeopleHelper extends ContentHelper {
 		if (XbpeopleHelper::checkComponent('com_xbbooks')) {
 			JHtmlSidebar::addEntry(
 				JText::_('COM_XBPEOPLE_ICONMENU_BOOKS'),
-				'index.php?option=com_xbfilms&view=persons',
+				'index.php?option=com_xbbooks&view=persons',
 				$vName == 'books'
 				);
 		}
