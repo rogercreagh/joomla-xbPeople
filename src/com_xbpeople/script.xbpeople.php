@@ -13,22 +13,21 @@ use Joomla\CMS\Factory;
 
 class com_xbpeopleInstallerScript 
 {
-	protected $ver;
-	
-	public function preflight($route, $installer)
-	{
-    }
+    protected $jminver = '3.9';
+    protected $jmaxver = '4.0';
+    
+    function preflight($type, $parent)
+    {
+        $app = Factory::getApplication();
+        $jversion = new JVersion();
+        $jverthis = $jversion->getShortVersion();       
+        if ((version_compare($jverthis, $this->jminver,'lt')) || (version_compare($jverthis, $this->jmaxver, 'ge'))) {
+            throw new RuntimeException('xbFilms requires Joomla version greater than '.$this->jminver. ' and less than '.$this->jmaxver.'. You have '.$jverthis);
+        }
+    }   
     
     function install($parent)
     {
-    	echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
-	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';
-
-        echo '<h3>Installing xbPeople component...</h3>';
-        echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
-        echo '<p>For help and information see <a href="http://crosborne.co.uk/xbpeopledoc" target="_blank">
-            www.crosborne.co.uk/xbpeopledoc</a></p>';
-        echo '</div>';
     }
     
     function uninstall($parent)
@@ -36,13 +35,6 @@ class com_xbpeopleInstallerScript
 		$message = 'Uninstalling xbPeople component v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
 		$message .= '<br /> --------------------------------------- ';
 		Factory::getApplication()->enqueueMessage($message,'Info');
-      	$db = Factory::getDbo();
-      	$db->setQuery('SELECT extension_id FROM #__extensions
-			WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks'));
-      	$eid = $db->loadResult();
-      	if ($eid) {
-      		
-      	}
       	// prevent categories being deleted
     	$db->setQuery(
     		$db->getQuery(true)
@@ -56,27 +48,8 @@ class com_xbpeopleInstallerScript
         $message .= '<br /><b>NB</b> People and Characters data tables, and imgaes/xbpeople folder have not been deleted.';
         $message .= '<br /> --------------------------------------- ';
    	    Factory::getApplication()->enqueueMessage($message,'Warn');
-/***
-    	    //test if xbbooks or xbfilms installed
-    	$showcats='default';
-    	$db = Factory::getDBO();
-    	//if they are then 
-    		//message to effect that categories need restoring
-	     	$db = JFactory::getDbo();
-	    	// Preserve categories - they need restoring by install script and/or films/books controller
-	    	$db->setQuery(
-	    	$db->getQuery(true)
-	    		->update('#__categories')
-	    		->set('extension=CONCAT('.$db->q('!').',extension,'.$db->q('!').')')
-	    		->where('extension='.$db->q('com_xbpeople')))
-	    		->execute();
-	    //else we can let them be deleted 
-    	echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
-	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';   	
-    	echo $shocats.'<p>The xbPeople component version '.$this->ver.' has been uninstalled.</p>';
-    	echo '</div>';
-    	return false;
-    	***/
+   	    // set session that xbpeople no longer exists
+   	    $oldval = Factory::getSession()->set('xbpeople_ok', false);
     }
     
     function update($parent)
@@ -84,14 +57,6 @@ class com_xbpeopleInstallerScript
     	$message = 'Updating xbPeople component to v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
     	$message .= '<br /> --------------------------------------- ';
     	Factory::getApplication()->enqueueMessage($message,'Info');
-    	
-//     	echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
-// 	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';   	
-//     	echo '<p>The xbPeople component has been updated to version ' . $parent->get('manifest')->version .' '
-//     			.$parent->get('manifest')->creationDate. '</p>';
-//     	echo '<p>For full changelogs visit <a href="http://crosborne.co.uk/xbPeople#changelog" target="_blank">
-//             www.crosborne.co.uk/xbPeople#changelog</a></p>';
-//         echo '</div>';
     }
     
     function postflight($type, $parent) {
@@ -205,7 +170,21 @@ class com_xbpeopleInstallerScript
             	$message .= '- character alias index created.';
             }
            /**********************/     
-        }
+            echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
+	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';
+            
+            echo '<h3>xbPeople Component</h3>';
+            echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
+            echo '<p>xbPeople is a minimal component designed to supplement xbFilms, xbGigs and xbBooks. It will install the people and character data tables if they don&quot;t exist,';
+            echo 'and recover any previously saved Categories for people, or create default "Uncategorised" and "Imported" categories.</p>';
+            echo '<br />It does include two admin views - a list view of all people and and edit form for an individual person if required. These are also available directly in the main components.';
+            echo 'All other functionality resides in the main components (including the ability to create and assign fiction characters to works).<p>';
+            echo 'The main benefit of xbPeople is that it allows people to be assigned to categories irrespective of the component they are viewed in. ';
+            echo 'If you are not bothered about using categories for people, but are simply using tags instead, then you can dispense with xbPeople.';
+            echo '</div>';
+            //set session that we are installed
+            $oldval = Factory::getSession()->set('xbpeople_ok', true);           
+    	}
         $message .= '<br /> --------------------------------------- ';
         Factory::getApplication()->enqueueMessage($message,'Info');  
         
