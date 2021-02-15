@@ -2,7 +2,7 @@
 /*******
  * @package xbFilms
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.1.0 8th February 2021
+ * @version 0.2.0 15th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -249,7 +249,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 						<?php endif; ?> 
 						<?php if ($item->filmcnt>0) : ?> 
 							<a href="<?php echo $bplink; ?>" >
-							<?php echo Text::_('Connected with').' '.$item->bookcnt.' ';
+							<?php echo Text::_('Connected with').' '.$item->filmcnt.' ';
 							echo Text::_(($item->filmcnt==1)?'COM_XBPEOPLE_FILM':'COM_XBPEOPLE_FILMS'); ?>
 							</a><br />
 							<?php endif; ?>

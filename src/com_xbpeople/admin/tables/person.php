@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/person.php
- * @version 0.1.0 8th February 2021
+ * @version 0.2.0 15th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -85,11 +85,11 @@ class XbpeopleTablePerson extends JTable {
         	if ($params->get('def_new_percat')>0) {
         		$defcat=$params->get('def_new_percat');
         	} else {
-        		$defcat = XbfilmsHelper::getIdFromAlias('#__categories', 'uncategorised', 'com_xbpeople');
+        		$defcat = XbpeopleHelper::getIdFromAlias('#__categories', 'uncategorised', 'com_xbpeople');
         	}
         	if ($defcat>0) {
         		$this->catid = $defcat;
-        		Factory::getApplication()->enqueueMessage(JText::_('COM_XBPEOPLE_DEFAULT_CATEGORY').' ('.XbfilmsHelper::getCat($this->catid)->title.')');
+        		Factory::getApplication()->enqueueMessage(JText::_('COM_XBPEOPLE_DEFAULT_CATEGORY'));
         	} else {
         		$this->setError(JText::_('Please set a category'));
         		return false;

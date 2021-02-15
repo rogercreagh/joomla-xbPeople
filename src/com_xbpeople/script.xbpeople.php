@@ -33,10 +33,10 @@ class com_xbpeopleInstallerScript
     function uninstall($parent)
     {   	
 		$message = 'Uninstalling xbPeople component v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
-		$message .= '<br /> --------------------------------------- ';
 		Factory::getApplication()->enqueueMessage($message,'Info');
       	// prevent categories being deleted
-    	$db->setQuery(
+		$db = Factory::getDbo();
+		$db->setQuery(
     		$db->getQuery(true)
     			->update('#__categories')
     			->set('extension='.$db->q('!com_xbpeople!'))
@@ -44,10 +44,9 @@ class com_xbpeopleInstallerScript
 		)
     		->execute();
         $cnt = $db->getAffectedRows(); 
-   	    $message = $cnt.' xbPeople categories renamed as "<b>!</b><i>name</i><b>!</b>". They ill be recovered on reinstall, or delete manually.';
-        $message .= '<br /><b>NB</b> People and Characters data tables, and imgaes/xbpeople folder have not been deleted.';
-        $message .= '<br /> --------------------------------------- ';
-   	    Factory::getApplication()->enqueueMessage($message,'Warn');
+   	    $message = $cnt.' xbPeople categories renamed as "<b>!</b> <i>name</i> <b>!</b>". They will be recovered on reinstall.';
+        $message .= '<br /><b>NB</b> xbPeople uninstall: People and Characters data tables, and imgaes/xbpeople folder have <b>not</b> been deleted.';
+   	    Factory::getApplication()->enqueueMessage($message,'Warning');
    	    // set session that xbpeople no longer exists
    	    $oldval = Factory::getSession()->set('xbpeople_ok', false);
     }
@@ -55,7 +54,6 @@ class com_xbpeopleInstallerScript
     function update($parent)
     {
     	$message = 'Updating xbPeople component to v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
-    	$message .= '<br /> --------------------------------------- ';
     	Factory::getApplication()->enqueueMessage($message,'Info');
     }
     

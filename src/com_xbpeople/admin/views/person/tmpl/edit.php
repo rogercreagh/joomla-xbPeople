@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.1.0 8th February 2021
+ * @version 0.2.0 15th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -129,4 +129,4 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     <?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbfilmsHelper::credit();?></p>
+<p><?php echo XbpeopleHelper::credit();?></p>
