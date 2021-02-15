@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.1.0 9th February 2021
+ * @version 0.2.0 15th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -18,7 +18,6 @@ class com_xbpeopleInstallerScript
     
     function preflight($type, $parent)
     {
-        $app = Factory::getApplication();
         $jversion = new JVersion();
         $jverthis = $jversion->getShortVersion();       
         if ((version_compare($jverthis, $this->jminver,'lt')) || (version_compare($jverthis, $this->jmaxver, 'ge'))) {
@@ -58,8 +57,8 @@ class com_xbpeopleInstallerScript
     }
     
     function postflight($type, $parent) {
-    	$message = 'Postflight messages ('.$type.') '.$parent->get('manifest')->name.' : <br />';
     	if ($type=='install') {
+	    	$message = $parent->get('manifest')->name.' ('.$type.') : <br />';
         	//create xbpeople image folder
         	if (!file_exists(JPATH_ROOT.'/images/xbpeople')) {
          		mkdir(JPATH_ROOT.'/images/xbpeople',0775);
@@ -167,6 +166,9 @@ class com_xbpeopleInstallerScript
             if (!$err) {
             	$message .= '- character alias index created.';
             }
+            //set session that we are installed
+            $oldval = Factory::getSession()->set('xbpeople_ok', true);           
+	        Factory::getApplication()->enqueueMessage($message,'Info');  
            /**********************/     
             echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
 	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';
@@ -180,12 +182,8 @@ class com_xbpeopleInstallerScript
             echo 'The main benefit of xbPeople is that it allows people to be assigned to categories irrespective of the component they are viewed in. ';
             echo 'If you are not bothered about using categories for people, but are simply using tags instead, then you can dispense with xbPeople.';
             echo '</div>';
-            //set session that we are installed
-            $oldval = Factory::getSession()->set('xbpeople_ok', true);           
-    	}
-        $message .= '<br /> --------------------------------------- ';
-        Factory::getApplication()->enqueueMessage($message,'Info');  
         
+    	}
     }
 }
 
