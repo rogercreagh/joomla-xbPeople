@@ -114,7 +114,7 @@ class XbpeopleHelper extends ContentHelper {
 	}
 	
 	public static function credit() {
-		$xmldata = Installler::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_xbpeople/xbpeople.xml');
+		$xmldata = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_xbpeople/xbpeople.xml');
 		$credit='<div class="xbcredit"><a href="http://crosborne.uk/xbpeople" target="_blank">
             xbFilms Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a></div>';
 		return $credit;
