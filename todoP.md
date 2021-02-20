@@ -3,14 +3,13 @@
 #### 		version: 0.2.xyz
 
 #### FROM ROADMAP
-
+- add cpanel view
+  - summary of people, chars and cats (?tags)
+  - Toolbar to films, books, Delete 
 
 
 #### OTHER NEW FEATURES (not on roadmap)
 
-- add cpanel view
-  - summary of people, chars and cats (?tags)
-  - Toolbar to films, books, Delete 
 
 #### BUGS & MINOR ENHANCEMENTS
 

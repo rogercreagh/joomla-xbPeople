@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/xbpeople.php
- * @version 0.1.0 9th February 2021
+ * @version 0.2.1 19th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,6 +25,8 @@ $document->addStyleSheet($cssFile);
 
 
 JLoader::register('XbpeopleHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbpeople.php');
+XbpeopleHelper::checkComponent('com_xbfilms');
+XbpeopleHelper::checkComponent('com_xbbooks');
 
 $controller = JControllerLegacy::getInstance('Xbpeople');
 

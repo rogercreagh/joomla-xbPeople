@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.1.0 8th February 2021
+ * @version 0.2.1 19th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -190,19 +190,29 @@ class XbpeopleModelPersons extends JModelList {
 			$db    = Factory::getDbo();
 			$item->bookcnt = 0;
 			if ($this->xbbooksStatus) {
+				$item->blist='';
 				$query = $db->getQuery(true);
-				$query->select('COUNT(*)')->from('#__xbbookperson');
+				$query->select('DISTINCT title, bp.role')->from('#__xbbooks AS b');
+				$query->join('LEFT', '#__xbbookperson AS bp ON bp.book_id = b.id');
 				$query->where('person_id = '.$db->quote($item->id));
+				$query->order('b.title ASC');
 				$db->setQuery($query);
-				$item->bookcnt = $db->loadResult();
+				$item->blist = $db->loadObjectList();
+				$item->bookcnt = count($item->blist);
 			}
+			
+			
 			$item->filmcnt = 0;
 			if ($this->xbfilmsStatus) {
+				$item->flist='';
 				$query = $db->getQuery(true);
-				$query->select('COUNT(*)')->from('#__xbfilmperson');
+				$query->select('DISTINCT title, fp.role')->from('#__xbfilms AS f');
+				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
 				$query->where('person_id = '.$db->quote($item->id));
+				$query->order('f.title ASC');
 				$db->setQuery($query);
-				$item->bookcnt = $db->loadResult();
+				$item->flist = $db->loadObjectList();
+				$item->filmcnt = count($item->flist);
 			}
 			
 			$item->ext_links = json_decode($item->ext_links);

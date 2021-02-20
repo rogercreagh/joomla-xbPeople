@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/person.php
- * @version 0.2.0 15th February 2021
+ * @version 0.2.1 19th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -56,15 +56,11 @@ class XbpeopleTablePerson extends JTable {
             return false;
         }
         
-        $db = $this->getDbo();
-        $query = $db->getQuery(true);
-        $query->select('COUNT(*)')->from('#__xbpersons')
-        ->where('LOWER(firstname)='.$db->quote(strtolower($firstname)).' AND LOWER(lastname)='.$db->quote(strtolower($lastname)));
-        if ($db->loadResult > 0) {
-            $this->setError(JText::_('Person  "'.$firstname.' '.$lastname.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
-            return false;
+        if (($this->id == 0) && (XbfilmsHelper::checkPersonExists($firstname,$lastname))) {
+        	$this->setError(JText::_('Person  "'.$firstname.' '.$lastname.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
+        	return false;
         }
-              
+        
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         if (trim($this->alias) == '') {

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.2.0 15th February 2021
+ * @version 0.2.1 19th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -108,9 +108,26 @@ class XbpeopleHelper extends ContentHelper {
 	 * @return boolean|number - true= installed and enabled, 0= installed not enabled, false = not installed
 	 */
 	public static function checkComponent($name) {
-		$db = Factory::getDBO();
-		$db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote($name));
-		return $db->loadResult();
+		$sname=substr($name,4).'_ok';
+		$sess= Factory::getSession();
+			$db = Factory::getDBO();
+			$db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote($name));
+			$res = $db->loadResult();
+			$sess->set($sname,$res);
+			return $res;
+	}
+	
+	public static function checkPersonExists($firstname, $lastname) {
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('id')->from('#__xbpersons')
+		->where('LOWER('.$db->quoteName('firstname').')='.$db->quote(strtolower($firstname)).' AND LOWER('.$db->quoteName('lastname').')='.$db->quote(strtolower($lastname)));
+		$db->setQuery($query);
+		$res = $db->loadResult();
+		if ($res > 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	public static function credit() {

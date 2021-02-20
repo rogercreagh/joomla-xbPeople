@@ -2,7 +2,7 @@
 /*******
  * @package xbFilms
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.2.0 15th February 2021
+ * @version 0.2.1 19th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2020
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,8 @@ if ($saveOrder) {
 	HTMLHelper::_('sortablelist.sortable', 'xbpersonsList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$noportrait = "media/com_xbfilms/images/noportrait.jpg";
+$noportrait = "media/com_xbpeople/images/noportrait.jpg";
+$nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $pelink = 'index.php?option=com_xbpeople&view=person&task=person.edit&id=';
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
@@ -182,7 +183,16 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 					<td>
 						<img class="img-polaroid hasTooltip xbimgthumb" title="" 
 							data-original-title="<?php echo $item->portrait;?>"
-							src="<?php echo $item->portrait !='' ? JURI::root() .$item->portrait : $noportrait; ?>" 
+							<?php 
+    							$src = $item->portrait;
+    							if (empty($src)) {
+    							    $src = $noportrait;
+    							} elseif (!file_exists(JPATH_ROOT.'/'.$src)) {
+    							    $src = $nofile;
+    							}
+    							$src = JURI::root().$src;
+							?>
+							src="<?php echo $src; ?>"
 							border="0" alt="" />						
 					</td>
 					<td>
@@ -242,16 +252,30 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
                     </td>
 					<td>
 						<?php if ($item->bookcnt>0) : ?> 
+							<?php $tlist='';
+							foreach ($item->blist as $bk) {
+								$tlist .= $bk->title.' ('.$bk->role.')<br />';
+							} ?>
+						<div class="hasPopover" title data-original-title="Book Roles"
+							data-content="<?php echo $tlist; ?>">
 							<a href="<?php echo $bplink; ?>" >
-							<?php echo Text::_('Connected with').' '.$item->bookcnt.' ';
-                            echo Text::_(($item->bookcnt==1)?'COM_XBPEOPLE_BOOK':'COM_XBPEOPLE_BOOKS'); ?>
-						    </a><br />
+							<?php echo Text::_('with').' '.$item->bookcnt.' ';
+                            echo Text::_(($item->bookcnt==1)?'COM_XBPEOPLE_BOOKROLE':'COM_XBPEOPLE_BOOKROLES'); ?>
+						    </a>
+							</div>
+							<br />
 						<?php endif; ?> 
 						<?php if ($item->filmcnt>0) : ?> 
-							<a href="<?php echo $bplink; ?>" >
-							<?php echo Text::_('Connected with').' '.$item->filmcnt.' ';
-							echo Text::_(($item->filmcnt==1)?'COM_XBPEOPLE_FILM':'COM_XBPEOPLE_FILMS'); ?>
-							</a><br />
+							<?php $tlist='';
+							foreach ($item->flist as $f) {
+								$tlist .= $f->title.' ('.$f->role.')<br />';
+							} ?>
+						<div class="hasPopover" title data-original-title="Film Roles"
+							data-content="<?php echo $tlist; ?>">
+							<a href="<?php echo $fplink; ?>" >
+							<?php echo Text::_('with').' '.$item->filmcnt.' ';
+							echo Text::_(($item->filmcnt==1)?'COM_XBPEOPLE_FILMROLE':'COM_XBPEOPLE_FILMROLES'); ?>
+							</a></div>
 							<?php endif; ?>
 					</td>
 					<td>
