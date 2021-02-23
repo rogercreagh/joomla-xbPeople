@@ -4,7 +4,7 @@
  * @filesource admin/models/fields/nationality.php
  * @version 0.1.0 8th February 2021
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2020
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('JPATH_BASE') or die;
