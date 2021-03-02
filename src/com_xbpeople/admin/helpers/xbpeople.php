@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.2.1 19th February 2021
+ * @version 0.2.2 2nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,10 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
-// use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\ComponentHelper;
 // use Joomla\CMS\HTML\HTMLHelper;
 // use Joomla\CMS\Filter\OutputFilter;
-//use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\ApplicationHelper;
 
 class XbpeopleHelper extends ContentHelper {
 	
@@ -131,11 +131,35 @@ class XbpeopleHelper extends ContentHelper {
 	}
 	
 	public static function credit() {
-		$xmldata = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_xbpeople/xbpeople.xml');
-		$credit='<div class="xbcredit"><a href="http://crosborne.uk/xbpeople" target="_blank">
-            xbFilms Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a></div>';
-		return $credit;
+		if (self::penPont()) {
+			return '';
+		} else {
+			$xmldata = ApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_xbpeople/xbpeople.xml');
+			$credit='<div class="xbcredit"><a href="http://crosborne.uk/xbculture" target="_blank">
+                xbPeople Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a>';
+			if (Factory::getApplication()->isClient('administrator')==true) {
+				$credit .= '<br />Buy Roger a beer (&pound;4) to hide this message and support a local brewery! ';
+				
+/* 				$credit .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="69BAH2Z3TRKYW">
+<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" style="width:120px;">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+</form>';
+ */				$credit .= Text::_('COM_XBPEOPLE_BEER');
+			}
+			$credit .= '</div>';
+			return $credit;
+		}
 	}
 	
-	
+	private static function penPont() {
+		$params = ComponentHelper::getParams('com_xbpeople');
+		$beer = trim($params->get('roger_beer'));
+		//Factory::getApplication()->enqueueMessage(password_hash($beer));
+		$hashbeer = $params->get('penpont');
+		if (password_verify($beer,$hashbeer)) { return true; }
+		return false;
+	}
+		
 }
