@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
 // use Joomla\CMS\HTML\HTMLHelper;
 // use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\Application\ApplicationHelper;
+// use Joomla\CMS\Application\ApplicationHelper;
 
 class XbpeopleHelper extends ContentHelper {
 	
@@ -134,26 +134,19 @@ class XbpeopleHelper extends ContentHelper {
 		if (self::penPont()) {
 			return '';
 		} else {
-			$xmldata = ApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_xbpeople/xbpeople.xml');
+			$xmldata = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_xbpeople/xbpeople.xml');
 			$credit='<div class="xbcredit"><a href="http://crosborne.uk/xbculture" target="_blank">
                 xbPeople Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a>';
 			if (Factory::getApplication()->isClient('administrator')==true) {
-				$credit .= '<br />Buy Roger a beer (&pound;4) to hide this message and support a local brewery! ';
-				
-/* 				$credit .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="69BAH2Z3TRKYW">
-<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" style="width:120px;">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
-</form>';
- */				$credit .= Text::_('COM_XBPEOPLE_BEER');
+				$credit .= '<br />'.Text::_('COM_XBCULTURE_BEER_TAG');				
+				$credit .= Text::_('COM_XBCULTURE_BEER');
 			}
 			$credit .= '</div>';
 			return $credit;
 		}
 	}
 	
-	private static function penPont() {
+	public static function penPont() {
 		$params = ComponentHelper::getParams('com_xbpeople');
 		$beer = trim($params->get('roger_beer'));
 		//Factory::getApplication()->enqueueMessage(password_hash($beer));
@@ -161,5 +154,12 @@ class XbpeopleHelper extends ContentHelper {
 		if (password_verify($beer,$hashbeer)) { return true; }
 		return false;
 	}
-		
+/*
+$credit .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="69BAH2Z3TRKYW">
+<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" style="width:120px;">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+</form>';
+ */		
 }
