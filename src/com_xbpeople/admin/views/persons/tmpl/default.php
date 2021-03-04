@@ -245,7 +245,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 						<?php if($item->ext_links_cnt >0 ) : ?>
 							<p class="xbnit xb095">	
 								<?php echo Text::_('COM_XBPEOPLE_FIELD_EXTLINK_LABEL').': '; 
-	                            echo '<span class="xbnamelist">';
+	                            echo '<span class="xb09 xbnorm">';
 	                            echo $item->ext_links_list.'</span>'; ?>
 	                    	</p>
 						<?php endif; ?>

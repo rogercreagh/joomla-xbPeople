@@ -20,7 +20,7 @@ if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
 }
 
 $document = Factory::getDocument();
-$cssFile = Uri::root(true)."/media/com_people/css/xb.css";
+$cssFile = Uri::root(true)."/media/com_xbpeople/css/xb.css";
 $document->addStyleSheet($cssFile);
 
 

@@ -58,16 +58,16 @@
 	</fieldset>
 	
 	<fieldset name="reg"
-			label="Credit"
-			description="If you make a small donation you will get a phrase to enter here that will hide the credit at the bottom of pages for all xbCultrue components"
+			label="COM_XBCULTURE_BEER_LBL"
+			description="COM_XBCULTURE_BEER_DESC"
 	>
   		<field name="beernote" type="note"
-			label="Roger's Beer"
+			label="COM_XBCULTURE_BEER_NOTE"
 			description="COM_XBPEOPLE_BEER_LINK"
 			class="info"
 		/>	
 		<field name="roger_beer" type="password"
-			label="Roger's Beer" description="If you have bought Roger a beer enter the key phrase here"
+			label="COM_XBCULTURE_BEER_FIELD" description="COM_XBCULTURE_BEER_FIELD_DESC"
 			default=""
 		/>	
 		<field name="penpont" type="hidden"

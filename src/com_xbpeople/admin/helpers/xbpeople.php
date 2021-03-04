@@ -139,7 +139,7 @@ class XbpeopleHelper extends ContentHelper {
                 xbPeople Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a>';
 			if (Factory::getApplication()->isClient('administrator')==true) {
 				$credit .= '<br />'.Text::_('COM_XBCULTURE_BEER_TAG');				
-				$credit .= Text::_('COM_XBCULTURE_BEER');
+				$credit .= Text::_('COM_XBCULTURE_BEER_FORM');
 			}
 			$credit .= '</div>';
 			return $credit;
