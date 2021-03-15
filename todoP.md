@@ -6,7 +6,8 @@
 - add cpanel view
   - summary of people, chars and cats (?tags)
   - Toolbar to films, books, Delete 
-
+- add site all persons listview
+- add site person view
 
 #### OTHER NEW FEATURES (not on roadmap)
 
