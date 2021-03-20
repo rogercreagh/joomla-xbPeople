@@ -70,7 +70,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 				<p class="pull-right">
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INBOOKS'); ?>: </span>
 					<span class="badge <?php echo ($this->xbbooks_ok) ? 'badge-info' : ''?>"><?php echo $this->bookPeople;?></span>
-					<br />
+					&nbsp;&nbsp;
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INFILMS'); ?></span>
 					<span class="badge <?php echo ($this->xbfilms_ok) ? 'badge-info' : ''?>"><?php echo $this->filmPeople;?></span>	
 				</p>
@@ -109,7 +109,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 				<p class="pull-right">
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INBOOKS'); ?>: </span>
 					<span class="badge <?php echo ($this->xbbooks_ok) ? 'badge-info' : ''?>"><?php echo $this->bookChars;?></span>
-					<br />
+					&nbsp;&nbsp;
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INFILMS'); ?></span>
 					<span class="badge <?php echo ($this->xbfilms_ok) ? 'badge-info' : ''?>"><?php echo $this->filmChars;?></span>	
 				</p>

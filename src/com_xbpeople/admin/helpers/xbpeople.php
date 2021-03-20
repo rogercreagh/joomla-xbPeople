@@ -48,7 +48,7 @@ class XbpeopleHelper extends ContentHelper {
 				);
 		JHtmlSidebar::addEntry(
 				Text::_('COM_XBPEOPLE_ICONMENU_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_xbpeople',
+				'index.php?option=com_xbpeople&view=categories',
 				$vName == 'categories'
 				);
 		JHtmlSidebar::addEntry(
@@ -59,17 +59,32 @@ class XbpeopleHelper extends ContentHelper {
 		if (XbpeopleHelper::checkComponent('com_xbfilms')) {
 			JHtmlSidebar::addEntry(
 					Text::_('COM_XBPEOPLE_ICONMENU_FILMS'),
-					'index.php?option=com_xbfilms&view=persons',
+					'index.php?option=com_xbfilms&view=cpanel',
 					$vName == 'films'
 					);			
+			JHtmlSidebar::addEntry(
+			    Text::_('COM_XBPEOPLE_ICONMENU_FILMPEOPLE'),
+			    'index.php?option=com_xbfilms&view=persons',
+			    $vName == 'films'
+			    );
 		}
 		if (XbpeopleHelper::checkComponent('com_xbbooks')) {
 			JHtmlSidebar::addEntry(
 				Text::_('COM_XBPEOPLE_ICONMENU_BOOKS'),
-				'index.php?option=com_xbbooks&view=persons',
+				'index.php?option=com_xbbooks&view=cpanel',
 				$vName == 'books'
 				);
+			JHtmlSidebar::addEntry(
+			    Text::_('COM_XBPEOPLE_ICONMENU_BOOKPEOPLE'),
+			    'index.php?option=com_xbbooks&view=persons',
+			    $vName == 'books'
+			    );
 		}
+		JHtmlSidebar::addEntry(
+		    Text::_('COM_XBPEOPLE_ICONMENU_OPTIONS'),
+		    'index.php?option=com_config&view=component&component=com_xbpeople',
+		    $vName == 'options'
+		    );
 	}
 
 	/**

@@ -104,9 +104,9 @@ class XbpeopleViewCpanel extends JViewLegacy
     		$canDo->set($action->name, $user->authorise($action->name, $assetName));
     	}
     	
-        ToolbarHelper::title(Text::_( 'XBPEOPLE' ).': '.Text::_('COM_XBPEOPLE_CONTROL_PANEL'),'info-2');
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_('COM_XBPEOPLE_CONTROL_PANEL'),'info-2');
         
-        ToolbarHelper::custom('cpanel.books', 'book', '', 'xbBooks', false) ;
+        ToolbarHelper::custom('cpanel.books', 'stack', '', 'xbBooks', false) ;
         ToolbarHelper::custom('cpanel.films', 'screen', '', 'xbFilms', false) ;
         ToolbarHelper::custom('cpanel.gigs', 'music', '', 'xbGigs', false) ;
         if ($canDo->get('core.admin')) {

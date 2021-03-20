@@ -58,16 +58,16 @@
 	</fieldset>
 	
 	<fieldset name="reg"
-			label="COM_XBCULTURE_BEER_LBL"
-			description="COM_XBCULTURE_BEER_DESC"
+			label="XBCULTURE_BEER_LBL"
+			description="XBCULTURE_BEER_DESC"
 	>
   		<field name="beernote" type="note"
-			label="COM_XBCULTURE_BEER_NOTE"
-			description="COM_XBCULTURE_BEER_LINK"
+			label="XBCULTURE_BEER_NOTE"
+			description="XBCULTURE_BEER_LINK"
 			class="info"
 		/>	
 		<field name="roger_beer" type="password"
-			label="COM_XBCULTURE_BEER_FIELD" description="COM_XBCULTURE_BEER_FIELD_DESC"
+			label="XBCULTURE_BEER_FIELD" description="XBCULTURE_BEER_FIELD_DESC"
 			default=""
 		/>	
 		<field name="penpont" type="hidden"

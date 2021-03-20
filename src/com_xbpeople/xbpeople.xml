@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>19th March 2021</creationDate>
-	<version>0.3.0</version>
+	<creationDate>20th March 2021</creationDate>
+	<version>0.4.0</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
 	<copyright>(c) Roger Creagh-Osborne, 2021. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
-	<description>XBCULTURE_XML_DESCRIPTION</description>
+	<description>COM_XBPEOPLE_XML_DESCRIPTION</description>
 
 	<scriptfile>script.xbpeople.php</scriptfile>
 
@@ -66,6 +66,11 @@
 				view="persons" img="class:xbpeople-persons"
 				alt="Xbpeople/Persons">
 					com_xbpeople_people					
+			</menu>
+			<menu link="option=com_xbpeople&amp;view=categories" 
+				view="persons" img="class:xbpeople-categories"
+				alt="Xbpeople/Persons">
+					com_xbpeople_categories					
 			</menu>
 		</submenu>
 	</administration>
