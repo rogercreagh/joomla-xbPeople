@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>2nd March 2021</creationDate>
-	<version>0.2.2.1</version>
+	<creationDate>19th March 2021</creationDate>
+	<version>0.3.0</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
 	<copyright>(c) Roger Creagh-Osborne, 2021. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
-	<description>COM_XBPEOPLE_XML_DESCRIPTION</description>
+	<description>XBCULTURE_XML_DESCRIPTION</description>
 
 	<scriptfile>script.xbpeople.php</scriptfile>
 
 	<media destination="com_xbpeople" folder="media">
 		<filename>index.html</filename>
 		<folder>css</folder>
+		<folder>images</folder>
 	</media>
 
 	<install>
@@ -52,11 +53,15 @@
 			<language tag="en-GB">en-GB/en-GB.com_xbpeople.sys.ini</language>
 		</languages>
 		
-		<menu img="class:xbpeople" 
-			link="option=com_xbpeople" view="persons">
-			xbPeople
-		</menu>
+		<menu img="class:xbpeople"
+			link="option=com_xbpeople"
+			view="cpanel">xbPeople</menu>
 		<submenu>
+			<menu link="option=com_xbpeople"
+				view="cpanel" img="class:xbpeople-cpanel"
+				alt="Xbpeople/Cpanel">
+					com_xbpeople_control_panel
+			</menu>
 			<menu link="option=com_xbpeople&amp;view=persons" 
 				view="persons" img="class:xbpeople-persons"
 				alt="Xbpeople/Persons">

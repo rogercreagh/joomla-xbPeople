@@ -52,7 +52,7 @@ class XbpeopleTablePerson extends JTable {
     	$lastname = trim($this->lastname);
     	
     	if ($lastname == '') {
-            $this->setError(JText::_('COM_XBPEOPLE_PROVIDE_VALID_NAME'));
+            $this->setError(JText::_('XBCULTURE_PROVIDE_VALID_NAME'));
             return false;
         }
         
@@ -85,7 +85,7 @@ class XbpeopleTablePerson extends JTable {
         	}
         	if ($defcat>0) {
         		$this->catid = $defcat;
-        		Factory::getApplication()->enqueueMessage(JText::_('COM_XBPEOPLE_DEFAULT_CATEGORY'));
+        		Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_DEFAULT_CATEGORY'));
         	} else {
         		$this->setError(JText::_('Please set a category'));
         		return false;
@@ -95,7 +95,7 @@ class XbpeopleTablePerson extends JTable {
         //require summary, create from biog if missing
         if ((trim($this->summary)=='')) {
         	if (trim($this->biography)=='' ) {
-        		Factory::getApplication()->enqueueMessage(JText::_('COM_XBPEOPLE_MISSING_SUMMARY'));
+        		Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_MISSING_SUMMARY'));
         	}
         }
         

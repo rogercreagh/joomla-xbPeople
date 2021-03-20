@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.2.1 19th February 2021
+ * @version 0.3.0 19th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -51,9 +51,15 @@ class XbpeopleModelPersons extends JModelList {
 		
 		if ($this->xbfilmsStatus) {
 			$query->join('LEFT',$db->quoteName('#__xbfilmperson', 'f') . ' ON ' . $db->quoteName('f.person_id') . ' = ' .$db->quoteName('a.id'));
+			$query->select('COUNT(DISTINCT f.film_id) AS fcnt');
+		} else {
+			$query->select('0 AS fcnt');
 		}
 		if ($this->xbbooksStatus) {
 			$query->join('LEFT',$db->quoteName('#__xbbookperson', 'b') . ' ON ' . $db->quoteName('b.person_id') . ' = ' .$db->quoteName('a.id'));
+			$query->select('COUNT(DISTINCT b.book_id) AS bcnt');
+		} else {
+			$query->select('0 AS bcnt');
 		}
 		
 		$query->select('c.title AS category_title')
@@ -182,33 +188,33 @@ class XbpeopleModelPersons extends JModelList {
 	
 	public function getItems() {
 		$items  = parent::getItems();
-		// we are going to add the list of people (with roles) for teach film
-		//and apply any film title filter
+		// we are going to add the list of people (with roles) for each film
 		$tagsHelper = new TagsHelper;
 		
+		$db    = Factory::getDbo();
 		foreach ($items as $i=>$item) {
-			$db    = Factory::getDbo();
 			$item->bookcnt = 0;
-			if ($this->xbbooksStatus) {
-				$item->blist='';
+			$item->blist='';
+			if ($item->bcnt>0) {
+				//we want a list of book title and role for each person (item)
 				$query = $db->getQuery(true);
-				$query->select('DISTINCT title, bp.role')->from('#__xbbooks AS b');
+				$query->select('b.title, bp.role')->from('#__xbbooks AS b');
 				$query->join('LEFT', '#__xbbookperson AS bp ON bp.book_id = b.id');
-				$query->where('person_id = '.$db->quote($item->id));
+				$query->where('bp.person_id = '.$db->quote($item->id));
 				$query->order('b.title ASC');
 				$db->setQuery($query);
 				$item->blist = $db->loadObjectList();
 				$item->bookcnt = count($item->blist);
-			}
+			} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
 			
 			
 			$item->filmcnt = 0;
+			$item->flist='';
 			if ($this->xbfilmsStatus) {
-				$item->flist='';
 				$query = $db->getQuery(true);
-				$query->select('DISTINCT title, fp.role')->from('#__xbfilms AS f');
+				$query->select('DISTINCT f.title, fp.role')->from('#__xbfilms AS f');
 				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
-				$query->where('person_id = '.$db->quote($item->id));
+				$query->where('fp.person_id = '.$db->quote($item->id));
 				$query->order('f.title ASC');
 				$db->setQuery($query);
 				$item->flist = $db->loadObjectList();

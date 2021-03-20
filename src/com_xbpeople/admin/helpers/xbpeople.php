@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.2.2 2nd March 2021
+ * @version 0.3.0 19th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,6 +21,11 @@ use Joomla\CMS\Component\ComponentHelper;
 class XbpeopleHelper extends ContentHelper {
 	
 	public static function addSubmenu($vName = 'persons') {
+		JHtmlSidebar::addEntry(
+				Text::_('COM_XBPEOPLE_ICONMENU_CPANEL'),
+				'index.php?option=com_xbpeople&view=cpanel',
+				$vName == 'cpanel'
+				);
 		JHtmlSidebar::addEntry(
 				Text::_('COM_XBPEOPLE_ICONMENU_PEOPLE'),
 				'index.php?option=com_xbpeople&view=persons',
@@ -67,6 +72,44 @@ class XbpeopleHelper extends ContentHelper {
 		}
 	}
 
+	/**
+	 * @name getItemCnt
+	 * @desc returns the number of items in a table
+	 * @param string $table
+	 * @return integer
+	 */
+	public static function getItemCnt($table) {
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('COUNT(*)')->from($db->quoteName($table));
+		$db->setQuery($query);
+		$cnt=-1;
+		try {
+			$cnt = $db->loadResult();
+		} catch (Exception $e) {
+			$dberr = $e->getMessage();
+			Factory::getApplication()->enqueueMessage($dberr.'<br />Query: '.$query, 'error');
+		}
+		return $cnt;
+	}
+	
+	/***
+	 * checkComponent()
+	 * test whether a component is installed and enabled. Sets a session variable to save a subsequent db call
+	 * @param  $name - component name as stored in the extensions table (eg com_xbfilms)
+	 * @param $usedb - if true will ignore session variable an force db check
+	 * @return boolean|number - true= installed and enabled, 0= installed not enabled, false = not installed
+	 */
+	public static function checkComponent($name) {
+		$sname=substr($name,4).'_ok';
+		$sess= Factory::getSession();
+		$db = Factory::getDBO();
+		$db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote($name));
+		$res = $db->loadResult();
+		$sess->set($sname,$res);
+		return $res;
+	}
+	
 	public static function getActions($component = 'com_xbpeople', $section = 'component', $categoryid = 0) {
 		//$extension = 'com_xbpeople';
 		
@@ -101,22 +144,6 @@ class XbpeopleHelper extends ContentHelper {
 		return $res;
 	}
 	
-	/***
-	 * checkComponent()
-	 * test whether a component is installed, and if installed whether enabled
-	 * @param  $name - component name as stored in the extensions table (eg com_xbfilms)
-	 * @return boolean|number - true= installed and enabled, 0= installed not enabled, false = not installed
-	 */
-	public static function checkComponent($name) {
-		$sname=substr($name,4).'_ok';
-		$sess= Factory::getSession();
-			$db = Factory::getDBO();
-			$db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote($name));
-			$res = $db->loadResult();
-			$sess->set($sname,$res);
-			return $res;
-	}
-	
 	public static function checkPersonExists($firstname, $lastname) {
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -138,8 +165,8 @@ class XbpeopleHelper extends ContentHelper {
 			$credit='<div class="xbcredit"><a href="http://crosborne.uk/xbculture" target="_blank">
                 xbPeople Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a>';
 			if (Factory::getApplication()->isClient('administrator')==true) {
-				$credit .= '<br />'.Text::_('COM_XBCULTURE_BEER_TAG');				
-				$credit .= Text::_('COM_XBCULTURE_BEER_FORM');
+				$credit .= '<br />'.Text::_('XBCULTURE_BEER_TAG');				
+				$credit .= Text::_('XBCULTURE_BEER_FORM');
 			}
 			$credit .= '</div>';
 			return $credit;

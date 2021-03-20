@@ -7,14 +7,14 @@
 			readonly="true" class="readonly" />
 
 		<field name="firstname" type="text"
-			label="COM_XBPEOPLE_CAPFIRSTNAME"
-			description="COM_XBPEOPLE_FIRSTNAME_DESC"
+			label="XBCULTURE_CAPFIRSTNAME"
+			description="XBCULTURE_FIRSTNAME_DESC"
 			size="40" class="inputbox input-xxlarge input-large-text"
 			default="" />
 		
 		<field name="lastname" type="text"
-			label="COM_XBPEOPLE_CAPLASTNAME"
-			description="COM_XBPEOPLE_LASTNAME_DESC"
+			label="XBCULTURE_CAPLASTNAME"
+			description="XBCULTURE_LASTNAME_DESC"
 			size="40" class="inputbox input-xlarge input-large-text"
 			required="true" 
 			default="" />
@@ -25,35 +25,35 @@
 			class="inputbox" size="45" />
 		
 		<field name="summary" type="textarea" rows="3" cols="50"
-			label="COM_XBPEOPLE_CAPSUMMARY" description="COM_XBPEOPLE_PERSUMMARY_DESC" />
+			label="XBCULTURE_CAPSUMMARY" description="XBCULTURE_PERSUMMARY_DESC" />
 			
 		<field name="year_born" type="number"
-			label="COM_XBPEOPLE_YEAR_BORN_LABEL" description="COM_XBPEOPLE_YEAR_BORN_DESC"
+			label="XBCULTURE_YEAR_BORN_LABEL" description="XBCULTURE_YEAR_BORN_DESC"
 			hint="4 digit year"
 			max="2052"
 			class="inputbox" size="5" maxlength="4" />
 
 		<field name="year_died" type="number"
-			label="COM_XBPEOPLE_YEAR_DIED_LABEL" description="COM_XBPEOPLE_YEAR_DIED_DESC"
+			label="XBCULTURE_YEAR_DIED_LABEL" description="XBCULTURE_YEAR_DIED_DESC"
 			hint="4 digit year"
 			max="2052"
 			class="inputbox" size="5" maxlength="4"  />
 
 		<field name="nationality" type="nationality"
-			label="COM_XBPEOPLE_CAPNATIONALITY"
-			description="COM_XBPEOPLE_NATIONALITY_DESC"
+			label="XBCULTURE_CAPNATIONALITY"
+			description="XBCULTURE_NATIONALITY_DESC"
 			size="40" class="inputbox" maxlength="40"
 			default=""  />
 			
 		<field name="biography" type="editor"
-			class="inputbox" label="COM_XBPEOPLE_FIELD_BIOG_LABEL" description="COM_XBPEOPLE_FIELD_BIOG_DESC"
+			class="inputbox" label="XBCULTURE_FIELD_BIOG_LABEL" description="XBCULTURE_FIELD_BIOG_DESC"
 			filter="JComponentHelper::filterText" buttons="true" hide="article,pagebreak,readmore" />
 			
 		<field name="portrait" type="media"
-			label="COM_XBPEOPLE_FIELD_PORTRAIT_LABEL" description="COM_XBPEOPLE_FIELD_PORTRAIT_DESC" />
+			label="XBCULTURE_FIELD_PORTRAIT_LABEL" description="XBCULTURE_FIELD_PORTRAIT_DESC" />
 			
 		<field name="catid" type="category" extension="com_xbpeople" class="chzn-custom-value"
-			label="JCATEGORY" description="COM_XBPEOPLE_CATEGORY_DESC" >
+			label="JCATEGORY" description="XBCULTURE_CATEGORY_DESC" >
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 		
@@ -76,12 +76,12 @@
 		</field>
 
 		<field name="note" type="textarea" rows="3" cols="50"
-			label="COM_XBPEOPLE_CAPNOTE" description="COM_XBPEOPLE_NOTE_DESC" />
+			label="XBCULTURE_CAPNOTE" description="XBCULTURE_NOTE_DESC" />
 
 		<field name= "filmdirectorlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_FILMDIRECTOR_LABEL"
-			description="COM_XBPEOPLE_FIELD_FILMADD_DESC"
+			label= "XBCULTURE_FIELD_FILMDIRECTOR_LABEL"
+			description="XBCULTURE_FIELD_FILMADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -89,7 +89,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="COM_XBPEOPLE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -99,8 +99,8 @@
 			
 		<field name= "filmproducerlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_FILMPRODUCER_LABEL"
-			description="COM_XBPEOPLE_FIELD_FILMADD_DESC"
+			label= "XBCULTURE_FIELD_FILMPRODUCER_LABEL"
+			description="XBCULTURE_FIELD_FILMADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -108,7 +108,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="COM_XBPEOPLE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -118,8 +118,8 @@
 
 		<field name= "filmactorlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_FILMACTOR_LABEL"
-			description="COM_XBPEOPLE_FIELD_FILMADD_DESC"
+			label= "XBCULTURE_FIELD_FILMACTOR_LABEL"
+			description="XBCULTURE_FIELD_FILMADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -127,7 +127,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="COM_XBPEOPLE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="playing" size="20" maxlength="50"
@@ -137,8 +137,8 @@
 						
 		<field name= "filmcrewlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_FILMCREW_LABEL"
-			description="COM_XBPEOPLE_FIELD_FILMCREW_DESC"
+			label= "XBCULTURE_FIELD_FILMCREW_LABEL"
+			description="XBCULTURE_FIELD_FILMCREW_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -146,7 +146,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="COM_XBPEOPLE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="crewrole" label="Job" size="20" maxlength="50"
@@ -156,8 +156,8 @@
 						
 		<field name= "filmappearslist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_FILMAPPEARSIN_LABEL"
-			description="COM_XBPEOPLE_FIELD_FILMAPPEARSIN_DESC"
+			label= "XBCULTURE_FIELD_FILMAPPEARSIN_LABEL"
+			description="XBCULTURE_FIELD_FILMAPPEARSIN_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -165,7 +165,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="COM_XBPEOPLE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="list"
@@ -179,8 +179,8 @@
 						
 		<field name= "bookauthorlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_BOOKAUTHOR_LABEL"
-			description="COM_XBPEOPLE_FIELD_BOOKADD_DESC"
+			label= "XBCULTURE_FIELD_BOOKAUTHOR_LABEL"
+			description="XBCULTURE_FIELD_BOOKADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -188,7 +188,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="COM_XBPEOPLE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -198,8 +198,8 @@
 			
 		<field name= "bookeditorlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_BOOKEDITOR_LABEL"
-			description="COM_XBPEOPLE_FIELD_BOOKADD_DESC"
+			label= "XBCULTURE_FIELD_BOOKEDITOR_LABEL"
+			description="XBCULTURE_FIELD_BOOKADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -207,7 +207,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="COM_XBPEOPLE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -217,8 +217,8 @@
 			
 		<field name= "bookmenlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_BOOKMEN_LABEL"
-			description="COM_XBPEOPLE_FIELD_BOOKADD_DESC"
+			label= "XBCULTURE_FIELD_BOOKMEN_LABEL"
+			description="XBCULTURE_FIELD_BOOKADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -226,7 +226,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="COM_XBPEOPLE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -236,8 +236,8 @@
 		
 		<field name= "bookotherlist"
 			type= "subform"
-			label= "COM_XBPEOPLE_FIELD_BOOKOTHER_LABEL"
-			description="COM_XBPEOPLE_FIELD_BOOKOTHER_DESC"
+			label= "XBCULTURE_FIELD_BOOKOTHER_LABEL"
+			description="XBCULTURE_FIELD_BOOKOTHER_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -245,7 +245,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="COM_XBPEOPLE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="otherrole" label="Job" size="20" maxlength="50"
@@ -254,7 +254,7 @@
 		</field>
 						
 		<field name="ext_links" type="subform" 
-			label="COM_XBPEOPLE_FIELD_EXTLINK_LABEL" description="COM_XBPEOPLE_FIELD_EXTLINKS_DESC"
+			label="XBCULTURE_FIELD_EXTLINK_LABEL" description="XBCULTURE_FIELD_EXTLINKS_DESC"
 			min="0" max="10" multiple="true"
 			buttons= "add,remove,move"
 			layout="joomla.form.field.subform.repeatable-table"
@@ -262,11 +262,11 @@
 				<form>
 					<field
 						name="link_text" type="text"
-						label="COM_XBPEOPLE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
+						label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
 						/>
 					<field
 						name="link_url" type="url"
-						label="COM_XBPEOPLE_FIELD_URL_LABEL"
+						label="XBCULTURE_FIELD_URL_LABEL"
 						size="40"
   					/>
 					<field
@@ -277,22 +277,22 @@
 			</field>
 
 		<field name="created" type="calendar"
-			label="COM_XBPEOPLE_FIELD_CREATED_LABEL" description="COM_XBPEOPLE_FIELD_CREATED_DESC"
+			label="XBCULTURE_FIELD_CREATED_LABEL" description="XBCULTURE_FIELD_CREATED_DESC"
 			class="inputbox" size="20" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="created_by" type="user"
-			label="COM_XBPEOPLE_FIELD_CREATED_BY_LABEL" description="COM_XBPEOPLE_FIELD_CREATED_BY_DESC" />
+			label="XBCULTURE_FIELD_CREATED_BY_LABEL" description="XBCULTURE_FIELD_CREATED_BY_DESC" />
 		
 		<field name="created_by_alias" type="text"
-			label="COM_XBPEOPLE_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_XBPEOPLE_FIELD_CREATED_BY_ALIAS_DESC"
+			label="XBCULTURE_FIELD_CREATED_BY_ALIAS_LABEL" description="XBCULTURE_FIELD_CREATED_BY_ALIAS_DESC"
 			class="inputbox" size="20" />
 
 		<field name="modified" type="calendar"
-			label="COM_XBPEOPLE_FIELD_MODIFIED_LABEL" description="COM_XBPEOPLE_FIELD_MODIFIED_DESC"
+			label="XBCULTURE_FIELD_MODIFIED_LABEL" description="XBCULTURE_FIELD_MODIFIED_DESC"
 			class="inputbox" size="20" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="modified_by" type="user"
-			label="COM_XBPEOPLE_FIELD_MODIFIED_BY_LABEL" description="COM_XBPEOPLE_FIELD_MODIFIED_BY_DESC" />
+			label="XBCULTURE_FIELD_MODIFIED_BY_LABEL" description="XBCULTURE_FIELD_MODIFIED_BY_DESC" />
 				
 	</fieldset>
 	
@@ -341,8 +341,8 @@
 			<field 
 				name="xreference" 
 				type="text"
-				label="COM_XBPEOPLE_FIELD_XREFERENCE_LABEL"
-				description="COM_XBPEOPLE_FIELD_XREFERENCE_DESC"
+				label="XBCULTURE_FIELD_XREFERENCE_LABEL"
+				description="XBCULTURE_FIELD_XREFERENCE_DESC"
 				size="20" 
 			/>
 

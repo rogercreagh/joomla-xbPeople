@@ -2,7 +2,7 @@
 /*******
  * @package xbFilms
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.2.1 19th February 2021
+ * @version 0.3.0 19th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,9 +25,9 @@ if (!$listOrder) {
 	$listOrder='lastname';
 	$listDirn = 'ascending';
 }
-$orderNames = array('firstname'=>Text::_('COM_XBPEOPLE_CAPFIRSTNAME'),'lastname'=>Text::_('COM_XBPEOPLE_CAPLASTNAME'),
-		'id'=>'id','sortdate'=>Text::_('COM_XBPEOPLE_CAPDATES'),'category_title'=>Text::_('COM_XBPEOPLE_CAPCATEGORY'),
-		'published'=>Text::_('COM_XBPEOPLE_CAPSTATUS'),'a.ordering'=>Text::_('COM_XBPEOPLE_CAPORDERING'));
+$orderNames = array('firstname'=>Text::_('XBCULTURE_CAPFIRSTNAME'),'lastname'=>Text::_('XBCULTURE_CAPLASTNAME'),
+		'id'=>'id','sortdate'=>Text::_('XBCULTURE_CAPDATES'),'category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
+		'published'=>Text::_('XBCULTURE_CAPSTATUS'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
 
 $saveOrder      = $listOrder == 'ordering';
 $canOrder       = $user->authorise('core.edit.state', 'com_xbfilms.film');
@@ -58,7 +58,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 	<div class="pull-right span2">
 		<p style="text-align:right;">
 			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. Text::_(($fnd==1)?'COM_XBPEOPLE_ONEPERSON':'COM_XBPEOPLE_MANYPEOPLE').' '.Text::_('COM_XBPEOPLE_FOUND');			
+			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_ONEPERSON':'XBCULTURE_MANYPEOPLE').' '.Text::_('XBCULTURE_FOUND');			
             ?>
 		</p>
 	</div>
@@ -73,16 +73,16 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 	<?php if ($search) {
 		echo '<p>Searched for <b>'; 
 		if (stripos($search, 'i:') === 0) {
-            echo trim(substr($search, 2)).'</b> '.Text::_('COM_XBPEOPLE_AS_PERSONID');
+            echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_PERSONID');
 		} elseif ((stripos($search, 's:') === 0) || (stripos($search, 'b:') === 0)) {
-            echo trim(substr($search, 2)).'</b> '.Text::_('COM_XBPEOPLE_AS_INBIOG');
+            echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_INBIOG');
         } else {
-			echo trim($search).'</b> '.Text::_('COM_XBPEOPLE_AS_INNAMES');
+			echo trim($search).'</b> '.Text::_('XBCULTURE_AS_INNAMES');
 		}
 		echo '</p>';
 	} ?> 
 	<?php if ($this->state->get('filter.rolefilt')=='orphans') {
-	    echo Text::_('COM_XBPEOPLE_ORPHAN_PEOPLE');
+	    echo Text::_('XBCULTURE_ORPHAN_PEOPLE');
 	}
 	?>
 	<div class="pagination">
@@ -101,7 +101,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 			<tr>
 				<th class="nowrap center hidden-phone" style="width:25px;">
 					<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', 
-					    $listDirn, $listOrder, null, 'asc', 'COM_XBPEOPLE_HEADING_ORDERING', 'icon-menu-2'); ?>
+					    $listDirn, $listOrder, null, 'asc', 'XBCULTURE_HEADING_ORDERING', 'icon-menu-2'); ?>
 				</th>
     			<th class="hidden-phone" style="width:25px;">
     				<?php echo HTMLHelper::_('grid.checkall'); ?>
@@ -110,22 +110,22 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 					<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
     			</th>
     			<th class="center" style="width:80px">
-    				<?php echo Text::_('COM_XBPEOPLE_CAPPORTRAIT') ;?>
+    				<?php echo Text::_('XBCULTURE_CAPPORTRAIT') ;?>
     			</th>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'COM_XBPEOPLE_CAPFIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
-					<?php echo HTMLHelper::_('searchtools.sort', 'COM_XBPEOPLE_CAPLASTNAME', 'lastname', $listDirn, $listOrder); ?>					
-					<?php echo HTMLHelper::_('searchtools.sort', 'COM_XBPEOPLE_CAPDATES', 'sortdate', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPFIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPLASTNAME', 'lastname', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPDATES', 'sortdate', $listDirn, $listOrder); ?>
     			</th>
     			<th>
-    				<?php echo Text::_('COM_XBPEOPLE_CAPBIOG'); ?>
+    				<?php echo Text::_('XBCULTURE_CAPBIOG'); ?>
     			</th>
     			<th >
-    				<?php echo Text::_('COM_XBPEOPLE_BOOKFILMS') ;?>
+    				<?php echo Text::_('XBCULTURE_BOOKFILMS') ;?>
     			</th>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
-						<?php echo HTMLHelper::_('searchtools.sort','COM_XBPEOPLE_CAPCATS','category_title',$listDirn,$listOrder ).' &amp; '.
-						Text::_( 'COM_XBPEOPLE_CAPTAGS' ); ?>
+						<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CAPCATS','category_title',$listDirn,$listOrder ).' &amp; '.
+						Text::_( 'XBCULTURE_CAPTAGS' ); ?>
 					</th>
     			
     			<th class="nowrap hidden-phone" style="width:45px;">
@@ -172,7 +172,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 							<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'person.', true, 'cb'); ?>
 							<?php if ($item->note!=''){ ?>
 								<span class="btn btn-micro active hasTooltip" title="" 
-									data-original-title="<?php echo '<b>'.Text::_( 'COM_XBPEOPLE_CAPNOTE' ) .'</b>: '. htmlentities($item->note); ?>">
+									data-original-title="<?php echo '<b>'.Text::_( 'XBCULTURE_CAPNOTE' ) .'</b>: '. htmlentities($item->note); ?>">
 									<i class="icon- xbinfo"></i>
 								</span>
 							<?php } else {?>
@@ -199,10 +199,10 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 						<p class="xbtitlelist">
 							<?php if ($item->checked_out) {
 							    $couname = Factory::getUser($item->checked_out)->username;
-							    echo HTMLHelper::_('jgrid.checkedout', $i, Text::_('COM_XBPEOPLE_OPENEDBY').':,'.$couname, $item->checked_out_time, 'person.', $canCheckin); 
+							    echo HTMLHelper::_('jgrid.checkedout', $i, Text::_('XBCULTURE_OPENEDBY').':,'.$couname, $item->checked_out_time, 'person.', $canCheckin); 
 							} ?>
 							
-							<a href="<?php echo $pelink.$item->id; ?>" title="<?php echo Text::_('COM_XBPEOPLE_EDIT_PERSON'); ?>">
+							<a href="<?php echo $pelink.$item->id; ?>" title="<?php echo Text::_('XBCULTURE_EDIT_PERSON'); ?>">
 								<?php echo ($item->firstname=='')? '... ' : $item->firstname; ?>
 								<?php echo ' '.$item->lastname; ?> 
 							</a>
@@ -211,12 +211,12 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 						</p>
 						<p>
 						<?php 
-							if($item->year_born > 0) { echo '<i>'.Text::_('COM_XBPEOPLE_BORN').' </i>: '.$item->year_born;} 
+							if($item->year_born > 0) { echo '<i>'.Text::_('XBCULTURE_BORN').' </i>: '.$item->year_born;} 
 							if($item->year_died > 0) { 
-								echo '&nbsp;&nbsp;<i>'.Text::_('COM_XBPEOPLE_DIED').' </i>: '.$item->year_died;
+								echo '&nbsp;&nbsp;<i>'.Text::_('XBCULTURE_DIED').' </i>: '.$item->year_died;
 							}
 							if($item->nationality) { 
-                        		echo '<br /><i>'.Text::_('COM_XBPEOPLE_CAPNATIONALITY').' </i>: '.$item->nationality;
+                        		echo '<br /><i>'.Text::_('XBCULTURE_CAPNATIONALITY').' </i>: '.$item->nationality;
                         	} ?>						
 						</p>							
 					</td>
@@ -224,27 +224,22 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 						<p class="xb095">
 							<?php if (!empty($item->summary)) : ?>
 								<?php echo $item->summary; ?>
-    						<?php else : ?>
-    							<span class="xbnit">
-    							<?php if (!empty($item->biography)) : ?>
-    								<?php echo Text::_('COM_XBPEOPLE_BIOG_EXTRACT'); ?>: </span>
-    								<?php echo XbfilmsGeneral::makeSummaryText($item->biography,200); ?>
-    							<?php else : ?>
-    								<?php echo Text::_('COM_XBPEOPLE_NO_SUMMARY_BIOG'); ?></span>
-    							<?php endif; ?>
+	   						<?php elseif (empty($item->biography)) : ?>
+     							<span class="xbnit">
+    								<?php echo Text::_('XBCULTURE_NO_SUMMARY_BIOG'); ?>
+    							</span>
     						<?php endif; ?>
-                        </p>
-                        <?php if ((!empty($item->biography)) && (strlen(strip_tags($item->biography))>200)) : ?>
+    					</p>
+                        <?php if (!empty($item->biography)) : ?>
                         	<p class="xbnit xb09">   
                              <?php 
-                             echo Text::_('COM_XBPEOPLE_CAPBIOG').' '.str_word_count(strip_tags($item->biography)).' '.Text::_('COM_XBPEOPLE_WORDS'); 
+                             echo Text::_('XBCULTURE_CAPBIOG').' '.str_word_count(strip_tags($item->biography)).' '.Text::_('XBCULTURE_WORDS'); 
                              ?>
 							</p>
 						<?php endif; ?>
-
 						<?php if($item->ext_links_cnt >0 ) : ?>
 							<p class="xbnit xb095">	
-								<?php echo Text::_('COM_XBPEOPLE_FIELD_EXTLINK_LABEL').': '; 
+								<?php echo Text::_('XBCULTURE_FIELD_EXTLINK_LABEL').': '; 
 	                            echo '<span class="xb09 xbnorm">';
 	                            echo $item->ext_links_list.'</span>'; ?>
 	                    	</p>
@@ -260,7 +255,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 							data-content="<?php echo $tlist; ?>">
 							<a href="<?php echo $bplink; ?>" >
 							<?php echo Text::_('with').' '.$item->bookcnt.' ';
-                            echo Text::_(($item->bookcnt==1)?'COM_XBPEOPLE_BOOKROLE':'COM_XBPEOPLE_BOOKROLES'); ?>
+                            echo Text::_(($item->bookcnt==1)?'XBCULTURE_BOOKROLE':'XBCULTURE_BOOKROLES'); ?>
 						    </a>
 							</div>
 							<br />
@@ -274,13 +269,13 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
 							data-content="<?php echo $tlist; ?>">
 							<a href="<?php echo $fplink; ?>" >
 							<?php echo Text::_('with').' '.$item->filmcnt.' ';
-							echo Text::_(($item->filmcnt==1)?'COM_XBPEOPLE_FILMROLE':'COM_XBPEOPLE_FILMROLES'); ?>
+							echo Text::_(($item->filmcnt==1)?'XBCULTURE_FILMROLE':'XBCULTURE_FILMROLES'); ?>
 							</a></div>
 							<?php endif; ?>
 					</td>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $celink . $item->catid; ?>" 
-							title="<?php echo Text::_( 'COM_XBPEOPLE_VIEW_CATEGORY' );?>::<?php echo $item->category_title; ?>">
+							title="<?php echo Text::_( 'XBCULTURE_VIEW_CATEGORY' );?>::<?php echo $item->category_title; ?>">
 								<?php echo $item->category_title; ?>
 						</a></p>						
 						
@@ -309,7 +304,7 @@ $fplink = 'index.php?option=com_xbfilms&view=persons';
             'bootstrap.renderModal',
             'collapseModal',
             array(
-                'title' => Text::_('COM_XBPEOPLE_BATCH_TITLE'),
+                'title' => Text::_('XBCULTURE_BATCH_TITLE'),
                 'footer' => $this->loadTemplate('batch_footer')
             ),
             $this->loadTemplate('batch_body')

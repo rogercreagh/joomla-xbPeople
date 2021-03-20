@@ -4,8 +4,8 @@
 	<fields name="filter"  addfieldpath="administrator/components/com_xbpeople/models/fields">
 		<field
 			name="search" type="text"
-			label="COM_XBPEOPLE_SEARCH_IN_NAME"
-			description="COM_XBPEOPLE_SEARCH_PERSON"
+			label="XBCULTURE_SEARCH_IN_NAME"
+			description="XBCULTURE_SEARCH_PERSON"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -24,8 +24,8 @@
 			onchange="this.form.submit();"			
   			class="btn-group btn-small radiotop"
 		>
-			<option value="all">COM_XBPEOPLE_ALLPEOPLE</option>
-			<option value="orphans">COM_XBPEOPLE_CAPORPHANS</option>
+			<option value="all">XBCULTURE_ALLPEOPLE</option>
+			<option value="orphans">XBCULTURE_CAPORPHANS</option>
 		</field>
 		<field
 			name="category_id" type="category"
@@ -47,13 +47,13 @@
 		/>
 		<field name="taglogic" type="radio"
 			default="0"
-			label="COM_XBPEOPLE_MULTITAG_LBL"
-			description="COM_XBPEOPLE_MULTITAG_DESC"
+			label="XBCULTURE_MULTITAG_LBL"
+			description="XBCULTURE_MULTITAG_DESC"
   			class="btn-group btn-small radiotop"
 		>
-			<option value="1" onchange="this.form.submit();">COM_XBPEOPLE_CAPALL</option>
-			<option value="0" onchange="this.form.submit();">COM_XBPEOPLE_CAPANY</option>
-			<option value="2" onchange="this.form.submit();">COM_XBPEOPLE_CAPEXCLUDE</option>
+			<option value="1" onchange="this.form.submit();">XBCULTURE_CAPALL</option>
+			<option value="0" onchange="this.form.submit();">XBCULTURE_CAPANY</option>
+			<option value="2" onchange="this.form.submit();">XBCULTURE_CAPEXCLUDE</option>
 		</field>	
 	</fields>
 	<fields name="list">

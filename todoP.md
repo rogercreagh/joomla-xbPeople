@@ -8,8 +8,10 @@
   - Toolbar to films, books, Delete 
 - add site all persons listview
 - add site person view
+- add category counts view as per main components
+- add callback to film or book categories on submenu (if component ok) - sub item belo xbfilm/book people for xbfilm/book cats	
 
-#### OTHER NEW FEATURES (not on roadmap)
+#### OTHER NEW FEATURES (not on roadmap)	
 
 
 #### BUGS & MINOR ENHANCEMENTS
