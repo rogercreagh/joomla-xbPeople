@@ -1,7 +1,7 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/persons/view.html.php
+ * @filesource admin/views/characters/view.html.php
  * @version 0.4.1 20th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -10,45 +10,37 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
-class XbpeopleViewPersons extends JViewLegacy {
+class XbpeopleViewCharacters extends JViewLegacy {
 
     function display($tpl = null) {
-        // Get application
-        $app = Factory::getApplication();
-        $context = "xbpeople.list.admin.persons";
-        // Get data from the model
+
         $this->items		= $this->get('Items');
-        $this->pagination	= $this->get('Pagination');
         
+        $this->pagination	= $this->get('Pagination');
         $this->state			= $this->get('State');
         $this->filterForm    	= $this->get('FilterForm');
         $this->activeFilters 	= $this->get('ActiveFilters');
-        
-        // $this->filter_order 	= $app->getUserStateFromRequest($context.'filter_order', 'filter_order', 'lastname', 'cmd');
-        // $this->filter_order_Dir = $app->getUserStateFromRequest($context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+
         $this->searchTitle = $this->state->get('filter.search');
         $this->catid 		= $this->state->get('catid');
-        if ($this->catid>0) {
-            $this->cat 		= XbpeopleHelper::getCat($this->catid);
-        }
         
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
-        	Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');
-        	
-            return false;
+            throw new Exception(implode("\n", $errors), 500);
         }
         
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
         $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
         
-        // Set the toolbar & sidebar
-        $this->addToolbar();
-        XbpeopleHelper::addSubmenu('persons');
-        $this->sidebar = JHtmlSidebar::render();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+            XbpeopleHelper::addSubmenu('characters');
+            $this->sidebar = JHtmlSidebar::render();
+        }
         
         // Display the template
         parent::display($tpl);
@@ -59,47 +51,47 @@ class XbpeopleViewPersons extends JViewLegacy {
     
     protected function addToolBar() {
         $canDo = XbpeopleHelper::getActions();
-        
-        $bar = JToolbar::getInstance('toolbar');
-        
-        ToolBarHelper::title(JText::_('COM_XBPEOPLE').': '.JText::_('XBCULTURE_TITLE_PEOPLEMANAGER'), 'users' );
+                
+        ToolbarHelper::title(Text::_('COM_XBFILMS').': '.Text::_('COM_XBFILMS_TITLE_CHARMANAGER'), 'users' );
         
         if ($canDo->get('core.create') > 0) {
-            ToolBarHelper::addNew('person.add');
+            ToolbarHelper::addNew('character.add');
         }
         if ($canDo->get('core.edit') || ($canDo->get('core.edit.own'))) {
-            ToolBarHelper::editList('person.edit');
+            ToolbarHelper::editList('character.edit');
         }
         if ($canDo->get('core.edit.state')) {
-            ToolbarHelper::publish('person.publish', 'JTOOLBAR_PUBLISH', true);
-            ToolbarHelper::unpublish('person.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-            ToolBarHelper::archiveList('person.archive');
+            ToolbarHelper::publish('character.publish', 'JTOOLBAR_PUBLISH', true);
+            ToolbarHelper::unpublish('character.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+            ToolbarHelper::archiveList('character.archive');
         }
         if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-           ToolBarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'person.delete','JTOOLBAR_EMPTY_TRASH');
+           ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'character.delete','JTOOLBAR_EMPTY_TRASH');
         } else if ($canDo->get('core.edit.state')) {
-           ToolBarHelper::trash('person.trash');
+           ToolbarHelper::trash('character.trash');
         }
         
         // Add a batch button
+        $bar = Toolbar::getInstance('toolbar');
         if ($canDo->get('core.create') && $canDo->get('core.edit')
         		&& $canDo->get('core.edit.state'))
         {
         	// we use a standard Joomla layout to get the html for the batch button
         	$layout = new JLayoutFile('joomla.toolbar.batch');
-        	$batchButtonHtml = $layout->render(array('title' => JText::_('JTOOLBAR_BATCH')));
+        	$batchButtonHtml = $layout->render(array('title' => Text::_('JTOOLBAR_BATCH')));
         	$bar->appendButton('Custom', $batchButtonHtml, 'batch');
         }
         
         if ($canDo->get('core.admin')) {
-            ToolBarHelper::preferences('com_xbpeople');
+            ToolbarHelper::preferences('com_xbpeople');
         }
+        ToolbarHelper::help( '', false,'https://crosborne.uk/xbpeople/doc?tmpl=component#admin-chars' );
     }
     
     protected function setDocument()
     {
         $document = Factory::getDocument();
-        $document->setTitle(Text::_('XBCULTURE_ADMIN_PEOPLE'));
+        $document->setTitle(Text::_('COM_XBFILMS_ADMIN_CHARS'));
     }
     
 }

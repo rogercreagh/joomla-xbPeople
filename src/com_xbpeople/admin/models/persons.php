@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.3.0 19th March 2021
+ * @version 0.4.1 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -89,17 +89,6 @@ class XbpeopleModelPersons extends JModelList {
 			//$query->where('(state IN (0, 1))');
 		}
 		
-		//Filter orphans to filter by specific roles do it in the individual components
-		$rolefilt = $this->getState('filter.rolefilt');
-		if ($rolefilt=='orphans') {
-			if ($this->xbfilmsStatus) {
-				$query->where('f.id IS NULL');
-			}
-			if ($this->xbbooksStatus) {
-				$query->where('b.id IS NULL');
-			}
-		}
-		
 		// Filter by category.
 		$app = Factory::getApplication();
 		$categoryId = $app->getUserStateFromRequest('catid', 'catid','');
@@ -120,7 +109,7 @@ class XbpeopleModelPersons extends JModelList {
 		if (($taglogic === '2') && (empty($tagfilt))) {
 			//if if we select tagged=excl and no tags specified then only show untagged items
 			$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
- 					WHERE type_alias = '.$db->quote('com_xbfilms.film').')';
+ 					WHERE type_alias LIKE '.$db->quote('com_xb%.person').')';
 			$query->where('a.id NOT IN '.$subQuery);
 		}
 		
@@ -130,7 +119,7 @@ class XbpeopleModelPersons extends JModelList {
 			if ($taglogic==2) { //exclude anything with a listed tag
 				// subquery to get a virtual table of item ids to exclude
 				$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
-					WHERE type_alias = '.$db->quote('com_xbfilms.film').
+					WHERE type_alias LIKE '.$db->quote('com_xb%.person').
 					' AND tag_id IN ('.implode(',',$tagfilt).'))';
 				$query->where('a.id NOT IN '.$subQuery);
 			} else {
@@ -138,7 +127,7 @@ class XbpeopleModelPersons extends JModelList {
 					$query->join( 'INNER', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 							. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id') )
 							->where(array( $db->quoteName('tagmap.tag_id') . ' = ' . $tagfilt[0],
-									$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_xbfilms.film') )
+									$db->quoteName('tagmap.type_alias') . ' LIKE ' . $db->quote('com_xb%.person') )
 									);
 				} else { //more than one tag
 					if ($taglogic == 1) { // match ALL listed tags
@@ -149,7 +138,7 @@ class XbpeopleModelPersons extends JModelList {
 									' ON ' . $db->quoteName($mapname.'.content_item_id') . ' = ' . $db->quoteName('a.id'));
 							$query->where( array(
 									$db->quoteName($mapname.'.tag_id') . ' = ' . $tagfilt[$i],
-									$db->quoteName($mapname.'.type_alias') . ' = ' . $db->quote('com_xbfilms.film'))
+									$db->quoteName($mapname.'.type_alias') . ' LIKE ' . $db->quote('com_xb%.person'))
 									);
 						}
 					} else { // match ANY listed tag
@@ -159,7 +148,7 @@ class XbpeopleModelPersons extends JModelList {
 						->from($db->quoteName('#__contentitem_tag_map'))
 						->where( array(
 								$db->quoteName('tag_id') . ' IN (' . implode(',', $tagfilt) . ')',
-								$db->quoteName('type_alias') . ' = ' . $db->quote('com_xbfilms.film'))
+								$db->quoteName('type_alias') . ' LIKE ' . $db->quote('com_xb%.person'))
 								);
 						$query->join(
 								'INNER',
@@ -231,6 +220,7 @@ class XbpeopleModelPersons extends JModelList {
 				}
 				$item->ext_links_list = trim($item->ext_links_list,', ');
 			} //end if is_object
+			$item->persontags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 			$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.person' , $item->id);
 			$item->booktags = $tagsHelper->getItemTags('com_xbbooks.person' , $item->id);
 		} //end foreach item

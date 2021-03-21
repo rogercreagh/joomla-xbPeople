@@ -64,7 +64,7 @@
 	border-radius: 4px;
 }
 
-.bkcnt, .percnt, .revcnt, .chcnt {
+.bkcnt, .flmcnt, .percnt, .revcnt, .chcnt {
     border: solid 1px #31708f;
       color: #31708f !important;
 }
@@ -75,6 +75,7 @@
 }
 
 .bkcnt { background-color: #deefef !important;  }           
+.flmcnt { background-color: #efdfdf !important;  }           
 .percnt { background-color: #deefde !important;  }      
 .chcnt { background-color: #e0e0ff !important;   }         
 .revcnt { background-color: #efdeef !important;  }      

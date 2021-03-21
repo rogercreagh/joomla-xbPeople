@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.3.0 19th March 2021
+ * @version 0.4.1 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -88,6 +88,47 @@ class XbpeopleHelper extends ContentHelper {
 	}
 
 	/**
+	 * @name makeSummaryText
+	 * @desc returns a plain text version of the source trunctated at the first or last sentence within the specified length
+	 * @param string $source the string to make a summary from
+	 * @param int $len the maximum length of the summary
+	 * @param bool $first if true truncate at end of first sentence, else at the last sentence within the max length
+	 * @return string
+	 */
+	public static function makeSummaryText(string $source, int $len=250, bool $first = true) {
+		if ($len == 0 ) {$len = 100; $first = true; }
+		//first strip any html and truncate to max length
+		$summary = HTMLHelper::_('string.truncate', $source, $len, true, false);
+		//strip off ellipsis if present (we'll put it back at end)
+		$hadellip = false;
+		if (substr($summary,strlen($summary)-3) == '...') {
+			$summary = substr($summary,0,strlen($summary)-3);
+			$hadellip = true;
+		}
+		// get a version with '? ' and '! ' replaced by '. '
+		$dotsonly = str_replace(array('! ','? '),'. ',$summary.' ');
+		if ($first) {
+			// look for first ". " as end of sentence
+			$dot = strpos($dotsonly,'. ');
+		} else {
+			// look for last ". " as end of sentence
+			$dot = strrpos($dotsonly,'. ');
+		}
+		// are we going to cut some more off?)
+		if (($dot!==false) && ($dot < strlen($summary)-3)) {
+			$hadellip = true;
+		}
+		if ($dot>3) {
+			$summary = substr($summary,0, $dot+1);
+		}
+		if ($hadellip) {
+			// put back ellipsis with a space
+			$summary .= ' ...';
+		}
+		return $summary;
+	}
+	
+	/**
 	 * @name getItemCnt
 	 * @desc returns the number of items in a table
 	 * @param string $table
@@ -171,6 +212,21 @@ class XbpeopleHelper extends ContentHelper {
 		}
 		return false;
 	}
+
+	public static function checkTitleExists($title, $table) {
+		$col = ($table == '#__xbcharacters') ? 'name' : 'title';
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('id')->from($db->quoteName($table))
+		->where('LOWER('.$db->quoteName($col).')='.$db->quote(strtolower($title)));
+		$db->setQuery($query);
+		$res = $db->loadResult();
+		if ($res > 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	public static function credit() {
 		if (self::penPont()) {

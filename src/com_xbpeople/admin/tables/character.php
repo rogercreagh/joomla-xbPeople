@@ -1,109 +1,102 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/tables/person.php
- * @version 0.4.1 21st March 2021
+ * @filesource admin/tables/character.php
+ * @version 0.4.1 20th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
 
+//use Joomla\CMS\Language\Text;
+//use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Table\Observer\Tags;
-use Joomla\Registry\Registry;
 
-class XbpeopleTablePerson extends JTable {
+class XbpeopleTableCharacter extends JTable {
 	
-	protected $xbbooksStatus;
-	protected $xbfilmsStatus;
-	
-	function __construct(&$db) {
-        parent::__construct('#__xbpersons', 'id', $db);
+    protected $xbbooksStatus;
+    protected $xbfilmsStatus;
+    	
+   function __construct(&$db) {
+    	parent::__construct('#__xbcharacters', 'id', $db);
         $this->setColumnAlias('published', 'state');
-        Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.person'));
+        Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.character'));
         $this->xbbooksStatus = XbpeopleHelper::checkComponent('com_xbbooks');
         $this->xbfilmsStatus = XbpeopleHelper::checkComponent('com_xbfilms');
-	}
+   }
     
     public function delete($pk=null) {
         $db = $this->getDbo();
         $query = $db->getQuery(true);
         if ($this->xbfilmsStatus) {
-        	$query->delete()->from('#__xbfilmperson')->where('person_id = '. $pk);
+        	$query->delete()->from('#__xbfilmcharacter')->where('char_id = '. $pk);
         }
         if ($this->xbbooksStatus) {
-        	$query->delete()->from('#__xbbookperson')->where('person_id = '. $pk);
+        	$query->delete()->from('#__xbbookcharacter')->where('char_id = '. $pk);
         }
-        $this->_db->setQuery($query);
-        $this->_db->execute();
+        $this->$db->setQuery($query);
+        $this->$db->execute();
         return parent::delete($pk);
     }
     
     public function check() {
-    	$params = ComponentHelper::getParams('com_xbfilms');
+    	$params = ComponentHelper::getParams('com_xbpeople');
     	
-    	$firstname = trim($this->firstname);
-    	$lastname = trim($this->lastname);
+    	$title = trim($this->name);
     	
-    	if ($lastname == '') {
-            $this->setError(JText::_('XBCULTURE_PROVIDE_VALID_NAME'));
-            return false;
-        }
-        
-        if (($this->id == 0) && (XbfilmsHelper::checkPersonExists($firstname,$lastname))) {
-        	$this->setError(JText::_('Person  "'.$firstname.' '.$lastname.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
-        	return false;
-        }
-        
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        if (trim($this->alias) == '') {
-            $this->alias = ($firstname!='') ? $firstname.' ' : '';
-            $this->alias .= $lastname;
-        }       
-        $this->alias = OutputFilter::stringURLSafe(strtolower($this->alias));
-                
+    	if ($title == '') {
+    	    $this->setError(JText::_('COM_XBFILMS_PROVIDE_VALID_NAME'));
+    	    return false;
+    	}
+    	
+    	if (($this->id == 0) && (XbpeopleHelper::checkTitleExists($name,'#__xbcharacters'))) {
+    		$this->setError(JText::_('Character "'.$title.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
+    	    return false;
+    	}
+    	
+    	$this->name = $title;
+    	
+    	if (trim($this->alias) == '') {
+    		$this->alias = $title;
+    	}
+    	$this->alias = OutputFilter::stringURLSafe($this->alias);
+    	
         //set created by alias if not set (default to current user)
         if (trim($this->created_by_alias) == '') {
         	$user = Factory::getUser($this->item->created_by);
         	$name = ($params->get('name_username') == 0) ? $user->name : $user->username;
         	$this->created_by_alias = $name;
         }
-        //require category
+        
+        //set default or require category
         if (!$this->catid>0) {
-        	$defcat=0;
-        	if ($params->get('def_new_percat')>0) {
-        		$defcat=$params->get('def_new_percat');
-        	} else {
-        		$defcat = XbpeopleHelper::getIdFromAlias('#__categories', 'uncategorised', 'com_xbpeople');
-        	}
-        	if ($defcat>0) {
-        		$this->catid = $defcat;
-        		Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_DEFAULT_CATEGORY'));
-        	} else {
-        		$this->setError(JText::_('Please set a category'));
-        		return false;
-        	}
-        }
-        	
-        //require summary, create from biog if missing
-        if ((trim($this->summary)=='')) {
-        	if (trim($this->biography)=='' ) {
-        		Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_MISSING_SUMMARY'));
-        	}
+            $defcat=0;
+            if ($params->get('def_new_charcat')>0) {
+                $defcat=$params->get('def_new_charcat');
+            } else {
+                $defcat = XbpeopleHelper::getIdFromAlias('#__categories', 'uncategorised', 'com_xbpeople');
+            }
+            if ($defcat>0) {
+                $this->catid = $defcat;
+                Factory::getApplication()->enqueueMessage(JText::_('COM_XBFILMS_DEFAULT_CATEGORY').' ('.XbpeopleHelper::getCat($this->catid)->title.')');
+            } else {
+            	// this shouldn't happen unless uncategorised has been deleted or xbpeople not installed
+            	$this->setError(JText::_('Please set a category'));
+            	return false;
+            }
         }
         
-        //json encode ext_links if set
-        if (is_array($this->ext_links)) {
-            $this->ext_links = json_encode($this->ext_links);
+        //warn re missing summary and description
+        if ((trim($this->summary)=='')) {
+        	if (trim($this->description)=='' ) {
+        		Factory::getApplication()->enqueueMessage(JText::_('COM_XBFILMS_MISSING_SUMMARY'));
+        	}
         }
-              
+                      
         //set metadata to defaults
         $metadata = json_decode($this->metadata,true);
         // meta.author will be created_by_alias (see above)
@@ -130,7 +123,7 @@ class XbpeopleTablePerson extends JTable {
         $tags_keywords = $params->get('tags_keywords');
         if (($tags_keywords) && (trim($metadata['metakey']) == '')) {
         	$tagsHelper = new TagsHelper;
-        	$tags = implode(',',$tagsHelper->getTagNames(explode(',',$tagsHelper->getTagIds($this->id,'com_xbpeople.person'))));
+        	$tags = implode(',',$tagsHelper->getTagNames(explode(',',$tagsHelper->getTagIds($this->id,'com_xbpeople.film'))));
         	$metadata['metakey'] = $tags;
         }
         $this->metadata = json_encode($metadata);
@@ -141,12 +134,13 @@ class XbpeopleTablePerson extends JTable {
     public function bind($array, $ignore = '') {
     	if (isset($array['params']) && is_array($array['params'])) {
     		// Convert the params field to a string.
-    		$parameter = new Registry;
+    		$parameter = new JRegistry;
     		$parameter->loadArray($array['params']);
     		$array['params'] = (string)$parameter;
-    	}   	
+    	}
+    	
     	if (isset($array['metadata']) && is_array($array['metadata'])) {
-    		$registry = new Registry;
+    		$registry = new JRegistry;
     		$registry->loadArray($array['metadata']);
     		$array['metadata'] = (string)$registry;
     	}

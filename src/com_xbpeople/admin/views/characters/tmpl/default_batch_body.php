@@ -1,7 +1,7 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/persons/tmpl/default_batch_body.php
+ * @filesource admin/views/characters/tmpl/default_batch_body.php
  * @version 0.4.1 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021

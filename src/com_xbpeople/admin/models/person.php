@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 0.1.0 8th February 2021
+ * @version 0.4.1 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,7 +38,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 			if (!empty($item->id))
 			{
 				$tagsHelper = new TagsHelper;
-				$item->tags = $tagsHelper->getTagIds($item->id, 'com_xbfilms.person');
+				$item->tags = $tagsHelper->getTagIds($item->id, 'com_xbpeople.person');
 			}
 		}
 		return $item;
@@ -51,7 +51,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 	
 	public function getForm($data = array(), $loadData = true) {
 		// Get the form.
-		$form = $this->loadForm('com_xbfilms.person', 'person',
+		$form = $this->loadForm('com_xbpeople.person', 'person',
 					array('control' => 'jform','load_data' => $loadData)
 				);
 		
@@ -160,7 +160,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 			foreach ($pks as $i=>$item) {
 				$table->load($item);
 				if (!$table->delete($item)) {
-					$personpeople = ($cnt == 1)? Text::_('ONEPERSON') : Text::_('MANYPEOPLE');
+					$personpeople = ($cnt == 1)? Text::_('XBCULTURE_ONEPERSON') : Text::_('XBCULTURE_MANYPEOPLE');
 					Factory::getApplication()->enqueueMessage($cnt.$personpeople.' deleted');
 					$this->setError($table->getError());
 					return false;
@@ -168,7 +168,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 				$table->reset();
 				$cnt++;
 			}
-			$personpeople = ($cnt == 1)? Text::_('ONEPERSON') : Text::_('MANYPEOPLE');
+			$personpeople = ($cnt == 1)? Text::_('XBCULTURE_ONEPERSON') : Text::_('XBCULTURE_MANYPEOPLE');
 			Factory::getApplication()->enqueueMessage($cnt.$personpeople.' deleted');
 			return true;
 		}
@@ -242,6 +242,8 @@ class XbpeopleModelPerson extends JModelAdmin {
 				$query->values($db->quote($person_id).','.$db->quote($per['film_id']).','.$db->quote($role).','.$db->quote($per['role_note']));
 				$db->setQuery($query);
 				$db->execute();
+				//if actor id is set we also need to check the filmperson table
+				//to see if that link already exists and if no add it
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/persons/tmpl/default.php
+ * @filesource admin/views/characters/tmpl/default.php
  * @version 0.4.1 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -22,31 +22,33 @@ $userId = $user->get('id');
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape(strtolower($this->state->get('list.direction')));
 if (!$listOrder) {
-	$listOrder='lastname';
+	$listOrder='name';
 	$listDirn = 'ascending';
 }
-$orderNames = array('firstname'=>Text::_('XBCULTURE_CAPFIRSTNAME'),'lastname'=>Text::_('XBCULTURE_CAPLASTNAME'),
-		'id'=>'id','sortdate'=>Text::_('XBCULTURE_CAPDATES'),'category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
-		'published'=>Text::_('XBCULTURE_CAPSTATUS'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
+$orderNames = array('name'=>Text::_('XBCULTURE_CAPNAME'),
+		'id'=>'id','category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
+		'published'=>Text::_('XBCULTURE_CAPSTATE'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
 
 $saveOrder      = $listOrder == 'ordering';
-$canOrder       = $user->authorise('core.edit.state', 'com_xbpeople.person');
+$canOrder       = $user->authorise('core.edit.state', 'com_xbpeople.character');
 if ($saveOrder) {
-	$saveOrderingUrl = 'index.php?option=com_xbpeople&task=persons.saveOrderAjax&tmpl=component';
-	HTMLHelper::_('sortablelist.sortable', 'xbpersonsList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	$saveOrderingUrl = 'index.php?option=com_xbpeople&task=characters.saveOrderAjax&tmpl=component';
+	HTMLHelper::_('sortablelist.sortable', 'xbcharactersList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
 $noportrait = "media/com_xbpeople/images/noportrait.jpg";
 $nofile = "media/com_xbpeople/images/nofile.jpg";
 
-$pelink = 'index.php?option=com_xbpeople&view=person&task=person.edit&id=';
+$chelink = 'index.php?option=com_xbpeople&view=person&task=character.edit&id=';
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
+$cvlink = 'index.php?option=com_xbpeople&view=category&id=';
 $telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
-$bplink = 'index.php?option=com_xbbooks&view=persons';
-$fplink = 'index.php?option=com_xbpeople&view=persons';
+$tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
+$bchlink = 'index.php?option=com_xbbooks&view=characters';
+$fchlink = 'index.php?option=com_xbpeople&view=characters';
 
 ?>
-<form action="index.php?option=com_xbpeople&view=persons" method="post" id="adminForm" name="adminForm">
+<form action="index.php?option=com_xbpeople&view=characters" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
         <div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -74,7 +76,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 		echo '<p>Searched for <b>'; 
 		if (stripos($search, 'i:') === 0) {
             echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_PERSONID');
-		} elseif ((stripos($search, 's:') === 0) || (stripos($search, 'b:') === 0)) {
+		} elseif ((stripos($search, 's:') === 0) || (stripos($search, 'd:') === 0)) {
             echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_INBIOG');
         } else {
 			echo trim($search).'</b> '.Text::_('XBCULTURE_AS_INNAMES');
@@ -92,7 +94,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 			<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>	
-	<table class="table table-striped table-hover" id="xbpersonsList">
+	<table class="table table-striped table-hover" id="xbcharactersList">
 		<thead>
 			<tr>
 				<th class="nowrap center hidden-phone" style="width:25px;">
@@ -109,9 +111,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     				<?php echo Text::_('XBCULTURE_CAPPORTRAIT') ;?>
     			</th>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPFIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPLASTNAME', 'lastname', $listDirn, $listOrder); ?>					
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPDATES', 'sortdate', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPNAME', 'name', $listDirn, $listOrder); ?>					
     			</th>
     			<th>
     				<?php echo Text::_('XBCULTURE_CAPSUMMARY'); ?>
@@ -128,7 +128,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
 					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CAPCATS','category_title',$listDirn,$listOrder ).' &amp; ';
-						echo Text::_( 'XBCULTURE_CAPTAGS' ); ?>
+					echo Text::_( 'XBCULTURE_CAPTAGS' ); ?>
 				</th>   			
     			<th class="nowrap hidden-phone" style="width:45px;">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
@@ -144,10 +144,10 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 		</tfoot>
 		<tbody>
 			<?php foreach ($this->items as $i => $item) :
-    			$canEdit    = $user->authorise('core.edit', 'com_xbpeople.person.'.$item->id);
+    			$canEdit    = $user->authorise('core.edit', 'com_xbpeople.character.'.$item->id);
     			$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out==$userId || $item->checked_out==0;
-    			$canEditOwn = $user->authorise('core.edit.own', 'com_xbpeople.person.'.$item->id) && $item->created_by == $userId;
-    			$canChange  = $user->authorise('core.edit.state', 'com_xbpeople.person.'.$item->id) && $canCheckin;
+    			$canEditOwn = $user->authorise('core.edit.own', 'com_xbpeople.character.'.$item->id) && $item->created_by == $userId;
+    			$canChange  = $user->authorise('core.edit.state', 'com_xbpeople.character.'.$item->id) && $canCheckin;
 			?>
 				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">	
 					<td class="order nowrap center hidden-phone">
@@ -184,11 +184,11 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     				</td>
 					<td>
 						<img class="img-polaroid hasTooltip xbimgthumb" title="" 
-							data-original-title="<?php echo $item->portrait;?>"
+							data-original-title="<?php echo $item->image;?>"
 							<?php 
-    							$src = $item->portrait;
+							$src = $item->image;
     							if ((!empty($src)) && (!file_exists(JPATH_ROOT.'/'.$src))) {
-    								$src = $nofile;
+    							    $src = $nofile;
     							}
     							$src = JURI::root().$src;
 							?>
@@ -202,23 +202,12 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							    echo HTMLHelper::_('jgrid.checkedout', $i, Text::_('XBCULTURE_OPENEDBY').':,'.$couname, $item->checked_out_time, 'person.', $canCheckin); 
 							} ?>
 							
-							<a href="<?php echo $pelink.$item->id; ?>" title="<?php echo Text::_('XBCULTURE_EDIT_PERSON'); ?>">
-								<?php echo ($item->firstname=='')? '... ' : $item->firstname; ?>
-								<?php echo ' '.$item->lastname; ?> 
+							<a href="<?php echo $chelink.$item->id; ?>" title="<?php echo Text::_('XBCULTURE_EDIT_PERSON'); ?>">
+								<?php echo ' '.$item->name; ?> 
 							</a>
 							<br />
 							<span class="xb08 xbnorm"><i><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></i></span>
 						</p>
-						<p>
-						<?php 
-							if($item->year_born > 0) { echo '<i>'.Text::_('XBCULTURE_BORN').' </i>: '.$item->year_born;} 
-							if($item->year_died > 0) { 
-								echo '&nbsp;&nbsp;<i>'.Text::_('XBCULTURE_DIED').' </i>: '.$item->year_died;
-							}
-							if($item->nationality) { 
-                        		echo '<br /><i>'.Text::_('XBCULTURE_CAPNATIONALITY').' </i>: '.$item->nationality;
-                        	} ?>						
-						</p>							
 					</td>
 					<td>						
 						<p class="xb095">
@@ -226,27 +215,20 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 								<?php echo $item->summary; ?>
     						<?php else : ?>
     							<span class="xbnit">
-    							<?php if (!empty($item->biography)) : ?>
+    							<?php if (!empty($item->description)) : ?>
     								<?php echo Text::_('XBCULTURE_BIOG_EXTRACT'); ?>: </span>
-    								<?php echo XbpeopleHelper::makeSummaryText($item->biography,0); ?>
+    								<?php echo XbpeopleHelper::makeSummaryText($item->description,0); ?>
     							<?php else : ?>
     								<?php echo Text::_('XBCULTURE_NO_SUMMARY_BIOG'); ?></span>
     							<?php endif; ?>
     						<?php endif; ?>
-    					</p>
-                        <?php if (!empty($item->biography)) : ?>
+                        </p>
+                        <?php if ((!empty($item->description)) && (strlen(strip_tags($item->description))>200)) : ?>
                         	<p class="xbnit xb09">   
                              <?php 
-                             echo Text::_('XBCULTURE_CAPBIOG').' '.str_word_count(strip_tags($item->biography)).' '.Text::_('XBCULTURE_WORDS'); 
+                             echo Text::_('XBCULTURE_CAPBIOG').' '.str_word_count(strip_tags($item->description)).' '.Text::_('XBCULTURE_WORDS'); 
                              ?>
 							</p>
-						<?php endif; ?>
-						<?php if($item->ext_links_cnt >0 ) : ?>
-							<p class="xbnit xb095">	
-								<?php echo Text::_('XBCULTURE_FIELD_EXTLINK_LABEL').': '; 
-	                            echo '<span class="xb09 xbnorm">';
-	                            echo $item->ext_links_list.'</span>'; ?>
-	                    	</p>
 						<?php endif; ?>
                     </td>
     			<?php if($this->xbbooks_ok) : ?>
@@ -317,7 +299,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
             'bootstrap.renderModal',
             'collapseModal',
             array(
-                'title' => Text::_('XBCULTURE_BATCH_TITLE'),
+                'title' => Text::_('COM_XBFILMS_BATCH_TITLE'),
                 'footer' => $this->loadTemplate('batch_footer')
             ),
             $this->loadTemplate('batch_body')
@@ -329,4 +311,3 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbpeopleHelper::credit();?></p>
-

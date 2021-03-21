@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.2.0 15th February 2021
+ * @version 0.4.1 20th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -90,6 +90,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', JText::_('Films and Books')); ?>
+			<?php if($this->xbfilms_ok) : ?>
 			<div class="row-fluid">
         		<div class="span6">
         			<h3>Films</h3>
@@ -101,6 +102,8 @@ HTMLHelper::_('formbehavior.chosen', 'select');
        					<?php echo $this->form->renderField('filmappearslist'); ?>
         			</fieldset>
         		</div>
+        	<?php endif; ?>
+			<?php if($this->xbbooks_ok) : ?>
        			<div class="span6">
         			<h3>Books</h3>
         			<fieldset class="form-vertical">
@@ -110,6 +113,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
         				<?php echo $this->form->renderField('bookotherlist'); ?>
         			</fieldset>
         		</div>
+        	<?php endif; ?>
 			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('XBCULTURE_CAPPUBLISHING')); ?>

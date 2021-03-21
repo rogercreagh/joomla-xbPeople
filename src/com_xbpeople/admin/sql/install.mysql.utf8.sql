@@ -1,8 +1,52 @@
-# sql installation file for component xbPeople 0.1.0 9th February 2021 (removed disambig chars)
+# sql installation file for component xbPeople 0.4.1 21st March 2021 (removed disambig chars)
 # NB no data is installed with this file, default categories are created by the installation script
 
 INSERT INTO `#__content_types` (`type_title`, `type_alias`, `content_history_options`, `table`, `field_mappings`, `router`,`rules`) 
 VALUES
+
+('XbPeople Person', 'com_xbPeople.person', 
+'{"formFile":"administrator\\/components\\/com_xbPeople\\/models\\/forms\\/person.xml", 
+    "hideFields":["checked_out","checked_out_time"], 
+    "ignoreChanges":["checked_out", "checked_out_time"],
+    "convertToInt":[], 
+    "displayLookup":[
+        {"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}
+    ]
+ }',
+'{"special":{"dbtable":"#__xbpersons","key":"id","type":"Person","prefix":"XbPeopleTable","config":"array()"},
+    "common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}',
+'{"common": {
+    "core_content_item_id": "id",
+    "core_title": "lastname",
+    "core_state": "state",
+    "core_alias": "alias",
+    "core_created_time": "created",
+    "core_body": "biography",
+    "core_catid": "catid"
+  }}',
+'XbPeopleHelperRoute::getPersonRoute',''),
+
+('XbPeople Character', 'com_xbPeople.character', 
+'{"formFile":"administrator\\/components\\/com_xbPeople\\/models\\/forms\\/character.xml", 
+    "hideFields":["checked_out","checked_out_time"], 
+    "ignoreChanges":["checked_out", "checked_out_time"],
+    "convertToInt":[], 
+    "displayLookup":[
+        {"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}
+    ]
+ }',
+'{"special":{"dbtable":"#__xbcharacters","key":"id","type":"Character","prefix":"XbPeopleTable","config":"array()"},
+    "common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}',
+'{"common": {
+    "core_content_item_id": "id",
+    "core_title": "name",
+    "core_state": "state",
+    "core_alias": "alias",
+    "core_created_time": "created",
+    "core_body": "description",
+    "core_catid": "catid"
+  }}',
+'XbPeopleHelperRoute::getCharacterRoute',''),
 
 ('XbPeople Category', 'com_xbpeople.category',
 '{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbFilms admin/models/forms/filter_categories.xml v0.6.1d 12th November 2020 -->
+<!-- xbPeople admin/models/forms/filter_categories.xml v0.4.1 21sr March -->
 <form>
-	<fields name="filter" addfieldpath="administrator/components/com_xbfilms/models/fields">
+	<fields name="filter" addfieldpath="administrator/components/com_xbpeople/models/fields">
 		<field
 			name="search"
 			type="text"

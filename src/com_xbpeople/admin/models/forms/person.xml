@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/person.xml v0.1.0 8th February 2021 -->
+<!-- xbPeople admin/models/forms/person.xml v0.4.0 20th March 2021 -->
 <form>
 	<fieldset addfieldpath="/administrator/components/com_xbpeople/models/fields">
 		<field name="id" default="0" 
