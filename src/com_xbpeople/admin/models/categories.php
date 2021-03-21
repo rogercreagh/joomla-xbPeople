@@ -24,7 +24,7 @@ class XbpeopleModelCategories extends JModelList {
 					'published', 'parent'
 			);
 		}
-		$this->xbbooks_ok = Factory::getSession()->get('xbbooksok',false);
+		$this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok',false);
 		$this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok',false);
 		parent::__construct($config);
 	}

@@ -26,6 +26,14 @@
 
 #### <u>Admin Persons</u>
 
+- missing  > in book and film cnts
 
+- use bcnt fcnt for displayed number
+- sort by film book cnts not orking
+- same for chars
+- film badge not picking up film colour
+
+​			
 
 #### <u>Admin Person</u>
+

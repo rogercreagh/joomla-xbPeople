@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.4.1 21st March 2021
+ * @version 0.4.2 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,8 @@ if (!$listOrder) {
 }
 $orderNames = array('firstname'=>Text::_('XBCULTURE_CAPFIRSTNAME'),'lastname'=>Text::_('XBCULTURE_CAPLASTNAME'),
 		'id'=>'id','sortdate'=>Text::_('XBCULTURE_CAPDATES'),'category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
-		'published'=>Text::_('XBCULTURE_CAPSTATUS'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
+		'published'=>Text::_('XBCULTURE_CAPSTATUS'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'),
+		'bcnt'=>Text::_('XBCULTURE_CAPBOOKS'),'fcnt'=>Text::_('XBCULTURE_CAPFILMS'));
 
 $saveOrder      = $listOrder == 'ordering';
 $canOrder       = $user->authorise('core.edit.state', 'com_xbpeople.person');
@@ -182,18 +183,18 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							<?php } ?>
     					</div>
     				</td>
-					<td>
-						<img class="img-polaroid hasTooltip xbimgthumb" title="" 
-							data-original-title="<?php echo $item->portrait;?>"
+					<td> <?php if(!empty($item->portrait)) : ?>
 							<?php 
     							$src = $item->portrait;
-    							if ((!empty($src)) && (!file_exists(JPATH_ROOT.'/'.$src))) {
+    							if (!file_exists(JPATH_ROOT.'/'.$src)) {
     								$src = $nofile;
     							}
     							$src = JURI::root().$src;
 							?>
-							src="<?php echo $src; ?>"
-							border="0" alt="" />						
+							<img class="img-polaroid hasTooltip xbimgthumb" title="" 
+								data-original-title="<?php echo $item->portrait;?>"
+								src="<?php echo $src; ?>" border="0" alt="" />
+						<?php endif; ?>						
 					</td>
 					<td>
 						<p class="xbtitlelist">
@@ -259,7 +260,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							<div class="hasPopover" title data-original-title="Book Roles"
 								data-content="<?php echo $tlist; ?>">
 								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"<?php $item->bookcnt; ?></span>
+									<span class="badge bkcnt"><?php echo $item->bcnt; ?></span>
 						    	</a>
 							</div>
 						<?php endif; ?> 
@@ -274,8 +275,8 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							} ?>
 							<div class="hasPopover" title data-original-title="Film Roles"
 								data-content="<?php echo $tlist; ?>">
-								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"<?php $item->bookcnt; ?></span>
+								<a href="<?php echo $fplink; ?>" >
+									<span class="badge flmcnt"><?php echo $item->fcnt; ?></span>
 						    	</a>
 						    </div>
 						<?php endif; ?>
@@ -293,13 +294,13 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 								<?php echo $t->title; ?></a>
 							</li>													
 						<?php endforeach; ?>
-						<?php foreach ($item->filmtags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
+						<?php foreach ($item->booktags as $t) : ?>
+							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label bkcnt">
 								<?php echo $t->title; ?></a>
 							</li>													
 						<?php endforeach; ?>
-						<?php foreach ($item->booktags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
+						<?php foreach ($item->filmtags as $t) : ?>
+							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label flmcnt">
 								<?php echo $t->title; ?></a>
 							</li>													
 						<?php endforeach; ?>

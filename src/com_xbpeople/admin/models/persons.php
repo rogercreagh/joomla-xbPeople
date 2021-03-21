@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.4.1 21st March 2021
+ * @version 0.4.2 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,13 +22,10 @@ class XbpeopleModelPersons extends JModelList {
 		
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'id', 'a,id',
-					'firstname', 'lastname',
-					'published', 'a.state',
-					'ordering', 'a.ordering',
-					'category_title', 'c.title',
-					'catid', 'a.catid', 'category_id',
-					'sortdate' );
+					'id', 'a,id', 'firstname', 'lastname',
+					'published', 'a.state', 'ordering', 'a.ordering',
+					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
+					'sortdate', 'bcnt','fcnt' );
 		}
 		$this->xbbooksStatus = XbpeopleHelper::checkComponent('com_xbbooks');
 		$this->xbfilmsStatus = XbpeopleHelper::checkComponent('com_xbfilms');
@@ -164,11 +161,11 @@ class XbpeopleModelPersons extends JModelList {
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'lastname');
 		$orderDirn 	= $this->state->get('list.direction', 'asc');
-		if ($orderCol == 'a.ordering' || $orderCol == 'a.catid') {
+		if ($orderCol == 'a.ordering' || $orderCol == 'a.catid') {	
 			$orderCol = 'category_title '.$orderDirn.', a.ordering';
 		}
 		
-		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+		$query->order($db->quote($orderCol) .' '. $db->escape($orderDirn), $db->quote('lastname') .' ASC');
 		
 		$query->group('a.id');
 		
@@ -199,7 +196,7 @@ class XbpeopleModelPersons extends JModelList {
 			
 			$item->filmcnt = 0;
 			$item->flist='';
-			if ($this->xbfilmsStatus) {
+			if ($item->fcnt>0) {
 				$query = $db->getQuery(true);
 				$query->select('DISTINCT f.title, fp.role')->from('#__xbfilms AS f');
 				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.4.1 21st March 2021
+ * @version 0.4.2 21st March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,7 +15,10 @@ use Joomla\CMS\Helper\TagsHelper;
 
 class XbpeopleModelCharacters extends JModelList {
 
-    public function __construct($config = array()) {
+	protected $xbbooksStatus;
+	protected $xbfilmsStatus;
+	
+	public function __construct($config = array()) {
         
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
@@ -26,6 +29,8 @@ class XbpeopleModelCharacters extends JModelList {
                 'catid', 'a.catid', 'category_id',
                 'published','a.state' );
         }
+        $this->xbbooksStatus = XbpeopleHelper::checkComponent('com_xbbooks');
+        $this->xbfilmsStatus = XbpeopleHelper::checkComponent('com_xbfilms');
         
         parent::__construct($config);
     }
@@ -217,10 +222,6 @@ class XbpeopleModelCharacters extends JModelList {
         		$item->filmcnt = count($item->flist);
         	}
         	
-        
-        foreach ($items as $i=>$item) { 
-            $item->films = $this->getCharacterArray($item->id);
-            
 	        $item->tags = $tagsHelper->getItemTags('com_xbfilms.character' , $item->id);
         } //end foreach item
 	        return $items;
