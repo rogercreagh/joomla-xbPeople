@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.4.1 21st March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,7 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
-// use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 // use Joomla\CMS\Filter\OutputFilter;
 // use Joomla\CMS\Application\ApplicationHelper;
 
@@ -22,66 +22,66 @@ class XbpeopleHelper extends ContentHelper {
 	
 	public static function addSubmenu($vName = 'persons') {
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_CPANEL'),
+				Text::_('XBCULTURE_ICONMENU_CPANEL'),
 				'index.php?option=com_xbpeople&view=cpanel',
 				$vName == 'cpanel'
 				);
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_PEOPLE'),
+				Text::_('XBCULTURE_ICONMENU_PEOPLE'),
 				'index.php?option=com_xbpeople&view=persons',
 				$vName == 'persons'
 				);
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_NEWPERSON'),
+				Text::_('XBCULTURE_ICONMENU_NEWPERSON'),
 				'index.php?option=com_xbpeople&view=person&layout=edit',
 				$vName == 'person'
 				);
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_CHARS'),
+				Text::_('XBCULTURE_ICONMENU_CHARS'),
 				'index.php?option=com_xbpeople&view=characters',
 				$vName == 'characters'
 				);
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_NEWCHAR'),
+				Text::_('XBCULTURE_ICONMENU_NEWCHAR'),
 				'index.php?option=com_xbpeople&view=character&layout=edit',
 				$vName == 'character'
 				);
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_CATEGORIES'),
+				Text::_('XBCULTURE_ICONMENU_CATEGORIES'),
 				'index.php?option=com_xbpeople&view=categories',
 				$vName == 'categories'
 				);
 		JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_NEWCATEGORY'),
-				'index.php?option=com_categories&view=category&layout=edit&extension=com_xbpeople',
+				Text::_('XBCULTURE_ICONMENU_NEWPCATEGORY'),
+				'index.php?option=com_categories&view=category&task=category.edit&extension=com_xbpeople',
 				$vName == 'category'
+				);
+		JHtmlSidebar::addEntry(
+				Text::_('XBCULTURE_ICONMENU_TAGS'),
+				'index.php?option=com_xbpeople&view=tags',
+				$vName == 'tags'
+				);
+		JHtmlSidebar::addEntry(
+				Text::_('XBCULTURE_ICONMENU_NEWTAG'),
+				'index.php?option=com_tags&view=tag&layout=edit',
+				$vName == 'tag'
 				);
 		if (XbpeopleHelper::checkComponent('com_xbfilms')) {
 			JHtmlSidebar::addEntry(
-					Text::_('COM_XBPEOPLE_ICONMENU_FILMS'),
+					Text::_('XBCULTURE_ICONMENU_FILMS'),
 					'index.php?option=com_xbfilms&view=cpanel',
 					$vName == 'films'
 					);			
-			JHtmlSidebar::addEntry(
-			    Text::_('COM_XBPEOPLE_ICONMENU_FILMPEOPLE'),
-			    'index.php?option=com_xbfilms&view=persons',
-			    $vName == 'films'
-			    );
 		}
 		if (XbpeopleHelper::checkComponent('com_xbbooks')) {
 			JHtmlSidebar::addEntry(
-				Text::_('COM_XBPEOPLE_ICONMENU_BOOKS'),
+				Text::_('XBCULTURE_ICONMENU_BOOKS'),
 				'index.php?option=com_xbbooks&view=cpanel',
 				$vName == 'books'
 				);
-			JHtmlSidebar::addEntry(
-			    Text::_('COM_XBPEOPLE_ICONMENU_BOOKPEOPLE'),
-			    'index.php?option=com_xbbooks&view=persons',
-			    $vName == 'books'
-			    );
 		}
 		JHtmlSidebar::addEntry(
-		    Text::_('COM_XBPEOPLE_ICONMENU_OPTIONS'),
+		    Text::_('XBCULTURE_ICONMENU_OPTIONS'),
 		    'index.php?option=com_config&view=component&component=com_xbpeople',
 		    $vName == 'options'
 		    );

@@ -40,10 +40,10 @@ class XbpeopleViewTag extends JViewLegacy {
 		ToolbarHelper::custom('tag.tagedit', 'edit', '', 'COM_XBFILMS_EDIT_TAG', false) ;
 		ToolbarHelper::custom();
 		if ($this->xbfilms_ok) {
-			ToolbarHelper::custom('tag.booktags', 'tags', '', 'Book Tags', false) ;
+			ToolbarHelper::custom('tag.books', 'tag', '', 'Books', false) ;
 		}
 		if ($this->xbbooks_ok) {
-			ToolbarHelper::custom('tag.filmtags', 'tags', '', 'Film Tags', false) ;
+			ToolbarHelper::custom('tag.films', 'tag', '', 'Films', false) ;
 		}
 		
 		

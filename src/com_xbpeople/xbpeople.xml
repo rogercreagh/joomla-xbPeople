@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>21st March 2021</creationDate>
+	<creationDate>22nd March 2021</creationDate>
 	<version>0.4.2</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
@@ -60,17 +60,27 @@
 			<menu link="option=com_xbpeople"
 				view="cpanel" img="class:xbpeople-cpanel"
 				alt="Xbpeople/Cpanel">
-					com_xbpeople_control_panel
+					xbculture_control_panel
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=persons" 
 				view="persons" img="class:xbpeople-persons"
 				alt="Xbpeople/Persons">
-					com_xbpeople_people					
+					xbculture_people					
+			</menu>
+			<menu link="option=com_xbpeople&amp;view=characters" 
+				view="characters" img="class:xbpeople-characters" 
+				alt="Xbpeople/Characters">
+					xbculture_characters
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=categories" 
 				view="persons" img="class:xbpeople-categories"
-				alt="Xbpeople/Persons">
-					com_xbpeople_categories					
+				alt="Xbpeople/Categories">
+					xbculture_categories					
+			</menu>
+			<menu link="option=com_xbpeople&amp;view=tags" 
+				view="tags" img="class:xbpeople-tags"
+				alt="Xbpeople/Tags">
+					xbculture_tags					
 			</menu>
 		</submenu>
 	</administration>

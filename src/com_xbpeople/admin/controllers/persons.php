@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/controllers/persons.php
- * @version 0.1.0 8th February 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,4 +15,13 @@ class XbpeopleControllerPersons extends JControllerAdmin {
         $model = parent::getModel($name, $prefix, $config);        
         return $model;
     }
+
+    function books() {
+    	$this->setRedirect('index.php?option=com_xbbooks&view=persons');
+    }
+    
+    function films() {
+    	$this->setRedirect('index.php?option=com_films&view=persons');
+    }
+    
 }

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -222,28 +222,11 @@ class XbpeopleModelCharacters extends JModelList {
         		$item->filmcnt = count($item->flist);
         	}
         	
-	        $item->tags = $tagsHelper->getItemTags('com_xbfilms.character' , $item->id);
+        	$item->persontags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
+        	$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.person' , $item->id);
+        	$item->booktags = $tagsHelper->getItemTags('com_xbbooks.person' , $item->id);
         } //end foreach item
 	        return $items;
     }
 
-    public function getCharacterArray($personid) {
-        $link = 'index.php?option=com_xbfilms&task=film.edit&id=';
-        $db = Factory::getDBO();
-        $query = $db->getQuery(true);
-        
-        $query->select('b.title, b.subtitle, b.rel_year, b.id')
-            ->from('#__xbfilmcharacter AS a')
-            ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
-            ->where('a.char_id = "'.$personid.'"' )
-            ->order('b.rel_year, b.title', 'ASC');
-        $db->setQuery($query);
-        $list = $db->loadObjectList();
-        foreach ($list as $i=>$item){
-            $tlink = JRoute::_($link . $item->id);
-            $item->link = '<a href="'.$tlink.'">'.$item->title.'</a>';
-            $item->display = $item->title;
-        }
-        return $list;
-    }   
 }

@@ -20,11 +20,9 @@ $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 
 $telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
-$tvlink = 'index.php?option=com_xbfilms&view=tag&id=';
-$bvlink = 'index.php?option=com_xbfilms&view=films&tagid=';
-$rvlink = 'index.php?option=com_xbfilms&view=reviews&tagid=';
-$pvlink = 'index.php?option=com_xbfilms&view=persons&tagid=';
-$chvlink = 'index.php?option=com_xbfilms&view=characters&tagid=';
+$tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
+$pvlink = 'index.php?option=com_xbpeople&view=persons&tagid=';
+$chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 ?>
 <form action="index.php?option=com_xbpeople&view=tags" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -37,14 +35,14 @@ $chvlink = 'index.php?option=com_xbfilms&view=characters&tagid=';
 	<?php endif;?>
 	
 	<div>
-      <h3><?php echo JText::_('COM_XBFILMS_TAGSPAGE_TITLE'); ?></h3>
-      <p><?php echo JText::_('COM_XBFILMS_TAGSPAGE_INFO'); ?></p>
+      <h3><?php echo JText::_('XBCULTURE_TAGSPAGE_TITLE'); ?></h3>
+      <p><?php echo JText::_('XBCULTURE_TAGSPAGE_INFO'); ?></p>
       </div>
 	
 	<div class="pull-right span2">
 		<p style="text-align:right;">
 			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. JText::_(($fnd==1)?'COM_XBFILMS_ONETAG':'COM_XBFILMS_MANYTAGS').' '.JText::_('COM_XBFILMS_FOUND'); ?>
+			echo $fnd .' '. JText::_(($fnd==1)?'XBCULTURE_ONETAG':'XBCULTURE_MANYTAGS').' '.JText::_('XBCULTURE_FOUND'); ?>
 		</p>
 	</div>
 	<div class="clearfix"></div>
@@ -71,19 +69,19 @@ $chvlink = 'index.php?option=com_xbfilms&view=characters&tagid=';
 				<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'COM_XBFILMS_CAPTAG', 'path', $listDirn, $listOrder );?>
+				<?php echo JHTML::_('grid.sort', 'XBCULTURE_CAPTAG', 'path', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo JText::_('COM_XBFILMS_CAPDESCRIPTION') ;?>
+				<?php echo JText::_('XBCULTURE_CAPDESCRIPTION') ;?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'COM_XBFILMS_CAPPEOPLE', 'pcnt', $listDirn, $listOrder );?>
+				<?php echo JHTML::_('grid.sort', 'XBCULTURE_CAPPEOPLE', 'pcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'COM_XBFILMS_CAPCHARACTERS', 'chcnt', $listDirn, $listOrder );?>
+				<?php echo JHTML::_('grid.sort', 'XBCULTURE_CAPCHARACTERS', 'chcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo JText::_('COM_XBFILMS_CAPOTHERS') ;?>
+				<?php echo JText::_('XBCULTURE_CAPOTHERS') ;?>
 			</th>
 			<th class="nowrap hidden-tablet hidden-phone" style="width:45px;">
 				<?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder );?>
@@ -110,7 +108,7 @@ $chvlink = 'index.php?option=com_xbfilms&view=characters&tagid=';
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tag.', false, 'cb'); ?>
 							<?php if ($item->note!=''){ ?>
 								<span class="btn btn-micro active hasTooltip" title="" 
-									data-original-title="<?php echo '<b>'.JText::_( 'COM_XBFILMS_CAPNOTE' ) .'</b>: '. htmlentities($item->note); ?>">
+									data-original-title="<?php echo '<b>'.JText::_( 'XBCULTURE_CAPNOTE' ) .'</b>: '. htmlentities($item->note); ?>">
 									<i class="icon- xbinfo"></i>
 								</span>
 							<?php } else {?>
@@ -121,7 +119,7 @@ $chvlink = 'index.php?option=com_xbfilms&view=characters&tagid=';
  				<td>
 					<?php if ($item->checked_out) {
     					$couname = Factory::getUser($item->checked_out)->username;
-    					echo JHtml::_('jgrid.checkedout', $i, JText::_('COM_XBFILMS_OPENEDBY').': '.$couname, $item->checked_out_time, 'tags.', false);
+    					echo JHtml::_('jgrid.checkedout', $i, JText::_('XBCULTURE_OPENEDBY').': '.$couname, $item->checked_out_time, 'tags.', false);
     				} ?>
 					<span class="xbnote"> 
  					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));

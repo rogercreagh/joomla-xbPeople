@@ -241,7 +241,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 							<div class="hasPopover" title data-original-title="Book Roles"
 								data-content="<?php echo $tlist; ?>">
 								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"<?php $item->bookcnt; ?></span>
+									<span class="badge bkcnt"><?php echo $item->bookcnt; ?></span>
 						    	</a>
 							</div>
 						<?php endif; ?> 
@@ -257,7 +257,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 							<div class="hasPopover" title data-original-title="Film Roles"
 								data-content="<?php echo $tlist; ?>">
 								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"<?php $item->bookcnt; ?></span>
+									<span class="badge bkcnt"><?php echo $item->bookcnt; ?></span>
 						    	</a>
 						    </div>
 						<?php endif; ?>

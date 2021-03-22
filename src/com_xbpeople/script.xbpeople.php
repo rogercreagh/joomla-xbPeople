@@ -53,6 +53,7 @@ class com_xbpeopleInstallerScript
     function update($parent)
     {
     	$message = 'Updating xbPeople component to v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
+    	$message .= ' '.'<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbFilms cPanel</a></p>';
     	Factory::getApplication()->enqueueMessage($message,'Info');
     }
     
@@ -175,12 +176,10 @@ class com_xbpeopleInstallerScript
             
             echo '<h3>xbPeople Component</h3>';
             echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
-            echo '<p>xbPeople is a minimal component designed to supplement xbFilms, xbGigs and xbBooks. It will install the people and character data tables if they don&quot;t exist,';
+            echo '<p>xbPeople is a minimal component designed to supplement xbCulture components. It will install the people and character data tables if they don&quot;t exist,';
             echo 'and recover any previously saved Categories for people, or create default "Uncategorised" and "Imported" categories.</p>';
-            echo '<br />It does include two admin views - a list view of all people and and edit form for an individual person if required. These are also available directly in the main components.';
-            echo 'All other functionality resides in the main components (including the ability to create and assign fiction characters to works).<p>';
-            echo 'The main benefit of xbPeople is that it allows people to be assigned to categories irrespective of the component they are viewed in. ';
-            echo 'If you are not bothered about using categories for people, but are simply using tags instead, then you can dispense with xbPeople.';
+            echo '<p><i>Check the control panel for an overview</i>&nbsp;&nbsp;';
+            echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbFilms cPanel</a></p>';
             echo '</div>';
         
     	}

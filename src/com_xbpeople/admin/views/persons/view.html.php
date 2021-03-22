@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/view.html.php
- * @version 0.4.1 20th March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -89,6 +89,13 @@ class XbpeopleViewPersons extends JViewLegacy {
         	$layout = new JLayoutFile('joomla.toolbar.batch');
         	$batchButtonHtml = $layout->render(array('title' => JText::_('JTOOLBAR_BATCH')));
         	$bar->appendButton('Custom', $batchButtonHtml, 'batch');
+        }
+        ToolbarHelper::custom(); //spacer
+        if ($this->xbbooks_ok) {
+        	ToolbarHelper::custom('persons.books', 'stack', '', 'xbBooks', false) ;
+        }
+        if ($this->xbfilms_ok) {
+        	ToolbarHelper::custom('persons.films', 'screen', '', 'xbFilms', false) ;
         }
         
         if ($canDo->get('core.admin')) {

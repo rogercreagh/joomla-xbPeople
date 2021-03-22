@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/categories/view.html.php
- * @version 0.4.0 20th March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -32,6 +32,9 @@ class XbpeopleViewCategories extends JViewLegacy {
             return false;
         }
         
+        $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
+        $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
+        
         XbpeopleHelper::addSubmenu('categories');
         $this->sidebar = JHtmlSidebar::render();
         
@@ -53,9 +56,16 @@ class XbpeopleViewCategories extends JViewLegacy {
         }
         if ($canDo->get('core.admin')) {
         	ToolbarHelper::editList('categories.categoryedit', 'COM_XBPEOPLE_EDIT_CAT');       	
-         }
-         
+         }        
          ToolbarHelper::custom('categories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
+         
+         ToolbarHelper::custom(); //spacer
+         if ($this->xbbooks_ok) {
+         	ToolbarHelper::custom('categories.books', 'stack', '', 'xbBooks', false) ;
+         }
+         if ($this->xbfilms_ok) {
+         	ToolbarHelper::custom('categories.films', 'screen', '', 'xbFilms', false) ;
+         }
          
          if ($canDo->get('core.admin')) {
         	ToolbarHelper::preferences('com_xbpeople');

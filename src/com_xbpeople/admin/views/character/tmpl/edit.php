@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 0.4.1 20th March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,7 +48,7 @@ JHtml::_('formbehavior.chosen', 'select');
       <div class="span12">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_XBFILMS_FIELDSET_GENERAL')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('XBCULTURE_CAPGENERAL')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform form-vertical">
@@ -87,7 +87,7 @@ JHtml::_('formbehavior.chosen', 'select');
         	<?php endif; ?>
 			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_XBFILMS_FIELDSET_PUBLISHING')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('XBCULTURE_CAPPUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>

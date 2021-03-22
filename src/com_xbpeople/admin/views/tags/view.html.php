@@ -32,6 +32,9 @@ class XbpeopleViewTags extends JViewLegacy {
             return false;
         }
         
+        $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
+        $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
+        
         XbpeopleHelper::addSubmenu('tags');
         $this->sidebar = JHtmlSidebar::render();
         
@@ -58,10 +61,10 @@ class XbpeopleViewTags extends JViewLegacy {
         }
         ToolbarHelper::custom();
         if ($this->xbfilms_ok) {
-        	ToolbarHelper::custom('tags.booktags', 'tags', '', 'Book Tags', false) ;
+        	ToolbarHelper::custom('tags.books', 'tags', '', 'xbBooks', false) ;
         }
         if ($this->xbbooks_ok) {
-        	ToolbarHelper::custom('tags.filmtags', 'tags', '', 'Film Tags', false) ;
+        	ToolbarHelper::custom('tags.films', 'tags', '', 'xbFilms', false) ;
         }
         
         ToolbarHelper::help( '', false,'https://crosborne.uk/xbpeople/doc?tmpl=component#admin-tags' );

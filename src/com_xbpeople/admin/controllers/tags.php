@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/controlers/tags.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -28,11 +28,11 @@ class XbpeopleControllerTags extends JControllerAdmin {
     	$this->setRedirect('index.php?option=com_tags&task=tag.edit&id=0');
     }
     
-    function booktags() {
-    	$this->setRedirect('index.php?option=com_xbfilms&view=tags');
+    function books() {
+    	$this->setRedirect('index.php?option=com_xbbooks&view=tags');
     }
     
-    function filmtags() {
+    function films() {
     	$this->setRedirect('index.php?option=com_films&view=tags');
     }
     

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/view.html.php
- * @version 0.4.1 20th March 2021
+ * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,6 +81,13 @@ class XbpeopleViewCharacters extends JViewLegacy {
         	$batchButtonHtml = $layout->render(array('title' => Text::_('JTOOLBAR_BATCH')));
         	$bar->appendButton('Custom', $batchButtonHtml, 'batch');
         }
+        ToolbarHelper::custom(); //spacer
+        if ($this->xbbooks_ok) {
+        	ToolbarHelper::custom('characters.books', 'stack', '', 'xbBooks', false) ;
+        }
+        if ($this->xbfilms_ok) {
+        	ToolbarHelper::custom('characters.films', 'screen', '', 'xbFilms', false) ;
+        }       
         
         if ($canDo->get('core.admin')) {
             ToolbarHelper::preferences('com_xbpeople');
@@ -91,7 +98,7 @@ class XbpeopleViewCharacters extends JViewLegacy {
     protected function setDocument()
     {
         $document = Factory::getDocument();
-        $document->setTitle(Text::_('COM_XBFILMS_ADMIN_CHARS'));
+        $document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_CHARS'));
     }
     
 }

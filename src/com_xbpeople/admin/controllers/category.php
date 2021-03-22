@@ -26,5 +26,5 @@ class XbpeopleControllerCategory extends JControllerAdmin {
     	$cid =  Factory::getApplication()->input->get('cid');
     	$this->setRedirect('index.php?option=com_categories&task=category.edit&id='.$cid);
     }
-    
+        
 }
