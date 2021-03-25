@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/tag.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.4 24th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -68,7 +68,7 @@ class XbpeopleModelTag extends JModelItem {
 					$db->setQuery($query);
 					$item->ppeople = $db->loadObjectList();
 				} else {
-					$item->ppeople='';
+					$item->ppeople=array();
 				}
 				if ($item->fpcnt > 0) {
 					$query = $db->getQuery(true);
@@ -85,7 +85,7 @@ class XbpeopleModelTag extends JModelItem {
 					$db->setQuery($query);
 					$item->fpeople = $db->loadObjectList();
 				} else {
-					$item->fpeople='';
+					$item->fpeople=array();
 				}
 				if ($item->bpcnt > 0) {
 					$query = $db->getQuery(true);
@@ -102,7 +102,7 @@ class XbpeopleModelTag extends JModelItem {
 					$db->setQuery($query);
 					$item->bpeople = $db->loadObjectList();
 				} else {
-					$item->bpeople='';
+					$item->bpeople=array();
 				}
 				
 				if ($item->pchcnt > 0) {
@@ -115,7 +115,7 @@ class XbpeopleModelTag extends JModelItem {
 					$db->setQuery($query);
 					$item->pchars = $db->loadObjectList();
 				} else {
-					$item->pchars='';
+					$item->pchars=array();
 				}
 				if ($item->bchcnt > 0) {
 					$query = $db->getQuery(true);
@@ -127,7 +127,7 @@ class XbpeopleModelTag extends JModelItem {
 					$db->setQuery($query);
 					$item->bchars = $db->loadObjectList();
 				} else {
-					$item->bchars='';
+					$item->bchars=array();
 				}
 				if ($item->fchcnt > 0) {
 					$query = $db->getQuery(true);
@@ -139,21 +139,30 @@ class XbpeopleModelTag extends JModelItem {
 					$db->setQuery($query);
 					$item->fpchars = $db->loadObjectList();
 				} else {
-					$item->fchars='';
+					$item->fchars=array();
 				}
 				
 				if ($item->othercnt > 0) {
 					$query = $db->getQuery(true);
-					$query->select('m.type_alias AS type_alias, m.core_content_id, c.core_title AS core_title'); 
+					$query->select('m.type_alias AS type_alias, m.core_content_id, c.core_title AS core_title, c.core_content_item_id AS item_id'); 
 					$query->from('#__contentitem_tag_map AS m');
 					$query->join('LEFT','#__ucm_content AS c ON m.core_content_id = c.core_content_id');
 					$query->where('m.tag_id = '.$item->id);
-					$query->where('m.type_alias NOT IN ('.$db->quote('com_xbfilms.character').','.$db->quote('com_xbfilms.person').','.$db->quote('com_xbbooks.character').','.$db->quote('com_xbbooks.person').','.$db->quote('com_xbpeople.character').','.$db->quote('com_xbpeople.person').','.')');
+					$query->where('m.type_alias NOT LIKE '.$db->quote('com_xb%.character').' AND m.type_alias NOT LIKE '.$db->quote('com_xb%.person'));
 					$query->order('m.type_alias, c.core_title');
 					$db->setQuery($query);
 					$item->others = $db->loadObjectList();
+					$item->othcnts = array();					
+					foreach ($item->others as $i=>$oth) {
+						$comp = substr($oth->type_alias, 0,strpos($oth->type_alias, '.'));
+						if (array_key_exists($comp,$item->othcnts)) {
+							$item->othcnts[$comp] ++;
+						} else {
+							$item->othcnts[$comp] = 1;
+						}
+					}
 				} else {
-					$item->others = '';
+					$item->others = array();
 				}
 				$item->pcnt = $item->bpcnt + $item->fpcnt + $item->ppcnt;
 				$item->chcnt = $item->bchcnt + $item->fchcnt + $item->pchcnt;

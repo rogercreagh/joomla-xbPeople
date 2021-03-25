@@ -29,12 +29,12 @@ class XbpeopleControllerTag extends JControllerAdmin {
     
     function books() {
     	$id =  Factory::getApplication()->input->get('tid');
-    	$this->setRedirect('index.php?option=com_books&view=tag&id='.$id);
+    	$this->setRedirect('index.php?option=com_xbbooks&view=tag&id='.$id);
     }
     
     function films() {
     	$id =  Factory::getApplication()->input->get('tid');
-    	$this->setRedirect('index.php?option=com_films&view=tag&id='.$id);
+    	$this->setRedirect('index.php?option=com_xbfilms&view=tag&id='.$id);
     }
     
 }

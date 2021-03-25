@@ -21,7 +21,7 @@ class XbpeopleControllerPersons extends JControllerAdmin {
     }
     
     function films() {
-    	$this->setRedirect('index.php?option=com_films&view=persons');
+    	$this->setRedirect('index.php?option=com_xbfilms&view=persons');
     }
     
 }

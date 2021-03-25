@@ -33,7 +33,7 @@ class XbpeopleControllerTags extends JControllerAdmin {
     }
     
     function films() {
-    	$this->setRedirect('index.php?option=com_films&view=tags');
+    	$this->setRedirect('index.php?option=com_xbfilms&view=tags');
     }
     
 }

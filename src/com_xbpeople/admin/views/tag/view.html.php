@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/tag/view.html.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.4 23rd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -34,10 +34,10 @@ class XbpeopleViewTag extends JViewLegacy {
 	protected function addToolBar() {
 		$canDo = XbpeopleHelper::getActions();
 		
-		ToolBarHelper::title(Text::_( 'COM_XBFILMS' ).': '.Text::_( 'COM_XBFILMS_TITLE_TAGMANAGER' ), 'tag' );
+		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'XBCULTURE_TITLE_TAGMANAGER' ), 'tag' );
 		
-		ToolbarHelper::custom('tag.tags', 'tags', '', 'COM_XBFILMS_TAG_LIST', false) ;
-		ToolbarHelper::custom('tag.tagedit', 'edit', '', 'COM_XBFILMS_EDIT_TAG', false) ;
+		ToolbarHelper::custom('tag.tags', 'tags', '', 'XBCULTURE_TAG_LIST', false) ;
+		ToolbarHelper::custom('tag.tagedit', 'edit', '', 'XBCULTURE_EDIT_TAG', false) ;
 		ToolbarHelper::custom();
 		if ($this->xbfilms_ok) {
 			ToolbarHelper::custom('tag.books', 'tag', '', 'Books', false) ;
@@ -55,7 +55,7 @@ class XbpeopleViewTag extends JViewLegacy {
 	protected function setDocument()
 	{
 		$document = Factory::getDocument();
-		$document->setTitle(Text::_('COM_XBFILMS_ADMIN_TAGITEMS'));
+		$document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_TAGITEMS'));
 	}
 	
 }

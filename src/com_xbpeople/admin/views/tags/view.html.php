@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/tags/view.html.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.3 23rd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,7 +48,7 @@ class XbpeopleViewTags extends JViewLegacy {
     protected function addToolBar() {
         $canDo = XbpeopleHelper::getActions();
         
-        ToolbarHelper::title(Text::_( 'COM_XBFILMS' ).': '.Text::_( 'COM_XBFILMS_TITLE_TAGSMANAGER' ), 'tags' );
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'XBCULTURE_TITLE_TAGSMANAGER' ), 'tags' );
         
         if ($canDo->get('core.create') > 0) {
         	ToolbarHelper::addNew('tags.tagnew');
@@ -73,7 +73,7 @@ class XbpeopleViewTags extends JViewLegacy {
     protected function setDocument()
     {
     	$document = Factory::getDocument();
-    	$document->setTitle(Text::_('COM_XBFILMS_ADMIN_TAGS'));
+    	$document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_TAGS'));
     }
     
 }

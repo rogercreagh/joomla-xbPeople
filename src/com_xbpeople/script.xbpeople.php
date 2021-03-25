@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.2.0 15th February 2021
+ * @version 0.4.4 23rd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -53,7 +53,7 @@ class com_xbpeopleInstallerScript
     function update($parent)
     {
     	$message = 'Updating xbPeople component to v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
-    	$message .= ' '.'<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbFilms cPanel</a></p>';
+    	$message .= ' '.'<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople cPanel</a></p>';
     	Factory::getApplication()->enqueueMessage($message,'Info');
     }
     
@@ -179,7 +179,7 @@ class com_xbpeopleInstallerScript
             echo '<p>xbPeople is a minimal component designed to supplement xbCulture components. It will install the people and character data tables if they don&quot;t exist,';
             echo 'and recover any previously saved Categories for people, or create default "Uncategorised" and "Imported" categories.</p>';
             echo '<p><i>Check the control panel for an overview</i>&nbsp;&nbsp;';
-            echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbFilms cPanel</a></p>';
+            echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople cPanel</a></p>';
             echo '</div>';
         
     	}

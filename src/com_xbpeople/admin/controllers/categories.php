@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/controlers/categories.php
- * @version 0.4.2 22nd March 2021
+ * @version 0.4.4 24th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -45,7 +45,7 @@ class XbpeopleControllerCategories extends JControllerAdmin {
     }
     
     function films() {
-    	$this->setRedirect('index.php?option=com_films&view=categories');
+    	$this->setRedirect('index.php?option=com_xbfilms&view=categories');
     }
     
 }
