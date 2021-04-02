@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/view.html.php
- * @version 0.4.2 22nd March 2021
+ * @version 0.4.6 30th March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -52,7 +52,7 @@ class XbpeopleViewCharacters extends JViewLegacy {
     protected function addToolBar() {
         $canDo = XbpeopleHelper::getActions();
                 
-        ToolbarHelper::title(Text::_('COM_XBFILMS').': '.Text::_('COM_XBFILMS_TITLE_CHARMANAGER'), 'users' );
+        ToolbarHelper::title(Text::_('COM_XBPEOPLE').': '.Text::_('XBCULTURE_TITLE_CHARMANAGER'), 'users' );
         
         if ($canDo->get('core.create') > 0) {
             ToolbarHelper::addNew('character.add');
