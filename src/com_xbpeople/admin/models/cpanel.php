@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/cpanel.php
- * @version 0.4.0 20th March 2021
+ * @version 0.4.6 4th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,7 +19,7 @@ class XbpeopleModelCpanel extends JModelList {
     
     public function __construct() {
         //$this->xbbooksStatus = XbfilmsGeneral::checkComponent('com_xbbooks');
-        $this->xbbooks_ok = Factory::getSession()->get('xbbooksok',false);
+        $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok',false);
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok',false);
     	parent::__construct();
     }

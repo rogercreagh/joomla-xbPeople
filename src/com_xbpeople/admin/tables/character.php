@@ -123,7 +123,7 @@ class XbpeopleTableCharacter extends JTable {
         $tags_keywords = $params->get('tags_keywords');
         if (($tags_keywords) && (trim($metadata['metakey']) == '')) {
         	$tagsHelper = new TagsHelper;
-        	$tags = implode(',',$tagsHelper->getTagNames(explode(',',$tagsHelper->getTagIds($this->id,'com_xbpeople.film'))));
+        	$tags = implode(',',$tagsHelper->getTagNames(explode(',',$tagsHelper->getTagIds($this->id,'com_xbpeople.character'))));
         	$metadata['metakey'] = $tags;
         }
         $this->metadata = json_encode($metadata);

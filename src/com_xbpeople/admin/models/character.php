@@ -36,7 +36,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 			if (!empty($item->id))
 			{
 				$tagsHelper = new JHelperTags;
-				$item->tags = $tagsHelper->getTagIds($item->id, 'com_xbpeople.character');
+				$item->tags =  $tagsHelper->getTagIds($item->id, 'com_xbpeople.character');
 			}
 		}
 		return $item;

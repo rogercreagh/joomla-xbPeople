@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.4.1 21st March 2021
+ * @version 0.4.6 4th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,6 @@ if ($saveOrder) {
 	HTMLHelper::_('sortablelist.sortable', 'xbcharactersList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$noportrait = "media/com_xbpeople/images/noportrait.jpg";
 $nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $chelink = 'index.php?option=com_xbpeople&view=person&task=character.edit&id=';
@@ -183,17 +182,18 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     					</div>
     				</td>
 					<td>
-						<img class="img-polaroid hasTooltip xbimgthumb" title="" 
-							data-original-title="<?php echo $item->image;?>"
+						<?php if(!empty($item->image)) : ?>
 							<?php 
-							$src = $item->image;
-    							if ((!empty($src)) && (!file_exists(JPATH_ROOT.'/'.$src))) {
-    							    $src = $nofile;
+    							$src = $item->image;
+    							if (!file_exists(JPATH_ROOT.'/'.$src)) {
+    								$src = $nofile;
     							}
     							$src = JURI::root().$src;
 							?>
-							src="<?php echo $src; ?>"
-							border="0" alt="" />						
+							<img class="img-polaroid hasTooltip xbimgthumb" title="" 
+								data-original-title="<?php echo $item->image;?>"
+								src="<?php echo $src; ?>" border="0" alt="" />
+						<?php endif; ?>						
 					</td>
 					<td>
 						<p class="xbtitlelist">

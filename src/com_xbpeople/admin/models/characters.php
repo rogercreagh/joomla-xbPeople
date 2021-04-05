@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.4.2 22nd March 2021
+ * @version 0.4.6 4th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -115,8 +115,15 @@ class XbpeopleModelCharacters extends JModelList {
 
         
         //filter by tags
-        $tagfilt = $this->getState('filter.tagfilt');
-        $taglogic = $this->getState('filter.taglogic');  //0=ANY 1=ALL 2= None
+        $tagId = $app->getUserStateFromRequest('tagid', 'tagid','');
+        $app->setUserState('tagid', '');
+        if (!empty($tagId)) {
+        	$tagfilt = array(abs($tagId));
+        	$taglogic = $tagId>0 ? 0 : 2;
+        } else {
+        	$tagfilt = $this->getState('filter.tagfilt');
+        	$taglogic = $this->getState('filter.taglogic');  //0=ANY 1=ALL 2= None
+        }
         
         if (($taglogic === '2') && (empty($tagfilt))) {
         	//if if we select tagged=excl and no tags specified then only show untagged items
@@ -197,11 +204,11 @@ class XbpeopleModelCharacters extends JModelList {
         	$item->bookcnt = 0;
         	$item->blist='';
         	if ($item->bcnt>0) {
-        		//we want a list of book title and role for each person (item)
+        		//we want a list of book title and role for each character (item)
         		$query = $db->getQuery(true);
         		$query->select('b.title, bp.role')->from('#__xbbooks AS b');
-        		$query->join('LEFT', '#__xbbookperson AS bp ON bp.book_id = b.id');
-        		$query->where('bp.person_id = '.$db->quote($item->id));
+        		$query->join('LEFT', '#__xbbookcharacter AS bp ON bp.book_id = b.id');
+        		$query->where('bp.char_id = '.$db->quote($item->id));
         		$query->order('b.title ASC');
         		$db->setQuery($query);
         		$item->blist = $db->loadObjectList();
@@ -214,17 +221,17 @@ class XbpeopleModelCharacters extends JModelList {
         	if ($this->xbfilmsStatus) {
         		$query = $db->getQuery(true);
         		$query->select('DISTINCT f.title, fp.role')->from('#__xbfilms AS f');
-        		$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
-        		$query->where('fp.person_id = '.$db->quote($item->id));
+        		$query->join('LEFT', '#__xbfilmcharacter AS fp ON fp.film_id = f.id');
+        		$query->where('fp.char_id = '.$db->quote($item->id));
         		$query->order('f.title ASC');
         		$db->setQuery($query);
         		$item->flist = $db->loadObjectList();
         		$item->filmcnt = count($item->flist);
         	}
         	
-        	$item->persontags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
-        	$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.person' , $item->id);
-        	$item->booktags = $tagsHelper->getItemTags('com_xbbooks.person' , $item->id);
+        	$item->persontags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
+        	$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.character' , $item->id);
+        	$item->booktags = $tagsHelper->getItemTags('com_xbbooks.character' , $item->id);
         } //end foreach item
 	        return $items;
     }

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.6 4th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,8 +100,15 @@ class XbpeopleModelPersons extends JModelList {
 		}
 		
 		//filter by tags
-		$tagfilt = $this->getState('filter.tagfilt');
-		$taglogic = $this->getState('filter.taglogic');  //0=ANY 1=ALL 2= None
+		$tagId = $app->getUserStateFromRequest('tagid', 'tagid','');
+		$app->setUserState('tagid', '');
+		if (!empty($tagId)) {
+			$tagfilt = array(abs($tagId));
+			$taglogic = $tagId>0 ? 0 : 2;
+		} else {
+			$tagfilt = $this->getState('filter.tagfilt');
+			$taglogic = $this->getState('filter.taglogic');  //0=ANY 1=ALL 2= None
+		}
 		
 		if (($taglogic === '2') && (empty($tagfilt))) {
 			//if if we select tagged=excl and no tags specified then only show untagged items

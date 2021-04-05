@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.4.2 21st March 2021
+ * @version 0.4.6 4th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,7 +37,6 @@ if ($saveOrder) {
 	HTMLHelper::_('sortablelist.sortable', 'xbpersonsList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$noportrait = "media/com_xbpeople/images/noportrait.jpg";
 $nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $pelink = 'index.php?option=com_xbpeople&view=person&task=person.edit&id=';
@@ -183,7 +182,8 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							<?php } ?>
     					</div>
     				</td>
-					<td> <?php if(!empty($item->portrait)) : ?>
+					<td> 
+						<?php if(!empty($item->portrait)) : ?>
 							<?php 
     							$src = $item->portrait;
     							if (!file_exists(JPATH_ROOT.'/'.$src)) {
