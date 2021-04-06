@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.4.6 4th April 2021
+ * @version 0.9.0 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,8 +27,8 @@ class XbpeopleModelPersons extends JModelList {
 					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
 					'sortdate', 'bcnt','fcnt' );
 		}
-		$this->xbbooksStatus = XbpeopleHelper::checkComponent('com_xbbooks');
-		$this->xbfilmsStatus = XbpeopleHelper::checkComponent('com_xbfilms');
+		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
+		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
 		parent::__construct($config);
 	}
 

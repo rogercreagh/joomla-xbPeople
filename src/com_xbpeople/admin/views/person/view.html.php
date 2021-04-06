@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.4.1 20th March 2021
+ * @version 0.9.0 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -75,10 +75,10 @@ class XbpeopleViewPerson extends JViewLegacy {
         ToolbarHelper::apply('person.apply');
         ToolbarHelper::save('person.save');
         ToolbarHelper::save2new('person.save2new');
-        if (XbpeopleHelper::checkComponent('com_xbfilms')) {
+        if (XbcultureHelper::checkComponent('com_xbfilms')) {
 	        ToolbarHelper::custom('personcat.save2film', 'users', '', 'Save &amp; Films', false) ;
         }
-        if (XbpeopleHelper::checkComponent('com_xbbooks')) {
+        if (XbcultureHelper::checkComponent('com_xbbooks')) {
         	ToolbarHelper::custom('personcat.save2book', 'user', '', 'Save &amp; Books', false) ;
         }
         if ($isNew) {

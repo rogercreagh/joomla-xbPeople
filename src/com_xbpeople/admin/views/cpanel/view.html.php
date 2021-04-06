@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/cpanel/view.html.php
- * @version 0.3.0 20th March 2021
+ * @version 0.9.0 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -31,8 +31,8 @@ class XbpeopleViewCpanel extends JViewLegacy
 		$this->pcatStates = $this->get('PcatStates');
 		$this->perStates = $this->get('PerStates');
 		$this->charStates = $this->get('CharStates');
-		$this->totPeople = XbpeopleHelper::getItemCnt('#__xbpersons');
-		$this->totChars = XbpeopleHelper::getItemCnt('#__xbcharacters');
+		$this->totPeople = XbcultureHelper::getItemCnt('#__xbpersons');
+		$this->totChars = XbcultureHelper::getItemCnt('#__xbcharacters');
 		
 		$this->bookPeople=($this->xbbooks_ok) ? $this->get('BookPeople') : 'n/a';
 		$this->filmPeople=($this->xbfilms_ok) ? $this->get('FilmPeople') : 'n/a';

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/fields/books.php
- * @version 0.1.0 8th February 2021
+ * @version 0.9.0 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,7 @@ class JFormFieldBooks extends JFormFieldList {
         
     	$options = parent::getOptions();
         
-    	if (XbpeopleHelper::checkComponent('com_xbbooks')) {
+    	if (XbcultureHelper::checkComponent('com_xbbooks')) {
 			$db = Factory::getDbo();
 	        $query  = $db->getQuery(true);
 	        

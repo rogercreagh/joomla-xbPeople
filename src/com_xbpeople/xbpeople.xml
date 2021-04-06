@@ -2,7 +2,7 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
 	<creationDate>5th April 2021</creationDate>
-	<version>0.4.6.1</version>
+	<version>0.9.0</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
@@ -50,6 +50,7 @@
 
 		<languages folder="admin/language">
 			<language tag="en-GB">en-GB/en-GB.com_xbpeople.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_xbculture.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_xbpeople.sys.ini</language>
 		</languages>
 		

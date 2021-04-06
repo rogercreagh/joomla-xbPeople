@@ -4,13 +4,10 @@
 #### 		version: 0.4.xyz
 
 #### FROM ROADMAP
-- add cpanel view
-  - summary of people, chars and cats (?tags)
-  - Toolbar to films, books, Delete 
 - add site all persons listview
 - add site person view
 - add category counts view as per main components
-- add callback to film or book categories on submenu (if component ok) - sub item belo xbfilm/book people for xbfilm/book cats	
+- add data management
 
 #### OTHER NEW FEATURES (not on roadmap)	
 
@@ -22,7 +19,7 @@
 
 
 #### <u>Admin cPanel</u>
-
+- ~~cpanel: button to xbfilm not working~~
 
 
 #### <u>Admin Persons</u>

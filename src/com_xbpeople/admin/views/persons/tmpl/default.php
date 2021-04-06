@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.4.6 4th April 2021
+ * @version 0.9.0 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -229,7 +229,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     							<span class="xbnit">
     							<?php if (!empty($item->biography)) : ?>
     								<?php echo Text::_('XBCULTURE_BIOG_EXTRACT'); ?>: </span>
-    								<?php echo XbpeopleHelper::makeSummaryText($item->biography,0); ?>
+    								<?php echo XbcultureHelper::makeSummaryText($item->biography,0); ?>
     							<?php else : ?>
     								<?php echo Text::_('XBCULTURE_NO_SUMMARY_BIOG'); ?></span>
     							<?php endif; ?>

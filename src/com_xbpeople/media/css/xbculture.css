@@ -1,7 +1,7 @@
 /*******
- * @package xbCatalogue components
- * @filesource media/css/xb.css
- * @version 1.0.0 3rd February 2021
+ * @package xbCulture components
+ * @filesource media/css/xbculture.css
+ * @version 0.9.0 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -56,7 +56,7 @@
 
 /* use an empty custom button as a toolbar spacer (22px is minimum width*/
 #toolbar- .btn {
-	visibility:hidden; width:25px;
+	visibility:hidden; width:22px;
 }
  
 /* make tab titles a bit more prominent */
@@ -168,6 +168,7 @@ ul.nav-tabs {
 .xb15 { font-size:1.5em; }
 .xb12 { font-size:1.2em; }
 .xb11 { font-size:1.1em; }
+.xb10 { font-size:1.0em; }
 .xb095 { font-size:0.95em; }
 .xb09 { font-size:0.9em; }
 .xb085 { font-size:0.85em; }
@@ -186,6 +187,10 @@ ul.nav-tabs {
 .xbmb8 { margin-bottom:8px; }
 .xbmb12 { margin-bottom:12px; }
 .xbbb1 {border-bottom:solid 1px gray;}
+.xbmh200 {max-height:200px; }
+.xbmh300 {max-height:300px; }
+.xbmh400 {max-height:400px; }
+.xbyscroll { overflow-y:scroll;}
 
 .xbhlt {
 	background-color: yellow;
@@ -209,30 +214,13 @@ ul.nav-tabs {
 	padding-bottom:2px;
 	margin-bottom:6px;
 }
-.xbstar {
-	color:#edc500;
-}
-.xbstars { /*used in frontend book view */
-	font-size:12px;
-	width:100%;
-}
+.xbgold { color:#edc500; }
+.xbred { color:#c00000; }
+
 .xbstarcell { /*used in backend cpanel */
 	overflow-wrap:anywhere; 
 	padding:2px; 
 	line-height:12px;
-}
-.xbstarslist { /* used in frontend booklist, bookcategory */
-	font-size:10px;
-	width:100%;
-}
-.xbzero:after {
-	content:"🤮"; /* relies on file being utf8 */
-}
-.xbzero16:after {
-	font-size:16px;
-}
-.xbzero24:after {
-	font-size:24px;
 }
 .xbinfo:after {
 	color:#44f;
