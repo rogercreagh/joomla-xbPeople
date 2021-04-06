@@ -1,25 +1,7 @@
 ### ToDo List
 
-JED CHECK
 
-- **#001** /admin/models/categories.php in line: **73**
-  info code Pattern found#17 - PHP: multiple encoded, most probably obfuscated code found
-- **#002** /admin/models/categories.php in line: **17**
-  info code Pattern found#24 - PHP execution operator: backticks (``)
-- **#003** /admin/models/characters.php in line: **77**
-  info code Pattern found#17 - PHP: multiple encoded, most probably obfuscated code found
-- **#004** /admin/models/persons.php in line: **72**
-  info code Pattern found#17 - PHP: multiple encoded, most probably obfuscated code found
-- **#005** /admin/models/tags.php in line: **62**
-  info code Pattern found#17 - PHP: multiple encoded, most probably obfuscated code found
-- **#006** /admin/models/tags.php in line: **17**
-  info code Pattern found#24 - PHP execution operator: backticks (``)
-- **#007** /script.xbpeople.php in line: **16**
-  info code Pattern found#24 - PHP execution operator: backticks (``)
-
-
-
-#### 		version: 0.2.xyz
+#### 		version: 0.4.xyz
 
 #### FROM ROADMAP
 - add cpanel view

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.4.6 4th April 2021
+ * @version 0.4.6.1 5th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -206,7 +206,7 @@ class XbpeopleModelCharacters extends JModelList {
         	if ($item->bcnt>0) {
         		//we want a list of book title and role for each character (item)
         		$query = $db->getQuery(true);
-        		$query->select('b.title, bp.role')->from('#__xbbooks AS b');
+        		$query->select('b.title')->from('#__xbbooks AS b');
         		$query->join('LEFT', '#__xbbookcharacter AS bp ON bp.book_id = b.id');
         		$query->where('bp.char_id = '.$db->quote($item->id));
         		$query->order('b.title ASC');
@@ -220,7 +220,7 @@ class XbpeopleModelCharacters extends JModelList {
         	$item->flist='';
         	if ($this->xbfilmsStatus) {
         		$query = $db->getQuery(true);
-        		$query->select('DISTINCT f.title, fp.role')->from('#__xbfilms AS f');
+        		$query->select('DISTINCT f.title')->from('#__xbfilms AS f');
         		$query->join('LEFT', '#__xbfilmcharacter AS fp ON fp.film_id = f.id');
         		$query->where('fp.char_id = '.$db->quote($item->id));
         		$query->order('f.title ASC');
