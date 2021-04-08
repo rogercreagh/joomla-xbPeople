@@ -153,7 +153,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 	        foreach ($pks as $i=>$item) {
 	            $table->load($item);	            
 	            if (!$table->delete($item)) {
-	                $personpeople = ($cnt == 1)? JText::_('XBCULTURE_ONECHAR') : JText::_('XBCULTURE_MANYCHARS');
+	                $personpeople = ($cnt == 1)? JText::_('XBCULTURE_CHARACTER') : JText::_('XBCULTURE_CHARACTERS');
 	                Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
 	                $this->setError($table->getError());
 	                return false;
@@ -161,7 +161,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 	            $table->reset();
 	            $cnt++;
 	        }
-	        $personpeople = ($cnt == 1)? JText::_('XBCULTURE_ONECHAR') : JText::_('XBCULTURE_MANYCHARS');
+	        $personpeople = ($cnt == 1)? JText::_('XBCULTURE_CHARACTER') : JText::_('XBCULTURE_CHARACTERS');
 	        Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
 	        return true;
 	    }

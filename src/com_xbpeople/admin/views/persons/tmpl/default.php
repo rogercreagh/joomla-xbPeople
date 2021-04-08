@@ -58,7 +58,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 	<div class="pull-right span2">
 		<p style="text-align:right;">
 			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_ONEPERSON':'XBCULTURE_MANYPEOPLE').' '.Text::_('XBCULTURE_FOUND');			
+			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_PERSON':'XBCULTURE_PEOPLE').' '.Text::_('XBCULTURE_FOUND');			
             ?>
 		</p>
 	</div>

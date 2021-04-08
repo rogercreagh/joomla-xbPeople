@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/categories/tmpl/default.php
- * @version 0.4.0 20th March 2021
+ * @version 0.9.0 8th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -50,7 +50,7 @@ $prevext ='';
 	<div class="pull-right span2">
 		<p style="text-align:right;">
 			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_ONECAT':'XBCULTURE_MANYCATS').' '.Text::_('XBCULTURE_FOUND'); ?>
+			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_CATEGORY':'XBCULTURE_CATEGORIES').' '.Text::_('XBCULTURE_FOUND'); ?>
 		</p>
 	</div>
 	<div class="clearfix"></div>
