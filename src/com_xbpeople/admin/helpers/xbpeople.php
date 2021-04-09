@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,70 +21,94 @@ use Joomla\CMS\HTML\HTMLHelper;
 class XbpeopleHelper extends ContentHelper {
 	
 	public static function addSubmenu($vName = 'persons') {
-		JHtmlSidebar::addEntry(
+		if ($vName != 'categories') {
+			JHtmlSidebar::addEntry(
 				Text::_('XBCULTURE_ICONMENU_CPANEL'),
 				'index.php?option=com_xbpeople&view=cpanel',
 				$vName == 'cpanel'
 				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_PEOPLE'),
-				'index.php?option=com_xbpeople&view=persons',
-				$vName == 'persons'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_NEWPERSON'),
-				'index.php?option=com_xbpeople&view=person&layout=edit',
-				$vName == 'person'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_CHARS'),
-				'index.php?option=com_xbpeople&view=characters',
-				$vName == 'characters'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_NEWCHAR'),
-				'index.php?option=com_xbpeople&view=character&layout=edit',
-				$vName == 'character'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_CATEGORIES'),
-				'index.php?option=com_xbpeople&view=categories',
-				$vName == 'categories'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_NEWPCATEGORY'),
-				'index.php?option=com_categories&view=category&task=category.edit&extension=com_xbpeople',
-				$vName == 'category'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_TAGS'),
-				'index.php?option=com_xbpeople&view=tags',
-				$vName == 'tags'
-				);
-		JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_NEWTAG'),
-				'index.php?option=com_tags&view=tag&layout=edit',
-				$vName == 'tag'
-				);
-		if (XbcultureHelper::checkComponent('com_xbfilms')) {
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_ICONMENU_FILMS'),
+					Text::_('XBCULTURE_ICONMENU_PEOPLE'),
+					'index.php?option=com_xbpeople&view=persons',
+					$vName == 'persons'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_NEWPERSON'),
+					'index.php?option=com_xbpeople&view=person&layout=edit',
+					$vName == 'person'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_CHARS'),
+					'index.php?option=com_xbpeople&view=characters',
+					$vName == 'characters'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_NEWCHAR'),
+					'index.php?option=com_xbpeople&view=character&layout=edit',
+					$vName == 'character'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_CATEGORIES'),
+					'index.php?option=com_xbpeople&view=pcategories',
+					$vName == 'pcategories'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_NEWPCATEGORY'),
+					'index.php?option=com_categories&view=category&task=category.edit&extension=com_xbpeople',
+					$vName == 'category'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_TAGS'),
+					'index.php?option=com_xbpeople&view=tags',
+					$vName == 'tags'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_NEWTAG'),
+					'index.php?option=com_tags&view=tag&layout=edit',
+					$vName == 'tag'
+					);
+			if (XbcultureHelper::checkComponent('com_xbfilms')) {
+				JHtmlSidebar::addEntry(
+						Text::_('XBCULTURE_ICONMENU_FILMS'),
+						'index.php?option=com_xbfilms&view=cpanel',
+						$vName == 'films'
+						);			
+			}
+			if (XbcultureHelper::checkComponent('com_xbbooks')) {
+				JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_BOOKS'),
+					'index.php?option=com_xbbooks&view=cpanel',
+					$vName == 'books'
+					);
+			}
+			JHtmlSidebar::addEntry(
+			    Text::_('XBCULTURE_ICONMENU_OPTIONS'),
+			    'index.php?option=com_config&view=component&component=com_xbpeople',
+			    $vName == 'options'
+			    );
+		} else {
+			JHtmlSidebar::addEntry(
+					Text::_('xbPeople cPanel'),
 					'index.php?option=com_xbfilms&view=cpanel',
-					$vName == 'films'
-					);			
-		}
-		if (XbcultureHelper::checkComponent('com_xbbooks')) {
+					$vName == 'cpanel'
+					);
+			
 			JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_BOOKS'),
-				'index.php?option=com_xbbooks&view=cpanel',
-				$vName == 'books'
-				);
+					Text::_('People'),
+					'index.php?option=com_xbpeople&view=persons',
+					$vName == 'films'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('Characters'),
+					'index.php?option=com_xbpeople&view=characters',
+					$vName == 'reviews'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('People Cat.Counts'),
+					'index.php?option=com_xbpeople&view=pcategories',
+					$vName == 'pcategories'
+					);
 		}
-		JHtmlSidebar::addEntry(
-		    Text::_('XBCULTURE_ICONMENU_OPTIONS'),
-		    'index.php?option=com_config&view=component&component=com_xbpeople',
-		    $vName == 'options'
-		    );
 	}
 
 	public static function getActions($component = 'com_xbpeople', $section = 'component', $categoryid = 0) {

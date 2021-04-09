@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/cpanel/view.html.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -61,7 +61,7 @@ class XbpeopleViewCpanel extends JViewLegacy
             throw new Exception(implode("\n", $errors), 500);
         }
         
-        $clink='index.php?option=com_categories&view=categories&task=category.edit&extension=com_xbbooks&id=';
+        $clink='index.php?option=com_categories&view=categories&task=category.edit&extension=com_xbpeople&id=';
         $this->pcatlist = '<ul style="list-style-type: none;">';
         foreach ($this->pcats as $key=>$value) {
             if ($value['level']==1) {

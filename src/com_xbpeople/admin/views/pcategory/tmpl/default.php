@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbFilms
- * @filesource admin/views/category/tmpl/edit.php
- * @version 0.4.0 20th March 2021
+ * @filesource admin/views/pcategory/tmpl/edit.php
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,6 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $item = $this->item;
+$xblink = 'index.php?option=com_xbpeople';
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
 ?>
 <div class="row-fluid">
@@ -21,7 +22,7 @@ $celink = 'index.php?option=com_categories&task=category.edit&id=';
 <?php else : ?>
 	<div id="j-main-container" class="span12">
 <?php endif;?>
-		<form action="index.php?option=com_xbpeople&view=category" method="post" id="adminForm" name="adminForm">
+		<form action="index.php?option=com_xbpeople&view=pcategory" method="post" id="adminForm" name="adminForm">
 		<div class="row-fluid xbmb8">
 			<div class= "span3">
 				  <h3><?php echo JText::_('XBCULTURE_CAT_ITEMS'); ?></h3>
@@ -96,7 +97,7 @@ $celink = 'index.php?option=com_categories&task=category.edit&id=';
 	</div>
 </div>
 <center>
-		<a href="<?php echo $xblink; ?>&view=categories" class="btn btn-small">
+		<a href="<?php echo $xblink; ?>&view=pcategories" class="btn btn-small">
 			<?php echo JText::_('XBCULTURE_CAT_LIST'); ?></a>
 		</center>
 <div class="clearfix"></div>

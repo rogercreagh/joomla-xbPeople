@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/models/persons.php
- * @version 0.4.0 20th March 2021
+ * @filesource admin/models/pcategory.php
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Component\ComponentHelper;
 
-class XbpeopleModelCategory extends JModelItem {
+class XbpeopleModelPcategory extends JModelItem {
 
 	protected function populateState() {
 		$app = Factory::getApplication();

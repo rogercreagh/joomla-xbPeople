@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.4.4 23rd March 2021
+ * @version 0.9.1 8th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -43,9 +43,22 @@ class com_xbpeopleInstallerScript
 		)
     		->execute();
         $cnt = $db->getAffectedRows(); 
-   	    $message = $cnt.' xbPeople categories renamed as "<b>!</b> <i>name</i> <b>!</b>". They will be recovered on reinstall.';
+        if ($cnt>0) {
+        	$message .= '<br />'.$cnt.' xbPeople categories renamed as "<b>!</b> <i>name</i> <b>!</b>". They will be recovered on reinstall.';
+        }
         $message .= '<br /><b>NB</b> xbPeople uninstall: People and Characters data tables, and imgaes/xbpeople folder have <b>not</b> been deleted.';
-   	    Factory::getApplication()->enqueueMessage($message,'Warning');
+   	    Factory::getApplication()->enqueueMessage($message,'Info');
+   	    $message = '';
+   	    $db = Factory::getDBO();
+   	    $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbbooks').' OR element = '.$db->quote('com_xbfilms'));
+   	    $res = $db->loadResult();
+   	    if ($res) {
+   	    	$message = 'xbBooks and/or xbFilms is still installed but xbPeople has been removed. No xbPeople data has been deleted, but if you wish to continue using xbBooks/xbFilms you must reinstall xbPeople.';
+   	    	$message .= '<br />To install it now copy this url <b> https://www.crosborne.uk/downloads?download=11 </b>, and paste the link into the box on the ';
+   	    	$message .= '<a href="index.php?option=com_installer&view=install#url">Install from URL page</a>, ';
+   	    	$message .= 'or <a href="https://www.crosborne.uk/downloads?download=11">download here</a> and drag and drop onto the install box on this page.';
+   	    	Factory::getApplication()->enqueueMessage($message,'Error');
+   	    }
    	    // set session that xbpeople no longer exists
    	    $oldval = Factory::getSession()->set('xbpeople_ok', false);
     }

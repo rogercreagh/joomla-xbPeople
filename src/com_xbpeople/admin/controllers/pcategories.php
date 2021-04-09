@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/controlers/categories.php
- * @version 0.4.4 24th March 2021
+ * @filesource admin/controlers/pcategories.php
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-class XbpeopleControllerCategories extends JControllerAdmin {
+class XbpeopleControllerPcategories extends JControllerAdmin {
  
 	protected $edcatlink = 'index.php?option=com_categories&task=category.edit&extension=com_xbpeople&id=';
 	
@@ -29,7 +29,7 @@ class XbpeopleControllerCategories extends JControllerAdmin {
     function categorylist() {
     	$ids =  Factory::getApplication()->input->get('cid');
     	$id=$ids[0];
-    	$this->setRedirect('index.php?option=com_xbpeople&view=category&id='.$id);
+    	$this->setRedirect('index.php?option=com_xbpeople&view=pcategory&id='.$id);
     }
     
     function categorynew() {
@@ -41,11 +41,11 @@ class XbpeopleControllerCategories extends JControllerAdmin {
     }
     
     function books() {
-    	$this->setRedirect('index.php?option=com_xbbooks&view=categories');
+    	$this->setRedirect('index.php?option=com_xbbooks&view=bcategories');
     }
     
     function films() {
-    	$this->setRedirect('index.php?option=com_xbfilms&view=categories');
+    	$this->setRedirect('index.php?option=com_xbfilms&view=pcategories');
     }
     
 }

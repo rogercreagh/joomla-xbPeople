@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/categories/tmpl/default.php
- * @version 0.9.0 8th April 2021
+ * @filesource admin/views/pcategories/tmpl/default.php
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,7 @@ $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
-$cvlink = 'index.php?option=com_xbpeople&view=category&id=';
+$cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
 $pvlink = 'index.php?option=com_xbpeople&view=persons&catid=';
 $chvlink = 'index.php?option=com_xbpeople&view=characters&catid=';
 $chplink = 'index.php?option=com_xbpeople&view=characters&catid=';
@@ -29,7 +29,7 @@ $chplink = 'index.php?option=com_xbpeople&view=characters&catid=';
 $prevext ='';
 
 ?>
-<form action="index.php?option=com_xbpeople&view=categories" method="post" id="adminForm" name="adminForm">
+<form action="index.php?option=com_xbpeople&view=pcategories" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
         <div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -122,7 +122,7 @@ $prevext ='';
  				<td>
 					<?php if ($item->checked_out) {
     					$couname = Factory::getUser($item->checked_out)->username;
-    					echo HTMLHelper::_('jgrid.checkedout', $i, Text::_('XBCULTURE_OPENEDBY').': '.$couname, $item->checked_out_time, 'categories.', false);
+    					echo HTMLHelper::_('jgrid.checkedout', $i, Text::_('XBCULTURE_OPENEDBY').': '.$couname, $item->checked_out_time, 'pcategories.', false);
     				} ?>
 					<span class="xbnote"> 
  					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));

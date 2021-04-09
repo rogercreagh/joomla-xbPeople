@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/models/categories.php
- * @version 0.4.0 20th March 2021
+ * @filesource admin/models/pcategories.php
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 
-class XbpeopleModelCategories extends JModelList {
+class XbpeopleModelPcategories extends JModelList {
 	
     protected $xbbooks_ok;
     protected $xbfilms_ok;

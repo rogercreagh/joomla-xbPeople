@@ -1,7 +1,7 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/categories/view.html.php
+ * @filesource admin/views/pcategories/view.html.php
  * @version 0.4.2 22nd March 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -13,7 +13,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-class XbpeopleViewCategories extends JViewLegacy {
+class XbpeopleViewPcategories extends JViewLegacy {
     
     function display($tpl = null) {
         // Get data from the model
@@ -35,7 +35,7 @@ class XbpeopleViewCategories extends JViewLegacy {
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
         $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
         
-        XbpeopleHelper::addSubmenu('categories');
+        XbpeopleHelper::addSubmenu('pcategories');
         $this->sidebar = JHtmlSidebar::render();
         
         // Set the toolbar
@@ -52,19 +52,19 @@ class XbpeopleViewCategories extends JViewLegacy {
         
         //index.php?option=com_categories&view=category&layout=edit&extension=com_xbpeople
         if ($canDo->get('core.create') > 0) {
-            ToolbarHelper::custom('categories.categorynewpeep','new','','COM_XBPEOPLE_NEW_PCAT',false);
+            ToolbarHelper::custom('pcategories.categorynewpeep','new','','COM_XBPEOPLE_NEW_PCAT',false);
         }
         if ($canDo->get('core.admin')) {
-        	ToolbarHelper::editList('categories.categoryedit', 'COM_XBPEOPLE_EDIT_CAT');       	
+        	ToolbarHelper::editList('pcategories.categoryedit', 'COM_XBPEOPLE_EDIT_CAT');       	
          }        
-         ToolbarHelper::custom('categories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
+         ToolbarHelper::custom('pcategories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
          
          ToolbarHelper::custom(); //spacer
          if ($this->xbbooks_ok) {
-         	ToolbarHelper::custom('categories.books', 'stack', '', 'xbBooks', false) ;
+         	ToolbarHelper::custom('pcategories.books', 'stack', '', 'xbBooks', false) ;
          }
          if ($this->xbfilms_ok) {
-         	ToolbarHelper::custom('categories.films', 'screen', '', 'xbFilms', false) ;
+         	ToolbarHelper::custom('pcategories.films', 'screen', '', 'xbFilms', false) ;
          }
          
          if ($canDo->get('core.admin')) {

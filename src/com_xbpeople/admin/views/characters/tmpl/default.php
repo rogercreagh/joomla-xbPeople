@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.1.1 9th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -40,7 +40,7 @@ $nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $chelink = 'index.php?option=com_xbpeople&view=person&task=character.edit&id=';
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
-$cvlink = 'index.php?option=com_xbpeople&view=category&id=';
+$cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
 $telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
 $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 $bchlink = 'index.php?option=com_xbbooks&view=characters';
