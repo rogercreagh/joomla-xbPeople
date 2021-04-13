@@ -35,3 +35,8 @@
 
 #### <u>Admin Person</u>
 
+
+
+Admin Char
+
+- not saving, xbpeopleHelper getCat() not found

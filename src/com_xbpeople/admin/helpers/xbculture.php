@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.3 12th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -107,5 +107,24 @@ class XbcultureHelper extends ContentHelper {
 		$sess->set($sname,$res);
 		return $res;
 	}
+	
+/* functions used on admin side only */
+	
+	/**
+	 * @name getCat()
+	 * @desc given category id returns title and description
+	 * @param int $catid
+	 * @return objectlist|null
+	 */
+	public static function getCat($catid) {
+		$db = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('a.title, a.description')
+		->from('#__categories AS a ')
+		->where('a.id = '.$catid);
+		$db->setQuery($query);
+		return $db->loadObjectList()[0];
+	}
+	
 	
 }

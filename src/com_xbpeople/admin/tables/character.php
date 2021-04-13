@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/character.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.3 13th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -82,7 +82,7 @@ class XbpeopleTableCharacter extends JTable {
             }
             if ($defcat>0) {
                 $this->catid = $defcat;
-                Factory::getApplication()->enqueueMessage(JText::_('COM_XBFILMS_DEFAULT_CATEGORY').' ('.XbpeopleHelper::getCat($this->catid)->title.')');
+                Factory::getApplication()->enqueueMessage(JText::_('COM_XBFILMS_DEFAULT_CATEGORY').' ('.XbcultureHelper::getCat($this->catid)->title.')');
             } else {
             	// this shouldn't happen unless uncategorised has been deleted or xbpeople not installed
             	$this->setError(JText::_('Please set a category'));

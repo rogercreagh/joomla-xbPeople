@@ -32,7 +32,7 @@ class XbpeopleViewPersons extends JViewLegacy {
         $this->searchTitle = $this->state->get('filter.search');
         $this->catid 		= $this->state->get('catid');
         if ($this->catid>0) {
-            $this->cat 		= XbpeopleHelper::getCat($this->catid);
+            $this->cat 		= XbcultureHelper::getCat($this->catid);
         }
         
         // Check for errors.

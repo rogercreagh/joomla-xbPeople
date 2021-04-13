@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.1 8th April 2021
+ * @version 0.9.2 12th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -46,14 +46,20 @@ class com_xbpeopleInstallerScript
         if ($cnt>0) {
         	$message .= '<br />'.$cnt.' xbPeople categories renamed as "<b>!</b> <i>name</i> <b>!</b>". They will be recovered on reinstall.';
         }
-        $message .= '<br /><b>NB</b> xbPeople uninstall: People and Characters data tables, and imgaes/xbpeople folder have <b>not</b> been deleted.';
+        $message .= '<br /><b>NB</b> xbPeople uninstall: People and Characters data tables, and the images/xbpeople folder have <b>not</b> been deleted.';
    	    Factory::getApplication()->enqueueMessage($message,'Info');
    	    $message = '';
    	    $db = Factory::getDBO();
-   	    $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbbooks').' OR element = '.$db->quote('com_xbfilms'));
-   	    $res = $db->loadResult();
-   	    if ($res) {
-   	    	$message = 'xbBooks and/or xbFilms is still installed but xbPeople has been removed. No xbPeople data has been deleted, but if you wish to continue using xbBooks/xbFilms you must reinstall xbPeople.';
+   	    $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbbooks'));
+   	    $xbbooks_in = $db->loadResult();
+   	    $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbfilms'));
+   	    $xbfilms_in = $db->loadResult();
+   	    if ($xbfilms_in || $xbbooks_in) {
+   	    	$message = '<b>xbPeople</b> has been uninstalled but ';
+   	    	$message .= $xbbooks_in ? 'xbBooks' : '';
+   	    	$message .= ($xbbooks_in && $xbfilms_in) ? ' and ':''; 
+   	    	$message .= $xbfilms_in ? 'xbFilms':'';
+   	    	$message .= ' is still installed. No xbPeople data has been deleted, but if you wish to continue using xbBooks/xbFilms you must reinstall xbPeople.';
    	    	$message .= '<br />To install it now copy this url <b> https://www.crosborne.uk/downloads?download=11 </b>, and paste the link into the box on the ';
    	    	$message .= '<a href="index.php?option=com_installer&view=install#url">Install from URL page</a>, ';
    	    	$message .= 'or <a href="https://www.crosborne.uk/downloads?download=11">download here</a> and drag and drop onto the install box on this page.';
@@ -190,7 +196,7 @@ class com_xbpeopleInstallerScript
             echo '<h3>xbPeople Component</h3>';
             echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
             echo '<p>xbPeople is a minimal component designed to supplement xbCulture components. It will install the people and character data tables if they don&quot;t exist,';
-            echo 'and recover any previously saved Categories for people, or create default "Uncategorised" and "Imported" categories.</p>';
+            echo 'and recover any previously saved Categories for people, or create default "Uncat.People" and "Import.People" categories.</p>';
             echo '<p><i>Check the control panel for an overview</i>&nbsp;&nbsp;';
             echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople cPanel</a></p>';
             echo '</div>';
