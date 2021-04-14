@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/controlers/pcategories.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,11 +26,11 @@ class XbpeopleControllerPcategories extends JControllerAdmin {
     	$this->setRedirect($this->edcatlink.$id);    		
     }
     
-    function categorylist() {
-    	$ids =  Factory::getApplication()->input->get('cid');
-    	$id=$ids[0];
-    	$this->setRedirect('index.php?option=com_xbpeople&view=pcategory&id='.$id);
-    }
+//    function categorylist() {
+//    	$ids =  Factory::getApplication()->input->get('cid');
+//    	$id=$ids[0];
+//    	$this->setRedirect('index.php?option=com_xbpeople&view=pcategory&id='.$id);
+//    }
     
     function categorynew() {
     	$this->setRedirect($this->edcatlink.'0');
@@ -45,7 +45,7 @@ class XbpeopleControllerPcategories extends JControllerAdmin {
     }
     
     function films() {
-    	$this->setRedirect('index.php?option=com_xbfilms&view=pcategories');
+    	$this->setRedirect('index.php?option=com_xbfilms&view=fcategories');
     }
     
 }

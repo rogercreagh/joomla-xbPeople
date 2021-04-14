@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/pcategories/view.html.php
- * @version 0.4.2 22nd March 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -57,7 +57,7 @@ class XbpeopleViewPcategories extends JViewLegacy {
         if ($canDo->get('core.admin')) {
         	ToolbarHelper::editList('pcategories.categoryedit', 'COM_XBPEOPLE_EDIT_CAT');       	
          }        
-         ToolbarHelper::custom('pcategories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
+//         ToolbarHelper::custom('pcategories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
          
          ToolbarHelper::custom(); //spacer
          if ($this->xbbooks_ok) {

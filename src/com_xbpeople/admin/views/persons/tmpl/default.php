@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,6 +41,7 @@ $nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $pelink = 'index.php?option=com_xbpeople&view=person&task=person.edit&id=';
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
+$cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
 $telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
 $bplink = 'index.php?option=com_xbbooks&view=persons';
 $fplink = 'index.php?option=com_xbpeople&view=persons';
@@ -283,7 +284,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 					</td>
     			<?php endif; ?>
 					<td>
-						<p><a  class="label label-success" href="<?php echo $celink . $item->catid; ?>" 
+						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 
 							title="<?php echo Text::_( 'XBCULTURE_VIEW_CATEGORY' );?>::<?php echo $item->category_title; ?>">
 								<?php echo $item->category_title; ?>
 						</a></p>						

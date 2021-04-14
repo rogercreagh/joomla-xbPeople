@@ -6,8 +6,8 @@
 #### FROM ROADMAP
 - add site all persons listview
 - add site person view
-- add category counts view as per main components
-- add data management
+- ~~add category counts view as per main components~~
+- add data management with clear data function
 
 #### OTHER NEW FEATURES (not on roadmap)	
 
@@ -16,7 +16,7 @@
 
 #### <u>General</u> (applies to more than on view)
 
-
+- ~~sub-menu add Edit Categories link to com_categories~~
 
 #### <u>Admin cPanel</u>
 - ~~cpanel: button to xbfilm not working~~
@@ -24,12 +24,10 @@
 
 #### <u>Admin Persons</u>
 
-- missing  > in book and film cnts
-
-- use bcnt fcnt for displayed number
-- sort by film book cnts not orking
-- same for chars
-- film badge not picking up film colour
+- ~~use bcnt fcnt for displayed number~~
+- ~~sort by film book cnts not orking~~
+- ~~same for chars~~
+- ~~film badge not picking up film colour~~
 
 ​			
 
@@ -37,6 +35,11 @@
 
 
 
-Admin Char
+#### <u>Admin Char</u>
 
-- not saving, xbpeopleHelper getCat() not found
+- ~~not saving, xbpeopleHelper getCat() not found~~
+
+#### Admin Category
+
+- ~~edit category button is opening new category~~
+

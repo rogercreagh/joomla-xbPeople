@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/controlers/pcategory.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,13 +18,8 @@ class XbpeopleControllerPcategory extends JControllerAdmin {
         return $model;
     }
     
-    function categories() {
+    function pcategories() {
     	$this->setRedirect('index.php?option=com_xbpeople&view=pcategories');
-    }
-
-    function categoryedit() {
-    	$cid =  Factory::getApplication()->input->get('cid');
-    	$this->setRedirect('index.php?option=com_categories&task=category.edit&id='.$cid);
     }
         
 }

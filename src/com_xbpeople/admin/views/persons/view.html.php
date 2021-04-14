@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/view.html.php
- * @version 0.4.2 22nd March 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,8 +17,8 @@ class XbpeopleViewPersons extends JViewLegacy {
 
     function display($tpl = null) {
         // Get application
-        $app = Factory::getApplication();
-        $context = "xbpeople.list.admin.persons";
+//        $app = Factory::getApplication();
+//        $context = "xbpeople.list.admin.persons";
         // Get data from the model
         $this->items		= $this->get('Items');
         $this->pagination	= $this->get('Pagination');

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -188,6 +188,7 @@ class XbpeopleModelCharacters extends JModelList {
             $orderCol = 'category_title '.$orderDirn.', a.ordering';
         }
         $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+        $query->order('lastname ASC');
         
         $query->group('a.id');
         

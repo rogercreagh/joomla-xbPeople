@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/pcategory/view.html.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,8 +33,7 @@ class XbpeopleViewPcategory extends JViewLegacy {
 		
 		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'COM_XBPEOPLE_TITLE_CATMANAGER' ), 'tag' );
 		
-		ToolbarHelper::custom('pcategories.categories', 'folder', '', 'COM_XBPEOPLE_CAT_LIST', false) ;
-		ToolbarHelper::custom('pcategories.categoryedit', 'edit', '', 'COM_XBPEOPLE_EDIT_CAT', false) ;
+		ToolbarHelper::custom('pcategory.pcategories', 'folder', '', 'COM_XBPEOPLE_CAT_LIST', false) ;
 		
 		if ($canDo->get('core.admin')) {
 			ToolBarHelper::preferences('com_xbpeople');

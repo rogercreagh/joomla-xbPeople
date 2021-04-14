@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,14 +48,29 @@ class XbpeopleHelper extends ContentHelper {
 					$vName == 'character'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_ICONMENU_CATEGORIES'),
+					Text::_('XBCULTURE_ICONMENU_PEOPLECATS'),
 					'index.php?option=com_xbpeople&view=pcategories',
 					$vName == 'pcategories'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_ICONMENU_NEWPCATEGORY'),
+					Text::_('XBCULTURE_ICONMENU_NEWCAT'),
 					'index.php?option=com_categories&view=category&task=category.edit&extension=com_xbpeople',
 					$vName == 'category'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_EDITCATS'),
+					'index.php?option=com_categories&view=categories&extension=com_xbpeople',
+					$vName == 'categories'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_SUBBOOKCATS'),
+					'index.php?option=com_xbbooks&view=bcategories',
+					$vName == 'pcategories'
+					);
+			JHtmlSidebar::addEntry(
+					Text::_('XBCULTURE_ICONMENU_SUBFILMCATS'),
+					'index.php?option=com_xbfilms&view=fcategories',
+					$vName == 'pcategories'
 					);
 			JHtmlSidebar::addEntry(
 					Text::_('XBCULTURE_ICONMENU_TAGS'),

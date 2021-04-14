@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.4 14th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,8 +27,8 @@ class XbpeopleModelPersons extends JModelList {
 					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
 					'sortdate', 'bcnt','fcnt' );
 		}
-		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
-		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
+		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
 		parent::__construct($config);
 	}
 
@@ -172,7 +172,8 @@ class XbpeopleModelPersons extends JModelList {
 			$orderCol = 'category_title '.$orderDirn.', a.ordering';
 		}
 		
-		$query->order($db->quote($orderCol) .' '. $db->escape($orderDirn), $db->quote('lastname') .' ASC');
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+		$query->order('lastname ASC');
 		
 		$query->group('a.id');
 		
