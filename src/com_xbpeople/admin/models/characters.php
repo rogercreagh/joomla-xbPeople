@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.9.4 14th April 2021
+ * @version 0.9.4 16th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -51,13 +51,13 @@ class XbpeopleModelCharacters extends JModelList {
             ->from($db->quoteName('#__xbcharacters','a'));
         
             if ($this->xbfilmsStatus) {
-            	$query->join('LEFT',$db->quoteName('#__xbfilmperson', 'f') . ' ON ' . $db->quoteName('f.person_id') . ' = ' .$db->quoteName('a.id'));
+            	$query->join('LEFT',$db->quoteName('#__xbfilmcharacter', 'f') . ' ON ' . $db->quoteName('f.char_id') . ' = ' .$db->quoteName('a.id'));
             	$query->select('COUNT(DISTINCT f.film_id) AS fcnt');
             } else {
             	$query->select('0 AS fcnt');
             }
             if ($this->xbbooksStatus) {
-            	$query->join('LEFT',$db->quoteName('#__xbbookperson', 'b') . ' ON ' . $db->quoteName('b.person_id') . ' = ' .$db->quoteName('a.id'));
+            	$query->join('LEFT',$db->quoteName('#__xbbookchatacter', 'b') . ' ON ' . $db->quoteName('b.char_id') . ' = ' .$db->quoteName('a.id'));
             	$query->select('COUNT(DISTINCT b.book_id) AS bcnt');
             } else {
             	$query->select('0 AS bcnt');

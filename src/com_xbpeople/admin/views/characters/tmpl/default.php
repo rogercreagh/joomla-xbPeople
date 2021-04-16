@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.4 16th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -252,12 +252,12 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 						<?php if ($item->filmcnt>0) : ?> 
 							<?php $tlist='';
 							foreach ($item->flist as $f) {
-								$tlist .= $f->title.' ('.$f->role.')<br />';
+								$tlist .= $f->title.'<br />';
 							} ?>
 							<div class="hasPopover" title data-original-title="Film Roles"
 								data-content="<?php echo $tlist; ?>">
 								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"><?php echo $item->bookcnt; ?></span>
+									<span class="badge bkcnt"><?php echo $item->filmcnt; ?></span>
 						    	</a>
 						    </div>
 						<?php endif; ?>
