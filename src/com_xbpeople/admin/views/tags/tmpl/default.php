@@ -42,7 +42,7 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 	<div class="pull-right span2">
 		<p style="text-align:right;">
 			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. JText::_(($fnd==1)?'XBCULTURE_ONETAG':'XBCULTURE_MANYTAGS').' '.JText::_('XBCULTURE_FOUND'); ?>
+			echo $fnd .' '. JText::_(($fnd==1)?'XBCULTURE_ONETAG':'XBCULTURE_TAGS').' '.JText::_('XBCULTURE_FOUND'); ?>
 		</p>
 	</div>
 	<div class="clearfix"></div>

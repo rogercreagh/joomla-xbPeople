@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.9.4 16th April 2021
+ * @version 0.9.4 17th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -236,7 +236,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 						<?php if ($item->bookcnt>0) : ?> 
 							<?php $tlist='';
 							foreach ($item->blist as $bk) {
-								$tlist .= $bk->title.' ('.$bk->role.')<br />';
+								$tlist .= $bk->title.'<br />';
 							} ?>
 							<div class="hasPopover" title data-original-title="Book Roles"
 								data-content="<?php echo $tlist; ?>">

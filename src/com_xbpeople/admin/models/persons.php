@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.4 14th April 2021
+ * @version 0.9.4 17th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -173,7 +173,9 @@ class XbpeopleModelPersons extends JModelList {
 		}
 		
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
-		$query->order('lastname ASC');
+		if ($orderCol != 'lastname') {
+			$query->order('lastname ASC');
+		}
 		
 		$query->group('a.id');
 		
