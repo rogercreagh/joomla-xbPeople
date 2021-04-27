@@ -216,6 +216,9 @@ ul.nav-tabs {
 }
 .xbgold { color:#edc500; }
 .xbred { color:#c00000; }
+.xbfilm, .xbblue { color: #004080;}
+.xbbook, .xbgreen { color: #008040;}
+.xbdarkgrey { color: #555;}
 
 .xbstarcell { /*used in backend cpanel */
 	overflow-wrap:anywhere; 
