@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.2 12th April 2021
+ * @version 1.5.0 18th June 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 class com_xbpeopleInstallerScript 
 {
     protected $jminver = '3.9';
-    protected $jmaxver = '4.0';
+    protected $jmaxver = '4.1';
     
     function preflight($type, $parent)
     {

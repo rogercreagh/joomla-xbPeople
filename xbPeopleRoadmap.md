@@ -11,9 +11,9 @@ v0.3 **RC2**
 
 v1.0 **On JED**
 
+v1.5 **J4 Compat**
 
-
-v2.0 **Joomla4**
+v2.0 **Joomla4 Native**
 
 
 
