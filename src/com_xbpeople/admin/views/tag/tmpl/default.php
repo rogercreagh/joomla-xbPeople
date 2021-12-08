@@ -35,7 +35,7 @@ $pelink = '&view=person&task=person.edit&id=';
 			</div>
             <div class="span2">
 				<p><?php echo '<i>'.JText::_('JGRID_HEADING_ID').'</i>: '.$item->id; ?></p>
-                <p><?php echo '<i>'.JText::_('XBCULTURE_CAPALIAS').'</i>: '.$item->alias; ?></p>
+                <p><?php echo '<i>'.JText::_('XBCULTURE_ALIAS').'</i>: '.$item->alias; ?></p>
             </div>
 		</div>
 		<div class="row-fluid xbmb8">
@@ -51,7 +51,7 @@ $pelink = '&view=person&task=person.edit&id=';
 		</div>
 		<div class="row-fluid xbmb8">
 			<div class= "span2">
-				<p><i><?php echo JText::_('XBCULTURE_CAPDESCRIPTION'); ?>:</i></p>
+				<p><i><?php echo JText::_('XBCULTURE_DESCRIPTION'); ?>:</i></p>
 			</div>
    			<div class="span10">
 			<?php if ($item->description != '') : ?>

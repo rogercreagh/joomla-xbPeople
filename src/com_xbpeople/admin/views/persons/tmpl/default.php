@@ -25,8 +25,8 @@ if (!$listOrder) {
 	$listOrder='lastname';
 	$listDirn = 'ascending';
 }
-$orderNames = array('firstname'=>Text::_('XBCULTURE_CAPFIRSTNAME'),'lastname'=>Text::_('XBCULTURE_CAPLASTNAME'),
-		'id'=>'id','sortdate'=>Text::_('XBCULTURE_CAPDATES'),'category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
+$orderNames = array('firstname'=>Text::_('XBCULTURE_FIRSTNAME'),'lastname'=>Text::_('XBCULTURE_LASTNAME'),
+		'id'=>'id','sortdate'=>Text::_('XBCULTURE_DATES'),'category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
 		'published'=>Text::_('XBCULTURE_CAPSTATUS'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'),
 		'bcnt'=>Text::_('XBCULTURE_CAPBOOKS'),'fcnt'=>Text::_('XBCULTURE_CAPFILMS'));
 
@@ -110,9 +110,9 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     				<?php echo Text::_('XBCULTURE_CAPPORTRAIT') ;?>
     			</th>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPFIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPLASTNAME', 'lastname', $listDirn, $listOrder); ?>					
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPDATES', 'sortdate', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_LASTNAME', 'lastname', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_DATES', 'sortdate', $listDirn, $listOrder); ?>
     			</th>
     			<th>
     				<?php echo Text::_('XBCULTURE_CAPSUMMARY'); ?>
@@ -128,7 +128,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
-					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CAPCATS','category_title',$listDirn,$listOrder ).' &amp; ';
+					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CATS','category_title',$listDirn,$listOrder ).' &amp; ';
 						echo Text::_( 'XBCULTURE_CAPTAGS' ); ?>
 				</th>   			
     			<th class="nowrap hidden-phone" style="width:45px;">
@@ -218,7 +218,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 								echo '&nbsp;&nbsp;<i>'.Text::_('XBCULTURE_DIED').' </i>: '.$item->year_died;
 							}
 							if($item->nationality) { 
-                        		echo '<br /><i>'.Text::_('XBCULTURE_CAPNATIONALITY').' </i>: '.$item->nationality;
+                        		echo '<br /><i>'.Text::_('XBCULTURE_NATIONALITY').' </i>: '.$item->nationality;
                         	} ?>						
 						</p>							
 					</td>

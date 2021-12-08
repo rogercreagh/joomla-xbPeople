@@ -40,7 +40,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 						      }?>
 						      
 					</p>
-					<p><b><?php echo Text::_( 'XBCULTURE_CAPCLIENT' ); ?></b>
+					<p><b><?php echo Text::_( 'XBCULTURE_CLIENT' ); ?></b>
 						<br/><?php echo $this->client['platform'].'<br/>'.$this->client['browser']; ?>
 					</p>
         		<?php echo JHtml::_('bootstrap.endSlide'); ?>
@@ -89,7 +89,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 					<div class="row-fluid">
 						<div class="span6">
 							<span class="badge <?php echo $this->perStates['archived']>0 ?'badge-warning' : ''; ?> xbmr10"><?php echo $this->perStates['archived']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPARCHIVED'); ?>
+							<?php echo Text::_('XBCULTURE_ARCHIVED'); ?>
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->perStates['archived']>0 ?'badge-important' : ''; ?> xbmr10"><?php echo $this->perStates['trashed']; ?></span>
@@ -128,7 +128,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 					<div class="row-fluid">
 						<div class="span6">
 							<span class="badge <?php echo $this->charStates['archived']>0 ?'badge-warning' : ''; ?> xbmr10"><?php echo $this->charStates['archived']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPARCHIVED'); ?>
+							<?php echo Text::_('XBCULTURE_ARCHIVED'); ?>
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->charStates['trashed']>0 ?'badge-important' : ''; ?> xbmr10"><?php echo $this->charStates['trashed']; ?></span>
@@ -184,7 +184,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
  					<div class="row-fluid">
 						<div class="span6">
 							<span class="badge <?php echo $this->pcatStates['archived']>0 ?'badge-warning' : ''; ?> xbmr10"><?php echo $this->pcatStates['archived']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPARCHIVED'); ?>
+							<?php echo Text::_('XBCULTURE_ARCHIVED'); ?>
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->pcatStates['trashed']>0 ?'badge-important' : ''; ?> xbmr10"><?php echo $this->pcatStates['trashed']; ?></span>

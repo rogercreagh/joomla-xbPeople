@@ -7,7 +7,7 @@
 			readonly="true" class="readonly" />
 
 		<field name="name" type="text"
-			label="XBCULTURE_CAPNAME"
+			label="XBCULTURE_NAME"
 			description="XBCULTURE_NAME_DESC"
 			required="true"
 			size="40" class="inputbox input-xxlarge input-large-text"
@@ -22,11 +22,11 @@
 			label="XBCULTURE_CAPSUMMARY" description="XBCULTURE_CHARSUMMARY_DESC" />
 						
 		<field name="description" type="editor"
-			class="inputbox" label="XBCULTURE_CAPDESCRIPTION" description="XBCULTURE_FIELD_DESC_DESC"
+			class="inputbox" label="XBCULTURE_DESCRIPTION" description="XBCULTURE_FIELD_DESC_DESC"
 			filter="JComponentHelper::filterText" buttons="true" hide="article,pagebreak,readmore" />
 			
 		<field name="image" type="media"
-			label="XBCULTURE_CAPIMAGE" description="XBCULTURE_FIELD_IMAGE_DESC" />
+			label="XBCULTURE_IMAGE" description="XBCULTURE_FIELD_IMAGE_DESC" />
 			
 		<field name="catid" type="category" extension="com_xbpeople" class="chzn-custom-value"
 			required="true"

@@ -72,7 +72,7 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 				<?php echo JHTML::_('grid.sort', 'XBCULTURE_CAPTAG', 'path', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo JText::_('XBCULTURE_CAPDESCRIPTION') ;?>
+				<?php echo JText::_('XBCULTURE_DESCRIPTION') ;?>
 			</th>
 			<th>
 				<?php echo JHTML::_('grid.sort', 'XBCULTURE_CAPPEOPLE', 'pcnt', $listDirn, $listOrder );?>

@@ -25,7 +25,7 @@ if (!$listOrder) {
 	$listOrder='name';
 	$listDirn = 'ascending';
 }
-$orderNames = array('name'=>Text::_('XBCULTURE_CAPNAME'),
+$orderNames = array('name'=>Text::_('XBCULTURE_NAME'),
 		'id'=>'id','category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
 		'published'=>Text::_('XBCULTURE_CAPSTATE'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
 
@@ -110,7 +110,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     				<?php echo Text::_('XBCULTURE_CAPPORTRAIT') ;?>
     			</th>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPNAME', 'name', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_NAME', 'name', $listDirn, $listOrder); ?>					
     			</th>
     			<th>
     				<?php echo Text::_('XBCULTURE_CAPSUMMARY'); ?>
@@ -126,7 +126,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
-					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CAPCATS','category_title',$listDirn,$listOrder ).' &amp; ';
+					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CATS','category_title',$listDirn,$listOrder ).' &amp; ';
 					echo Text::_( 'XBCULTURE_CAPTAGS' ); ?>
 				</th>   			
     			<th class="nowrap hidden-phone" style="width:45px;">

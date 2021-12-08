@@ -7,13 +7,13 @@
 			readonly="true" class="readonly" />
 
 		<field name="firstname" type="text"
-			label="XBCULTURE_CAPFIRSTNAME"
+			label="XBCULTURE_FIRSTNAME"
 			description="XBCULTURE_FIRSTNAME_DESC"
 			size="40" class="inputbox input-xxlarge input-large-text"
 			default="" />
 		
 		<field name="lastname" type="text"
-			label="XBCULTURE_CAPLASTNAME"
+			label="XBCULTURE_LASTNAME"
 			description="XBCULTURE_LASTNAME_DESC"
 			size="40" class="inputbox input-xlarge input-large-text"
 			required="true" 
@@ -40,7 +40,7 @@
 			class="inputbox" size="5" maxlength="4"  />
 
 		<field name="nationality" type="nationality"
-			label="XBCULTURE_CAPNATIONALITY"
+			label="XBCULTURE_NATIONALITY"
 			description="XBCULTURE_NATIONALITY_DESC"
 			size="40" class="inputbox" maxlength="40"
 			default=""  />
