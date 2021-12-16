@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 class XbpeopleViewPerson extends JViewLegacy {
     
@@ -24,7 +25,8 @@ class XbpeopleViewPerson extends JViewLegacy {
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
         
-        $this->canDo = JHelperContent::getActions('com_xbpeople', 'person', $this->item->id);
+        $this->canDo = ContentHelper::getActions('com_xbpeople', 'person', $this->item->id);
+        // JHelperContent::getActions('com_xbpeople', 'person', $this->item->id);
         
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

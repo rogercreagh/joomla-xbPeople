@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.9.4 17th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,8 +26,8 @@ if (!$listOrder) {
 	$listDirn = 'ascending';
 }
 $orderNames = array('name'=>Text::_('XBCULTURE_NAME'),
-		'id'=>'id','category_title'=>Text::_('XBCULTURE_CAPCATEGORY'),
-		'published'=>Text::_('XBCULTURE_CAPSTATE'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
+		'id'=>'id','category_title'=>Text::_('XBCULTURE_CATEGORY'),
+		'published'=>Text::_('XBCULTURE_STATE'),'a.ordering'=>Text::_('XBCULTURE_CAPORDERING'));
 
 $saveOrder      = $listOrder == 'ordering';
 $canOrder       = $user->authorise('core.edit.state', 'com_xbpeople.character');
@@ -226,7 +226,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
                         <?php if ((!empty($item->description)) && (strlen(strip_tags($item->description))>200)) : ?>
                         	<p class="xbnit xb09">   
                              <?php 
-                             echo Text::_('XBCULTURE_CAPBIOG').' '.str_word_count(strip_tags($item->description)).' '.Text::_('XBCULTURE_WORDS'); 
+                             echo Text::_('XBCULTURE_BIOG').' '.str_word_count(strip_tags($item->description)).' '.Text::_('XBCULTURE_WORDS'); 
                              ?>
 							</p>
 						<?php endif; ?>
@@ -299,7 +299,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
             'bootstrap.renderModal',
             'collapseModal',
             array(
-                'title' => Text::_('COM_XBFILMS_BATCH_TITLE'),
+                'title' => Text::_('XBCULTURE_BATCH_TITLE'),
                 'footer' => $this->loadTemplate('batch_footer')
             ),
             $this->loadTemplate('batch_body')

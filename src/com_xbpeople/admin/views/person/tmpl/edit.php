@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.4.1 20th March 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -89,7 +89,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', JText::_('Films and Books')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', JText::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
 			<?php if($this->xbfilms_ok) : ?>
 			<div class="row-fluid">
         		<div class="span6">

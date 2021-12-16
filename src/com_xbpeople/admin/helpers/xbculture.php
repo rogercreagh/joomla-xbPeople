@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.3 12th April 2021
+ * @version 0.9.6 15th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -95,7 +95,6 @@ class XbcultureHelper extends ContentHelper {
 	 * @name checkComponent()
 	 * @desc test whether a component is installed and enabled. Sets a session variable to save a subsequent db call
 	 * @param  $name - component name as stored in the extensions table (eg com_xbfilms)
-	 * @param $usedb - if true will ignore session variable an force db check
 	 * @return boolean|number - true= installed and enabled, 0= installed not enabled, false = not installed
 	 */
 	public static function checkComponent($name) {
@@ -126,5 +125,16 @@ class XbcultureHelper extends ContentHelper {
 		return $db->loadObjectList()[0];
 	}
 	
+	
+	public static function getExtensionVersion($name) {
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('manifest_cache');
+		$query->from($db->quoteName('#__extensions'));
+		$query->where('element = ' . $db->quote($name) );
+		$db->setQuery($query);			
+		$manifest = json_decode($db->loadResult(), true);
+		return $manifest['version'];
+	}
 	
 }

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/pcategories.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,9 +33,9 @@ class XbpeopleModelPcategories extends JModelList {
 		// Initialize variables.
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('DISTINCT c.`id` AS id, c.`path` AS path, c.level AS level, c.`title` AS title, c.`description` AS description,
-		 c.`note` AS note, c.`published` AS published,  c.`checked_out` AS checked_out, c.extension,
-         c.`checked_out_time` AS checked_out_time, c.`lft`');
+		$query->select('DISTINCT c.id AS id, c.path AS path, c.level AS level, c.title AS title, c.description AS description,
+		 c.note AS note, c.published AS published,  c.checked_out AS checked_out, c.extension,
+         c.checked_out_time AS checked_out_time, c.lft');
 		$query->from('#__categories AS c');
 		
 		$query->select('(SELECT COUNT(*) FROM #__xbpersons AS tp WHERE tp.catid = c.id ) AS pcnt');

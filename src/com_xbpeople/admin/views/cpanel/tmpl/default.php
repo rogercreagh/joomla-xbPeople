@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/cpanel/tmpl/default.php
- * @version 0.3.0 19th March 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -168,7 +168,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
  				<h2 class="xbtitle">
 					<span class="badge badge-info pull-right">
 						<?php echo $this->pcatStates['total']; ?></span> 
-					<?php echo Text::_('People Categories'); ?>
+					<?php echo Text::_('COM_XBPEOPLE_PEOPLE_CATS'); ?>
 				</h2>
 				<div class="row-striped">
 					<div class="row-fluid">
@@ -202,7 +202,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 			<div class="xbbox xbboxgrey">
 				<h2 class="xbtitle">
 					<span class="badge badge-info pull-right"><?php echo ($this->tags['tagcnts']['percnt']  + $this->tags['tagcnts']['charcnt']) ; ?></span> 
-					<?php echo Text::_('Tagged Items'); ?>
+					<?php echo Text::_('COM_XBPEOPLE_TAGGED_ITEMS'); ?>
 				</h2>
 				<div class="row-striped">
                     <div class="row-fluid">

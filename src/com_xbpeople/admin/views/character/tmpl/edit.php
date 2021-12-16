@@ -2,17 +2,19 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 0.4.2 22nd March 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
-JHtml::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
+JHtml::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
 JHtml::_('formbehavior.chosen', 'select');
 
 ?>
@@ -48,7 +50,7 @@ JHtml::_('formbehavior.chosen', 'select');
       <div class="span12">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('XBCULTURE_GENERAL')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', Text::_('XBCULTURE_GENERAL')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform form-vertical">
@@ -67,7 +69,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', JText::_('Films and Books')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', Text::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
 			<div class="row-fluid">
 			<?php if($this->xbfilms_ok) : ?>
         		<div class="span6">
@@ -87,7 +89,7 @@ JHtml::_('formbehavior.chosen', 'select');
         	<?php endif; ?>
 			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('XBCULTURE_CAPPUBLISHING')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_CAPPUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>

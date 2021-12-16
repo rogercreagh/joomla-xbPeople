@@ -2,37 +2,55 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.2 12th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
  ******/
 // No direct access to this file
 defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
+use Joomla\CMS\Version;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Table\Table;
 
 class com_xbpeopleInstallerScript 
 {
-    protected $jminver = '3.9';
+    protected $jminver = '3.10';
     protected $jmaxver = '4.0';
+    protected $extension = 'com_xbpeople';
+    protected $ver = 'v0';
+    protected $date = '';
     
     function preflight($type, $parent)
     {
-        $jversion = new JVersion();
+        $jversion = new Version();
         $jverthis = $jversion->getShortVersion();       
         if ((version_compare($jverthis, $this->jminver,'lt')) || (version_compare($jverthis, $this->jmaxver, 'ge'))) {
             throw new RuntimeException('xbFilms requires Joomla version greater than '.$this->jminver. ' and less than '.$this->jmaxver.'. You have '.$jverthis);
         }
+        $message='';
+        if ($type=='update') {
+        	$componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
+        	$this->ver = $componentXML['version'];
+        	$this->date = $componentXML['creationDate'];
+        	$message = 'Updating xbPeople component from '.$componentXML['version'].' '.$componentXML['creationDate'];
+        	$message .= ' to '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
+        }
+        if ($message!='') { Factory::getApplication()->enqueueMessage($message,'');}
     }   
     
-    function install($parent)
-    {
+    function install($parent) {
     }
     
     function uninstall($parent)
     {   	
-		$message = 'Uninstalling xbPeople component v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
+    	$componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
+    	$message = 'Uninstalling xbPeople component v.'.$componentXML['version'].' '.$componentXML['creationDate'];
 		Factory::getApplication()->enqueueMessage($message,'Info');
+		
       	// prevent categories being deleted
 		$db = Factory::getDbo();
 		$db->setQuery(
@@ -44,7 +62,7 @@ class com_xbpeopleInstallerScript
     		->execute();
         $cnt = $db->getAffectedRows(); 
         if ($cnt>0) {
-        	$message .= '<br />'.$cnt.' xbPeople categories renamed as "<b>!</b> <i>name</i> <b>!</b>". They will be recovered on reinstall.';
+        	$message .= '<br />'.$cnt.' xbPeople categories extension renamed as "<b>!</b>com_xbpeople<b>!</b>". They will be recovered on reinstall.';
         }
         $message .= '<br /><b>NB</b> xbPeople uninstall: People and Characters data tables, and the images/xbpeople folder have <b>not</b> been deleted.';
    	    Factory::getApplication()->enqueueMessage($message,'Info');
@@ -71,15 +89,19 @@ class com_xbpeopleInstallerScript
     
     function update($parent)
     {
-    	$message = 'Updating xbPeople component to v.'.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
-    	$message .= ' '.'<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople cPanel</a></p>';
-    	Factory::getApplication()->enqueueMessage($message,'Info');
+    	$message = '<br />Visit the <a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-info">';
+    	$message .= 'xbPeople Control Panel</a> page for overview of status.</p>';
+    	$message .= '<br />For ChangeLog see <a href="http://crosborne.co.uk/xbpeople/changelog" target="_blank">
+            www.crosborne.co.uk/xbpeople/changelog</a></p>';
+    	Factory::getApplication()->enqueueMessage($message,'Message');
     }
     
     function postflight($type, $parent) {
+    	$componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
     	if ($type=='install') {
-	    	$message = $parent->get('manifest')->name.' ('.$type.') : <br />';
-        	//create xbpeople image folder
+    		$message = 'xbPeople '.$componentXML['version'].' '.$componentXML['creationDate'].'<br />';
+    		
+    		//create xbpeople image folder
         	if (!file_exists(JPATH_ROOT.'/images/xbpeople')) {
          		mkdir(JPATH_ROOT.'/images/xbpeople',0775);
          		$message .= 'Portrait folder created (/images/xbpeople/).<br />';
@@ -87,7 +109,7 @@ class com_xbpeopleInstallerScript
          		$message .= '"/images/xbpeople/" already exists.<br />';
          	}
             $db = Factory::getDbo();
-        // Recover categories if they exist
+        	// Recover categories if they exist assigned to extension !com_xbpeople!
 			$qry = $db->getQuery(true);
          	$qry->update('#__categories')
          	  ->set('extension='.$db->q('com_xbpeople'))
@@ -101,60 +123,22 @@ class com_xbpeopleInstallerScript
          	}
          	$message .= $cnt.' existing xbPeople categories restored. ';
          	
-         	// set up com_xbpeople categories. Need to test if they already exist. Uncategorised-P and Imported-P. For persons and characters
-         	$category_data['id'] = 0;
-         	$category_data['parent_id'] = 0;
-         	$category_data['extension'] = 'com_xbpeople';
-         	$category_data['published'] = 1;
-         	$category_data['language'] = '*';
-         	$category_data['params'] = array('category_layout' => '','image' => '');
-         	$category_data['metadata'] = array('author' => '','robots' => '');
+         	// create default categories using category table
+         	$cats = array(
+         			array("title"=>"Uncat.People","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
+         			array("title"=>"Import.People","alias"=>"imported","desc"=>"default category for xbPeople imported data"));
+         	$message .= $this->createCategory($cats);
          	
-         	$basePath = JPATH_ADMINISTRATOR.'/components/com_categories';
-         	require_once $basePath.'/models/category.php';
-         	$config  = array('table_path' => $basePath.'/tables');
-         	$category_model = new CategoriesModelCategory($config);
+         	Factory::getApplication()->enqueueMessage($message,'Info');
          	
-         	$query = $db->getQuery(true);
-            $query->select('id')->from($db->quoteName('#__categories'))
-            	->where($db->quoteName('alias')." = ".$db->quote('uncategorised'))
-            	->where($db->quoteName('extension').' = '.$db->quote('com_xbpeople'));
-            $db->setQuery($query);
-            if ($db->loadResult()>0) {
-            	$message .= 'Category "Uncat.People" already exists. ';
-            } else{
-                $category_data['title'] = 'Uncat.People';
-                $category_data['alias'] = 'uncategorised';
-                $category_data['description'] = 'Default category for xbPeople and Characters not otherwise assigned';
-                if(!$category_model->save($category_data)){
-                    $message .= '<br />[Error creating Uncategorised category for people: '.$category_model->getError().']<br /> ';
-                }else{
-                    $message .= 'Category "Uncat.People" (id='. $category_model->getItem()->id.') created. ';
-                }   
-            }
-            $query->clear();
-            $query->select('id')->from($db->quoteName('#__categories'))->where($db->quoteName('alias')." = ".$db->quote('imported'));
-            $query->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
-            $db->setQuery($query);
-            if ($db->loadResult()>0) {
-            	$message .= 'Category "Import.People" already exists. ';
-            } else{
-            	$category_data['title'] = 'Import.People';
-                $category_data['alias'] = 'imported';
-                $category_data['description'] = 'Default category for imported xbPeople and Characters';
-                if(!$category_model->save($category_data)){
-                    $message .= '<br />[Error creating Imported category for people: '.$category_model->getError().']<br />';
-                }else{
-                    $message .= 'Category "Import.People" (id='. $category_model->getItem()->id.') created.<br />';
-                }
-            }           
+         	
             //set up indicies for characters and persons tables - can't be done in install.sql as they may already exists
             //mysql doesn't support create index if not exists. 
             $message .= 'Checking indicies... ';
             
             $app = Factory::getApplication();
             $prefix = $app->get('dbprefix');
-            $querystr = 'ALTER TABLE `'.$prefix.'xbpersons` ADD INDEX `personaliasindex` (`alias`)';
+            $querystr = 'ALTER TABLE '.$prefix.'xbpersons ADD INDEX personaliasindex (alias)';
             $err=false;
             try {
             	$db->setQuery($querystr);
@@ -170,7 +154,7 @@ class com_xbpeopleInstallerScript
             if (!$err) {
             	$message .= '- person alias index created. ';
             }
-            $querystr = 'ALTER TABLE `'.$prefix.'xbcharacters` ADD INDEX `characteraliasindex` (`alias`)';
+            $querystr = 'ALTER TABLE '.$prefix.'xbcharacters ADD INDEX characteraliasindex (alias)';
             $err=false;
             try {
             	$db->setQuery($querystr);
@@ -203,5 +187,49 @@ class com_xbpeopleInstallerScript
         
     	}
     }
+
+    public function createCategory($cats) {
+    	$message = 'Creating '.$this->extension.' categories. ';
+    	foreach ($cats as $cat) {
+    		$db = Factory::getDBO();
+    		$query = $db->getQuery(true);
+    		$query->select('id')->from($db->quoteName('#__categories'))
+    		->where($db->quoteName('title')." = ".$db->quote($cat['title']))
+    		->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
+    		$db->setQuery($query);
+    		if ($db->loadResult()>0) {
+    			$message .= '"'.$cat['title'].' already exists<br /> ';
+    		} else {
+    			$category = Table::getInstance('Category');
+    			$category->extension = $this->extension;
+    			$category->title = $cat['title'];
+    			if (array_key_exists('alias', $cat)) { $category->alias = $cat['alias']; }
+    			$category->description = $cat['desc'];
+    			$category->published = 1;
+    			$category->access = 1;
+    			$category->params = '{"category_layout":"","image":"","image_alt":""}';
+    			$category->metadata = '{"page_title":"","author":"","robots":""}';
+    			$category->language = '*';
+    			// Set the location in the tree
+    			$category->setLocation(1, 'last-child');
+    			// Check to make sure our data is valid
+    			if ($category->check()) {
+    				if ($category->store(true)) {
+    					// Build the path for our category
+    					$category->rebuildPath($category->id);
+    					$message .= $cat['title'].' id:'.$category->id.' created ok. ';
+    				} else {
+    					throw new Exception(500, $category->getError());
+    					//return '';
+    				}
+    			} else {
+    				throw new Exception(500, $category->getError());
+    				//return '';
+    			}
+    		}
+    	}
+    	return $message;
+    }
+    
 }
 

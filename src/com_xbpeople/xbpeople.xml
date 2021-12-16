@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>4th May 2021</creationDate>
-	<version>0.9.4.2</version>
+	<creationDate>15th December 2021</creationDate>
+	<version>0.9.6</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
@@ -59,28 +59,23 @@
 			view="cpanel">xbPeople</menu>
 		<submenu>
 			<menu link="option=com_xbpeople"
-				view="cpanel" img="class:xbpeople-cpanel"
-				alt="Xbpeople/Cpanel">
+				view="cpanel" img="class:xbpeople-cpanel">
 					xbculture_control_panel
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=persons" 
-				view="persons" img="class:xbpeople-persons"
-				alt="Xbpeople/Persons">
+				view="persons" img="class:xbpeople-persons">
 					xbculture_people					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=characters" 
-				view="characters" img="class:xbpeople-characters" 
-				alt="Xbpeople/Characters">
+				view="characters" img="class:xbpeople-characters">
 					xbculture_characters
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=categories" 
-				view="persons" img="class:xbpeople-categories"
-				alt="Xbpeople/Categories">
+				view="persons" img="class:xbpeople-categories">
 					xbculture_categories					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=tags" 
-				view="tags" img="class:xbpeople-tags"
-				alt="Xbpeople/Tags">
+				view="tags" img="class:xbpeople-tags">
 					xbculture_tags					
 			</menu>
 		</submenu>

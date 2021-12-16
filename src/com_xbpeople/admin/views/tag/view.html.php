@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/tag/view.html.php
- * @version 0.4.4 23rd March 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 class XbpeopleViewTag extends JViewLegacy {
 
@@ -32,7 +33,8 @@ class XbpeopleViewTag extends JViewLegacy {
 	}
 	
 	protected function addToolBar() {
-		$canDo = XbpeopleHelper::getActions();
+		$canDo = ContentHelper::getActions('com_xbpeople', 'component');
+		// XbpeopleHelper::getActions();
 		
 		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'XBCULTURE_TITLE_TAGMANAGER' ), 'tag' );
 		

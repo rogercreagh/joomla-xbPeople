@@ -1,4 +1,4 @@
-	<?php
+<?php
 /*******
  * @package xbPeople
  * @filesource admin/models/tag.php

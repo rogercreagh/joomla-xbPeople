@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/person.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -52,12 +52,12 @@ class XbpeopleTablePerson extends JTable {
     	$lastname = trim($this->lastname);
     	
     	if ($lastname == '') {
-            $this->setError(JText::_('XBCULTURE_PROVIDE_VALID_NAME'));
+            $this->setError(Text::_('XBCULTURE_PROVIDE_VALID_NAME'));
             return false;
         }
         
         if (($this->id == 0) && (XbfilmsHelper::checkPersonExists($firstname,$lastname))) {
-        	$this->setError(JText::_('Person  "'.$firstname.' '.$lastname.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
+        	$this->setError(Text::_('Person  "'.$firstname.' '.$lastname.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
         	return false;
         }
         
@@ -85,9 +85,9 @@ class XbpeopleTablePerson extends JTable {
         	}
         	if ($defcat>0) {
         		$this->catid = $defcat;
-        		Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_DEFAULT_CATEGORY'));
+        		Factory::getApplication()->enqueueMessage(Text::_('XBCULTURE_DEFAULT_CATEGORY'));
         	} else {
-        		$this->setError(JText::_('Please set a category'));
+        		$this->setError(Text::_('XBCULTURE_CATEGORY_MISSING'));
         		return false;
         	}
         }
@@ -95,7 +95,7 @@ class XbpeopleTablePerson extends JTable {
         //require summary, create from biog if missing
         if ((trim($this->summary)=='')) {
         	if (trim($this->biography)=='' ) {
-        		Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_MISSING_SUMMARY'));
+        		Factory::getApplication()->enqueueMessage(Text::_('XBCULTURE_MISSING_SUMMARY'));
         	}
         }
         
@@ -117,7 +117,7 @@ class XbpeopleTablePerson extends JTable {
         //meta.description can be set to first 150 chars of summary if not otherwise set and option is set
         $summary_metadesc = $params->get('summary_metadesc');
         if (($summary_metadesc) && (trim($metadata['metadesc']) == '')) {
-        	$metadata['metadesc'] = JHtml::_('string.truncate', $this->summary,150,true,false);
+        	$metadata['metadesc'] = HTMLHelper::_('string.truncate', $this->summary,150,true,false);
         }
         //meta.rights will be set to default if not otherwise set
         $def_rights = $params->get('def_rights');

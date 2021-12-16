@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/pcategories/view.html.php
- * @version 0.9.4 14th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 class XbpeopleViewPcategories extends JViewLegacy {
     
@@ -46,7 +47,8 @@ class XbpeopleViewPcategories extends JViewLegacy {
     }
     
     protected function addToolBar() {
-        $canDo = XbpeopleHelper::getActions();
+    	$canDo =  ContentHelper::getActions('com_xbpeople', 'component');
+    	// XbpeopleHelper::getActions();
         
         ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'COM_XBPEOPLE_TITLE_CATSMANAGER' ), 'folder' );
         

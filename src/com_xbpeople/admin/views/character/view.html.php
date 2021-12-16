@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 class XbpeopleViewCharacter extends JViewLegacy {
     
@@ -21,7 +22,8 @@ class XbpeopleViewCharacter extends JViewLegacy {
         // Get the Data
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
-        $this->canDo = XbpeopleHelper::getActions('com_xbpeople', 'character', $this->item->id);
+        $this->canDo = ContentHelper::getActions('com_xbpeople', 'character', $this->item->id);
+        // XbpeopleHelper::getActions('com_xbpeople', 'character', $this->item->id);
         
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

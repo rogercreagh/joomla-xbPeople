@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.9.4 14th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,7 +14,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Access\Access;
+// use Joomla\CMS\HTML\HTMLHelper;
 // use Joomla\CMS\Filter\OutputFilter;
 // use Joomla\CMS\Application\ApplicationHelper;
 
@@ -103,29 +104,30 @@ class XbpeopleHelper extends ContentHelper {
 			    );
 		} else {
 			JHtmlSidebar::addEntry(
-					Text::_('xbPeople cPanel'),
+					Text::_('COM_XBPEOPLE_DASHBOARD'),
 					'index.php?option=com_xbfilms&view=cpanel',
 					$vName == 'cpanel'
 					);
 			
 			JHtmlSidebar::addEntry(
-					Text::_('People'),
+					Text::_('XBCULTURE_CAPPEOPLE'),
 					'index.php?option=com_xbpeople&view=persons',
 					$vName == 'films'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('Characters'),
+					Text::_('XBCULTURE_CAPCHARACTERS'),
 					'index.php?option=com_xbpeople&view=characters',
-					$vName == 'reviews'
+					$vName == 'characters'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('People Cat.Counts'),
+					Text::_('COM_XBPEOPLE_CATCOUNT'),
 					'index.php?option=com_xbpeople&view=pcategories',
 					$vName == 'pcategories'
 					);
 		}
 	}
 
+/*** deprecated
 	public static function getActions($component = 'com_xbpeople', $section = 'component', $categoryid = 0) {
 		//$extension = 'com_xbpeople';
 		
@@ -138,12 +140,13 @@ class XbpeopleHelper extends ContentHelper {
 			$assetName = $component.'.category.'.(int) $categoryid;
 			$level = 'category';
 		}
-		$actions = JAccess::getActions('com_xbpeople', $level);
+		$actions = Access::getActions('com_xbpeople', $level);
 		foreach ($actions as $action) {
 			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 		return $result;
 	}
+***/
 	
 	public static function getIdFromAlias($table,$alias, $ext = 'com_xbpeople') {
 		$alias = trim($alias,"' ");

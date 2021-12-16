@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/character.php
- * @version 0.9.4 15th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Table\Observer\Tags;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class XbpeopleTableCharacter extends JTable {
 	
@@ -49,12 +51,12 @@ class XbpeopleTableCharacter extends JTable {
     	$title = trim($this->name);
     	
     	if ($title == '') {
-    	    $this->setError(JText::_('COM_XBFILMS_PROVIDE_VALID_NAME'));
+    	    $this->setError(Text::_('XBCULTURE_PROVIDE_VALID_NAME'));
     	    return false;
     	}
     	
     	if (($this->id == 0) && (XbpeopleHelper::checkTitleExists($name,'#__xbcharacters'))) {
-    		$this->setError(JText::_('Character "'.$title.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
+    		$this->setError(Text::_('Character "'.$title.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
     	    return false;
     	}
     	
@@ -82,10 +84,10 @@ class XbpeopleTableCharacter extends JTable {
             }
             if ($defcat>0) {
                 $this->catid = $defcat;
-                Factory::getApplication()->enqueueMessage(JText::_('XBCULTURE_CATEGORY_DEFAULT_SET').' ('.XbcultureHelper::getCat($this->catid)->title.')');
+                Factory::getApplication()->enqueueMessage(Text::_('XBCULTURE_CATEGORY_DEFAULT_SET').' ('.XbcultureHelper::getCat($this->catid)->title.')');
             } else {
             	// this shouldn't happen unless uncategorised has been deleted or xbpeople not installed
-            	$this->setError(JText::_('Please set a category'));
+            	$this->setError(Text::_('XBCULTURE_CATEGORY_MISSING'));
             	return false;
             }
         }
@@ -93,7 +95,7 @@ class XbpeopleTableCharacter extends JTable {
         //warn re missing summary and description
         if ((trim($this->summary)=='')) {
         	if (trim($this->description)=='' ) {
-        		Factory::getApplication()->enqueueMessage(JText::_('COM_XBFILMS_MISSING_SUMMARY'));
+        		Factory::getApplication()->enqueueMessage(Text::_('XBCULTURE_MISSING_SUMMARY'));
         	}
         }
                       
@@ -110,7 +112,7 @@ class XbpeopleTableCharacter extends JTable {
         //meta.description can be set to first 150 chars of summary if not otherwise set and option is set
         $summary_metadesc = $params->get('summary_metadesc');
         if (($summary_metadesc) && (trim($metadata['metadesc']) == '')) {
-        	$metadata['metadesc'] = JHtml::_('string.truncate', $this->summary,150,true,false);
+        	$metadata['metadesc'] = HTMLHelper::_('string.truncate', $this->summary,150,true,false);
         }
         //meta.rights will be set to default if not otherwise set
         $def_rights = $params->get('def_rights');

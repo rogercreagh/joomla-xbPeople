@@ -1,8 +1,8 @@
 <?php
 /*******
- * @package xbFilms
+ * @package xbPeople
  * @filesource admin/views/pcategory/tmpl/edit.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.6.a 16th December 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,7 +41,7 @@ $celink = 'index.php?option=com_categories&task=category.edit&id=';
 		<div class="row-fluid xbmb8">
 			<div class= "span6">
 					<p class="xb11">
-						<i><?php JText::_('XBCULTURE_CAPCATEGORY').' '.JText::_('XBCULTURE_HEIRARCHY'); ?></i> 
+						<i><?php JText::_('XBCULTURE_CATEGORY').' '.JText::_('XBCULTURE_HEIRARCHY'); ?></i> 
 						<?php $path = str_replace('/', ' - ', $item->path);
 						echo 'root - '.$path; ?>
 					</p>
