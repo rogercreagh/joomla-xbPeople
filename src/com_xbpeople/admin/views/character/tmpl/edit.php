@@ -89,7 +89,7 @@ JHtml::_('formbehavior.chosen', 'select');
         	<?php endif; ?>
 			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_CAPPUBLISHING')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>

@@ -56,14 +56,14 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 	</div>
 </div>
 <div class="<?php echo ($this->client['mobile']? 'span9' : 'span10'); ?>">
-<h4><?php echo Text::_( 'XBCULTURE_CAPSUMMARY' ); ?></h4>
+<h4><?php echo Text::_( 'XBCULTURE_SUMMARY' ); ?></h4>
 	<div class="row-fluid">
 		<div class="span6">
 			<div class="xbbox xbboxgrn">
 				<div class="row-fluid"><div class="span12">
-				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_CAPPEOPLE'); ?>
+				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>
 					<span class="pull-right">
-						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_CAPTOTAL'); ?>: </span>
+						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_TOTAL'); ?>: </span>
 						<span class="badge percnt xbmr20"><?php echo $this->totPeople;?></span>
 					</span>	
 				</h2>
@@ -79,11 +79,11 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 					<div class="row-fluid">
 						<div class="span6">
 							<span class="badge badge-success xbmr10"><?php echo $this->perStates['published']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPPUBLISHED'); ?>
+							<?php echo Text::_('XBCULTURE_PUBLISHED'); ?>
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->perStates['unpublished']>0 ?'badge-yellow' : ''; ?> xbmr10"><?php echo $this->perStates['unpublished']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPUNPUBLISHED'); ?>
+							<?php echo Text::_('XBCULTURE_UNPUBLISHED'); ?>
 						</div>
 					</div>
 					<div class="row-fluid">
@@ -93,7 +93,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->perStates['archived']>0 ?'badge-important' : ''; ?> xbmr10"><?php echo $this->perStates['trashed']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPTRASHED'); ?>
+							<?php echo Text::_('XBCULTURE_TRASHED'); ?>
 						</div>
 					</div>
 				</div>
@@ -102,7 +102,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 				<div class="row-fluid"><div class="span12">
 				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_CAPCHARACTERS'); ?>
 					<span class="pull-right">
-						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_CAPTOTAL'); ?>: </span>
+						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_TOTAL'); ?>: </span>
 						<span class="badge chcnt xbmr20"><?php echo $this->totChars;?></span>
 					</span>	
 				</h2>
@@ -118,11 +118,11 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 					<div class="row-fluid">
 						<div class="span6">
 							<span class="badge badge-success xbmr10"><?php echo $this->charStates['published']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPPUBLISHED'); ?>
+							<?php echo Text::_('XBCULTURE_PUBLISHED'); ?>
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->charStates['unpublished']>0 ?'badge-yellow' : ''; ?> xbmr10"><?php echo $this->charStates['unpublished']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPUNPUBLISHED'); ?>
+							<?php echo Text::_('XBCULTURE_UNPUBLISHED'); ?>
 						</div>
 					</div>
 					<div class="row-fluid">
@@ -132,7 +132,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->charStates['trashed']>0 ?'badge-important' : ''; ?> xbmr10"><?php echo $this->charStates['trashed']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPTRASHED'); ?>
+							<?php echo Text::_('XBCULTURE_TRASHED'); ?>
 						</div>
 					</div>
 				</div>
@@ -140,12 +140,12 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 			<?php if((!empty($this->orphanpeep)) || (!empty($this->orphanchar))) : ?>
 			<div class="xbbox xbboxred">
 				<h2 class="xbtitle">
-					<?php echo Text::_('XBCULTURE_CAPORPHANS'); ?>
+					<?php echo Text::_('XBCULTURE_ORPHANS'); ?>
 				</h2>
                 <?php if(!empty($this->orphanpeep)) : ?>
 				<div class="row-striped">
 					<span class="badge badge-important pull-right"><?php echo count($this->orphanpeep); ?></span>
-					<?php echo Text::_('XBCULTURE_CAPPEOPLE'); ?>
+					<?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>
 					<?php foreach($this->orphanpeep as $rev) {
 						echo '<br /><a class="xbml10" href="'.$pelink.$rev['id'].'">'.$rev['name'].' ('.$rev['id'].')</a> ';
 					}?>
@@ -174,11 +174,11 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 					<div class="row-fluid">
 						<div class="span6">
 							<span class="badge badge-success xbmr10"><?php echo $this->pcatStates['published']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPPUBLISHED'); ?>
+							<?php echo Text::_('XBCULTURE_PUBLISHED'); ?>
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->pcatStates['unpublished']>0 ?'badge-yellow' : ''; ?> xbmr10"><?php echo $this->pcatStates['unpublished']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPUNPUBLISHED'); ?>
+							<?php echo Text::_('XBCULTURE_UNPUBLISHED'); ?>
 						</div>
  					</div>
  					<div class="row-fluid">
@@ -188,7 +188,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 						</div>
 						<div class="span6">
 							<span class="badge <?php echo $this->pcatStates['trashed']>0 ?'badge-important' : ''; ?> xbmr10"><?php echo $this->pcatStates['trashed']; ?></span>
-							<?php echo Text::_('XBCULTURE_CAPTRASHED'); ?>
+							<?php echo Text::_('XBCULTURE_TRASHED'); ?>
 						</div>
 					</div>
                  </div>

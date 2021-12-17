@@ -19,7 +19,7 @@
 			class="inputbox" size="45" />
 		
 		<field name="summary" type="textarea" rows="3" cols="50"
-			label="XBCULTURE_CAPSUMMARY" description="XBCULTURE_CHARSUMMARY_DESC" />
+			label="XBCULTURE_SUMMARY" description="XBCULTURE_CHARSUMMARY_DESC" />
 						
 		<field name="description" type="editor"
 			class="inputbox" label="XBCULTURE_DESCRIPTION" description="XBCULTURE_FIELD_DESC_DESC"
@@ -56,7 +56,7 @@
 		</field>
 
 		<field name="note" type="textarea" rows="3" cols="50"
-			label="XBCULTURE_CAPNOTE" description="XBCULTURE_ADMIN_NOTE" />
+			label="XBCULTURE_NOTE" description="XBCULTURE_ADMIN_NOTE" />
 
 		<field name= "filmcharlist"
 			type= "subform"
