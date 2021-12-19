@@ -115,7 +115,7 @@ class XbpeopleHelper extends ContentHelper {
 					$vName == 'films'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_CAPCHARACTERS'),
+					Text::_('XBCULTURE_CHARACTERS_U'),
 					'index.php?option=com_xbpeople&view=characters',
 					$vName == 'characters'
 					);

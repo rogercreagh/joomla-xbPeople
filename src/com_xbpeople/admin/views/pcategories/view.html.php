@@ -57,7 +57,7 @@ class XbpeopleViewPcategories extends JViewLegacy {
             ToolbarHelper::custom('pcategories.categorynewpeep','new','','COM_XBPEOPLE_NEW_PCAT',false);
         }
         if ($canDo->get('core.admin')) {
-        	ToolbarHelper::editList('pcategories.categoryedit', 'COM_XBPEOPLE_EDIT_CAT');       	
+        	ToolbarHelper::editList('pcategories.categoryedit', 'XBCULTURE_EDIT_CAT');       	
          }        
 //         ToolbarHelper::custom('pcategories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
          

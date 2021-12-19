@@ -100,7 +100,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 			</div>
 			<div class="xbbox xbboxcyan">
 				<div class="row-fluid"><div class="span12">
-				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_CAPCHARACTERS'); ?>
+				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_CHARACTERS_U'); ?>
 					<span class="pull-right">
 						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_TOTAL'); ?>: </span>
 						<span class="badge chcnt xbmr20"><?php echo $this->totChars;?></span>
@@ -154,7 +154,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
                 <?php if(!empty($this->orphanchars)) : ?>
 				<div class="row-striped">
 					<span class="badge badge-important pull-right"><?php echo count($this->orphanchars); ?></span>
-					<?php echo Text::_('XBCULTURE_CAPCHARACTERS'); ?>
+					<?php echo Text::_('XBCULTURE_CHARACTERS_U'); ?>
 					<?php foreach($this->orphanchars as $rev) {
 						echo '<br /><a class="xbml10" href="'.$chelink.$rev['id'].'">'.$rev['name'].' ('.$rev['id'].')</a> ';
 					}?>

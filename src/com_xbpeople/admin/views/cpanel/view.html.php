@@ -106,7 +106,7 @@ class XbpeopleViewCpanel extends JViewLegacy
 //    	}
     	$canDo = ContentHelper::getActions('com_xbpeople', 'component');
     	
-        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_('COM_XBPEOPLE_CONTROL_PANEL'),'info-2');
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_('XBCULTURE_DASHBOARD'),'info-2');
         
         ToolbarHelper::custom('cpanel.books', 'stack', '', 'xbBooks', false) ;
         ToolbarHelper::custom('cpanel.films', 'screen', '', 'xbFilms', false) ;

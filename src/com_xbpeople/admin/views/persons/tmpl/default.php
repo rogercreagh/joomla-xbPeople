@@ -28,7 +28,7 @@ if (!$listOrder) {
 $orderNames = array('firstname'=>Text::_('XBCULTURE_FIRSTNAME'),'lastname'=>Text::_('XBCULTURE_LASTNAME'),
 		'id'=>'id','sortdate'=>Text::_('XBCULTURE_DATES'),'category_title'=>Text::_('XBCULTURE_CATEGORY'),
 		'published'=>Text::_('XBCULTURE_STATUS'),'a.ordering'=>Text::_('XBCULTURE_ORDERING'),
-		'bcnt'=>Text::_('XBCULTURE_CAPBOOKS'),'fcnt'=>Text::_('XBCULTURE_CAPFILMS'));
+		'bcnt'=>Text::_('XBCULTURE_BOOKS_U'),'fcnt'=>Text::_('XBCULTURE_FILMS_U'));
 
 $saveOrder      = $listOrder == 'ordering';
 $canOrder       = $user->authorise('core.edit.state', 'com_xbpeople.person');
