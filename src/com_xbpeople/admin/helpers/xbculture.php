@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.6 15th December 2021
+ * @version 0.9.6.c 6th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -108,6 +108,33 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 /* functions used on admin side only */
+
+	/**
+	 * @name getExtensionInfo()
+	 * @param string $element 'mod_...' or 'com_...' for component or module, for plugin the plugin=string from the xml plus the folder (type of plugin))
+	 * @return false if not installed, version string if installed followed but '(not enabled)' if not enabled
+	 */
+	public static function getExtensionInfo($element, $folder=null) {
+	    $db = Factory::getDBO();
+	    $qry = $db->getQuery(true);
+	    $qry->select('enabled, manifest_cache')
+	    ->from($db->quoteName('#__extensions'))
+	       ->where('element = '.$db->quote($element));
+	       if ($folder) {
+	           $qry->where('folder = '.$db->quote($folder));
+	       }
+	    $db->setQuery($qry);
+	    $res = $db->loadAssoc();
+	    if (is_null($res)) { 
+	        return false; 
+	    } else {
+	        $manifest = json_decode($res['manifest_cache'],true);
+	    }
+	    $manifest['enabled'] = res['enabled'];
+	    return $manifest;
+	}
+	
+	
 	
 	/**
 	 * @name getCat()
