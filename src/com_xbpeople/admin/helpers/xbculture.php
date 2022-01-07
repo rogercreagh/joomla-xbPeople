@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.6.c 6th January 2022
+ * @version 0.9.6.d 7th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -106,8 +106,33 @@ class XbcultureHelper extends ContentHelper {
 		$sess->set($sname,$res);
 		return $res;
 	}
+
+	/**
+	 * @name credit()
+	 * @desc tests if reg code is installed and returns blank, or credit for site and PayPal button for admin
+	 * @param string $ext - extension name to display, must match 'com_name' and xml filename and crosborne link page when converted to lower case
+	 * @return string - empty is registered otherwise for display
+	 */
+	public static function credit(string $ext) {
+	    if (XbcultureHelper::penPont()) {
+	        return '';
+	    }
+	    $lext = strtolower($ext);
+	    $credit='<div class="xbcredit">';
+	    if (Factory::getApplication()->isClient('administrator')==true) {
+	        $xmldata = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/components/com_'.$lext.'/'.$lext.'.xml');
+	        $credit .= '<a href="http://crosborne.uk/'.$lext.'" target="_blank">'
+	            .$ext.' Component '.$xmldata['version'].' '.$xmldata['creationDate'].'</a>';
+	            $credit .= '<br />'.Text::_('XBCULTURE_BEER_TAG');
+	            $credit .= Text::_('XBCULTURE_BEER_FORM');
+	    } else {
+	        $credit .= $ext.' by <a href="http://crosborne.uk/'.$lext.'" target="_blank">CrOsborne</a>';
+	    }
+	    $credit .= '</div>';
+	    return $credit;
+	}
 	
-/* functions used on admin side only */
+/************** functions used on admin side only *********************/
 
 	/**
 	 * @name getExtensionInfo()
@@ -134,8 +159,6 @@ class XbcultureHelper extends ContentHelper {
 	    return $manifest;
 	}
 	
-	
-	
 	/**
 	 * @name getCat()
 	 * @desc given category id returns title and description
@@ -151,17 +174,5 @@ class XbcultureHelper extends ContentHelper {
 		$db->setQuery($query);
 		return $db->loadObjectList()[0];
 	}
-	
-	
-	public static function getExtensionVersion($name) {
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('manifest_cache');
-		$query->from($db->quoteName('#__extensions'));
-		$query->where('element = ' . $db->quote($name) );
-		$db->setQuery($query);			
-		$manifest = json_decode($db->loadResult(), true);
-		return $manifest['version'];
-	}
-	
+		
 }
