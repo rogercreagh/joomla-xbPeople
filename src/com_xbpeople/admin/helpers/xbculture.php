@@ -155,7 +155,7 @@ class XbcultureHelper extends ContentHelper {
 	    } else {
 	        $manifest = json_decode($res['manifest_cache'],true);
 	    }
-	    $manifest['enabled'] = res['enabled'];
+	    $manifest['enabled'] = $res['enabled'];
 	    return $manifest;
 	}
 	
