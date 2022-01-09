@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/view.html.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 9th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -62,7 +62,7 @@ class XbpeopleViewPersons extends JViewLegacy {
     	$canDo = ContentHelper::getActions('com_xbpeople', 'component');
     	// XbpeopleHelper::getActions();
         
-        $bar = JToolbar::getInstance('toolbar');
+        $bar = ToolbarHelper::getInstance('toolbar');
         
         ToolBarHelper::title(JText::_('COM_XBPEOPLE').': '.JText::_('XBCULTURE_TITLE_PEOPLEMANAGER'), 'users' );
         

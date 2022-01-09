@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/cpanel/tmpl/default.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 8th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 jimport('joomla.html.html.bootstrap');
 
@@ -18,14 +20,14 @@ $pelink='index.php?option=com_xbpeople&view=person&layout=edit&id=';
 $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_xbpeople&view=cpanel'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_xbpeople&view=cpanel'); ?>" method="post" name="adminForm" id="adminForm">
 <div class="row-fluid">
 	<div class="<?php echo ($this->client['mobile']? 'span3' : 'span2'); ?>">
 		<?php echo $this->sidebar; ?>
 		<p> </p>
 		<div class="row-fluid hidden-phone">
-        	<?php echo JHtml::_('bootstrap.startAccordion', 'slide-cpanel', array('active' => 'sysinfo')); ?>
-        		<?php echo JHtml::_('bootstrap.addSlide', 'slide-cpanel', Text::_('COM_XBPEOPLE_SYSINFO'), 'sysinfo'); ?>
+        	<?php echo HtmlHelper::_('bootstrap.startAccordion', 'slide-cpanel', array('active' => 'sysinfo')); ?>
+        		<?php echo HtmlHelper::_('bootstrap.addSlide', 'slide-cpanel', Text::_('COM_XBPEOPLE_SYSINFO'), 'sysinfo'); ?>
         			<p><b><?php echo Text::_( 'COM_XBPEOPLE_COMPONENT' ); ?></b>
 						<br /><?php echo Text::_('XBCULTURE_VERSION').': '.$this->xmldata['version'].'<br/>'.
 							$this->xmldata['creationDate'];?>
@@ -43,15 +45,15 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 					<p><b><?php echo Text::_( 'XBCULTURE_CLIENT' ); ?></b>
 						<br/><?php echo $this->client['platform'].'<br/>'.$this->client['browser']; ?>
 					</p>
-        		<?php echo JHtml::_('bootstrap.endSlide'); ?>
-        		<?php echo JHtml::_('bootstrap.addSlide', 'slide-cpanel', Text::_('COM_XBPEOPLE_ABOUT'), 'about'); ?>
+        		<?php echo HtmlHelper::_('bootstrap.endSlide'); ?>
+        		<?php echo HtmlHelper::_('bootstrap.addSlide', 'slide-cpanel', Text::_('COM_XBPEOPLE_ABOUT'), 'about'); ?>
         			<p><?php echo Text::_('COM_XBPEOPLE_ABOUT_INFO' ).Text::_('XBCULTURE_JVER' ).Text::_('COM_XBPEOPLE_ABOUT_LINKS' ); ?></p>
-        		<?php echo JHtml::_('bootstrap.endSlide'); ?>
-        		<?php echo JHtml::_('bootstrap.addSlide', 'slide-cpanel', Text::_('XBCULTURE_LICENSE'), 'license'); ?>
+        		<?php echo HtmlHelper::_('bootstrap.endSlide'); ?>
+        		<?php echo HtmlHelper::_('bootstrap.addSlide', 'slide-cpanel', Text::_('XBCULTURE_LICENSE'), 'license'); ?>
         			<p><?php echo Text::_( 'XBCULTURE_LICENSE_INFO' ); ?>
         				<br /><?php echo $this->xmldata['copyright']; ?>
         			</p>
-				<?php echo JHtml::_('bootstrap.endSlide'); ?>
+				<?php echo HtmlHelper::_('bootstrap.endSlide'); ?>
 		</div>
 	</div>
 </div>
@@ -232,7 +234,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 	</div>
 </div>
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HtmlHelper::_('form.token'); ?>
 	</div>
 </form>
 

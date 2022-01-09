@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/tags/tmpl/default.php
- * @version 0.4.2 21st March 2021
+ * @version 0.9.6.f 8th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('formbehavior.chosen', 'select');
 
@@ -63,28 +65,28 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 <thead>
 <tr>
 					<th class="hidden-phone center" style="width:25px;">
-						<?php echo JHtml::_('grid.checkall'); ?>
+						<?php echo HtmlHelper::_('grid.checkall'); ?>
 					</th>
 			<th width="5%">
-				<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
+				<?php echo HtmlHelper::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'XBCULTURE_TAG_U', 'path', $listDirn, $listOrder );?>
+				<?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_TAG_U', 'path', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo JText::_('XBCULTURE_DESCRIPTION') ;?>
+				<?php echo Text::_('XBCULTURE_DESCRIPTION') ;?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'XBCULTURE_PEOPLE_U', 'pcnt', $listDirn, $listOrder );?>
+				<?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_PEOPLE_U', 'pcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'XBCULTURE_CAPCHARACTERS', 'chcnt', $listDirn, $listOrder );?>
+				<?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_CAPCHARACTERS', 'chcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
 				<?php echo JText::_('XBCULTURE_OTHERS') ;?>
 			</th>
 			<th class="nowrap hidden-tablet hidden-phone" style="width:45px;">
-				<?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder );?>
+				<?php echo HtmlHelper::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder );?>
 			</th>
 		</tr>
 		</thead>
@@ -101,11 +103,11 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 			?>
 			<tr class="row<?php echo $i % 2; ?>" >	
 					<td class="center hidden-phone">
-						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+						<?php echo HtmlHelper::_('grid.id', $i, $item->id); ?>
 					</td>
 				<td class="center">
 					<div class="btn-group">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tag.', false, 'cb'); ?>
+						<?php echo HtmlHelper::_('jgrid.published', $item->published, $i, 'tag.', false, 'cb'); ?>
 							<?php if ($item->note!=''){ ?>
 								<span class="btn btn-micro active hasTooltip" title="" 
 									data-original-title="<?php echo '<b>'.JText::_( 'XBCULTURE_NOTE' ) .'</b>: '. htmlentities($item->note); ?>">
@@ -119,14 +121,14 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
  				<td>
 					<?php if ($item->checked_out) {
     					$couname = Factory::getUser($item->checked_out)->username;
-    					echo JHtml::_('jgrid.checkedout', $i, JText::_('XBCULTURE_OPENEDBY').': '.$couname, $item->checked_out_time, 'tags.', false);
+    					echo HtmlHelper::_('jgrid.checkedout', $i, JText::_('XBCULTURE_OPENEDBY').': '.$couname, $item->checked_out_time, 'tags.', false);
     				} ?>
 					<span class="xbnote"> 
  					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));
 						$path = str_replace('/', ' - ', $path);
 						echo $path; ?>
 					  - </span>    				
-    				<a href="<?php echo JRoute::_($tvlink . $item->id); ?>" title="Details" 
+    				<a href="<?php echo Route::_($tvlink . $item->id); ?>" title="Details" 
     					class="label label-info" style="padding:4px 8px;">
     					<span class="xb12"><?php echo $item->title; ?></span>
     				</a>

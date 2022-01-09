@@ -2,12 +2,14 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/tag/tmpl/edit.php
- * @version 0.4.4 24th March 2021
+ * @version 0.9.6.f 8th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 $item = $this->item;
 $telink = 'index.php?option=com_tags&task=tag.edit&id=';
@@ -178,7 +180,7 @@ $pelink = '&view=person&task=person.edit&id=';
 		</div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="tid" value="<?php echo $item->id;?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HtmlHelper::_('form.token'); ?>
 		</form>
 	</div>
 </div>

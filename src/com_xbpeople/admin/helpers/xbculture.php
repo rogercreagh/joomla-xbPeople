@@ -163,7 +163,7 @@ class XbcultureHelper extends ContentHelper {
 	 * @name getCat()
 	 * @desc given category id returns title and description
 	 * @param int $catid
-	 * @return objectlist|null
+	 * @return object|null
 	 */
 	public static function getCat($catid) {
 		$db = Factory::getDBO();

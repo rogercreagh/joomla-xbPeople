@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 9th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,15 +10,18 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
-JHtml::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
-JHtml::_('formbehavior.chosen', 'select');
+HtmlHelper::_('behavior.formvalidator');
+HtmlHelper::_('behavior.keepalive');
+HtmlHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
+HtmlHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
+HtmlHelper::_('formbehavior.chosen', 'select');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
     	<div class="span9">
@@ -41,16 +44,16 @@ JHtml::_('formbehavior.chosen', 'select');
         		<?php if($this->form->getValue('image')){?>
         			<div class="control-group">
         				<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-            				src="<?php echo JUri::root() . $this->form->getValue('image');?>" />
+            				src="<?php echo Uri::root() . $this->form->getValue('image');?>" />
         			</div>
         		<?php } ?>
             </div>  
     </div>
     <div class="row-fluid">
       <div class="span12">
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HtmlHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', Text::_('XBCULTURE_GENERAL')); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('XBCULTURE_GENERAL')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform form-vertical">
@@ -68,8 +71,8 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', Text::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', Text::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
 			<div class="row-fluid">
 			<?php if($this->xbfilms_ok) : ?>
         		<div class="span6">
@@ -88,8 +91,8 @@ JHtml::_('formbehavior.chosen', 'select');
         		</div>
         	<?php endif; ?>
 			</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_PUBLISHING')); ?>
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -98,12 +101,12 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 	</div>
   </div>
 
     <input type="hidden" name="task" value="character.edit" />
-    <?php echo JHtml::_('form.token'); ?>
+    <?php echo HtmlHelper::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbpeopleHelper::credit();?></p>

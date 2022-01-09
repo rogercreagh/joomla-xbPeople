@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 8th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -20,7 +22,7 @@ HTMLHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_tex
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
     	<div class="span9">
@@ -48,7 +50,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		<?php if($this->form->getValue('portrait')){?>
 			<div class="control-group">
 				<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-    				src="<?php echo JUri::root() . $this->form->getValue('portrait');?>" />
+    				src="<?php echo Uri::root() . $this->form->getValue('portrait');?>" />
 			</div>
 		<?php } ?>
     </div>
@@ -56,9 +58,9 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     
     <div class="row-fluid">
       <div class="span12">
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HtmlHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('XBCULTURE_GENERAL')); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'general', JText::_('XBCULTURE_GENERAL')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid">
@@ -88,8 +90,8 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'links', JText::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', JText::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
 			<?php if($this->xbfilms_ok) : ?>
 			<div class="row-fluid">
         		<div class="span6">
@@ -115,8 +117,8 @@ HTMLHelper::_('formbehavior.chosen', 'select');
         		</div>
         	<?php endif; ?>
 			</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('XBCULTURE_PUBLISHING')); ?>
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('XBCULTURE_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -125,12 +127,12 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 				<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 	</div>
   </div>
 
     <input type="hidden" name="task" value="person.edit" />
-    <?php echo JHtml::_('form.token'); ?>
+    <?php echo HtmlHelper::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbpeopleHelper::credit();?></p>

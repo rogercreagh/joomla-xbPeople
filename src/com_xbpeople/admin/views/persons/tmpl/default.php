@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 9th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
@@ -190,7 +191,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     							if (!file_exists(JPATH_ROOT.'/'.$src)) {
     								$src = $nofile;
     							}
-    							$src = JURI::root().$src;
+    							$src = Uri::root().$src;
 							?>
 							<img class="img-polaroid hasTooltip xbimgthumb" title="" 
 								data-original-title="<?php echo $item->portrait;?>"

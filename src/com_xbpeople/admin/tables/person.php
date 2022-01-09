@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/person.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 9th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -56,7 +56,7 @@ class XbpeopleTablePerson extends JTable {
             return false;
         }
         
-        if (($this->id == 0) && (XbfilmsHelper::checkPersonExists($firstname,$lastname))) {
+        if (($this->id == 0) && (XbpeopleHelper::checkPersonExists($firstname,$lastname))) {
         	$this->setError(Text::_('Person  "'.$firstname.' '.$lastname.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
         	return false;
         }
