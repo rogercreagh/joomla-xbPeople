@@ -189,4 +189,4 @@ $pelink = '&view=person&task=person.edit&id=';
 	<a href="<?php echo $xblink; ?>&view=tags" class="btn btn-small">
 		<?php echo JText::_('XBCULTURE_TAG_LIST'); ?></a>
 </div>
-<p><?php echo XbpeopleHelper::credit();?></p>
+<p><?php echo XbcultureHelper::credit('xbpeople');?></p>

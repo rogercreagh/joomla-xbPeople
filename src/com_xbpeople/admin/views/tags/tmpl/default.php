@@ -80,7 +80,7 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 				<?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_PEOPLE_U', 'pcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_CAPCHARACTERS', 'chcnt', $listDirn, $listOrder );?>
+				<?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_CHARACTERS_U', 'chcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
 				<?php echo JText::_('XBCULTURE_OTHERS') ;?>
@@ -172,5 +172,5 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbpeopleHelper::credit();?></p>
+<p><?php echo XbcultureHelper::credit('xbpeople');?></p>
 

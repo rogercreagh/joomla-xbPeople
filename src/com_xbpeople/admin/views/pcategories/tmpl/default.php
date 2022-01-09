@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/pcategories/tmpl/default.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.6.f 9th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -78,7 +78,7 @@ $prevext ='';
 				<?php echo Text::_('JSTATUS'); ?>
 			</th>
 			<th>
-				<?php echo HTMLHelper::_('grid.sort', 'XBCULTURE_CAPCATEGORY', 'path', $listDirn, $listOrder );?>
+				<?php echo HTMLHelper::_('grid.sort', 'XBCULTURE_CATEGORY', 'path', $listDirn, $listOrder );?>
 			</th>
 			<th>
 				<?php echo Text::_('XBCULTURE_DESCRIPTION') ;?>
@@ -87,7 +87,7 @@ $prevext ='';
 				<?php echo HTMLHelper::_('grid.sort', 'XBCULTURE_PEOPLE_U', 'pcnt', $listDirn, $listOrder );?>
 			</th>
 			<th>
-				<?php echo HTMLHelper::_('grid.sort', 'XBCULTURE_CAPCHARACTERS', 'chcnt', $listDirn, $listOrder );?>
+				<?php echo HTMLHelper::_('grid.sort', 'XBCULTURE_CHARACTERS_U', 'chcnt', $listDirn, $listOrder );?>
 			</th>
 			<th class="nowrap hidden-tablet hidden-phone" style="width:45px;">
 				<?php echo HTMLHelper::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder );?>
@@ -173,5 +173,5 @@ $prevext ='';
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbpeopleHelper::credit();?></p>
+<p><?php echo XbcultureHelper::credit('xbpeople');?></p>
 

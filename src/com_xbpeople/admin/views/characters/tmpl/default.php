@@ -118,12 +118,12 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     			</th>
     			<?php if($this->xbbooks_ok) : ?>
     			<th>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPBOOKS', 'bcnt', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>					
     			</th>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_CAPFILMS', 'fcnt', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>					
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
@@ -311,4 +311,4 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbpeopleHelper::credit();?></p>
+<p><?php echo XbcultureHelper::credit('xbpeople');?></p>

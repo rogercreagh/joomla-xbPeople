@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.6.f 9th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -24,8 +24,7 @@ class com_xbpeopleInstallerScript
     protected $ver = 'v0';
     protected $date = '';
     
-    function preflight($type, $parent)
-    {
+    function preflight($type, $parent) {
         $jversion = new Version();
         $jverthis = $jversion->getShortVersion();       
         if ((version_compare($jverthis, $this->jminver,'lt')) || (version_compare($jverthis, $this->jmaxver, 'ge'))) {
@@ -45,8 +44,7 @@ class com_xbpeopleInstallerScript
     function install($parent) {
     }
     
-    function uninstall($parent)
-    {   	
+    function uninstall($parent) {   	
     	$componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
     	$message = 'Uninstalling xbPeople component v.'.$componentXML['version'].' '.$componentXML['creationDate'];
 		Factory::getApplication()->enqueueMessage($message,'Info');
@@ -90,7 +88,7 @@ class com_xbpeopleInstallerScript
     function update($parent)
     {
     	$message = '<br />Visit the <a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-info">';
-    	$message .= 'xbPeople Control Panel</a> page for overview of status.</p>';
+    	$message .= 'xbPeople Dashboard</a> page for overview of status.</p>';
     	$message .= '<br />For ChangeLog see <a href="http://crosborne.co.uk/xbpeople/changelog" target="_blank">
             www.crosborne.co.uk/xbpeople/changelog</a></p>';
     	Factory::getApplication()->enqueueMessage($message,'Message');
@@ -181,8 +179,8 @@ class com_xbpeopleInstallerScript
             echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
             echo '<p>xbPeople is a minimal component designed to supplement xbCulture components. It will install the people and character data tables if they don&quot;t exist,';
             echo 'and recover any previously saved Categories for people, or create default "Uncat.People" and "Import.People" categories.</p>';
-            echo '<p><i>Check the control panel for an overview</i>&nbsp;&nbsp;';
-            echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople cPanel</a></p>';
+            echo '<p><i>Check the Dashboard for an overview</i>&nbsp;&nbsp;';
+            echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople Dashboard</a></p>';
             echo '</div>';
         
     	}

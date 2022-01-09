@@ -103,5 +103,5 @@ $celink = 'index.php?option=com_categories&task=category.edit&id=';
 			<?php echo JText::_('XBCULTURE_CAT_LIST'); ?></a>
 		</center>
 <div class="clearfix"></div>
-<p><?php echo XbpeopleHelper::credit();?></p>
+<p><?php echo XbcultureHelper::credit('xbpeople');?></p>
 

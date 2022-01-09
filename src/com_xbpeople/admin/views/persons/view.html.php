@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ContentHelper;
 
@@ -62,7 +63,7 @@ class XbpeopleViewPersons extends JViewLegacy {
     	$canDo = ContentHelper::getActions('com_xbpeople', 'component');
     	// XbpeopleHelper::getActions();
         
-        $bar = ToolbarHelper::getInstance('toolbar');
+        $bar = Toolbar::getInstance('toolbar');
         
         ToolBarHelper::title(JText::_('COM_XBPEOPLE').': '.JText::_('XBCULTURE_TITLE_PEOPLEMANAGER'), 'users' );
         
