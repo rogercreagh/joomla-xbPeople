@@ -250,7 +250,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
                       <?php echo HtmlHelper::_('bootstrap.endSlide'); ?>
                       <?php echo HtmlHelper::_('bootstrap.addSlide', 'slide-cpanel', Text::_('XBCULTURE_LICENSE'), 'license'); ?>
                           <p><?php echo Text::_( 'XBCULTURE_LICENSE_GPL' ); ?>
-                          	<br><?php echo Text::sprintf('XBCULTURE_LICENSE_INFO','xbBooks');?>
+                          	<br><?php echo Text::sprintf('XBCULTURE_LICENSE_INFO','xbPeople');?>
                               <br /><?php echo $this->xmldata['copyright']; ?>
                           </p>
                       <?php echo HtmlHelper::_('bootstrap.endSlide'); ?>
