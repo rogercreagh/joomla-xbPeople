@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.9.6.f 8th January 2022
+ * @version 0.9.6.f 11th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -87,7 +88,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
  				<fieldset class="form-vertical">
            			<?php echo $this->form->renderField('portrait'); ?>
  				</fieldset>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
@@ -121,10 +122,10 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('XBCULTURE_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
-				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
 			<div class="span6">
-				<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
+				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
 			</div>
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>

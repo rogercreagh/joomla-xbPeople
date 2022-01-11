@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
@@ -67,7 +68,7 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 	<div class="clearfix"></div>
 	<?php
         // Search tools bar
-        echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
     ?>
 	<div class="clearfix"></div>
 	<?php $search = $this->searchTitle; ?>

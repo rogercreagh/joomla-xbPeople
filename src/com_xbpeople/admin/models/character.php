@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/character.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.6.f 11th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
-
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Application\ApplicationHelper;
 
 class XbpeopleModelCharacter extends JModelAdmin {
  
@@ -35,7 +36,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 			$item->metadata = $registry->toArray();
 			if (!empty($item->id))
 			{
-				$tagsHelper = new JHelperTags;
+				$tagsHelper = new TagsHelper;
 				$item->tags =  $tagsHelper->getTagIds($item->id, 'com_xbpeople.character');
 			}
 		}
@@ -93,10 +94,10 @@ class XbpeopleModelCharacter extends JModelAdmin {
 		$user = Factory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplicationHelper::stringURLSafe($table->alias);
+		$table->alias = ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JApplicationHelper::stringURLSafe($table->name);
+			$table->alias = ApplicationHelper::stringURLSafe($table->name);
 		}
 
 		// Set the values

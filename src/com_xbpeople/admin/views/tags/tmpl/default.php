@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('formbehavior.chosen', 'select');
 
@@ -51,7 +52,7 @@ $chvlink = 'index.php?option=com_xbpeople&view=characters&tagid=';
 
 	<?php
         // Search tools bar
-        echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
     ?>
 	<div class="clearfix"></div>
 
