@@ -2,23 +2,22 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/character.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.7 11th January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
 
-//use Joomla\CMS\Language\Text;
-//use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Table\Observer\Tags;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Table\Table;
 
-class XbpeopleTableCharacter extends JTable {
+class XbpeopleTableCharacter extends Table {
 	
     protected $xbbooksStatus;
     protected $xbfilmsStatus;
