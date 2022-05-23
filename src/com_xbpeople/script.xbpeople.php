@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.9.8.3 23rd May January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -15,6 +15,8 @@ use Joomla\CMS\Version;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Component\ComponentHelper;
 
 class com_xbpeopleInstallerScript 
 {
@@ -38,6 +40,12 @@ class com_xbpeopleInstallerScript
         	$message = 'Updating xbPeople component from '.$componentXML['version'].' '.$componentXML['creationDate'];
         	$message .= ' to '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
         }
+//         if ($type == 'uninstall') {
+//             $oldval = Factory::getSession()->get('xbpkg', '');
+//             Factory::getApplication()->enqueueMessage('preflight '.$oldval);
+//         }
+        
+        
         if ($message!='') { Factory::getApplication()->enqueueMessage($message,'');}
     }   
     
@@ -45,48 +53,64 @@ class com_xbpeopleInstallerScript
     }
     
     function uninstall($parent) {   	
-    	$componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
-    	$message = 'Uninstalling xbPeople component v.'.$componentXML['version'].' '.$componentXML['creationDate'];
+        $pkguninstall = Factory::getSession()->get('xbpkg', '');
+        if ($pkguninstall == '') {
+           // this is not a package uninstall so we need to check if xbfilms or xbbooks or xblive are still here
+            $db = Factory::getDBO();
+            $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks').' OR element = '.$db->quote('com_xblive'));
+            $res = $db->loadResult();
+            if ($res) {
+                $message = 'At least one xbCulture component is still installed. xbPeople component must be uninstalled after xbBooks, xbFilms and xbLive.';
+                $targ = Uri::base().'index.php?option=com_xbpeople&view=cpanel&err='.urlencode($message);
+                header("Location: ".$targ);
+                exit();
+            }
+        }
+        
+        //ok to proceed
+        $componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
+    	$message = 'Uninstalling xbPeople component v.'.$componentXML['version'].' '.$componentXML['creationDate'].' ';
+    	
+    	//are we also clearing data?
+    	$killdata = ComponentHelper::getParams('com_xbpeople')->get('killdata',0);
+        if ($killdata) {
+            if ($this->uninstalldata()) {
+                $message .= ' ... xbPeople data tables deleted';
+            }           
+            $dest='/images/xbpeople';
+            if (JFolder::exists(JPATH_ROOT.$dest)) {
+                if (JFolder::delete(JPATH_ROOT.$dest)){
+                    $message .= ' ... images/xbpeople folder deleted';
+                } else {
+                    $err = 'Problem deleting xbPeople images folder "/images/xbpeople" - please check in Media manager';
+                    Factory::getApplication()->enqueueMessage($message,'Error');
+                }
+            }
+        } else {
+            $message .= ' xbPeople data tables and images folder have NOT been deleted.';
+          	// allow categories to be recovered with same id
+    		$db = Factory::getDbo();
+    		$db->setQuery(
+        		$db->getQuery(true)
+        			->update('#__categories')
+        			->set('extension='.$db->q('!com_xbpeople!'))
+        			->where('extension='.$db->q('com_xbpeople'))
+    		)
+        		->execute();
+            $cnt = $db->getAffectedRows(); 
+            
+            if ($cnt>0) {
+            	$message .= '<br />'.$cnt.' xbPeople categories renamed as "<b>!</b>com_xbpeople<b>!</b>". They will be recovered on reinstall with original ids.';
+            }            
+        }
+              
 		Factory::getApplication()->enqueueMessage($message,'Info');
 		
-      	// prevent categories being deleted
-		$db = Factory::getDbo();
-		$db->setQuery(
-    		$db->getQuery(true)
-    			->update('#__categories')
-    			->set('extension='.$db->q('!com_xbpeople!'))
-    			->where('extension='.$db->q('com_xbpeople'))
-		)
-    		->execute();
-        $cnt = $db->getAffectedRows(); 
-        if ($cnt>0) {
-        	$message .= '<br />'.$cnt.' xbPeople categories extension renamed as "<b>!</b>com_xbpeople<b>!</b>". They will be recovered on reinstall.';
-        }
-        $message .= '<br /><b>NB</b> xbPeople uninstall: People and Characters data tables, and the images/xbpeople folder have <b>not</b> been deleted.';
-   	    Factory::getApplication()->enqueueMessage($message,'Info');
-   	    $message = '';
-   	    $db = Factory::getDBO();
-   	    $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbbooks'));
-   	    $xbbooks_in = $db->loadResult();
-   	    $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbfilms'));
-   	    $xbfilms_in = $db->loadResult();
-   	    if ($xbfilms_in || $xbbooks_in) {
-   	    	$message = '<b>xbPeople</b> has been uninstalled but ';
-   	    	$message .= $xbbooks_in ? 'xbBooks' : '';
-   	    	$message .= ($xbbooks_in && $xbfilms_in) ? ' and ':''; 
-   	    	$message .= $xbfilms_in ? 'xbFilms':'';
-   	    	$message .= ' is still installed. No xbPeople data has been deleted, but if you wish to continue using xbBooks/xbFilms you must reinstall xbPeople.';
-   	    	$message .= '<br />To install it now copy this url <b> https://www.crosborne.uk/downloads?download=11 </b>, and paste the link into the box on the ';
-   	    	$message .= '<a href="index.php?option=com_installer&view=install#url">Install from URL page</a>, ';
-   	    	$message .= 'or <a href="https://www.crosborne.uk/downloads?download=11">download here</a> and drag and drop onto the install box on this page.';
-   	    	Factory::getApplication()->enqueueMessage($message,'Error');
-   	    }
    	    // set session that xbpeople no longer exists
    	    $oldval = Factory::getSession()->set('xbpeople_ok', false);
     }
     
-    function update($parent)
-    {
+    function update($parent) {
     	$message = '<br />Visit the <a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-info">';
     	$message .= 'xbPeople Dashboard</a> page for overview of status.</p>';
     	$message .= '<br />For ChangeLog see <a href="http://crosborne.co.uk/xbpeople/changelog" target="_blank">
@@ -106,8 +130,9 @@ class com_xbpeopleInstallerScript
         	} else{
          		$message .= '"/images/xbpeople/" already exists.<br />';
          	}
-            $db = Factory::getDbo();
+
         	// Recover categories if they exist assigned to extension !com_xbpeople!
+            $db = Factory::getDbo();
 			$qry = $db->getQuery(true);
          	$qry->update('#__categories')
          	  ->set('extension='.$db->q('com_xbpeople'))
@@ -117,7 +142,7 @@ class com_xbpeopleInstallerScript
 	    		$db->execute();
 	    		$cnt = $db->getAffectedRows();
          	} catch (Exception $e) {
-         		throw new Exception($e->getMessage());
+         	    Factory::getApplication()->enqueueMessage($e->getMessage(),'Error');
          	}
          	$message .= $cnt.' existing xbPeople categories restored. ';
          	
@@ -127,14 +152,14 @@ class com_xbpeopleInstallerScript
          			array("title"=>"Import.People","alias"=>"imported","desc"=>"default category for xbPeople imported data"));
          	$message .= $this->createCategory($cats);
          	
-         	Factory::getApplication()->enqueueMessage($message,'Info');
+            $app = Factory::getApplication();
+            $app->enqueueMessage($message,'Info');
          	
          	
             //set up indicies for characters and persons tables - can't be done in install.sql as they may already exists
             //mysql doesn't support create index if not exists. 
-            $message .= 'Checking indicies... ';
+            $message = 'Checking indicies... ';
             
-            $app = Factory::getApplication();
             $prefix = $app->get('dbprefix');
             $querystr = 'ALTER TABLE '.$prefix.'xbpersons ADD INDEX personaliasindex (alias)';
             $err=false;
@@ -145,9 +170,11 @@ class com_xbpeopleInstallerScript
             	if($e->getCode() == 1061) {
 	           		$message .= '- person alias index already exists. ';
 	           	} else {
-	          		$message .= '<br />[ERROR creating personaliasindex: '.$e->getCode().' '.$e->getMessage().']<br />';
-	           	}
-	           	$err = true;
+	          		$message .= '[ERROR creating personaliasindex: '.$e->getCode().' '.$e->getMessage().']';
+	          		$app->enqueueMessage($message, 'Error');
+	          		$message = 'Checking indicies... ';
+	          		$err = true;
+	           	}	           	
             }
             if (!$err) {
             	$message .= '- person alias index created. ';
@@ -162,15 +189,17 @@ class com_xbpeopleInstallerScript
             		$message .= '- character alias index already exists';
             	} else {
             		$message .= '<br />[ERROR creating characteraliasindex: '.$e->getCode().' '.$e->getMessage().']<br />';
+            		$app->enqueueMessage($message, 'Error');
+            		$message = '';
+            		$err = true;
             	}
-            	$err = true;
             }
             if (!$err) {
             	$message .= '- character alias index created.';
             }
             //set session that we are installed
             $oldval = Factory::getSession()->set('xbpeople_ok', true);           
-	        Factory::getApplication()->enqueueMessage($message,'Info');  
+            $app->enqueueMessage($message,'Info');  
            /**********************/     
             echo '<div style="padding: 7px; margin: 0 0 8px; list-style: none; -webkit-border-radius: 4px; -moz-border-radius: 4px;
 	border-radius: 4px; background-image: linear-gradient(#ffffff,#efefef); border: solid 1px #ccc;">';
@@ -186,8 +215,8 @@ class com_xbpeopleInstallerScript
     	}
     }
 
-    public function createCategory($cats) {
-    	$message = 'Creating '.$this->extension.' categories. ';
+    protected function createCategory($cats) {
+    	$message = 'Creating '.$this->extension.' default categories... ';
     	foreach ($cats as $cat) {
     		$db = Factory::getDBO();
     		$query = $db->getQuery(true);
@@ -196,7 +225,7 @@ class com_xbpeopleInstallerScript
     		->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
     		$db->setQuery($query);
     		if ($db->loadResult()>0) {
-    			$message .= '"'.$cat['title'].' already exists<br /> ';
+    			$message .= '"'.$cat['title'].' already exists.  ';
     		} else {
     			$category = Table::getInstance('Category');
     			$category->extension = $this->extension;
@@ -229,5 +258,17 @@ class com_xbpeopleInstallerScript
     	return $message;
     }
     
+    protected function uninstalldata() {
+        $message = 'this would uninstall the xbpeople data';
+        $db = Factory::getDBO();
+        $db->setQuery('DROP TABLE IF EXISTS `#__xbpersons`, `#__xbcharacters`');
+        $res = $db->execute();
+        if ($res === false) {
+            $message = 'Error deleting xbPeople tables, please check manually';
+            Factory::getApplication()->enqueueMessage($message,'Error');
+            return false;
+        }
+        return true;
+    }
 }
 

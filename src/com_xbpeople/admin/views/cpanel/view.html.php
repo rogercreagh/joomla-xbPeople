@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/cpanel/view.html.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.8.3 23rd May January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,7 +25,14 @@ class XbpeopleViewCpanel extends JViewLegacy
 	protected $categories;
  
 	public function display($tpl = null) {
-		$this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
+	    //get uninstall error message
+	    $app = Factory::getApplication();
+	    $err = $app->input->getString('err'.'');
+	    if ($err!='') {
+	        $app->enqueueMessage(urldecode($err),'Error');
+	    }
+	    
+	    $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
 		$this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
 		$this->xbgigs_ok = Factory::getSession()->get('xbgigs_ok');
 		
