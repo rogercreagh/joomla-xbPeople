@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.8.3 23rd May January 2022
+ * @version 0.9.8.3 25th May January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -40,12 +40,6 @@ class com_xbpeopleInstallerScript
         	$message = 'Updating xbPeople component from '.$componentXML['version'].' '.$componentXML['creationDate'];
         	$message .= ' to '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate;
         }
-//         if ($type == 'uninstall') {
-//             $oldval = Factory::getSession()->get('xbpkg', '');
-//             Factory::getApplication()->enqueueMessage('preflight '.$oldval);
-//         }
-        
-        
         if ($message!='') { Factory::getApplication()->enqueueMessage($message,'');}
     }   
     
@@ -53,8 +47,8 @@ class com_xbpeopleInstallerScript
     }
     
     function uninstall($parent) {   	
-        $pkguninstall = Factory::getSession()->get('xbpkg', '');
-        if ($pkguninstall == '') {
+        $pkguninstall = Factory::getSession()->get('xbpkg');
+        if (!$pkguninstall) {
            // this is not a package uninstall so we need to check if xbfilms or xbbooks or xblive are still here
             $db = Factory::getDBO();
             $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks').' OR element = '.$db->quote('com_xblive'));
@@ -66,7 +60,7 @@ class com_xbpeopleInstallerScript
                 exit();
             }
         }
-        
+        Factory::getSession()->clear('xbpkg');
         //ok to proceed
         $componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
     	$message = 'Uninstalling xbPeople component v.'.$componentXML['version'].' '.$componentXML['creationDate'].' ';
@@ -83,7 +77,7 @@ class com_xbpeopleInstallerScript
                     $message .= ' ... images/xbpeople folder deleted';
                 } else {
                     $err = 'Problem deleting xbPeople images folder "/images/xbpeople" - please check in Media manager';
-                    Factory::getApplication()->enqueueMessage($message,'Error');
+                    Factory::getApplication()->enqueueMessage($err,'Error');
                 }
             }
         } else {
@@ -107,7 +101,7 @@ class com_xbpeopleInstallerScript
 		Factory::getApplication()->enqueueMessage($message,'Info');
 		
    	    // set session that xbpeople no longer exists
-   	    $oldval = Factory::getSession()->set('xbpeople_ok', false);
+   	    $oldval = Factory::getSession()->clear('xbpeople_ok');
     }
     
     function update($parent) {

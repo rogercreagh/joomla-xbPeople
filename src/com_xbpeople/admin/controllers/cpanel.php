@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/controllers/cpanel.php
- * @version 0.9.0 5th April 2021
+ * @version 0.9.8.3 25th May 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -47,16 +47,16 @@ class XbpeopleControllerCpanel extends JControllerAdmin {
     	}
     }
     
-    function gigs() {
-    	$xbgigs_ok = XbcultureHelper::checkComponent('com_xbgigs');
+    function live() {
+    	$xbgigs_ok = XbcultureHelper::checkComponent('com_xblive');
     	//$xbgigs_ok = Factory::getSession()->get('xbgigs_ok',false);
         if ($xbgigs_ok == true) {
-            $this->setRedirect('index.php?option=com_xbgigs&view=cpanel');
+            $this->setRedirect('index.php?option=com_xblive&view=cpanel');
         } elseif ($xbgigs_ok === 0) {
-            Factory::getApplication()->enqueueMessage('xbGigs '.JText::_('XBCULTURE_COMP_DISABLED'), 'warning');
+            Factory::getApplication()->enqueueMessage('xbLive '.JText::_('XBCULTURE_COMP_DISABLED'), 'warning');
             $this->setRedirect('index.php?option=com_installer&view=manage&filter[search]=xbgigs');
         } else {
-            Factory::getApplication()->enqueueMessage('xbGigs '.JText::_('XBCULTURE_COMP_MISSING'), 'info');
+            Factory::getApplication()->enqueueMessage('xbLive '.JText::_('XBCULTURE_COMP_MISSING'), 'info');
             $this->setRedirect('index.php?option=com_xbpeople&view=cpanel');
         }
     }

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/cpanel/view.html.php
- * @version 0.9.8.3 23rd May January 2022
+ * @version 0.9.8.3 25th May January 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -117,7 +117,7 @@ class XbpeopleViewCpanel extends JViewLegacy
         
         ToolbarHelper::custom('cpanel.books', 'stack', '', 'xbBooks', false) ;
         ToolbarHelper::custom('cpanel.films', 'screen', '', 'xbFilms', false) ;
-        ToolbarHelper::custom('cpanel.gigs', 'music', '', 'xbGigs', false) ;
+        ToolbarHelper::custom('cpanel.live', 'music', '', 'xbLive', false) ;
         if ($canDo->get('core.admin')) {
             ToolbarHelper::preferences('com_xbpeople');
         }
