@@ -6,7 +6,9 @@
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
- 
+
+/* Joomla system overrides/improvements */ 
+/* allow width to be set on joomla text area controls */
 .controls textarea {
 	width: unset !important;
 }
@@ -70,9 +72,12 @@ ul.nav-tabs {
 	background-color:aliceblue;
 }
 
+/* end of joomla system overrides */
+
+
 .bkcnt, .flmcnt, .percnt, .revcnt, .chcnt {
     border: solid 1px #31708f;
-      color: #31708f !important;
+    color: #31708f !important;
 }
 
 .badge-yellow, .label-yellow {
