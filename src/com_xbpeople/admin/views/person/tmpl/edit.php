@@ -92,7 +92,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
-		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', JText::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', JText::_('XBPEOPLE_FILMS_BOOKS')); ?>
 			<?php if($this->xbfilms_ok) : ?>
 			<div class="row-fluid">
         		<div class="span6">

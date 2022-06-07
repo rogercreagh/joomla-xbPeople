@@ -33,9 +33,9 @@ class XbpeopleViewPcategory extends JViewLegacy {
 		$canDo = ContentHelper::getActions('com_xbpeople', 'component');
 		// XbpeopleHelper::getActions();
 		
-		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'COM_XBPEOPLE_TITLE_CATMANAGER' ), 'tag' );
+		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_( 'XBPEOPLE_TITLE_CATMANAGER' ), 'tag' );
 		
-		ToolbarHelper::custom('pcategory.pcategories', 'folder', '', 'COM_XBPEOPLE_CAT_LIST', false) ;
+		ToolbarHelper::custom('pcategory.pcategories', 'folder', '', 'XBPEOPLE_CAT_LIST', false) ;
 		
 		if ($canDo->get('core.admin')) {
 			ToolBarHelper::preferences('com_xbpeople');
@@ -44,7 +44,7 @@ class XbpeopleViewPcategory extends JViewLegacy {
 	
 	protected function setDocument() {
 		$document = Factory::getDocument();
-		$document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_CATITEMS'));
+		$document->setTitle(Text::_('XBPEOPLE_ADMIN_CATITEMS'));
 	}
 	
 }

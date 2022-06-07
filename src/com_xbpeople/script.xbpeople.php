@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.8.3 25th May January 2022
+ * @version 0.9.8.7 5th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -55,7 +55,7 @@ class com_xbpeopleInstallerScript
             $res = $db->loadResult();
             if ($res) {
                 $message = 'At least one xbCulture component is still installed. xbPeople component must be uninstalled after xbBooks, xbFilms and xbLive.';
-                $targ = Uri::base().'index.php?option=com_xbpeople&view=cpanel&err='.urlencode($message);
+                $targ = Uri::base().'index.php?option=com_xbpeople&view=dashboard&err='.urlencode($message);
                 header("Location: ".$targ);
                 exit();
             }
@@ -105,7 +105,7 @@ class com_xbpeopleInstallerScript
     }
     
     function update($parent) {
-    	$message = '<br />Visit the <a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-info">';
+    	$message = '<br />Visit the <a href="index.php?option=com_xbpeople&view=dashboard" class="btn btn-small btn-info">';
     	$message .= 'xbPeople Dashboard</a> page for overview of status.</p>';
     	$message .= '<br />For ChangeLog see <a href="http://crosborne.co.uk/xbpeople/changelog" target="_blank">
             www.crosborne.co.uk/xbpeople/changelog</a></p>';
@@ -162,8 +162,9 @@ class com_xbpeopleInstallerScript
             	$db->execute();            	
             } catch (Exception $e) {
             	if($e->getCode() == 1061) {
-	           		$message .= '- person alias index already exists. ';
-	           	} else {
+	           		$message .= ' person alias index already exists. ';
+	           		$err = true;
+            	} else {
 	          		$message .= '[ERROR creating personaliasindex: '.$e->getCode().' '.$e->getMessage().']';
 	          		$app->enqueueMessage($message, 'Error');
 	          		$message = 'Checking indicies... ';
@@ -171,7 +172,7 @@ class com_xbpeopleInstallerScript
 	           	}	           	
             }
             if (!$err) {
-            	$message .= '- person alias index created. ';
+            	$message .= ' person alias index created. ';
             }
             $querystr = 'ALTER TABLE '.$prefix.'xbcharacters ADD INDEX characteraliasindex (alias)';
             $err=false;
@@ -180,7 +181,8 @@ class com_xbpeopleInstallerScript
             	$db->execute();
             } catch (Exception $e) {
             	if($e->getCode() == 1061) {
-            		$message .= '- character alias index already exists';
+            		$message .= '... character alias index already exists';
+            		$err = true;
             	} else {
             		$message .= '<br />[ERROR creating characteraliasindex: '.$e->getCode().' '.$e->getMessage().']<br />';
             		$app->enqueueMessage($message, 'Error');
@@ -189,7 +191,7 @@ class com_xbpeopleInstallerScript
             	}
             }
             if (!$err) {
-            	$message .= '- character alias index created.';
+            	$message .= '... character alias index created.';
             }
             //set session that we are installed
             $oldval = Factory::getSession()->set('xbpeople_ok', true);           
@@ -203,7 +205,7 @@ class com_xbpeopleInstallerScript
             echo '<p>xbPeople is a minimal component designed to supplement xbCulture components. It will install the people and character data tables if they don&quot;t exist,';
             echo 'and recover any previously saved Categories for people, or create default "Uncat.People" and "Import.People" categories.</p>';
             echo '<p><i>Check the Dashboard for an overview</i>&nbsp;&nbsp;';
-            echo '<a href="index.php?option=com_xbpeople&view=cpanel" class="btn btn-small btn-success">xbPeople Dashboard</a></p>';
+            echo '<a href="index.php?option=com_xbpeople&view=dashboard" class="btn btn-small btn-success">xbPeople Dashboard</a></p>';
             echo '</div>';
         
     	}
@@ -219,7 +221,7 @@ class com_xbpeopleInstallerScript
     		->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
     		$db->setQuery($query);
     		if ($db->loadResult()>0) {
-    			$message .= '"'.$cat['title'].' already exists.  ';
+    			// $message .= '"'.$cat['title'].' already exists.  ';
     		} else {
     			$category = Table::getInstance('Category');
     			$category->extension = $this->extension;

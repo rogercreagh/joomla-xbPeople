@@ -50,16 +50,16 @@ class XbpeopleViewPcategories extends JViewLegacy {
     	$canDo =  ContentHelper::getActions('com_xbpeople', 'component');
     	// XbpeopleHelper::getActions();
         
-        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'COM_XBPEOPLE_TITLE_CATSMANAGER' ), 'folder' );
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_( 'XBPEOPLE_TITLE_CATSMANAGER' ), 'folder' );
         
         //index.php?option=com_categories&view=category&layout=edit&extension=com_xbpeople
         if ($canDo->get('core.create') > 0) {
-            ToolbarHelper::custom('pcategories.categorynewpeep','new','','COM_XBPEOPLE_NEW_PCAT',false);
+            ToolbarHelper::custom('pcategories.categorynewpeep','new','','XBPEOPLE_NEW_PCAT',false);
         }
         if ($canDo->get('core.admin')) {
         	ToolbarHelper::editList('pcategories.categoryedit', 'XBCULTURE_EDIT_CAT');       	
          }        
-//         ToolbarHelper::custom('pcategories.categorylist','list-2','','COM_XBPEOPLE_LIST_CAT',true);
+//         ToolbarHelper::custom('pcategories.categorylist','list-2','','XBPEOPLE_LIST_CAT',true);
          
          ToolbarHelper::custom(); //spacer
          if ($this->xbbooks_ok) {
@@ -77,6 +77,6 @@ class XbpeopleViewPcategories extends JViewLegacy {
 
     protected function setDocument() {
     	$document = Factory::getDocument();
-    	$document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_CATS'));
+    	$document->setTitle(Text::_('XBPEOPLE_ADMIN_CATS'));
     }
 }

@@ -63,7 +63,7 @@ class XbpeopleViewPerson extends JViewLegacy {
         
         $isNew = ($this->item->id == 0);
         
-        $title = Text::_( 'COM_XBPEOPLE' ).': ';
+        $title = Text::_( 'COM_XBPEOPLE_' ).': ';
         if ($isNew) {
             $title .= Text::_('XBCULTURE_TITLE_NEWPERSON');
         } elseif ($checkedOut) {

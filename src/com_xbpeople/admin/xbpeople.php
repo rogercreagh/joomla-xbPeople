@@ -9,18 +9,34 @@
  ******/
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 
 if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
-	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-	return false;
+    Factory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'),'warning');
+    return false;
 }
 
 $document = Factory::getDocument();
-$cssFile = Uri::root(true)."/media/com_xbpeople/css/xbculture.css";
-$document->addStyleSheet($cssFile);
+$params = ComponentHelper::getParams('com_xbpeople');
+$usexbcss = $params->get('use_xbcss',1);
+if ($usexbcss<2) {
+    $cssFile = Uri::root(true)."/media/com_xbpeople/css/xbculture.css";
+    $altcss = $params->get('css_file','');
+    if ($usexbcss==0) {
+        if ($altcss && file_exists(JPATH_ROOT.$altcss)) {
+            $cssFile = $altcss;
+        }
+    }
+    $document->addStyleSheet($cssFile);
+}
+$exticon = $params->get('ext_icon',0);
+if ($exticon) {
+    $style = 'a[target="_blank"]:after {font-style: normal; font-weight:bold; content: "\2197";}' ;
+    $document->addStyleDeclaration($style);
+}
 
 Factory::getLanguage()->load('com_xbculture');
 

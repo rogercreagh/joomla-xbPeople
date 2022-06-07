@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/cpanel/view.html.php
- * @version 0.9.8.3 25th May January 2022
+ * @filesource admin/views/dashboard/view.html.php
+ * @version 0.9.8.7 5th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 //use Joomla\CMS\HTML\HTMLHelper;
 
-class XbpeopleViewCpanel extends JViewLegacy
+class XbpeopleViewDashboard extends JViewLegacy
 {
  //   protected $buttons;
 	protected $films; //why?
@@ -61,8 +61,10 @@ class XbpeopleViewCpanel extends JViewLegacy
 		
 		$params = ComponentHelper::getParams('com_xbpeople');
 
+		$this->killdata = $params->get('killdata',0);
 		
-		XbpeopleHelper::addSubmenu('cpanel');
+		
+		XbpeopleHelper::addSubmenu('dashboard');
 		
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -113,11 +115,11 @@ class XbpeopleViewCpanel extends JViewLegacy
 //    	}
     	$canDo = ContentHelper::getActions('com_xbpeople', 'component');
     	
-        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_('XBCULTURE_DASHBOARD'),'info-2');
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_('XBCULTURE_DASHBOARD'),'info-2');
         
-        ToolbarHelper::custom('cpanel.books', 'stack', '', 'xbBooks', false) ;
-        ToolbarHelper::custom('cpanel.films', 'screen', '', 'xbFilms', false) ;
-        ToolbarHelper::custom('cpanel.live', 'music', '', 'xbLive', false) ;
+        ToolbarHelper::custom('dashboard.books', 'stack', '', 'xbBooks', false) ;
+        ToolbarHelper::custom('dashboard.films', 'screen', '', 'xbFilms', false) ;
+        ToolbarHelper::custom('dashboard.live', 'music', '', 'xbLive', false) ;
         if ($canDo->get('core.admin')) {
             ToolbarHelper::preferences('com_xbpeople');
         }
@@ -126,7 +128,7 @@ class XbpeopleViewCpanel extends JViewLegacy
     
     protected function setDocument() {
     	$document = Factory::getDocument();
-    	$document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_CPANEL'));
+    	$document->setTitle(Text::_('XBPEOPLE_ADMIN_DASHBOARD'));
     }
     
 }

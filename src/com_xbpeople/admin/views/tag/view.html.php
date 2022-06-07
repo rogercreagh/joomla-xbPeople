@@ -36,7 +36,7 @@ class XbpeopleViewTag extends JViewLegacy {
 		$canDo = ContentHelper::getActions('com_xbpeople', 'component');
 		// XbpeopleHelper::getActions();
 		
-		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'XBCULTURE_TITLE_TAGMANAGER' ), 'tag' );
+		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_( 'XBCULTURE_TITLE_TAGMANAGER' ), 'tag' );
 		
 		ToolbarHelper::custom('tag.tags', 'tags', '', 'XBCULTURE_TAG_LIST', false) ;
 		ToolbarHelper::custom('tag.tagedit', 'edit', '', 'XBCULTURE_EDIT_TAG', false) ;
@@ -57,7 +57,7 @@ class XbpeopleViewTag extends JViewLegacy {
 	protected function setDocument()
 	{
 		$document = Factory::getDocument();
-		$document->setTitle(Text::_('COM_XBPEOPLE_ADMIN_TAGITEMS'));
+		$document->setTitle(Text::_('XBPEOPLE_ADMIN_TAGITEMS'));
 	}
 	
 }

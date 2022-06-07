@@ -1,7 +1,7 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/models/cpanel.php
+ * @filesource admin/models/dashboard.php
  * @version 0.4.6 4th April 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 //use Joomla\CMS\Table\Observer\Tags;
 
-class XbpeopleModelCpanel extends JModelList {
+class XbpeopleModelDashboard extends JModelList {
 	    
     protected $xbbooks_ok;
     protected $xbfilms_ok;

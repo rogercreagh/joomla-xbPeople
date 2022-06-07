@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>31st May 2022</creationDate>
-	<version>0.9.8.6</version>
+	<creationDate>7th june 2022</creationDate>
+	<version>0.9.8.8</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
 	<copyright>(c) Roger Creagh-Osborne, 2021. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
-	<description>COM_XBPEOPLE_XML_DESCRIPTION</description>
+	<description>XBPEOPLE_XML_DESCRIPTION</description>
 
 	<scriptfile>script.xbpeople.php</scriptfile>
 
 	<media destination="com_xbpeople" folder="media">
 		<filename>index.html</filename>
 		<folder>css</folder>
+		<folder>js</folder>
 		<folder>images</folder>
 	</media>
 
@@ -54,29 +55,32 @@
 			<language tag="en-GB">en-GB/en-GB.com_xbpeople.sys.ini</language>
 		</languages>
 		
-		<menu img="class:xbpeople"
-			link="option=com_xbpeople"
-			view="cpanel">xbPeople</menu>
+		<menu img="class:xbpeople" link="option=com_xbpeople">xbPeople</menu>
 		<submenu>
 			<menu link="option=com_xbpeople"
-				view="cpanel" img="class:xbpeople-cpanel">
-					xbculture_control_panel
+				img="class:xbpeople-dashboard"
+				>
+					xbculture_iconmenu_dashboard
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=persons" 
-				view="persons" img="class:xbpeople-persons">
-					xbculture_people					
+				img="class:xbpeople-persons"
+				>
+					xbculture_iconmenu_people					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=characters" 
-				view="characters" img="class:xbpeople-characters">
-					xbculture_characters
+				img="class:xbpeople-characters"
+				>
+					xbculture_iconmenu_characters
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=categories" 
-				view="persons" img="class:xbpeople-categories">
-					xbculture_categories					
+				img="class:xbpeople-categories"
+				>
+					xbculture_iconmenu_categories					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=tags" 
-				view="tags" img="class:xbpeople-tags">
-					xbculture_tags					
+				img="class:xbpeople-tags"
+				>
+					xbculture_iconmenu_tags					
 			</menu>
 		</submenu>
 	</administration>

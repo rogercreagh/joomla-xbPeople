@@ -24,9 +24,9 @@ class XbpeopleHelper extends ContentHelper {
 	public static function addSubmenu($vName = 'persons') {
 		if ($vName != 'categories') {
 			JHtmlSidebar::addEntry(
-				Text::_('XBCULTURE_ICONMENU_CPANEL'),
-				'index.php?option=com_xbpeople&view=cpanel',
-				$vName == 'cpanel'
+				Text::_('XBCULTURE_ICONMENU_DASHBOARD'),
+				'index.php?option=com_xbpeople&view=dashboard',
+				$vName == 'dashboard'
 				);
 			JHtmlSidebar::addEntry(
 					Text::_('XBCULTURE_ICONMENU_PEOPLE'),
@@ -86,14 +86,14 @@ class XbpeopleHelper extends ContentHelper {
 			if (XbcultureHelper::checkComponent('com_xbfilms')) {
 				JHtmlSidebar::addEntry(
 						Text::_('XBCULTURE_ICONMENU_FILMS'),
-						'index.php?option=com_xbfilms&view=cpanel',
+						'index.php?option=com_xbfilms&view=dashboard',
 						$vName == 'films'
 						);			
 			}
 			if (XbcultureHelper::checkComponent('com_xbbooks')) {
 				JHtmlSidebar::addEntry(
 					Text::_('XBCULTURE_ICONMENU_BOOKS'),
-					'index.php?option=com_xbbooks&view=cpanel',
+					'index.php?option=com_xbbooks&view=dashboard',
 					$vName == 'books'
 					);
 			}
@@ -104,9 +104,9 @@ class XbpeopleHelper extends ContentHelper {
 			    );
 		} else {
 			JHtmlSidebar::addEntry(
-					Text::_('COM_XBPEOPLE_DASHBOARD'),
-					'index.php?option=com_xbfilms&view=cpanel',
-					$vName == 'cpanel'
+					Text::_('XBPEOPLE_DASHBOARD'),
+					'index.php?option=com_xbfilms&view=dashboard',
+					$vName == 'dashboard'
 					);
 			
 			JHtmlSidebar::addEntry(
@@ -120,7 +120,7 @@ class XbpeopleHelper extends ContentHelper {
 					$vName == 'characters'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('COM_XBPEOPLE_CATCOUNT'),
+					Text::_('XBPEOPLE_CATCOUNT'),
 					'index.php?option=com_xbpeople&view=pcategories',
 					$vName == 'pcategories'
 					);

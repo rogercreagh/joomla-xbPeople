@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 class XbpeopleController extends JControllerLegacy
 {
-	protected $default_view = 'cpanel';
+	protected $default_view = 'dashboard';
 	
 	public function display ($cachable = false, $urlparms = false){
 		require_once JPATH_COMPONENT.'/helpers/xbpeople.php';

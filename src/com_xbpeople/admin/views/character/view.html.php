@@ -51,11 +51,11 @@ class XbpeopleViewCharacter extends JViewLegacy {
         
         $isNew = ($this->item->id == 0);
         
-        $title = Text::_( 'COM_XBPEOPLE' ).': ';
+        $title = Text::_( 'COM_XBPEOPLE_' ).': ';
         if ($isNew) {
-            $title .= Text::_('COM_XBPEOPLE_TITLE_NEWCHAR');
+            $title .= Text::_('XBPEOPLE_TITLE_NEWCHAR');
         } else {
-            $title .= Text::_('COM_XBPEOPLE_TITLE_EDITCHAR');
+            $title .= Text::_('XBPEOPLE_TITLE_EDITCHAR');
         }
         
         ToolbarHelper::title($title, 'user');
@@ -73,7 +73,7 @@ class XbpeopleViewCharacter extends JViewLegacy {
     protected function setDocument() {
         $isNew = ($this->item->id < 1);
         $document = Factory::getDocument();
-        $document->setTitle($isNew ? Text::_('COM_XBPEOPLE_NEW_CHAR') :
-            Text::_('COM_XBPEOPLE_EDIT_CHAR'));
+        $document->setTitle($isNew ? Text::_('XBPEOPLE_NEW_CHAR') :
+            Text::_('XBPEOPLE_EDIT_CHAR'));
     }
 }

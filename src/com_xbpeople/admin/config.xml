@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- xbPeople config.xml v0.2.2 2nd March 2021 -->
 <config>
+<!-- GENERAL TAB -->
 	<fieldset name="general"
 		label="General"
 		description="General settings"
@@ -9,7 +10,7 @@
 			label="Delete Data on Uninstall"
 			description="If you want to uninstall without deleting the data tables xbpersons and xbcharacters set this to No"
  			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			>
 				<option value="0" >JNO</option>
 				<option value="1">JYES</option>
@@ -65,7 +66,64 @@
 			<option value="1">New Tab</option>
 		</field>	
 	</fieldset>
-	
+
+<!-- STYLES TAB -->				
+	<fieldset name="styles" 
+		label="XBCULTURE_CONFIG_STYLING_LABEL" 
+		description="XBCULTURE_CONFIG_STYLING_DESC"
+		>	
+		
+   		<field name="cssnote" type="note"
+			label="XBCULTURE_CONFIG_MODIFY_CSS_NOTE_LABEL"
+			description="XBCULTURE_CONFIG_MODIFY_CSS_NOTE_DESC"
+			class="info"
+		/>	
+		<field name="use_xbcss" type="radio"
+			label="XBCULTURE_CONFIG_USE_XBCSS_LABEL"
+			description="XBCULTURE_CONFIG_USE_XBCSS_LABEL"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1" >JYES</option>
+			<option value="0">Specify File</option>
+			<option value="2">Use Template</option>
+		</field>
+		<field name="css_file" type="text" 
+			label="XBCULTURE_CONFIG_MOD_CSS_LABEL" 
+			description="XBCULTURE_CONFIG_MOD_CSS_DESC" 
+			default="/media/com_xbpeople/css/xbculture.css" 
+			size="150" showon="use_xbcss:0"
+		/>	
+   		<field name="cssnote2" type="note"
+			description="XBCULTURE_CONFIG_CSS_NOTE2_DESC"
+			 showon="use_xbcss:0"
+			class="info"
+		/>	
+   		<field name="cssnote3" type="note"
+			description="XBCULTURE_CONFIG_CSS_NOTE3_DESC"
+			 showon="use_xbcss:2"
+			class="info"
+		/>	
+		<field name="extlinksnote" type="note"
+			label="XBCULTURE_CONFIG_NEWTAB_HINT_NOTE_LABEL"
+			description="XBCULTURE_CONFIG_NEWTAB_HINT_NOTE_DESC"
+		/>
+		<field name="ext_icon" type="radio"
+			label="XBCULTURE_CONFIG_NEWTAB_ICON_LABEL"
+			description="XBCULTURE_CONFIG_NEWTAB_ICON_DESC"
+			default="0"
+			class="btn-group btn-group-yesno btn-small"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="extlinksnote2" type="note"
+			description="XBCULTURE_CONFIG_NEWTAB_HINT_NOTE2_DESC"
+		/>
+		
+	</fieldset>
+       	
+<!-- BEER TAB -->
 	<fieldset name="reg"
 			label="XBCULTURE_BEER_LBL"
 			description="XBCULTURE_BEER_DESC"
@@ -84,6 +142,7 @@
 			/>		
 	</fieldset>		
 
+<!-- META TAB -->
 	<fieldset name="meta"
 		label="Metadata"
 		description="These options only affect the metadata for xbfilms pages. If they are left blank the defaults from System|Global Configuration|Site will be used."

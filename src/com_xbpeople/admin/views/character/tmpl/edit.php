@@ -73,7 +73,7 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
-		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', Text::_('COM_XBPEOPLE_FILMS_BOOKS')); ?>
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', Text::_('XBPEOPLE_FILMS_BOOKS')); ?>
 			<div class="row-fluid">
 			<?php if($this->xbfilms_ok) : ?>
         		<div class="span6">
