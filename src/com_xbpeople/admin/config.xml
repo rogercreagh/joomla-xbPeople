@@ -15,16 +15,39 @@
 				<option value="0" >JNO</option>
 				<option value="1">JYES</option>
 		</field>			
+  		<field name="showcatsnote" type="note"
+			label="XBCULTURE_CONFIG_SHOWCATS_NOTE_LABEL"
+			description="XBCULTURE_CONFIG_SHOWCATS_NOTE_DESC"
+			class="info"
+		/>	
+		<field name="show_cats" type="radio"
+ 			default="1"
+			label="XBCULTURE_CONFIG_SHOWCATS_LABEL"
+			description="XBCULTURE_CONFIG_SHOWCATS_DESC"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>	
+		<field name="show_tags" type="radio"
+ 			default="1"
+			label="XBCULTURE_CONFIG_SHOWTAGS_LABEL"
+			description="XBCULTURE_CONFIG_SHOWTAGS_DESC"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>	
  		<field name="pathnote"
 			type="note"
-			label="Image Paths"
-			description="These set the default folders for posters and pictures. This is only used as the starting point when inserting images, you can then navigate to any other folder under /images if you wish. The defaults are /images/xbfilms which is created on installation."
+			label="XBCULTURE_CONFIG_IMGPATHS_NOTE_LABEL"
+			description="XBCULTURE_CONFIG_IMGPATHS_NOTE_DESC"
 			class="info"
 		/>	
 		<field name="portrait_path" type="folderlist" 
 			default="images/xbpeople" directory="images" 
-	        label="Portrait images folder" 
-	        description="Default folder for picture for people and characters. This only constrains which folder is initially shown when selecting image" 
+	        label="XBCULTURE_CONFIG_PORTRAIT_LABEL" 
+	        description="XBCULTURE_CONFIG_PORTRAIT_DESC" 
 	        recursive="true" hide_none="true" 
         />
 		<field
@@ -104,6 +127,11 @@
 			 showon="use_xbcss:2"
 			class="info"
 		/>	
+		<field name="popcolour" type="color"
+			label="XBCULTURE_CONFIG_POP_COLOUR_LABEL"
+			description="XBCULTURE_CONFIG_POP_COLOUR_DESC" 
+			default="#822000"
+		/>
 		<field name="extlinksnote" type="note"
 			label="XBCULTURE_CONFIG_NEWTAB_HINT_NOTE_LABEL"
 			description="XBCULTURE_CONFIG_NEWTAB_HINT_NOTE_DESC"

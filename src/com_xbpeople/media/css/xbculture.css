@@ -50,9 +50,9 @@
 	text-decoration-style: dashed; 
     text-underline-position: under;
 }
-.xbhover, .xbhover:hover {text-decoration: underline #822000 dotted;} 
-.xbfocus, .xbfocus:hover {text-decoration: underline #822000 dashed;}
-.xbclick, .xbclick:hover {text-decoration: underline #822000 solid;}
+.xbhover, .xbhover:hover {text-decoration: underline dotted;} 
+.xbfocus, .xbfocus:hover {text-decoration: underline dashed;}
+.xbclick, .xbclick:hover {text-decoration: underline solid;}
 
 /* override the annoying default transparency on bootstrap tooltips */
 .tooltip.in {
@@ -62,34 +62,24 @@
 /* Popover styles - these override the defaults*/
 /* border around popover */
  .xbcultpop + .popover {
-    border: 2px solid #822000;
+    border: 2px solid;
 }
 /* Popover Title */
 .xbcultpop + .popover > .popover-title {
     padding: 4px 5px 3px 5px;
-    border-bottom: 1px solid #822000;
+    border-bottom: 1px solid;
     font-size: 1.0em;
     text-align:center;
 }
-.xbcultpop + .popover > .popover-title {background-color:#ffefdf !important;color:#822000;border-bottom-color:#822000;}
-/* Popover content */
-.xbcultpop  + .popover > .popover-content {background-color:#fff8f4 !important;color:#822000;}
 /* Popover Body */
 .xbcultpop  + .popover > .popover-content {
     font-size: 0.95em;
     padding: 4px 8px 4px 8px;
 }
 .xbcultpop  + .popover > .popover-content > a {
-	color:#621800;
   font-weight:bold;
 }
-/* Popover Arrows */
-.xbcultpop + .popover.right>.arrow:after { border-right-color:#822000; }
-.xbcultpop + .popover.left>.arrow:after { border-left-color: #822000; }
-.xbcultpop + .popover.bottom>.arrow:after { border-bottom-color: #822000; }
-.xbcultpop + .popover.top>.arrow:after { border-top-color: #822000; }
-
-
+/* for popover colours see XbGeneral::popstylecolours() Arrows */
 
 /* use an empty custom button as a toolbar spacer (22px is minimum width*/
 #toolbar- .btn {
@@ -275,17 +265,13 @@ ul.nav-tabs {
 	padding:2px; 
 	line-height:12px;
 }
-.xbinfo:after {
-	color:#44f;
-	font-size:12px;
-	font-weight:bold;
-	content:"ⓘ"; /* relies on file being utf8 */
+.xbinfo {
+	color:blue;
+	font-size:14px;
 }
-.xbhelp:after {
+.xbhelp {
 	color:#44f;
 	font-size:12px;
-	font-weight:bold;
-	content:"⍰";  /* relies on file being utf8 */
 }
 .xbwid100 {
 	width:100px;

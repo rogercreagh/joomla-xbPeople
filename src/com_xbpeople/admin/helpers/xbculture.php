@@ -2,7 +2,7 @@
 /*******
  * @package xbCulture
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.6.d 7th January 2022
+ * @version 0.9.8.9 10th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -130,6 +130,88 @@ class XbcultureHelper extends ContentHelper {
 	    }
 	    $credit .= '</div>';
 	    return $credit;
+	}
+
+	public static function adjlum($l, $ladj) {
+	    if ($ladj>0) {
+	        $l += (1-$l) * $ladj/100;
+	    } elseif ($ladj<0) {
+	        $l += $l * $ladj/100;
+	    }
+	    return $l;
+	}
+	
+	public static function hex2rgb($hexstr) {
+	    $hexstr = ltrim($hexstr, '#');
+	    if (strlen($hexstr) == 3) {
+	        $hexstr = $hexstr[0] . $hexstr[0] . $hexstr[1] . $hexstr[1] . $hexstr[2] . $hexstr[2];
+	    }
+	    $R = hexdec($hexstr[0] . $hexstr[1]);
+	    $G = hexdec($hexstr[2] . $hexstr[3]);
+	    $B = hexdec($hexstr[4] . $hexstr[5]);
+	    return array($R,$G,$B);
+	}
+	
+	public static function hex2hsl($RGB, $ladj = 0) {
+	    if (!is_array($RGB)) {
+	        $RGB = self::hex2rgb($RGB);
+	    }
+	    $r = $RGB[0]/255;
+	    $g = $RGB[1]/255;
+	    $b = $RGB[2]/255;
+	    // using https://gist.github.com/brandonheyer/5254516
+	    $max = max( $r, $g, $b );
+	    $min = min( $r, $g, $b );
+	    // lum
+	    $l = ( $max + $min ) / 2;
+	    
+	    // sat
+	    $d = $max - $min;
+	    if( $d == 0 ){
+	        $h = $s = 0; // achromatic
+	    } else {
+	        $s = $d / ( 1 - abs( (2 * $l) - 1 ) );
+	        // hue
+	        switch( $max ){
+	            case $r:
+	                $h = 60 * fmod( ( ( $g - $b ) / $d ), 6 );
+	                if ($b > $g) {
+	                    $h += 360;
+	                }
+	                break;
+	            case $g:
+	                $h = 60 * ( ( $b - $r ) / $d + 2 );
+	                break;
+	            case $b:
+	                $h = 60 * ( ( $r - $g ) / $d + 4 );
+	                break;
+	        }
+	    }
+	    $hsl = array( round( $h, 2 ), round( $s, 2 ), round( $l, 2 ) );
+	    if ($ladj!= 0){
+	        $l = self::adjlum($hsl[2], $ladj);
+	        $hsl[2] = $l;
+	    }
+	    $hslstr = 'hsl('.($hsl[0]).','.($hsl[1]*100).'%,'.($hsl[2]*100).'%)';
+	    return $hslstr;
+	}
+	
+	public static function popstylecolours($pophex) {
+	    $stylestr = '.xbhover, .xbhover:hover {text-decoration-color:'.$pophex.';} ';
+	    $stylestr .= '.xbfocus, .xbfocus:hover {text-decoration-color:'.$pophex.';} ';
+	    $stylestr .= '.xbclick, .xbclick:hover {text-decoration-color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop + .popover {border-color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop + .popover > .popover-title {border-bottom-colour:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop + .popover > .popover-title {background-color:'.self::hex2hsl($pophex,80).' !important; ';
+	    $stylestr .= 'color:'.$pophex.';border-bottom-color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop  + .popover > .popover-content {background-color:'.self::hex2hsl($pophex,90).' !important; ';
+	    $stylestr .= 'color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop  + .popover > .popover-content > a {color:'.self::hex2hsl($pophex,-40).';} ';
+	    $stylestr .= '.xbcultpop + .popover.right>.arrow:after { border-right-color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop + .popover.left>.arrow:after { border-left-color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop + .popover.bottom>.arrow:after { border-bottom-color:'.$pophex.';} ';
+	    $stylestr .= '.xbcultpop + .popover.top>.arrow:after { border-top-color:'.$pophex.';}';
+	    return $stylestr;
 	}
 	
 /************** functions used on admin side only *********************/
