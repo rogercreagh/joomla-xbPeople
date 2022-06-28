@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>10th June 2022</creationDate>
-	<version>0.9.8.9</version>
+	<creationDate>28th June 2022</creationDate>
+	<version>0.9.9.0</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
@@ -11,6 +11,22 @@
 	<description>XBPEOPLE_XML_DESCRIPTION</description>
 
 	<scriptfile>script.xbpeople.php</scriptfile>
+
+	<files folder="site">
+	    <filename>index.html</filename>
+	    <filename>xbpeople.php</filename>
+	    <filename>controller.php</filename>
+	    <filename>router.php</filename>
+	    <folder>controllers</folder>
+	    <folder>helpers</folder>
+	    <folder>layouts</folder>
+	    <folder>models</folder>
+	    <folder>views</folder>
+	</files>
+
+	<languages folder="site/language">
+		<language tag="en-GB">en-GB/en-GB.com_xbfilms.ini</language>
+	</languages>
 
 	<media destination="com_xbpeople" folder="media">
 		<filename>index.html</filename>
