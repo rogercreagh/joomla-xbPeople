@@ -1,8 +1,8 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/person/view.html.php
- * @version 0.9.7 11th January 2022
+ * @version 0.9.9.0 28th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,8 +25,7 @@ class XbbooksViewPerson extends JViewLegacy {
 		$this->hide_empty = $this->params->get('hide_empty',1);
 		$this->show_image = $this->params->get('show_pimage',1);
 		
-		$this->xbpeople_ok = Factory::getSession()->get('xbpeople_ok');
-		$show_cats = ($this->xbpeople_ok) ? $this->params->get('show_cats','1','int') : 0;
+		$show_cats = $this->params->get('show_cats','1','int');
 		$this->show_cat = ($show_cats) ? $this->params->get('show_pcat','2','int') :0;
 		$show_tags = $this->params->get('show_tags','1','int');
 		$this->show_tags = ($show_tags) ? $this->params->get('show_ptags','1','int') : 0;

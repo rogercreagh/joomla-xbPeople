@@ -1,6 +1,6 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/tags/tmpl/default.php
  * @version 0.9.6.c 6th January 2022
  * @author Roger C-O
@@ -126,5 +126,5 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
 		<?php echo HtmlHelper::_('form.token'); ?>
 	</form>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbBooks');?></p>
+<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>

@@ -1,6 +1,6 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/tag/view.html.php
  * @version 0.9.6.a 17th December 2021
  * @since v0.5.1

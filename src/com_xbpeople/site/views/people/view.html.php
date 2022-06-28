@@ -1,8 +1,8 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/people/view.html.php
- * @version 0.9.8.9 10th June 2022
+ * @version 0.9.9.0 28th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-class XbbooksViewPeople extends JViewLegacy {
+class XbpeopleViewPeople extends JViewLegacy {
 	
 	public function display($tpl = null) {
 //	    HTMLHelper::_('bootstrap.framework');
@@ -50,7 +50,7 @@ class XbbooksViewPeople extends JViewLegacy {
 		$this->hide_prole = $this->params->get('menu_prole',0)>0 ? true : false;
 		$this->hide_tag = (!empty($this->params->get('menu_tag',''))) ? true : false;
 		
-		$this->xbpeople_ok = Factory::getSession()->get('xbpeople_ok');
+//		$this->xbpeople_ok = Factory::getSession()->get('xbpeople_ok');
 //		$show_cats = ($this->xbpeople_ok) ? $this->params->get('show_cats','1','int') : 0;
 //		$this->show_cat = ($show_cats) ? $this->params->get('show_pcat','2','int') :0;
 //		$show_tags = $this->params->get('show_tags','1','int');

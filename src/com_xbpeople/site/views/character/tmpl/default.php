@@ -1,6 +1,6 @@
 <?php
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/character/tmpl/default.php
  * @version 0.9.8.9 10th June 2022
  * @author Roger C-O
@@ -138,5 +138,5 @@ if ($imgok) {
       </div>
 </div>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbBooks');?></p>
+<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>

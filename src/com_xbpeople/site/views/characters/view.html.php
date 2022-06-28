@@ -1,6 +1,6 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/characters/view.html.php
  * @version 0.9.9.0 28th June 2022
  * @author Roger C-O

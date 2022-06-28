@@ -1,6 +1,6 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/tags/view.html.php
  * @version 0.8.3 18th March 2021
  * @author Roger C-O

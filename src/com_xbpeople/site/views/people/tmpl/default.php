@@ -1,8 +1,8 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/people/tmpl/default.php
- * @version 0.9.8.8 7th June 2022
+ * @version 0.9.9.0 28th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,25 +27,25 @@ if (!$listOrder) {
     $listDirn = 'ascending';
 }
 $orderNames = array('firstname'=>Text::_('XBCULTURE_FIRSTNAME'),'lastname'=>Text::_('XBCULTURE_LASTNAME'),
-    'sortdate'=>Text::_('XBCULTURE_DATES'),'category_title'=>Text::_('XBCULTURE_CATEGORY'),'bcnt'=>'Number of books');
+    'sortdate'=>Text::_('XBCULTURE_DATES'),'category_title'=>Text::_('XBCULTURE_CATEGORY'),'bcnt'=>'Number of books','fcnt'=>'Number of films');
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getPeopleRoute();
+$itemid = XbpeopleHelperRoute::getPeopleRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $plink = 'index.php?option=com_xbbooks&view=person' . $itemid.'&id=';
 
-$itemid = XbbooksHelperRoute::getCategoriesRoute();
+$itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 
 ?>
-<div class="xbbooks">
+<div class="xbpeople">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
-		echo XbbooksHelper::sitePageheader($this->header);
+	    echo XbpeopleHelperRoute::sitePageheader($this->header);
 	} ?>
 	
-<form action="<?php echo Route::_('index.php?option=com_xbbooks&view=people'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_xbpeople&view=people'); ?>" method="post" name="adminForm" id="adminForm">
 		<?php  // Search tools bar
 			if ($this->search_bar) {
 				$hide = '';
@@ -251,6 +251,10 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 						</span></br />
 					<?php endif; ?>
 					</p>
+    				<?php if ($item->bookcnt > 0) {
+    						echo '<p class="xbit xb095"><span>'.Text::_('XBCULTURE_LISTED_WITH').'</span>: '.$item->bookcnt.' '.Text::_('XBCULTURE_BOOKS').'</p>';
+    					}
+    				?>
     				<?php if ($item->filmcnt > 0) {
     						echo '<p class="xbit xb095"><span>'.Text::_('XBCULTURE_LISTED_WITH').'</span>: '.$item->filmcnt.' '.Text::_('XBCULTURE_FILMS').'</p>';
     					}
@@ -259,7 +263,7 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 				<?php endif; ?>
     			<?php if(($this->showcats) || ($this->showtagss)) : ?>
 					<td class="hidden-phone">
- 						<?php if (($this->showcats) && ($this->xbpeople_ok)) : ?>												
+ 						<?php if ($this->showcats) : ?>												
 							<p>
 								<?php if($this->showcats == 2) : ?>
     								<a class="label label-success" href="<?php echo $clink.$item->catid; ?>">
@@ -288,5 +292,5 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 	</div>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbBooks');?></p>
+<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>

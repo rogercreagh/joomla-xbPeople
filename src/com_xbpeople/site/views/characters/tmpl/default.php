@@ -1,6 +1,6 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/characters/tmpl/default.php
  * @version 0.9.9.0 28th June 2022
  * @author Roger C-O
@@ -194,5 +194,5 @@ $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
 	</div>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbBooks');?></p>
+<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- xbPeople site/models/forms/filter_categories.xml v0.9.9.0 28th June 2022 -->
+<form>
+	<fields name="filter" addfieldpath="administrator/components/com_xbbooks/models/fields">
+		<field
+			name="search"
+			type="text"
+			label="COM_CONTENT_FILTER_SEARCH_DESC"
+			description="XBCULTURE_SEARCH_TIT_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="branch"
+			type="sql"
+			label="XBCULTURE_BRANCH_LABEL"
+			description="XBCULTURE_BRANCH_DESC"
+			query="SELECT id, alias, path, title FROM `#__categories` WHERE extension = 'com_xbpeople' ORDER BY  path, title ASC"
+  			key_field="alias"
+  			value_field="title"
+			onchange="this.form.submit();"
+			>
+			<option value="">XBCULTURE_ENTIRE_TREE</option>
+		</field>
+		<!-- TODO add incl subcats option -->
+	</fields>
+</form>

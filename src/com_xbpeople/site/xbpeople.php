@@ -1,8 +1,8 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/xbpeople.php
- * @version 0.9.8.9 10th June 2022
+ * @version 0.9.9.0 28th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html

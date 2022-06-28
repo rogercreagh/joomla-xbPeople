@@ -1,8 +1,8 @@
 <?php 
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/categories/view.html.php
- * @version 0.8.3 17th March 2021
+ * @version 0.9.9.0 28th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-class XbbooksViewCategories extends JViewLegacy {
+class XbpeopleViewCategories extends JViewLegacy {
 	
 	public function display($tpl = null) {
 		

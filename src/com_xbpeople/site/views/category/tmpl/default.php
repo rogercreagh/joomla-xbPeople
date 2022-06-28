@@ -1,6 +1,6 @@
 <?php
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/category/tmpl/default.php
  * @version 0.9.6.a 17th December 2021
  * @author Roger C-O
@@ -128,5 +128,5 @@ $show_catdesc = $this->params->get('show_catdesc',1);
 	</a>
 </p>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbBooks');?></p>
+<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 

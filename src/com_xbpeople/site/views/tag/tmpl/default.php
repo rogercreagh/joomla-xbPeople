@@ -1,6 +1,6 @@
 <?php
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/views/tag/tmpl/default.php
  * @version 0.8.5 24th March 2021 
  * @author Roger C-O
@@ -180,6 +180,6 @@ $tclink = $xblink.'tags' . $itemid;
 	</a>
 </p>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbBooks');?></p>
+<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>
 
