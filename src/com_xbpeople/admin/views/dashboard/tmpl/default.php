@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/tmpl/default.php
- * @version 0.9.8.7 5th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -93,7 +93,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 	<div id="j-main-container" >
 	<h3><?php echo Text::_( 'XBCULTURE_SUMMARY' ); ?></h3>
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span5">
 			<div class="xbbox xbboxgrn">
 				<div class="row-fluid"><div class="span12">
 				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>
@@ -197,8 +197,32 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
                 <?php endif; ?>
 			</div>
 			<?php  endif; ?>
+			<div class="xbbox xbboxgrey">
+				<h2 class="xbtitle">
+					<span class="badge badge-info pull-right"><?php echo ($this->tags['tagcnts']['percnt']  + $this->tags['tagcnts']['charcnt']) ; ?></span> 
+					<?php echo Text::_('XBPEOPLE_TAGGED_ITEMS'); ?>
+				</h2>
+				<div class="row-striped">
+                    <div class="row-fluid">
+                      <?php echo 'People: ';
+						echo '<span class="percnt badge pull-right">'.$this->tags['tagcnts']['percnt'].'</span>'; ?>
+                    </div>  
+                    <div class="row-fluid">
+                      <?php echo 'Characters: ';
+						echo '<span class="revcnt badge pull-right">'.$this->tags['tagcnts']['charcnt'].'</span>'; ?>
+                    </div>  
+                 </div>
+				 <h2 class="xbtitle">Tag counts <span class="xb09 xbnorm"><i>(people:chars)</i></span></h2>
+              	 <div class="row-fluid">
+                 	<div class="row-striped">
+						<div class="row-fluid">
+							<?php echo $this->taglist; ?>
+                   		</div>
+                 	</div>
+				</div>
+			</div>
 		</div>
-		<div class="span6">
+		<div class="span4">
 			<div class="xbbox xbboxyell">
  				<h2 class="xbtitle">
 					<span class="badge badge-info pull-right">
@@ -235,40 +259,58 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="span6">
-			<div class="xbbox xbboxgrey">
-				<h2 class="xbtitle">
-					<span class="badge badge-info pull-right"><?php echo ($this->tags['tagcnts']['percnt']  + $this->tags['tagcnts']['charcnt']) ; ?></span> 
-					<?php echo Text::_('XBPEOPLE_TAGGED_ITEMS'); ?>
-				</h2>
-				<div class="row-striped">
-                    <div class="row-fluid">
-                      <?php echo 'People: ';
-						echo '<span class="percnt badge pull-right">'.$this->tags['tagcnts']['percnt'].'</span>'; ?>
-                    </div>  
-                    <div class="row-fluid">
-                      <?php echo 'Characters: ';
-						echo '<span class="revcnt badge pull-right">'.$this->tags['tagcnts']['charcnt'].'</span>'; ?>
-                    </div>  
-                 </div>
-				 <h2 class="xbtitle">Tag counts <span class="xb09 xbnorm"><i>(people:chars)</i></span></h2>
-              	 <div class="row-fluid">
-                 	<div class="row-striped">
-						<div class="row-fluid">
-							<?php echo $this->taglist; ?>
-                   		</div>
-                 	</div>
-				</div>
-			</div>
-		</div>
-		<div class="span6">
+		<div class="span3">
 			<div class="xbbox xbboxwht">
 				<h4><?php echo Text::_('XBCULTURE_CONFIG_OPTIONS'); ?></h4>
 				<p>
 					<?php echo ($this->killdata) ? '<b>Uninstall deletes all people data</b>' : 'Data not deleted on unistall'; ?>
 				</p>
+        			<p>
+            		<?php echo '<b>'.ucfirst(Text::_('XBCULTURE_CATEGORIES')).'</b><br />';
+            		if (($this->show_cat==0) || 
+            		    (($this->show_pcat==0) && ($this->show_ccat==0))) {
+            		    echo '<i>'.Text::_('XBCULTURE_CATS_HIDDEN_ALL').'</i>';
+            		} else {
+            		    echo Text::_('XBCULTURE_SHOW_FOR').' ';
+            		    echo ($this->show_pcat) ? Text::_('XBCULTURE_PEOPLE').' ' : '';
+            		    echo ($this->show_ccat) ? Text::_('XBCULTURE_CHARS').' ' : '';
+            		}
+            		?>
+            		</p>
+            		<p>
+            		<?php echo '<b>'.ucfirst(Text::_('XBCULTURE_TAGS')).'</b><br />';
+            		if (($this->show_tags==0) || 
+            		    (($this->show_ptags==0) && ($this->show_ctags==0))) {
+            		    echo '<i>'.Text::_('XBCULTURE_TAGS_HIDDEN_ALL').'</i>';
+            		} else {
+            		    echo Text::_('XBCULTURE_SHOW_FOR').' ';
+            		    echo ($this->show_ptags) ? Text::_('XBCULTURE_PEOPLE').' ' : '';
+            		    echo ($this->show_ctags) ? Text::_('XBCULTURE_CHARS').' ' : '';
+            		}
+            		?>
+            		</p>
+            		<p>
+            		<?php echo '<b>'.Text::_('XBCULTURE_ALLOW_SEARCH').': </b>';
+            		    echo ($this->show_search==0)? Text::_('JNO') : Text::_('JYES'); ?>
+            		</p>
+            		<p>
+            		<?php echo '<b>'.Text::_('XBCULTURE_HIDE_EMPTY_FIELDS').': </b>';
+            		    echo ($this->hide_empty==0)? Text::_('JNO') : Text::_('JYES'); ?>
+            		</p>    		        		
+            		<p>
+            		<?php echo '<b>'.Text::_('XBCULTURE_IMAGE_FOLDERS').'</b><br />';
+    	        		echo Text::_('XBCULTURE_PORTRAITS').': <code>'.$this->portraits.'</code> ';
+            		?>	
+            		</p>
+            		<p>
+            		<?php echo '<b>'.Text::_('XBCULTURE_SHOW_PORTRAITS').'</b><br />'; 
+    	        		echo Text::_('XBCULTURE_IN_LISTS').': ';
+    	        		echo ($this->show_people_portraits==0)? Text::_('JNO') : Text::_('JYES');
+    	        		echo '<br />';
+    	        		echo Text::_('XBCULTURE_IN_PEOPLE').': ';
+    	        		echo ($this->show_person_portrait==0)? Text::_('JNO') : Text::_('JYES');
+            		?>	        		
+            		</p>
 			</div>
 		</div>
 	</div>

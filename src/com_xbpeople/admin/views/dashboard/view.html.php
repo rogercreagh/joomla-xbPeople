@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/view.html.php
- * @version 0.9.8.7 5th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -63,6 +63,21 @@ class XbpeopleViewDashboard extends JViewLegacy
 
 		$this->killdata = $params->get('killdata',0);
 		
+		$this->show_cat = $params->get('show_cats',1);
+		$this->show_pcat = $params->get('show_pcat',1);
+		$this->show_ccat = $params->get('show_ccat',1);
+		
+		$this->show_tags = $params->get('show_tags',1);
+		$this->show_ptags = $params->get('show_ptags',1);
+		$this->show_ctags = $params->get('show_ctags',1);
+		
+		$this->show_search = $params->get('search_bar');
+		
+		$this->hide_empty = $params->get('hide_empty');
+		
+		$this->portraits = $params->get('portrait_path');
+		$this->show_people_portraits = $params->get('show_ppiccol');
+		$this->show_person_portrait = $params->get('show_pimage');
 		
 		XbpeopleHelper::addSubmenu('dashboard');
 		

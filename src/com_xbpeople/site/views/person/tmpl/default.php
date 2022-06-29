@@ -43,27 +43,36 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 		</div>
 		<div class="row-fluid">
 			<div class="span6">
-				<?php if ((!$item->nationality == '') || (!$this->hide_empty)) : ?>
-						<p><span class="xbnit"><?php echo JText::_('XBCULTURE_NATIONALITY').': '; ?> </span> 
-						<?php echo $item->nationality; ?></p>
+				<?php if (($item->nationality != '') || (!$this->hide_empty)) : ?>
+					<p><span class="xbnit"><?php echo Text::_('XBCULTURE_NATIONALITY').': '; ?> </span>
+					<?php if ($item->nationality == '') {
+					    echo Text::_('XBCULTURE_UNKNOWN');
+					} else {
+						echo $item->nationality; 
+					} ?>
+					</p>
 				<?php endif; ?>
-				<?php if (($item->year_born == 0) && ($item->year_died == 0)) : ?>
-					<?php if(!$this->hide_empty) : ?>
-						<p><span class="xbnit">
-							<?php echo JText::_('XBBOOKS_DATES_UNKNOWN'); ?>
-						</span></p>
-					<?php endif; ?>
-				<?php  else : ?>
-					<?php if ($item->year_born != 0) : ?>
-						<p><span class="xbnit"><?php echo JText::_('XBCULTURE_BORN_U').': '; ?> </span> 
-							<?php echo $item->year_born; ?></p>
-					<?php endif; ?>
-					<?php if ($item->year_died != 0) : ?>
-						<p><span class="xbnit"><?php echo JText::_('XBCULTURE_DIED_U').': '; ?> </span> 
-							<?php echo $item->year_died; ?></p>
-					<?php endif; ?>
+				<p>
+				<?php if (($item->year_born != 0) || (!$this->hide_empty)) : ?>
+					<span class="xbnit "><?php echo ucfirst(Text::_('XBCULTURE_BORN')).': '; ?> </span>
+					<?php if ($item->year_born == 0) {
+					    echo Text::_('XBCULTURE_UNKNOWN');
+					} else {
+					    echo $item->year_born; 
+					} ?>
+					&nbsp;&nbsp;
 				<?php endif; ?>
-		<div class="pull-left"><b><?php echo ucfirst(JText::_('XBCULTURE_BOOKS')); ?></b></div>	
+				<?php if (($item->year_died != 0) || (!$this->hide_empty)) : ?>
+					<span class="xbnit "><?php echo ucfirst(Text::_('XBCULTURE_DIED')).': '; ?> </span>
+					<?php if ($item->year_died == 0) {
+					    echo Text::_('XBCULTURE_UNKNOWN');
+					} else {
+					    echo $item->year_died; 
+					} ?>
+				<?php endif; ?>
+				</p>
+				
+		<div class="pull-left"><b><?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?></b></div>	
 		<div class="clearfix"></div>
 	<?php if ($item->bookcnt>0) : ?>
 		<p class="xbnit">
@@ -76,7 +85,7 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 		</p>
 	<?php endif; ?>
 	<?php if ($item->ext_links_cnt > 0) : ?>
-			<div class="xbnit xbmb8"><?php echo JText::_('XBBOOKS_EXT_LINKS'); ?></div>
+			<div class="xbnit xbmb8"><?php echo Text::_('XBBOOKS_EXT_LINKS'); ?></div>
 			<div>			
 				<?php echo $item->ext_links_list; ?>
 			</div><div class="clearfix"></div>
@@ -84,16 +93,16 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 			</div>
 			<div class="span6">
 				<?php if (($item->summary != '' ) && (!empty($item->biography))) : ?>
-					<div class="xbnit xbmb8"><?php echo JText::_('XBCULTURE_SUMMARY'); ?></div>
+					<div class="xbnit xbmb8"><?php echo Text::_('XBCULTURE_SUMMARY'); ?></div>
 					<div class="xbbox xbboxwht">
 					 	<?php echo $item->summary; ?>
 					</div>
 				<?php  endif;?>
 				<p>&nbsp;</p>
 				<?php if ((empty($item->biography)) && (trim($item->summary) == '')) : ?>
-					<p class="xbnit"><?php echo JText::_('XBBOOKS_NO_BIOG'); ?></p>
+					<p class="xbnit"><?php echo Text::_('XBBOOKS_NO_BIOG'); ?></p>
 				<?php else : ?>
-					<div class="xbnit xbmb8"><?php echo JText::_('XBCULTURE_BIOGRAPHY');?></div>
+					<div class="xbnit xbmb8"><?php echo Text::_('XBCULTURE_BIOGRAPHY');?></div>
 					<div class="xbbox xbboxgrn">
 						<?php if (!empty($item->biography)) {
 					    	echo $item->biography;
@@ -115,12 +124,12 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 <div class="row-fluid xbmt16">
 	<?php if ($this->show_cat) : ?>
 		<div class="span5">
-			<div class="pull-left xbnit xbmr10"><?php echo JText::_('XBCULTURE_CATEGORY'); ?></div>
-			<div class="pull-left label label-success">
+			<div class="pull-left xbnit xbmr10"><?php echo Text::_('XBCULTURE_CATEGORY'); ?></div>
+			<div class="pull-left">
 				<?php if ($this->show_cat==2) : ?>
-					<a href="<?php echo $clink.$item->catid; ?>"><?php echo $item->category_title; ?></a>
+					<a href="<?php echo $clink.$item->catid; ?>" class="label label-success"><?php echo $item->category_title; ?></a>
 				<?php else : ?>
-					<?php echo $item->category_title; ?>
+    				<span class="label label-success"><?php  echo $item->category_title; ?></span>
 				<?php endif; ?>
 			</div>
 			<div class="clearfix"></div>
@@ -128,7 +137,7 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 	<?php endif; ?>
 	<?php if(($this->show_tags) && (!empty($item->tags))) : ?>
 		<div class="span<?php $this->showcat ? '7' : '12';?>">
-			<div class="pull-left xbnit xbmr10"><?php echo JText::_('XBCULTURE_TAGS_U'); ?></div>
+			<div class="pull-left xbnit xbmr10"><?php echo Text::_('XBCULTURE_TAGS_U'); ?></div>
 			<div class="pull-left">
 				<?php  $tagLayout = new FileLayout('joomla.content.tags');
 			    	echo $tagLayout->render($item->tags);
@@ -143,22 +152,22 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 			<div class="span2">
 				<?php if (($item->prev>0) || ($item->next>0)) : ?>
 				<span class="xbpop xbcultpop xbinfo fas fa-info-circle" data-trigger="hover" title 
-					data-original-title="Prev-Next Info" data-content="<?php echo JText::_('XBBOOKS_INFO_PREVNEXT'); ?>" >
+					data-original-title="Prev-Next Info" data-content="<?php echo Text::_('XBBOOKS_INFO_PREVNEXT'); ?>" >
 				</span>&nbsp;
 				<?php endif; ?>
 				<?php if($item->prev > 0) : ?>
 					<a href="index.php?option=com_xbbooks&view=person&id=<?php echo $item->prev ?>" class="btn btn-small">
-						<?php echo JText::_('XBCULTURE_PREV'); ?></a>
+						<?php echo Text::_('XBCULTURE_PREV'); ?></a>
 			    <?php endif; ?>
 			</div>
-			<div class="span8"><center>
+			<div class="span8 xbtc">
 				<a href="index.php?option=com_xbbooks&view=people" class="btn btn-small">
-					<?php echo JText::_('XBBOOKS_PEOPLELIST'); ?></a></center>
+					<?php echo Text::_('People List'); ?></a>
 			</div>
 			<div class="span2">
 			<?php if($item->next > 0) : ?>
 				<a href="index.php?option=com_xbbooks&view=person&id=<?php echo $item->next ?>" class="btn btn-small pull-right">
-					<?php echo JText::_('XBCULTURE_NEXT'); ?></a>
+					<?php echo Text::_('XBCULTURE_NEXT'); ?></a>
 		    <?php endif; ?>
 			</div>
 	      </div>

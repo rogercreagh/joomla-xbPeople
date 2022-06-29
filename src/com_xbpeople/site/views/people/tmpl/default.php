@@ -126,7 +126,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($this->items as $i => $item) { ?>
+			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
              		<?php if($this->show_pic) : ?>
 					<td>
@@ -191,12 +191,12 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 				<?php endif; ?>
 				<?php if ($this->xbbooksStatus) : ?>
     				<td>
-    					<span class="badge <?php echo ($item->bookcnt>0) ? 'badge-info' : ''?>"><?php echo $item->bookcnt;?></span>
+    					<span class="badge <?php echo ($item->bookcnt>0) ? 'badge-cyan' : ''?>"><?php echo $item->bookcnt;?></span>
     				</td>
 				<?php endif; ?>
 				<?php if ($this->xbfilmsStatus) : ?>
     				<td>
-    					<span class="badge <?php echo ($item->filmcnt>0) ? 'badge-info' : ''?>"><?php echo $item->filmcnt;?></span>
+    					<span class="badge <?php echo ($item->filmcnt>0) ? 'badge-mag' : ''?>"><?php echo $item->filmcnt;?></span>
     				</td>
 				<?php endif; ?>
     			<?php if(($this->showcats) || ($this->showtags)) : ?>
@@ -218,7 +218,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 					</td>
                 <?php endif; ?>
 				</tr>
-			<?php } // endforeach; ?>
+			<?php endforeach; ?>
 		</tbody>
 		</table>
 
