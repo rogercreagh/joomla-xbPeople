@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/tmpl/default.php
- * @version 0.9.8.9 10th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -23,7 +23,7 @@ if ($imgok) {
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getCategoriesRoute();
+$itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 
@@ -63,33 +63,13 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 							<?php echo $item->year_died; ?></p>
 					<?php endif; ?>
 				<?php endif; ?>
-		<div class="pull-left"><b><?php echo JText::_('XBCULTURE_BOOKS_U'); ?></b></div>	
+		<div class="pull-left"><b><?php echo ucfirst(JText::_('XBCULTURE_BOOKS')); ?></b></div>	
 		<div class="clearfix"></div>
-	<?php if ($item->bcnt>0) : ?>
-		<div class="pull-left xbml15">		
-		<?php if($item->acnt > 0) : ?>
-			<p><span class="xbnit"><?php echo JText::_('XBBOOKS_ASAUTHOR').': '; ?></span>
-				<?php echo ($item->acnt>1) ? '<br />' : ''; ?>
-				<?php echo $item->alist; ?></p>
-		<?php endif; ?>
-		<?php if($item->ecnt > 0) : ?>
-			<p><span class="xbnit"><?php echo JText::_('XBBOOKS_ASEDITOR').': '; ?></span>
-				<?php echo ($item->ecnt>1) ? '<br />' : ''; ?>
-				<?php echo $item->elist; ?></p>
-		<?php endif; ?>
-		<?php if($item->mcnt > 0) : ?>
-			<p><span class="xbnit"><?php echo JText::_('XBBOOKS_APPEARSIN').': '; ?></span><br />
-				<?php echo ($item->mcnt>1) ? '<br />' : ''; ?>
-				<?php echo $item->mlist; ?></p>
-		<?php endif; ?>
-		<?php if($item->ocnt > 0) : ?>
-			<p><?php echo $item->olist; ?></p>
-		<?php endif; ?>
-		</div>
-		<div class="clearfix"></div>
-	<?php else: ?>
-		<p class="xbnit">No books listed for this person</p>
-	<?php endif; ?>	
+	<?php if ($item->bookcnt>0) : ?>
+		<p class="xbnit">
+		<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bookcnt.' '.Text::_('XBCULTURE_BOOKS'); ?>
+		</p>
+	<?php endif; ?>
 	<?php if ($item->filmcnt>0) : ?>
 		<p class="xbnit">
 		<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->filmcnt.' '.Text::_('XBCULTURE_FILMS'); ?>

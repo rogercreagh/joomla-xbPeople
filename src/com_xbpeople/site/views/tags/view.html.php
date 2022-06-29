@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/view.html.php
- * @version 0.8.3 18th March 2021
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-class XbbooksViewTags extends JViewLegacy {
+class XbpeopleViewTags extends JViewLegacy {
 	
 	public function display($tpl = null) {
 		

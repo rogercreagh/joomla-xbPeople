@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\TagsHelper;
 
-class XbbooksViewCharacter extends JViewLegacy {
+class XbpeopleViewCharacter extends JViewLegacy {
 	
 	protected $item;
 	

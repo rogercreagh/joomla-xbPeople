@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/person/tmpl/default.xml v0.8.3 18th March 2021 -->
+<!-- xbPeople site/views/person/tmpl/default.xml v0.9.9.0 29th June 2022 -->
 <metadata>
 	<layout title="Person View">
 		<message>Display a single person details</message>
 	</layout>
 	<fields name="request">
-		<fieldset name="request" addfieldpath="/administrator/components/com_xbbooks/models/fields">	
+		<fieldset name="request" addfieldpath="/administrator/components/com_xbpeople/models/fields">	
 			<field 
-				name="id"  type="bookpeople"
+				name="id"  type="people"
 				label="Select person"
 				description="Choose person to display."
 				required="true"

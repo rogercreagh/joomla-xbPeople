@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
@@ -22,12 +22,12 @@ class XbpeopleModelPeople extends JModelList {
 	public function __construct($config = array()) {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array ( 'firstname', 'lastname',
-					'catid', 'a.catid', 'category_id',
+					'catid', 'a.catid', 'category_id', 'tagfilt',
 					'category_title', 'c.title',
 					'sortdate' );
 		}
-		$this->xbfilmsStatus = Factory::getSession()->get('com_xbfilms',false);
-		$this->xbbooksStatus = Factory::getSession()->get('com_xbbooks',false);
+		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		parent::__construct($config);
 	}
 
@@ -62,11 +62,11 @@ class XbpeopleModelPeople extends JModelList {
 	protected function getListQuery() {
 		$searchbar = (int)$this->getState('params',0)['search_bar'];
 		//if menu option set it will take precedence and hide the corresponding filter option
-		$prole = $this->getState('params')['menu_prole'];
-		if (($searchbar==1) && ($prole==0)) { 	//look for filter setting
-		    $prole = $this->getState('filter.prole');
-		}
-		$this->prole = $prole;		
+//		$prole = $this->getState('params')['menu_prole'];
+// 		if (($searchbar==1) && ($prole==0)) { 	//look for filter setting
+// 		    $prole = $this->getState('filter.prole');
+// 		}
+//		$this->prole = $prole;		
 		
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -125,29 +125,29 @@ class XbpeopleModelPeople extends JModelList {
             		$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
             	}
             }
-//TODO add film and event roles            
-        	switch ($prole) {
-        		case 1: //all
-         			break;
-        		case 2: //authors
-        			$query->where('p.role = '. $db->quote('author'));
-        			break;
-        		case 3: //editors
-         			$query->where('p.role = '. $db->quote('editor'));
-       			break;
-        		case 4: //mention
-        			$query->where('p.role = '. $db->quote('mention'));
-        			break;
-        		case 5: //other
-        		    $query->where('p.role = '. $db->quote('other'));
-        		    break;
-        		default:
-        			break;        			
-        	}
+//TODO add book film and event role filter           
+//         	switch ($prole) {
+//         		case 1: //all
+//          			break;
+//         		case 2: //authors
+//         			$query->where('p.role = '. $db->quote('author'));
+//         			break;
+//         		case 3: //editors
+//          			$query->where('p.role = '. $db->quote('editor'));
+//        			break;
+//         		case 4: //mention
+//         			$query->where('p.role = '. $db->quote('mention'));
+//         			break;
+//         		case 5: //other
+//         		    $query->where('p.role = '. $db->quote('other'));
+//         		    break;
+//         		default:
+//         			break;        			
+//         	}
            
             //filter by tag
-            $tagfilt = array($this->getState('tagId'));
-            $this->setState('tagId','');
+            $tagfilt = $this->getState('tagId');
+ //           $this->setState('tagId','');
             $taglogic = 0;
             if (empty($tagfilt)) {
                 $tagfilt = $this->getState('params')['menu_tag'];
@@ -173,7 +173,7 @@ class XbpeopleModelPeople extends JModelList {
             					' ON ' . $db->quoteName($mapname.'.content_item_id') . ' = ' . $db->quoteName('a.id'));
             			$query->where( array(
             					$db->quoteName($mapname.'.tag_id') . ' = ' . $tagfilt[$i],
-            					$db->quoteName($mapname.'.type_alias') . ' LIKE ' . $db->quote('com_xb%.person'))
+            					$db->quoteName($mapname.'.type_alias') . ' = ' . $db->quote('com_xbpeople.person'))
             					);
             		}
             	} else { //OR logic            		
@@ -183,7 +183,7 @@ class XbpeopleModelPeople extends JModelList {
             		->where(
             				array(
             						$db->quoteName('tag_id') . ' IN (' . implode(',', $tagfilt) . ')',
-            						$db->quoteName('type_alias') . ' LIKE ' . $db->quote('com_xb%.person'),
+            						$db->quoteName('type_alias') . ' = ' . $db->quote('com_xbpeople.person'),
             				)
             				);
             		
@@ -202,7 +202,7 @@ class XbpeopleModelPeople extends JModelList {
             			->where(
             					array(
             							$db->quoteName('tagmap.tag_id') . ' = ' . $tagfilt,
-            							$db->quoteName('tagmap.type_alias') . ' LIKE ' . $db->quote('com_xb%.person')
+            							$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_xbpeople.person')
             					)
             					);
             } //endif tagfilt
@@ -280,16 +280,16 @@ class XbpeopleModelPeople extends JModelList {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 			
 			$item->bookcnt = 0;
-			if ($this->xbbooksStatus===true) {
+			if ($this->xbbooksStatus) {
 			    $db    = Factory::getDbo();
 			    $query = $db->getQuery(true);
-			    $query->select('COUNT(*)')->from('#__xbbookerson');
+			    $query->select('COUNT(*)')->from('#__xbbookperson');
 			    $query->where('person_id = '.$db->quote($item->id));
 			    $db->setQuery($query);
 			    $item->bookcnt = $db->loadResult();
 			}
 			$item->filmcnt = 0;
-			if ($this->xbfilmsStatus===true) {
+			if ($this->xbfilmsStatus) {
 				$db    = Factory::getDbo();
 				$query = $db->getQuery(true);
 				$query->select('COUNT(*)')->from('#__xbfilmperson');

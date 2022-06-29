@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/category/view.html.php
- * @version 0.9.6.a 17th December 2021
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-class XbbooksViewCategory extends JViewLegacy {
+class XbpeopleViewCategory extends JViewLegacy {
 	
 	public function display($tpl = null) {
 		

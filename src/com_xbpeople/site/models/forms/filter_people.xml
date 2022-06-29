@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- xbPeople site/models/forms/filter_people.xml v0.9.9.0 29th Hune 2022 -->
 <form>
-    <fields name="filter" addfieldpath="administrator/components/com_xbbooks/models/fields">
+    <fields name="filter" addfieldpath="administrator/components/com_xbpeople/models/fields">
         <field name="search"
             type="text"
             label="COM_CONTENT_FILTER_SEARCH_DESC"
@@ -31,12 +31,12 @@
 			published="1"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
+			<option value="">All xbPeople Categories</option>
 		</field>
 		<field name="subcats" type="radio"
-			default=""
-			label="XBBOOKS_SUBCATS_LBL"
-			description="XBBOOKS_SUBCATS_DESC"
+			default="1"
+			label="XBCULTURE_CATFILT_SUBS_LABEL"
+			description="XBCULTURE_CATFILT_SUBS_DESC"
   			class="btn-group btn-small radiotop"
   			showon="category_id!:"
 		>

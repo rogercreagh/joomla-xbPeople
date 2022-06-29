@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-class XbbooksViewCharacters extends JViewLegacy {
+class XbpeopleViewCharacters extends JViewLegacy {
 	
 	public function display($tpl = null) {
 		$this->items 		= $this->get('Items');

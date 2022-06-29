@@ -1,8 +1,8 @@
 <?php
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/models/characters.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Categories;
 use Joomla\CMS\Helper\TagsHelper;
 
-class XbbooksModelCharacters extends JModelList {
+class XbpeopleModelCharacters extends JModelList {
 	
 	public function __construct($config = array()) {
 		if (empty($config['filter_fields'])) {

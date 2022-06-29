@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/xbpeople.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -55,7 +55,7 @@ Factory::getLanguage()->load('com_xbculture', JPATH_ADMINISTRATOR);
 
 Factory::getSession()->set('xbpeople_ok',true);
 //detect related components and set session flag
-XbcultureHelper::checkComponent('com_xbbook');
+XbcultureHelper::checkComponent('com_xbbooks');
 XbcultureHelper::checkComponent('com_xbfilms');
 
 // Get an instance of the controller 

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tag/view.html.php
- * @version 0.9.6.a 17th December 2021
+ * @version 0.9.9.0 29th June 2022
  * @since v0.5.1
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-class XbbooksViewTag extends JViewLegacy {
+class XbpeopleViewTag extends JViewLegacy {
 
 	public function display($tpl = null) {
 		

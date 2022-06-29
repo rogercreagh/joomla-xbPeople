@@ -1,10 +1,10 @@
 <?php
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/models/person.php
- * @version 0.9.7 11th January 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
@@ -12,12 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
-class XbbooksModelPerson extends JModelItem {
+class XbpeopleModelPerson extends JModelItem {
 	
-	protected $xbfilmsStatus;
-	
+    protected $xbfilmsStatus;
+    protected $xbbooksStatus;
+    
 	public function __construct($config = array()) {
 		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		parent::__construct($config);
 	}
 	
@@ -26,7 +28,7 @@ class XbbooksModelPerson extends JModelItem {
 		
 		// Load state from the request.
 		$id = $app->input->getInt('id');
-		$this->setState('book.id', $id);
+		$this->setState('person.id', $id);
 		
 		// Load the parameters.
 		$params = $app->getParams();
@@ -37,7 +39,7 @@ class XbbooksModelPerson extends JModelItem {
 	public function getItem($id = null) {
 		
 		if (!isset($this->item) || !is_null($id)) {
-			$id    = is_null($id) ? $this->getState('book.id') : $id;
+			$id    = is_null($id) ? $this->getState('person.id') : $id;
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 			$query->select('a.id AS id, a.firstname AS firstname, a.lastname AS lastname, a.portrait AS portrait, 
@@ -75,44 +77,55 @@ class XbbooksModelPerson extends JModelItem {
 					}
 					$item->ext_links_list .= '</ul>';
 				}
-				$item->books = XbbooksGeneral::getPersonRoleArray($item->id);
-				$item->bcnt = count($item->books);
-				$cnts = array_count_values(array_column($item->books, 'role'));
-				$item->acnt = (key_exists('author',$cnts))?$cnts['author'] : 0;
-				$item->ecnt = (key_exists('editor',$cnts))?$cnts['editor'] : 0;
-				$item->mcnt = (key_exists('mention',$cnts))?$cnts['mention'] : 0;
-				$item->ocnt = (key_exists('other',$cnts))?$cnts['other'] : 0;
+// 				$item->books = XbbooksGeneral::getPersonRoleArray($item->id);
+// 				$item->bcnt = count($item->books);
+// 				$cnts = array_count_values(array_column($item->books, 'role'));
+// 				$item->acnt = (key_exists('author',$cnts))?$cnts['author'] : 0;
+// 				$item->ecnt = (key_exists('editor',$cnts))?$cnts['editor'] : 0;
+// 				$item->mcnt = (key_exists('mention',$cnts))?$cnts['mention'] : 0;
+// 				$item->ocnt = (key_exists('other',$cnts))?$cnts['other'] : 0;
 				
-				//make author/editor/char lists
-				if ($item->acnt == 0){
-					$item->alist = '';
-				} else {
-					$item->alist = XbbooksGeneral::makeLinkedNameList($item->books,'author','<br />', true, false, 2);
-				}
-				if ($item->ecnt == 0){
-					$item->elist = '';
-				} else {
-					$item->elist = XbbooksGeneral::makeLinkedNameList($item->books,'editor','<br />',true, false, 2);
-				}
-				if ($item->mcnt == 0){
-				    $item->mlist = '';
-				} else {
-				    $item->mlist = XbbooksGeneral::makeLinkedNameList($item->books,'mention','<br />',true, false, 2);
-				}
-				if ($item->ocnt == 0){
-				    $item->olist = '';
-				} else {
-				    $item->olist = XbbooksGeneral::makeLinkedNameList($item->books,'other','<br />',true, false, 1);
-				}
+// 				//make author/editor/char lists
+// 				if ($item->acnt == 0){
+// 					$item->alist = '';
+// 				} else {
+// 					$item->alist = XbbooksGeneral::makeLinkedNameList($item->books,'author','<br />', true, false, 2);
+// 				}
+// 				if ($item->ecnt == 0){
+// 					$item->elist = '';
+// 				} else {
+// 					$item->elist = XbbooksGeneral::makeLinkedNameList($item->books,'editor','<br />',true, false, 2);
+// 				}
+// 				if ($item->mcnt == 0){
+// 				    $item->mlist = '';
+// 				} else {
+// 				    $item->mlist = XbbooksGeneral::makeLinkedNameList($item->books,'mention','<br />',true, false, 2);
+// 				}
+// 				if ($item->ocnt == 0){
+// 				    $item->olist = '';
+// 				} else {
+// 				    $item->olist = XbbooksGeneral::makeLinkedNameList($item->books,'other','<br />',true, false, 1);
+// 				}
+
+//TODO get film and book titles and roles
 				
 				$item->filmcnt = 0;
-				if ($this->xbfilmsStatus===true) {
-					$db    = Factory::getDbo();
-					$query = $db->getQuery(true);
-					$query->select('COUNT(*)')->from('#__xbfilmperson');
-					$query->where('person_id = '.$db->quote($item->id));
-					$db->setQuery($query);
-					$item->filmcnt = $db->loadResult();
+				if ($this->xbfilmsStatus) {
+				    $db    = Factory::getDbo();
+				    $query = $db->getQuery(true);
+				    $query->select('COUNT(*)')->from('#__xbfilmperson');
+				    $query->where('person_id = '.$db->quote($item->id));
+				    $db->setQuery($query);
+				    $item->filmcnt = $db->loadResult();
+				}
+				$item->bookcnt = 0;
+				if ($this->xbbooksStatus) {
+				    $db    = Factory::getDbo();
+				    $query = $db->getQuery(true);
+				    $query->select('COUNT(*)')->from('#__xbbookperson');
+				    $query->where('person_id = '.$db->quote($item->id));
+				    $db->setQuery($query);
+				    $item->bookcnt = $db->loadResult();
 				}
 				
 			}

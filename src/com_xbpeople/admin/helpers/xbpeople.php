@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -110,12 +110,12 @@ class XbpeopleHelper extends ContentHelper {
 					);
 			
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_PEOPLE_U'),
+					Text::_('People'),
 					'index.php?option=com_xbpeople&view=persons',
 					$vName == 'films'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_CHARACTERS_U'),
+					Text::_('Characters'),
 					'index.php?option=com_xbpeople&view=characters',
 					$vName == 'characters'
 					);

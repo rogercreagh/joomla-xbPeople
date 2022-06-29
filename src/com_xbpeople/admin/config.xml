@@ -3,12 +3,12 @@
 <config>
 <!-- GENERAL TAB -->
 	<fieldset name="general"
-		label="General"
-		description="General settings"
+		label="XBCULTURE_GENERAL"
+		description="XBCULTURE_CONFIG_GENERAL_DESC"
 		>
   		<field name="killdata" type="radio"
-			label="Delete Data on Uninstall"
-			description="If you want to uninstall without deleting the data tables xbpersons and xbcharacters set this to No"
+			label="XBCULTURE_CONFIG_DEL_UNINST_LABEL"
+			description="XBCULTURE_CONFIG_DEL_UNINST_DESC"
  			class="btn-group btn-group-yesno"
 			default="0"
 			>
@@ -37,7 +37,7 @@
 			>
 			<option value="0" >JNO</option>
 			<option value="1">JYES</option>
-		</field>	
+		</field>			
  		<field name="pathnote"
 			type="note"
 			label="XBCULTURE_CONFIG_IMGPATHS_NOTE_LABEL"
@@ -50,45 +50,391 @@
 	        description="XBCULTURE_CONFIG_PORTRAIT_DESC" 
 	        recursive="true" hide_none="true" 
         />
+    	<field name="extlinknote" type="note"
+			label="XBCULTURE_CONFIG_EXTLINK_NOTE"
+			class="info"
+		/>	
+		<field name="extlink_target" type="radio"
+			default="1"
+			label="XBCULTURE_CONFIG_EXTLINK_LABEL"
+			description="XBCULTURE_CONFIG_EXTLINK_DESC"
+ 			class="btn-group btn-group-yesno"
+		>
+			<option value="0" >XBCULTURE_CONFIG_SAME_TAB</option>
+			<option value="1">XBCULTURE_CONFIG_NEW_TAB</option>
+		</field>	
+   		<field name="beernote" type="note"
+			label="XBCULTURE_CONFIG_BUY_A_BEER_LABEL"
+			description="XBCULTURE_CONFIG_BUY_A_BEER_DESC"
+			class="info"
+		/>	
+		
+	</fieldset>
+
+<!-- ITEMS DEFAULTS TAB -->				
+	<fieldset name="itemdefaults" 
+		label="XBCULTURE_CONFIG_ITEMS_NOTE_LABEL" 
+		description="XBCULTURE_CONFIG_ITEMS_NOTE_DESC"
+	>	
+        
+ 		<field name="peepsnote" type="note"
+			label="XBCULTURE_CONFIG_PEOPLE_SETTINGS"
+		/>	
+ 		<field name="show_pcat" type="radio"
+			label="XBCULTURE_CONFIG_SHOW_PCAT_LABEL"
+			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_cats!:0"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">XBCULTURE_CONFIG_YES_NO_LINK</option>
+			<option value="2">XBCULTURE_CONFIG_YES_LINKED</option>
+		</field>	
 		<field
-			name="def_new_percat"
-			type="category"
-			label="New Person Category"
+			name="rootcat_person" type="category"
+			label="XBCULTURE_CONFIG_PCAT_INCROOT_LABEL"
+			description="XBCULTURE_CONFIG_ROOTCAT_DESC"
 			extension="com_xbpeople"
-			description="Default category for all new and imported people. You can select a different category when creating an individual item, and a different default for a specific import. This just provides a general fallback - if not set it will default to 'Uncategorised'."
+			default=""
+			showon="show_cats!:0[AND]show_pcat!:0"
 			>			
-			<option value="" >Select default for new items</option>
+			<option value="" >JOPTION_SELECT_CATEGORY</option>
 		</field>
+		<field name="incroot_person" type="radio"
+			label="XBCULTURE_CONFIG_INCROOT_LABEL"
+			description="XBCULTURE_CONFIG_INCROOT_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_cats!:0[AND]show_pcat!:0[AND]rootcat_person!:"
+		>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+  		<field
+			name="def_new_personcat" type="category"
+			label="XBCULTURE_CONFIG_NEW_PERSON_CAT_LABEL"
+			description="XBCULTURE_CONFIG_DEFAULT_CAT_DESC"
+			extension="com_xbpeople"
+			showon="show_cats!:0[AND]show_pcat!:0"
+			>			
+			<option value="" >XBCULTURE_CONFIG_SELECT_DEFAULT_NEW</option>
+		</field>
+ 		<field name="show_ptags" type="radio"
+			label="XBCULTURE_CONFIG_SHOW_PTAG_LABEL"
+			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_tags:1"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	
   		<field name="people_sort"
 			type="radio"
 			default="0"
 			label="Name Order"
 			description="In all views names are displayed as 'Firstnames Lastname'. List views can be sorted by both Lastname and Firstname. This setting determines the order for name lists used in selectors (eg in seach/filter options) which will be listed alphabetically according to tis setting."
- 			class="btn-group btn-group-yesno"
+ 			class="btn-group"
 			>
 				<option value="0" >First Last</option>
 				<option value="1">Last, First</option>
 		</field>			
-		<field
-			name="def_new_charcat"
-			type="category"
-			label="New Character Category"
-			extension="com_xbpeople"
-			description="Default category for all new and imported characters. You can select a different category when creating an individual item, and a different default for a specific import. This just provides a general fallback - if not set it will default to 'Uncategorised'."
-			>			
-			<option value="" >Select default for new items</option>
-		</field>
-		<field name="extlink_target"
-			type="radio"
+ 		<field name="charsnote" type="note"
+			label="XBCULTURE_CONFIG_CHAR_SETTINGS"
+		/>	
+ 		<field name="show_ccat" type="radio"
+			label="XBCULTURE_CONFIG_SHOW_CCAT_LABEL"
+			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_cats!:0"
 			default="1"
-			label="External Link Target"
-			description="Open external links in new tab/window or replace existing page. NB this only applies to links added in the 'External Links' field for Films and People."
- 			class="btn-group btn-group-yesno"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">XBCULTURE_CONFIG_YES_NO_LINK</option>
+			<option value="2">XBCULTURE_CONFIG_YES_LINKED</option>
+		</field>	
+		<field
+			name="rootcat_char" type="category"
+			label="XBCULTURE_CONFIG_CCAT_INCROOT_LABEL"
+			description="XBCULTURE_CONFIG_ROOTCAT_DESC"
+			extension="com_xbpeople"
+			default=""
+			showon="show_cats!:0[AND]show_ccat!:0"
+			>			
+			<option value="" >JOPTION_SELECT_CATEGORY</option>
+		</field>
+		<field name="incroot_char" type="radio"
+			label="XBCULTURE_CONFIG_INCROOT_LABEL"
+			description="XBCULTURE_CONFIG_INCROOT_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_cats!:0[AND]show_ccat!:0[AND]rootcat_char!:"
 		>
-			<option value="0" >Same Tab</option>
-			<option value="1">New Tab</option>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>
+  		<field
+			name="def_new_charcat" type="category"
+			label="XBCULTURE_CONFIG_NEW_CHAR_CAT_LABEL"
+			description="XBCULTURE_CONFIG_DEFAULT_CAT_DESC"
+			extension="com_xbpeople"
+			showon="show_cats!:0[AND]show_ccat!:0"
+			>			
+			<option value="" >XBCULTURE_CONFIG_SELECT_DEFAULT_NEW</option>
+		</field>
+ 		<field name="show_ctags" type="radio"
+			label="XBCULTURE_CONFIG_SHOW_CTAG_LABEL"
+			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_tags:1"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>	
 	</fieldset>
+
+<!-- LIST LAYOUTS TAB -->				
+	<fieldset name="list" 
+		label="JGLOBAL_LIST_LAYOUT_OPTIONS" 
+		description="Options for front-end list and blog views. Most of these global options can be overridden by specific menu settings."
+		>		
+ 		<field name="listnote" type="note"
+			label="XBCULTURE_CONFIG_LIST_SHOW_SEARCH_LBL"
+			description="XBCULTURE_CONFIG_LIST_SHOW_SEARCH_DESC"
+			class="info"
+		/>	
+		
+ 		<field name="search_bar" type="radio"
+			label="XBCULTURE_CONFIG_SHOWSEARCH_LBL"
+			description="XBCULTURE_CONFIG_SHOWSEARCH_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JNO</option>
+			<option value="1">JYES</option>
+		</field>	
+  		<field name="peoplelistnote" type="note"
+			label="People List Specific Options"
+			class="info"
+		/>	
+		<field name="people_layout" type="componentlayout"
+	        label="People Layout"
+	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+	       	extension="com_xbbooks" view="people" 
+	    />
+		<field name="show_ppiccol" type="radio"
+			label="Portrait Column"
+			description="Show portrait column by default - can override in menu options"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	
+	 		<field name="show_pdates"
+				type="radio"
+				label="Show Dates"
+				description="Show sortable column for dates (born, died)."
+				class="btn-group btn-group-yesno btn-small"
+				default="1"
+				>
+				<option value="0" >JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>	
+ 
+ 		<field name="show_psumcol" type="radio"
+			label="Summary Column"
+			description="Show summary column by default - can override in menu options"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	
+  		<field name="charslistnote" type="note"
+			label="Characters List Specific Options"
+			class="info"
+		/>	
+		<field name="characters_layout" type="componentlayout"
+	        label="Characters Layout"
+	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+	       	extension="com_xbbooks" view="characters" 
+	    />
+		<field name="show_cpiccol" type="radio"
+			label="Image Column"
+			description="Show image column by default - can override in menu options"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	 
+ 		<field name="show_csumcol" type="radio"
+			label="Summary Column"
+			description="Show summary column by default - can override in menu options"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	 
+			    
+  		<field name="catlistnote" type="note"
+			label="Category Counts View Options"
+			class="info"
+		/>	
+		<field name="show_cat_desc" type="radio"
+			default="1"
+			label="Show Description"
+			description="Show category description column"
+  			class="btn-group btn-group-yesno"
+			>
+				<option value="0" >JNO</option>
+				<option value="1">JYES</option>
+		</field>	
+		<field name="show_clist_empty" type="radio"
+			default="0"
+			label="Show Empty Categories"
+			description="Show categories which have no items"
+  			class="btn-group btn-group-yesno"
+			>
+				<option value="0" >No</option>
+				<option value="1">Yes</option>
+		</field>	
+		<field name="show_cat_parent" type="radio"
+			default="1"
+			label="Show Category parents"
+			description="Show category hierarchy - requires showing empty categories, sort will be by parent then title"
+  			class="btn-group btn-group-yesno"
+  			showon="show_clist_empty:1"
+			>
+				<option value="0" >JNO</option>
+				<option value="1">JYES</option>
+		</field>	
+		
+  		<field name="taglistnote" type="note"
+			label="Tag Counts View Options"
+			class="info"
+		/>	
+		<field name="show_tag_desc" type="radio"
+			default="1"
+			label="Show Description"
+			description="show description column"
+  			class="btn-group btn-group-yesno"
+			>
+				<option value="0" >JNO</option>
+				<option value="1">JYES</option>
+		</field>	
+		<field name="show_tag_parent" type="radio"
+			default="1"
+			label="Show Tag parents"
+			description="show tag hierarchy - if shown sort will be by parent, then title"
+  			class="btn-group btn-group-yesno"
+			>
+				<option value="0" >JNO</option>
+				<option value="1">JYES</option>
+		</field>	
+		
+ 	</fieldset>
+
+<!-- ITEM LAYOUTS TAB -->	 	
+ 	<fieldset name="itemlayouts"
+		label="Item Layouts"
+		description="Options for item views." 
+		>
+ 		<field name="hide_empty" type="radio"
+			default="0"
+			label="Hide empty fields"
+			description="Hide empty fields or show labels for them. Showing empty fields will make the display consistent between items, but wastes space if you are not using some fields"
+ 			class="btn-group btn-group-yesno"
+			>
+				<option value="0" >JNO</option>
+				<option value="1">JYES</option>
+		</field>	
+		
+
+  		<field name="personnote" type="note"
+			label="Person View Options"
+			class="info"
+		/>			
+		<field name="person_layout" type="componentlayout"
+	        label="JFIELD_ALT_LAYOUT_LABEL"
+	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+	       	extension="com_xbbooks" view="person" 
+	    />
+		<field name="show_pimage" type="list"
+	        label="Show Picture"
+	        description="Show picture of person with their name"
+			default="2"
+	    	>
+			<option value="0" >JHIDE</option>
+			<option value="1">Show to left of name</option>
+			<option value="2">Show to right of name</option>
+		</field>       
+
+	    	    
+  		<field name="charnote" type="note"
+			label="Character View Options"
+			description="These global options to do with images are common for both real people and characters"
+			class="info"
+		/>			
+		<field name="character_layout" type="componentlayout"
+	        label="JFIELD_ALT_LAYOUT_LABEL"
+	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+	       	extension="com_xbbooks" view="character" 
+	    />
+		<field name="show_cimage" type="list" 
+	        label="Show Picture"
+	        description="Show picture of character with their name"
+			default="2"
+	    	>
+			<option value="0" >JHIDE</option>
+			<option value="1">Show to left of name</option>
+			<option value="2">Show to right of name</option>
+		</field>       
+
+  		<field name="categorynote" type="note"
+			label="Category View Options"
+			description="Options for the Category view which lists all the items in a category."
+			class="info"
+		/>			
+		<field name="category_layout" type="componentlayout"
+	        label="JFIELD_ALT_LAYOUT_LABEL"
+	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+	       	extension="com_xbbooks" view="category" 
+	    />
+		<field name="show_catdesc" type="radio" 
+	        label="Show Description"
+	        description="Show category description under the name"
+			class="btn-group btn-group-yesno"
+			default="1"
+	    	>
+	        	<option value="0">JNO</option>
+	        	<option value="1">JYES</option>
+		</field>       
+
+  		<field name="tagnote" type="note"
+			label="Tag View Options"
+			description="Options for the Category view which lists all the items in a category."
+			class="info"
+		/>			
+		<field name="tag_layout" type="componentlayout"
+	        label="JFIELD_ALT_LAYOUT_LABEL"
+	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+	       	extension="com_xbbooks" view="tag" 
+	    />
+		<field name="show_tagdesc" type="radio" 
+	        label="Show Description"
+	        description="Show tag description under the name and above the lists,"
+			class="btn-group btn-group-yesno"
+			default="1"
+	    	>
+	        	<option value="0">JNO</option>
+	        	<option value="1">JYES</option>
+		</field>       
+
+	</fieldset>
+
 
 <!-- STYLES TAB -->				
 	<fieldset name="styles" 

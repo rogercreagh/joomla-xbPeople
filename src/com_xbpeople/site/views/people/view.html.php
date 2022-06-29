@@ -59,8 +59,11 @@ class XbpeopleViewPeople extends JViewLegacy {
 		$this->show_pic = $this->params->get('show_ppiccol','1','int');
 		$this->show_pdates = $this->params->get('show_pdates','1');
 		$this->show_sum = $this->params->get('show_psumcol','1','int');
-		$this->show_books = $this->params->get('show_books','0');
-		$this->show_cbooks = $this->params->get('show_cbooks','0');
+
+		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
+//		$this->show_books = $this->params->get('show_books','0');
+//	$this->show_cbooks = $this->params->get('show_cbooks','0');
 		//NB for compact list option 3 (linked list) is not available and shows as popup list
 		
 		if (count($errors = $this->get('Errors'))) {
