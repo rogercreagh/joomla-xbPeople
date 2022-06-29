@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/view.html.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -59,8 +59,8 @@ class XbpeopleViewPeople extends JViewLegacy {
 		$this->show_pic = $this->params->get('show_ppiccol','1','int');
 		$this->show_pdates = $this->params->get('show_pdates','1');
 		$this->show_sum = $this->params->get('show_psumcol','1','int');
-		$this->show_books = $this->params->get('show_books','1');
-		$this->show_cbooks = $this->params->get('show_cbooks','1');
+		$this->show_books = $this->params->get('show_books','0');
+		$this->show_cbooks = $this->params->get('show_cbooks','0');
 		//NB for compact list option 3 (linked list) is not available and shows as popup list
 		
 		if (count($errors = $this->get('Errors'))) {

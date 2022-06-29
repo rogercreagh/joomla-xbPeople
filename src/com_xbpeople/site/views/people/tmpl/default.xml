@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/people/tmpl/default.xml v0.9.9.0 28th June 2022 -->
+<!-- xbPeople site/views/people/tmpl/default.xml v0.9.9.0 29th June 2022 -->
 <metadata>
 	<layout title="People List">
-		<message>Displays a list (table) of people. Option to restrict to single category and filter by role and tags.</message>
+		<message>Displays a list (table) of people. Option to restrict to single category and filter tags.</message>
 	</layout>
 	<fields name="params" addfieldpath="administrator/components/com_xbbooks/models/fields">
 <!-- Basic options. -->
 		<fieldset name="basic" label="Options">
 		
 			<field name="show_ppiccol" type="radio"
-				label="Poster Column"
-				description="Show picture column"
+				label="Portrait Column"
+				description="Show portrit column"
 				class="btn-group btn-group-yesno btn-small"
 				useglobal="true"
 				>
@@ -21,7 +21,7 @@
 	 		<field name="show_psumcol"
 				type="radio"
 				label="Summary Column"
-				description="Show summary column by default - can override in menu options"
+				description="Show summary column"
 				class="btn-group btn-group-yesno btn-small"
 				useglobal="true"
 				>
@@ -37,7 +37,9 @@
 				>
 				<option value="0" >JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>	
+			</field>
+			
+<!-- 
 	 		<field name="show_books"
 				type="list"
 				label="Show Book List"
@@ -50,6 +52,8 @@
 				<option value="2">Popover per role</option>
 				<option value="3">Linked List per role</option>
 			</field>	
+-->	
+
 	 		<field name="show_pcat" type="list"
 				label="Show Person Category"
 				description="If both Show Category and Show Tag are no the the column will be hidden in list view"
@@ -82,7 +86,8 @@
 				<option value="0" >JNO</option>
 				<option value="1">JYES</option>
 			</field>	
-				
+
+<!-- 
 			<field name="menu_prole"
 				type="list"
 				default="0"
@@ -96,42 +101,48 @@
 					<option value="4">Appearances</option>
 					<option value="5">Other Roles</option>
 			</field>	
+ -->
+ 				
 			<field
-				name="menu_category_id" type="category"
-				label="Category"
+				name="menu_category_id" type="catsubtree"
+				label="XBCULTURE_CATFILT_LABEL"
+				description="XBCULTURE_CATFILT_DESC"
 				extension="com_xbpeople"
-				description="XBBOOKS_CATEGORY_DESC"
+				itemtype="person"
+				published="1"
 				>
-					<option value="0">XBBOOKS_ALL_CATEGORIES</option>
+					<option value="0">JOPTION_SELECT_CATEGORY</option>
 			</field>
 			<field name="menu_subcats" type="radio"
 				default=""
-				label="XBBOOKS_SUBCATS_LBL"
-				description="XBBOOKS_SUBCATS_DESC"
+				label="XBCULTURE_CATFILT_SUBS_LABEL"
+				description="XBCULTURE_CATFILT_SUBS_DESC"
 	  			class="btn-group btn-small radiotop"
 	  			showon="menu_category_id!:0"
 				>
-					<option value="" >Exclude</option>
-					<option value="1">Include</option>
+					<option value="" >XBCULTURE_EXCLUDE</option>
+					<option value="1">XBCULTURE_INCLUDE</option>
 			</field>	
 			<field
 				name="menu_tag" type="tag"
-				label="XBBOOKS_MENUTAG_LBL"
-				description="XBBOOKS_MENUTAG_DESC"
+				label="XBCULTURE_TAGFILT_LABEL"
+				description="XBCULTURE_TAGFILT_DESC"
 				multiple="true"
 				mode="nested"
 			/>
 			<field name="menu_taglogic" type="radio"
-				default=""
-				label="XBBOOKS_MENUTAG_LBL"
-				description=""
+				default="0"
+				label="XBCULTURE_TAGFILT_MULTI_LABEL"
+				description="XBCULTURE_TAGFILT_MULTI_DESC"
 	  			class="btn-group btn-small radiotop"
 				showon="menu_tag!:"
 			>
-				<option value="1">All</option>
-				<option value="">Any</option>
+				<option value="1" onchange="this.form.submit();">XBCULTURE_ALL</option>
+				<option value="0" onchange="this.form.submit();">XBCULTURE_ANY</option>
+				<option value="2" onchange="this.form.submit();">XBCULTURE_NONE</option>
 			</field>	
 		</fieldset>
+		
   		<!-- Additional page display options (added above the standard Page Display options) -->
 		<fieldset name="page-options" label="Page Headings">
 			<field name="list_title" type="text" class="inputbox w400" size="40" 

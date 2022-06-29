@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>28th June 2022</creationDate>
+	<creationDate>29th June 2022</creationDate>
 	<version>0.9.9.0</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
@@ -25,7 +25,7 @@
 	</files>
 
 	<languages folder="site/language">
-		<language tag="en-GB">en-GB/en-GB.com_xbfilms.ini</language>
+		<language tag="en-GB">en-GB/en-GB.com_xbpeople.ini</language>
 	</languages>
 
 	<media destination="com_xbpeople" folder="media">

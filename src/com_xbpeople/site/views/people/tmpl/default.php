@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/tmpl/default.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.0 29th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,11 +33,11 @@ require_once JPATH_COMPONENT.'/helpers/route.php';
 
 $itemid = XbpeopleHelperRoute::getPeopleRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$plink = 'index.php?option=com_xbbooks&view=person' . $itemid.'&id=';
+$plink = 'index.php?option=com_xbpeople&view=person' . $itemid.'&id=';
 
 $itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
+$clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 
 ?>
 <div class="xbpeople">
@@ -165,12 +165,12 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
     						<?php else : ?>
         						<?php if (!empty($item->biography)) : ?>
 		        					<span class="xbnit">
-        								<?php echo Text::_('XBBOOKS_BIOG_EXTRACT'); ?>: 
+        								<?php echo Text::_('XBCULTURE_BIOG_EXTRACT'); ?>: 
         							</span>
         							<?php echo XbcultureHelper::makeSummaryText($item->biography,0); ?>
         						<?php else : ?>
 		        					<span class="xbnit">
-        								<?php echo Text::_('XBBOOKS_NO_SUMMARY_BIOG'); ?>
+        								<?php echo Text::_('XBCULTURE_NO_SUMMARY_BIOG'); ?>
         							</span>
         						<?php endif; ?>
         					<?php endif; ?>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/models/forms/filter_people.xml v0.9.5 10th May 2021 -->
+<!-- xbPeople site/models/forms/filter_people.xml v0.9.9.0 29th Hune 2022 -->
 <form>
     <fields name="filter" addfieldpath="administrator/components/com_xbbooks/models/fields">
         <field name="search"
@@ -8,6 +8,7 @@
 			description=""
             hint="JSEARCH_FILTER"
         /> 
+<!-- 
 		<field name="prole" type="list"
 				default="1"
 				label="Person role"
@@ -20,13 +21,14 @@
 					<option value="4">Appearances</option>
 					<option value="5">Other Roles</option>
 		</field>	
+ -->
 		<field
 			name="category_id" type="catsubtree"
-			label="XBBOOKS_FILTER_CATEGORY_LBL"
+			label="XBCULTURE_CATFILT_LABEL"
+			description="XBCULTURE_CATFILT_DESC"
 			extension="com_xbpeople"
 			itemtype="person"
 			published="1"
-			description="XBBOOKS_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
@@ -44,22 +46,23 @@
        
 		<field
 			name="tagfilt" type="tag"
-			label="XBCULTURE_TAGS_U"
-			description="XBBOOKS_TAGFILT_DESC"
+			label="XBCULTURE_TAGFILT_LABEL"
+			description="XBCULTURE_TAGFILT_DESC"
 			multiple="true"
 			class="multipleTags"
 			mode="ajax"
 			onchange="this.form.submit();"
 		/>
 		<field name="taglogic" type="radio"
-			default=""
-			label="XBBOOKS_MULTITAG_LBL"
-			description="XBBOOKS_MULTITAG_DESC"
+			default="0"
+			label="XBCULTURE_TAGFILT_MULTI_LABEL"
+			description="XBCULTURE_TAGFILT_MULTI_DESC"
   			class="btn-group btn-small radiotop"
 			showon="tagfilt!:"
 		>
-			<option value="1" onchange="this.form.submit();">XBCULTURE_ALL</option>
-			<option value="" onchange="this.form.submit();">XBCULTURE_ANY</option>
+				<option value="1" onchange="this.form.submit();">XBCULTURE_ALL</option>
+				<option value="0" onchange="this.form.submit();">XBCULTURE_ANY</option>
+				<option value="2" onchange="this.form.submit();">XBCULTURE_NONE</option>
 		</field>	
 				
     </fields>
