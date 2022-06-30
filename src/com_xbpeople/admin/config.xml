@@ -199,13 +199,13 @@
 		description="Options for front-end list and blog views. Most of these global options can be overridden by specific menu settings."
 		>		
  		<field name="listnote" type="note"
-			label="XBCULTURE_CONFIG_LIST_SHOW_SEARCH_LBL"
+			label="XBCULTURE_CONFIG_LIST_SHOW_SEARCH_LABEL"
 			description="XBCULTURE_CONFIG_LIST_SHOW_SEARCH_DESC"
 			class="info"
 		/>	
 		
  		<field name="search_bar" type="radio"
-			label="XBCULTURE_CONFIG_SHOWSEARCH_LBL"
+			label="XBCULTURE_CONFIG_SHOWSEARCH_LABEL"
 			description="XBCULTURE_CONFIG_SHOWSEARCH_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"

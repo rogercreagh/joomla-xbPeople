@@ -74,7 +74,7 @@ class XbpeopleModelPerson extends JModelItem {
 					$item->ext_links_cnt = count((array)$item->ext_links);
 					$item->ext_links_list = '<ul>';
 					foreach($item->ext_links as $lnk) {
-						$item->ext_links_list .= '<li><a href="'.$lnk->link_url.'" '.$target.'>'.$lnk->link_text.'</a></li>';
+						$item->ext_links_list .= '<li><a href="'.$lnk->link_url.'" '.$target.'>'.$lnk->link_text.'</a> <i>'.$lnk->link_desc.'</i></li>';
 					}
 					$item->ext_links_list .= '</ul>';
 				}

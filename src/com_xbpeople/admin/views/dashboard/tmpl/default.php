@@ -135,7 +135,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 			</div>
 			<div class="xbbox xbboxcyan">
 				<div class="row-fluid"><div class="span12">
-				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_CHARACTERS_U'); ?>
+				<h2 class="xbtitle"><?php echo ucfirst(Text::_('XBCULTURE_CHARACTERS')); ?>
 					<span class="pull-right">
 						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_TOTAL'); ?>: </span>
 						<span class="badge chcnt xbmr20"><?php echo $this->totChars;?></span>
@@ -222,7 +222,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 				</div>
 			</div>
 		</div>
-		<div class="span4">
+		<div class="span5">
 			<div class="xbbox xbboxyell">
  				<h2 class="xbtitle">
 					<span class="badge badge-info pull-right">
@@ -259,7 +259,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 				</div>
 			</div>
 		</div>
-		<div class="span3">
+		<div class="span2">
 			<div class="xbbox xbboxwht">
 				<h4><?php echo Text::_('XBCULTURE_CONFIG_OPTIONS'); ?></h4>
 				<p>
@@ -271,9 +271,11 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
             		    (($this->show_pcat==0) && ($this->show_ccat==0))) {
             		    echo '<i>'.Text::_('XBCULTURE_CATS_HIDDEN_ALL').'</i>';
             		} else {
-            		    echo Text::_('XBCULTURE_SHOW_FOR').' ';
-            		    echo ($this->show_pcat) ? Text::_('XBCULTURE_PEOPLE').' ' : '';
-            		    echo ($this->show_ccat) ? Text::_('XBCULTURE_CHARS').' ' : '';
+            		    echo ($this->show_pcat) ? Text::_('XBCULTURE_SHOW_FOR') : Text::_('XBCULTURE_HIDE_FOR');
+            		    echo ' '.Text::_('XBCULTURE_PEOPLE');
+            		    echo '<br />';
+            		    echo ($this->show_ccat) ? Text::_('XBCULTURE_SHOW_FOR') : Text::_('XBCULTURE_HIDE_FOR');
+            		    echo Text::_('XBCULTURE_CHARACTERS');
             		}
             		?>
             		</p>

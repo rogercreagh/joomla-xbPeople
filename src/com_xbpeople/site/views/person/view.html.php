@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/view.html.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.0 30th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,15 +37,53 @@ class XbpeopleViewPerson extends JViewLegacy {
 		
 		$this->booklist = '';
 		if ($this->item->bookcnt>0) {
-		    $this->booklist = '<ul>';
+		    $role = '';
 		    foreach ($this->item->blist as $book) {
-		        $this->booklist .= '<li>'.$book->link.' <i>('.ucfirst($book->role);
-		        if ($book->role_note!='') { 
-		            $this->booklist .= ' : '. $book->role_note;
+		        if ($role != $book->role) {
+		            if ($role != '') {
+		                $this->booklist .= '</ul>';
+		            }
+		            $role = $book->role;
+		            $roletext = '';
+		            switch ($role) {
+		                case 'mention':
+		                    $roletext = Text::_('XBCULTURE_APPEARS_IN').' '.Text::_('XBCULTURE_AS_CHAR_SUBJ');
+		                    break;
+		                case 'other':
+		                    $roletext = Text::_('XBCULTURE_OTHER_ROLE');
+		                    break;
+		                default:
+		                    $roletext = 'as '.ucfirst($book->role);
+		                    break;
+		            }
+		            $this->booklist .= '<i>'.$roletext.'</i><ul>';
 		        }
-		        $this->booklist .= ')</i></li>'; 		        
+		        $this->booklist .= '<li>'.$book->link;
+		        if ($book->role_note!='') { 
+		            $this->booklist .= ' <i>('. $book->role_note.')</i>';
+		        }
+		        $this->booklist .= '</li>'; 		        
 		    }
 		    $this->booklist .= '</ul>';
+		}
+		$this->filmlist = '';
+		if ($this->item->filmcnt>0) {
+		    $role = '';
+		    foreach ($this->item->flist as $film) {
+		        if ($role != $film->role) {
+		            if ($role != '') {
+		                $this->filmlist .= '</ul>';
+		            }
+		            $this->filmlist .= '<i>as '.ucfirst($film->role).'</i><ul>';
+		            $role = $film->role;
+		        }
+		        $this->filmlist .= '<li>'.$film->link;
+		        if ($film->role_note!='') {
+		            $this->filmlist .= ' <i>('. $film->role_note.')</i>';
+		        }
+		        $this->filmlist .= '</li>';
+		    }
+		    $this->filmlist .= '</ul>';
 		}
 		
 		$app = Factory::getApplication();
