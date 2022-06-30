@@ -78,6 +78,7 @@ $clink = 'index.php?option=com_xbbooks&view=category' . $itemid.'&id=';
 		<p class="xbnit">
 		<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bookcnt.' '.Text::_('XBCULTURE_BOOKS'); ?>
 		</p>
+		<?php echo $this->booklist; ?>
 	<?php endif; ?>
 	<?php if ($item->filmcnt>0) : ?>
 		<p class="xbnit">

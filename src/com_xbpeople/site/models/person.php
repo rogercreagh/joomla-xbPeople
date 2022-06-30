@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.0 30th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 class XbpeopleModelPerson extends JModelItem {
@@ -126,11 +127,62 @@ class XbpeopleModelPerson extends JModelItem {
 				    $query->where('person_id = '.$db->quote($item->id));
 				    $db->setQuery($query);
 				    $item->bookcnt = $db->loadResult();
+				    $item->blist = $this->getPersonBookRoles($item->id,'','pubyear');
 				}
 				
 			}
 		}
 		return $this->item;
 	}
+
+	/**
+	 * @name getPersonBookRoles()
+	 * @desc for given person returns and array of books and roles
+	 * @param int $personid
+	 * @param string $role - if not blank only get the specified role
+	 * @param boolean $order - field to order list by (role first if specified)
+	 * @return array
+	 */
+	public function getPersonBookRoles(int $personid, $role='',$order='title') {
+	    $blink = 'index.php?option=com_xbbooks';
+//	    $blink .= $edit ? '&task=book.edit&id=' : '&view=book&id=';
+	    $blink .= '&view=book&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.role, a.role_note, b.title, b.subtitle, b.pubyear, b.id, b.state AS bstate')
+	    ->from('#__xbbookperson AS a')
+	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
+	    ->where('a.person_id = "'.$personid.'"' );
+	    $query->where('b.state = 1');
+	    if (!empty($role)) {
+	        $query->where('a.role = "'.$role.'"')->order('b.'.$order.' ASC');
+	    } else {
+	        $query->order('a.role ASC')->order('b.'.$order.' ASC'); //this will order roles as author, editor, mention, other, publisher,
+	    }
+	    $db->setQuery($query);
+	    $list = $db->loadObjectList();
+	    foreach ($list as $i=>$item){
+	        $tlink = Route::_($blink . $item->id);
+	        //if not published highlight in yellow if editable or grey if view
+	        if ($item->bstate != 1) {
+// 	            $flag = $edit ? 'xbhlt' : 'xbdim';
+// 	            $item->display = '<span class="'.$flag.'">'.$item->title.'</span>';
+	        } else {
+	            $item->display = $item->title;
+	        }
+	        //if item not published only link if to edit page
+//	        if (($edit) || ($item->bstate == 1)) {
+	            $item->link = '<a href="'.$tlink.'">'.$item->display.'</a>';
+//	        } else {
+//	            $item->link = $item->display;
+//	        }
+	    }
+	    return $list;
+	}
+
+	
+	
+	
 }
 	

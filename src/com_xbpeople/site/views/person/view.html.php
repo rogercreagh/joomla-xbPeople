@@ -35,6 +35,19 @@ class XbpeopleViewPerson extends JViewLegacy {
 			return false;
 		}
 		
+		$this->booklist = '';
+		if ($this->item->bookcnt>0) {
+		    $this->booklist = '<ul>';
+		    foreach ($this->item->blist as $book) {
+		        $this->booklist .= '<li>'.$book->link.' <i>('.ucfirst($book->role);
+		        if ($book->role_note!='') { 
+		            $this->booklist .= ' : '. $book->role_note;
+		        }
+		        $this->booklist .= ')</i></li>'; 		        
+		    }
+		    $this->booklist .= '</ul>';
+		}
+		
 		$app = Factory::getApplication();
 		$srt = $app->getUserState('people.sortorder');
 		if (!empty($srt)) {
