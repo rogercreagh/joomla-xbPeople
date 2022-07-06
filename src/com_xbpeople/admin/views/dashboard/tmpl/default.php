@@ -287,7 +287,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
             		} else {
             		    echo Text::_('XBCULTURE_SHOW_FOR').' ';
             		    echo ($this->show_ptags) ? Text::_('XBCULTURE_PEOPLE').' ' : '';
-            		    echo ($this->show_ctags) ? Text::_('XBCULTURE_CHARS').' ' : '';
+            		    echo ($this->show_ctags) ? Text::_('XBCULTURE_CHARACTERS').' ' : '';
             		}
             		?>
             		</p>

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 0.9.9.0 30th June 2022
+ * @version 0.9.9.1 30th June 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -78,74 +78,32 @@ class XbpeopleModelPerson extends JModelItem {
 					}
 					$item->ext_links_list .= '</ul>';
 				}
-// 				$item->books = XbbooksGeneral::getPersonRoleArray($item->id);
-// 				$item->bcnt = count($item->books);
-// 				$cnts = array_count_values(array_column($item->books, 'role'));
-// 				$item->acnt = (key_exists('author',$cnts))?$cnts['author'] : 0;
-// 				$item->ecnt = (key_exists('editor',$cnts))?$cnts['editor'] : 0;
-// 				$item->mcnt = (key_exists('mention',$cnts))?$cnts['mention'] : 0;
-// 				$item->ocnt = (key_exists('other',$cnts))?$cnts['other'] : 0;
-				
-// 				//make author/editor/char lists
-// 				if ($item->acnt == 0){
-// 					$item->alist = '';
-// 				} else {
-// 					$item->alist = XbbooksGeneral::makeLinkedNameList($item->books,'author','<br />', true, false, 2);
-// 				}
-// 				if ($item->ecnt == 0){
-// 					$item->elist = '';
-// 				} else {
-// 					$item->elist = XbbooksGeneral::makeLinkedNameList($item->books,'editor','<br />',true, false, 2);
-// 				}
-// 				if ($item->mcnt == 0){
-// 				    $item->mlist = '';
-// 				} else {
-// 				    $item->mlist = XbbooksGeneral::makeLinkedNameList($item->books,'mention','<br />',true, false, 2);
-// 				}
-// 				if ($item->ocnt == 0){
-// 				    $item->olist = '';
-// 				} else {
-// 				    $item->olist = XbbooksGeneral::makeLinkedNameList($item->books,'other','<br />',true, false, 1);
-// 				}
-
-//TODO get film and book titles and roles
 				
 				$item->filmcnt = 0;
 				if ($this->xbfilmsStatus) {
-				    $db    = Factory::getDbo();
-				    $query = $db->getQuery(true);
-				    $query->select('COUNT(*)')->from('#__xbfilmperson');
-				    $query->where('person_id = '.$db->quote($item->id));
-				    $db->setQuery($query);
-				    $item->filmcnt = $db->loadResult();
+				    $item->filmlist = $this->getPersonFilmRoles($item->id,'','rel_year DESC');
+				    $item->filmcnt = count($item->filmlist);
 				}
 				$item->bookcnt = 0;
 				if ($this->xbbooksStatus) {
-				    $db    = Factory::getDbo();
-				    $query = $db->getQuery(true);
-				    $query->select('COUNT(*)')->from('#__xbbookperson');
-				    $query->where('person_id = '.$db->quote($item->id));
-				    $db->setQuery($query);
-				    $item->bookcnt = $db->loadResult();
-				    $item->blist = $this->getPersonBookRoles($item->id,'','pubyear');
+				    $item->booklist = $this->getPersonBookRoles($item->id,'','pubyear');
+				    $item->bookcnt = count($item->booklist);
 				}
-				
 			}
 		}
 		return $this->item;
 	}
 
 	/**
-	 * @name getPersonBookRoles()
+	 * @name getPersonFilmRoles()
 	 * @desc for given person returns and array of books and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
 	 * @param boolean $order - field to order list by (role first if specified)
 	 * @return array
 	 */
-	public function getPersonBookRoles(int $personid, $role='',$order='title') {
+	public function getPersonBookRoles(int $personid, $role='',$order='title ASC') {
 	    $blink = 'index.php?option=com_xbbooks';
-//	    $blink .= $edit ? '&task=book.edit&id=' : '&view=book&id=';
 	    $blink .= '&view=book&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
@@ -156,33 +114,53 @@ class XbpeopleModelPerson extends JModelItem {
 	    ->where('a.person_id = "'.$personid.'"' );
 	    $query->where('b.state = 1');
 	    if (!empty($role)) {
-	        $query->where('a.role = "'.$role.'"')->order('b.'.$order.' ASC');
+	        $query->where('a.role = "'.$role.'"')->order('b.'.$order);
 	    } else {
-	        $query->order('a.role ASC')->order('b.'.$order.' ASC'); //this will order roles as author, editor, mention, other, publisher,
+	        $query->order('a.role ASC')->order('b.'.$order); //this will order roles as author, editor, mention, other, publisher,
 	    }
 	    $db->setQuery($query);
 	    $list = $db->loadObjectList();
 	    foreach ($list as $i=>$item){
 	        $tlink = Route::_($blink . $item->id);
-	        //if not published highlight in yellow if editable or grey if view
-	        if ($item->bstate != 1) {
-// 	            $flag = $edit ? 'xbhlt' : 'xbdim';
-// 	            $item->display = '<span class="'.$flag.'">'.$item->title.'</span>';
-	        } else {
-	            $item->display = $item->title;
+	        $item->display = $item->title;
+	        $item->link = '<a href="'.$tlink.'">'.$item->display.'</a>';
 	        }
-	        //if item not published only link if to edit page
-//	        if (($edit) || ($item->bstate == 1)) {
-	            $item->link = '<a href="'.$tlink.'">'.$item->display.'</a>';
-//	        } else {
-//	            $item->link = $item->display;
-//	        }
+	        return $list;
 	    }
-	    return $list;
-	}
-
-	
-	
-	
+	    
+    /**
+     * @name getPersonBookRoles()
+     * @desc for given person returns and array of books and roles
+     * @param int $personid
+     * @param string $role - if not blank only get the specified role
+     * @param boolean $order - field to order list by (role first if specified)
+     * @return array
+     */
+    public function getPersonFilmRoles(int $personid, $role='',$order='title ASC') {
+        $flink = 'index.php?option=com_xbfilms';
+        $flink .= '&view=film&id=';
+        $db = Factory::getDBO();
+        $query = $db->getQuery(true);
+        
+        $query->select('a.role, a.role_note, b.title, b.rel_year, b.id, b.state AS bstate')
+        ->from('#__xbfilmperson AS a')
+        ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
+        ->where('a.person_id = "'.$personid.'"' );
+        $query->where('b.state = 1');
+        if (!empty($role)) {
+            $query->where('a.role = "'.$role.'"')->order('b.'.$order);
+        } else {
+            $query->order('a.role ASC')->order('b.'.$order); //this will order roles as author, editor, mention, other, publisher,
+        }
+        $db->setQuery($query);
+        $list = $db->loadObjectList();
+        foreach ($list as $i=>$item){
+            $tlink = Route::_($flink . $item->id);
+            $item->display = $item->title;
+            $item->link = '<a href="'.$tlink.'">'.$item->display.'</a>';
+        }
+        return $list;
+    }
+	    	
 }
 	

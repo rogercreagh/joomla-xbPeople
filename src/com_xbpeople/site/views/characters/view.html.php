@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/view.html.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.1 6th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,6 +48,8 @@ class XbpeopleViewCharacters extends JViewLegacy {
 		$this->show_pic = $this->params->get('show_cpiccol','1','int');
 		$this->show_sum = $this->params->get('show_csumcol','1','int');
 		
+		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');

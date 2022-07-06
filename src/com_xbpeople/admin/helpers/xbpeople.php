@@ -110,12 +110,12 @@ class XbpeopleHelper extends ContentHelper {
 					);
 			
 			JHtmlSidebar::addEntry(
-					Text::_('People'),
+					ucfirst(Text::_('XBCULTURE_PEOPLE')),
 					'index.php?option=com_xbpeople&view=persons',
 					$vName == 'films'
 					);
 			JHtmlSidebar::addEntry(
-					Text::_('Characters'),
+					ucfirst(Text::_('XBCULTURE_CHARACTERS')),
 					'index.php?option=com_xbpeople&view=characters',
 					$vName == 'characters'
 					);

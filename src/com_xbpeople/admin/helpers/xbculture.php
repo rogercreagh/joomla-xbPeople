@@ -1,8 +1,8 @@
 <?php
 /*******
- * @package xbCulture
+ * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.8.9 10th June 2022
+ * @version 0.9.9.1 5th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -256,5 +256,63 @@ class XbcultureHelper extends ContentHelper {
 		$db->setQuery($query);
 		return $db->loadObjectList()[0];
 	}
-		
+
+/************ functions used on site side only **********************/
+	
+	/**
+	 * @name sitePageHeader()
+	 * @desc builds a page header string from passed data
+	 * @param array $displayData
+	 * @return string
+	 */
+	public static function sitePageheader($displayData) {
+	    $header ='';
+	    if (!empty($displayData)) {
+	        $header = '	<div class="row-fluid"><div class="span12 xbpagehead">';
+	        if ($displayData['showheading']) {
+	            $header .= '<div class="page-header"><h1>'.$displayData['heading'].'</h1></div>';
+	        }
+	        if ($displayData['title'] != '') {
+	            $header .= '<h3>'.$displayData['title'].'</h3>';
+	            if ($displayData['subtitle']!='') {
+	                $header .= '<h4>'.$displayData['subtitle'].'</h4>';
+	            }
+	            if ($displayData['text'] != '') {
+	                $header .= '<p>'.$displayData['text'].'</p>';
+	            }
+	        }
+	    }
+	    return $header;
+	}
+	
+	/**
+	 * @name getChildCats()
+	 * @desc for a given category returns an array of child category ids
+	 * @param int $pid - id of the parent category
+	 * @param string $ext - the extension the parent belongs to (or null to look it up)
+	 * @param boolean $incroot - whether to include the parent id in the return array
+	 * @return array of ids
+	 */
+	public static function getChildCats(int $pid, $ext = null, $incroot = true) {
+	    $db    = Factory::getDbo();
+	    $query = $db->getQuery(true);
+	    if (is_null($ext)) {
+	        $query->select($db->quoteName('extension'))
+	           ->from($db->quoteName('#__categories')
+	           ->where($db->quoteName('id').'='.$pid));
+	        $ext = $db->loadResult();
+	    }
+	    $query->clear();
+	    $query->select('*')->from('#__categories')->where('id='.$pid);
+	    $db->setQuery($query);
+	    $pcat=$db->loadObject();
+	    $start = $incroot ? '>=' : '>';
+	    $query->clear();
+	    $query->select('id')->from('#__categories')->where('extension = '.$db->quote($ext));
+	    $query->where(' lft'.$start.$pcat->lft.' AND rgt <='.$pcat->rgt);
+	    $db->setQuery($query);
+	    return $db->loadColumn();
+	}
+	
+	
 }

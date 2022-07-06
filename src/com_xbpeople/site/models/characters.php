@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/characters.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.1 6th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,11 +16,16 @@ use Joomla\CMS\Helper\TagsHelper;
 
 class XbpeopleModelCharacters extends JModelList {
 	
-	public function __construct($config = array()) {
+    protected $xbfilmsStatus;
+    protected $xbbooksStatus;
+    
+    public function __construct($config = array()) {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array ('name', 'category_title','c.title',
-					'catid', 'a.catid', 'category_id');
+					'catid', 'a.catid', 'category_id', 'tagfilt');
 		}
+		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		parent::__construct($config);
 	}
 
@@ -61,9 +66,9 @@ class XbpeopleModelCharacters extends JModelList {
             a.image AS image, a.description AS description, a.state AS published,
             a.created AS created, a.created_by_alias AS created_by_alias,
             a.ordering AS ordering, a.params AS params, a.note AS note');
-            $query->from('#__xbcharacters AS a')
-            	->join('LEFT OUTER',$db->quoteName('#__xbbookcharacter', 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.char_id'))
-            	->where('p.book_id IS NOT NULL');
+            $query->from('#__xbcharacters AS a');
+//             	->join('LEFT OUTER',$db->quoteName('#__xbbookcharacter', 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.char_id'))
+//             	->where('p.book_id IS NOT NULL');
             	
             $query->select('c.title AS category_title');
             $query->join('LEFT', '#__categories AS c ON c.id = a.catid');
@@ -104,7 +109,7 @@ class XbpeopleModelCharacters extends JModelList {
             if ($categoryId > 0) {
             	if ($dosubcats) {
             		$catlist = $categoryId;
-            		$subcatlist = XbbooksHelper::getChildCats($categoryId,'com_xbpeople');
+            		$subcatlist = XbcultureHelper::getChildCats($categoryId,'com_xbpeople');
             		if ($subcatlist) { $catlist .= ','.implode(',',$subcatlist);}
             		$query->where('a.catid IN ('.$catlist.')');
             	} else {
@@ -207,19 +212,26 @@ class XbpeopleModelCharacters extends JModelList {
 		$app->setUserState('characters.sortorder', $peep);
 		
 		foreach ($items as $i=>$item) {
-			//get books by role if they are being displayed...
-			$item->books = XbbooksHelper::getCharacterBooksArray($item->id);
-			$item->ccnt = count($item->books);
-			
-			//make author/editor/char lists
-			if ($item->ccnt == 0){
-				$item->clist = '';
-			} else {
-				$item->clist = XbbooksGeneral::makeLinkedNameList($item->books,'',', ',true);
-			}
-			
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
 			
+			$item->bookcnt = 0;
+			if ($this->xbbooksStatus) {
+			    $db    = Factory::getDbo();
+			    $query = $db->getQuery(true);
+			    $query->select('COUNT(*)')->from('#__xbbookperson');
+			    $query->where('person_id = '.$db->quote($item->id));
+			    $db->setQuery($query);
+			    $item->bookcnt = $db->loadResult();
+			}
+			$item->filmcnt = 0;
+			if ($this->xbfilmsStatus) {
+			    $db    = Factory::getDbo();
+			    $query = $db->getQuery(true);
+			    $query->select('COUNT(*)')->from('#__xbfilmperson');
+			    $query->where('person_id = '.$db->quote($item->id));
+			    $db->setQuery($query);
+			    $item->filmcnt = $db->loadResult();
+			}
 		} //end foreach item
 		return $items;
 	}

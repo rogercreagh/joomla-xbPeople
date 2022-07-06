@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/helpers/xbpeople.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.1 1st July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -65,7 +65,7 @@ class XbpeopleHelper {
 		return $db->loadColumn();
 	}
 	
-	public static function sitePageheader($displayData) {
+/* 	public static function sitePageheader($displayData) {
 		$header ='';
 		if (!empty($displayData)) {
 			$header = '	<div class="row-fluid"><div class="span12 xbpagehead">';
@@ -85,7 +85,7 @@ class XbpeopleHelper {
 		return $header;
 	}
 
-	/**
+ */	/**
 	 * @name makeSummaryText
 	 * @desc returns a plain text version of the source trunctated at the sentence before the specified length
 	 * @param string $source

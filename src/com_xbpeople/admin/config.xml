@@ -449,7 +449,7 @@
 		/>	
 		<field name="use_xbcss" type="radio"
 			label="XBCULTURE_CONFIG_USE_XBCSS_LABEL"
-			description="XBCULTURE_CONFIG_USE_XBCSS_LABEL"
+			description="XBCULTURE_CONFIG_USE_XBCSS_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>

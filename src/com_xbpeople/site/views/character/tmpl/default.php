@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/character/tmpl/default.php
- * @version 0.9.8.9 10th June 2022
+ * @version 0.9.9.1 1st July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ $item = $this->item;
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getCategoriesRoute();
+$itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $clink = 'index.php?option=com_xbbooks&view=category'.$itemid.'&id=';
 

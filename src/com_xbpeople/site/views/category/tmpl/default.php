@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/category/tmpl/default.php
- * @version 0.9.6.a 17th December 2021
+ * @version 0.9.9.1 6th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,25 +15,21 @@ $item = $this->item;
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getCategoriesRoute();
+$itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$clink = 'index.php?option=com_xbbooks&view=category'.$itemid.'&id=';
+$clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 
-$blink = 'index.php?option=com_xbbooks&view=book&id=';
+//$plink = 'index.php?option=com_xbpeople&view=person&id=';
 
-$itemid = XbbooksHelperRoute::getPeopleRoute();
+$itemid = XbpeopleHelperRoute::getPeopleRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$plink = 'index.php?option=com_xbbooks&view=person'.$itemid.'&id=';
+$plink = 'index.php?option=com_xbpeople&view=person'.$itemid.'&id=';
 
-$itemid = XbbooksHelperRoute::getReviewsRoute();
-$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$rlink = 'index.php?option=com_xbbooks&view=bookreview'.$itemid.'&id=';
-
-$itemid = XbbooksHelperRoute::getCategoriesRoute();
+$itemid = XbpeopleHelperRoute::getCategoriesRoute();
 if ($itemid !== null) {
-	$cclink = 'index.php?option=com_xbbooks&Itemid='.$itemid.'';
+	$cclink = 'index.php?option=com_xbpeople&Itemid='.$itemid.'';
 } else {
-	$cclink = 'index.php?option=com_xbbooks&view=categories';
+	$cclink = 'index.php?option=com_xbpeople&view=categories';
 }
 
 $show_catdesc = $this->params->get('show_catdesc',1);
@@ -41,7 +37,7 @@ $show_catdesc = $this->params->get('show_catdesc',1);
 ?>
 <div class="row-fluid" style="margin-bottom:20px;">
 	<div class="span3">
-		<h4><?php echo Text::_('XBBOOKS_ITEMSCAT'); ?></h4>		
+		<h4><?php echo Text::_('XBCULTURE_ITEMS_IN_CAT'); ?></h4>		
 	</div>	
 	<div class="span9">
           <div class="badge badge-success pull-left"><h3><?php echo $item->title; ?></h3></div>
@@ -67,35 +63,10 @@ $show_catdesc = $this->params->get('show_catdesc',1);
 	</div>
 <?php endif; ?>
 <div class="row-fluid">
-	<?php if($item->extension == 'com_xbbooks') : ?>
-    	<div class= "span6">
-    		<div class="xbbox xbboxcyan xbyscroll xbmh300">
-    			<p><?php echo $item->bcnt; ?> books</p>
-    			<?php if ($item->bcnt > 0 ) : ?>
-    				<ul>
-    				<?php foreach ($item->bks as $i=>$bk) { 
-    					echo '<li><a href="'.$blink.$bk->bid.'">'.$bk->title.'</a></li> ';
-    				} ?>				
-    				</ul>
-    			<?php else: ?>
-    				<p class="xbnit"><?php echo Text::_('XBCULTURE_CAT_NO_ITEMS')?></p>
-    			<?php endif; ?>
-    		</div>
-    	</div>
-    	<div class="span6">
-    		<div class="xbbox xbboxmag xbyscroll xbmh300">
-    			<p><?php echo $item->rcnt; ?> reviews</p>
-    			<?php if ($item->rcnt > 0 ) : ?>
-    				<ul>
-    				<?php foreach ($item->revs as $i=>$rev) { 
-    					echo '<li><a href="'.$rlink.$rev->rid.'">'.$rev->title.'</a></li> ';
-    				} ?>				
-    				</ul>
-    			<?php endif; ?>
-    		</div>
-    	</div>
+	<?php if($item->extension == 'com_xbpeople') : ?>
 	<?php else: ?>
-    	<div class= "span6">
+ 	<?php endif; ?>
+   	<div class= "span6">
     		<div class="xbbox xbboxgrn  xbyscroll xbmh300">
     			<p><?php echo $item->pcnt; ?> people</p>
     			<?php if ($item->pcnt > 0 ) : ?>
@@ -119,12 +90,11 @@ $show_catdesc = $this->params->get('show_catdesc',1);
     			<?php endif; ?>
     		</div>
     	</div>
-	<?php endif; ?>
 </div>
 <div class="clearfix"></div>
 <p class="xbtc xbmt16">
 	<a href="<?php echo $cclink; ?>" class="btn btn-small">
-		<?php echo JText::_('XBBOOKS_CAT_COUNTS'); ?>
+		<?php echo JText::_('XBCULTURE_CAT_COUNTS'); ?>
 	</a>
 </p>
 <div class="clearfix"></div>

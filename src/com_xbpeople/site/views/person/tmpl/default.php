@@ -174,7 +174,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 			</div>
 			<div class="span8 xbtc">
 				<a href="index.php?option=com_xbpeople&view=people" class="btn btn-small">
-					<?php echo Text::_('People List'); ?></a>
+					<?php echo Text::_('XBCULTURE_PEOPLE_LIST'); ?></a>
 			</div>
 			<div class="span2">
 			<?php if($item->next > 0) : ?>

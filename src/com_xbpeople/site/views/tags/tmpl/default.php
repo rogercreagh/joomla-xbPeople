@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/tmpl/default.php
- * @version 0.9.6.c 6th January 2022
+ * @version 0.9.9.1 1st July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,23 +26,23 @@ $xblink = 'index.php?option=com_xbbooks&view=';
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getTagsRoute();
+$itemid = XbpeopleHelperRoute::getTagsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $tvlink = $xblink.'tag'.$itemid.'&id=';
 
-$itemid = XbbooksHelperRoute::getPeopleRoute();
+$itemid = XbpeopleHelperRoute::getPeopleRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $pllink = $xblink.'people'.$itemid.'&tagid=';
 
-$itemid = XbbooksHelperRoute::getBooksRoute();
+$itemid = XbpeopleHelperRoute::getBooksRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $bllink = $xblink.'booklist'.$itemid.'&tagid=';
 
-$itemid = XbbooksHelperRoute::getReviewsRoute();
+$itemid = XbpeopleHelperRoute::getReviewsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $rllink = $xblink.'bookreviews'.$itemid.'&tagid=';
 
-$itemid = XbbooksHelperRoute::getCharsRoute();
+$itemid = XbpeopleHelperRoute::getCharsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $chllink = $xblink.'characters'.$itemid.'&tagid=';
 
@@ -50,7 +50,7 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
 
 <div class="xbbooks">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
-		echo XbbooksHelper::sitePageheader($this->header);
+	    echo XbcultureHelper::sitePageheader($this->header);
 	} ?>
 	
 	<form action="<?php echo Route::_('index.php?option=com_xbbooks&view=tags'); ?>" method="post" name="adminForm" id="adminForm">

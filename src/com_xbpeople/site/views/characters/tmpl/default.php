@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/tmpl/default.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.1 6th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,18 +30,18 @@ $orderNames = array('name'=>Text::_('XBCULTURE_NAME'),'category_title'=>Text::_(
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getCategoriesRoute();
+$itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $clink = 'index.php?option=com_xbbooks&view=category'.$itemid.'&id=';
 
-$itemid = XbbooksHelperRoute::getCharsRoute();
+$itemid = XbpeopleHelperRoute::getCharsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
 
 ?>
 <div class="xbbooks">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
-		echo XbbooksHelper::sitePageheader($this->header);
+	    echo XbcultureHelper::sitePageheader($this->header);
 	} ?>
 	
 <form action="<?php echo Route::_('index.php?option=com_xbbooks&view=characters'); ?>" method="post" name="adminForm" id="adminForm">
@@ -92,9 +92,16 @@ $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
 					<?php echo JText::_('XBCULTURE_SUMMARY');?>
 				</th>
                 <?php endif; ?>
-				<th class="hidden-phone">
-					<?php echo JText::_('XBCULTURE_BOOKS_U'); ?>
-				</th>
+				<?php if($this->xbbooksStatus) : ?>
+    				<th>
+    					<?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?>
+    				</th>
+               <?php endif; ?>
+				<?php if($this->xbfilmsStatus) : ?>
+    				<th>
+    					<?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?>
+    				</th>
+               <?php endif; ?>
 				<?php if($this->showcats || $this->showtags) : ?>
     				<th class="hidden-tablet hidden-phone">
     					<?php if ($this->showcats) {
@@ -157,13 +164,16 @@ $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
 					<?php endif; ?>
 				</td>
 				<?php endif; ?>
-				<td class="hidden-phone" >
-					<?php 
-					if ($item->ccnt > 0) {
-					    echo '<p><span class="xbnit">'.Text::_('XBCULTURE_CHAR_IN').'</span>: '.$item->clist.'</p>';
-					}
-					?>
-				</td>
+				<?php if ($this->xbbooksStatus) : ?>
+    				<td>
+    					<span class="badge <?php echo ($item->bookcnt>0) ? 'badge-cyan' : ''?>"><?php echo $item->bookcnt;?></span>
+    				</td>
+				<?php endif; ?>
+				<?php if ($this->xbfilmsStatus) : ?>
+    				<td>
+    					<span class="badge <?php echo ($item->filmcnt>0) ? 'badge-mag' : ''?>"><?php echo $item->filmcnt;?></span>
+    				</td>
+				<?php endif; ?>
     			<?php if(($this->showcats) || ($this->showtagss)) : ?>
 					<td class="hidden-phone">
  						<?php if ($this->showcats) : ?>												

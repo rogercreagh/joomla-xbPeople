@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.1 5th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -61,12 +61,6 @@ class XbpeopleModelPeople extends JModelList {
 	
 	protected function getListQuery() {
 		$searchbar = (int)$this->getState('params',0)['search_bar'];
-		//if menu option set it will take precedence and hide the corresponding filter option
-//		$prole = $this->getState('params')['menu_prole'];
-// 		if (($searchbar==1) && ($prole==0)) { 	//look for filter setting
-// 		    $prole = $this->getState('filter.prole');
-// 		}
-//		$this->prole = $prole;		
 		
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -78,10 +72,10 @@ class XbpeopleModelPeople extends JModelList {
             a.ordering AS ordering, a.params AS params, a.note AS note');
 		$query->select('IF((year_born>-9999),year_born,year_died) AS sortdate');
 //            ->select('(GROUP_CONCAT(p.person_id SEPARATOR '.$db->quote(',') .')) AS personlist');
-		$query->from($db->quoteName('#__xbpersons','a'))
-            	->join('LEFT OUTER',$db->quoteName('#__xbbookperson', 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.person_id'))
-                ->where('p.book_id IS NOT NULL');
-		$query->select('COUNT(DISTINCT p.book_id) AS bcnt');
+ 		$query->from($db->quoteName('#__xbpersons','a'));
+//             	->join('LEFT OUTER',$db->quoteName('#__xbbookperson', 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.person_id'))
+//                 ->where('p.book_id IS NOT NULL');
+// 		$query->select('COUNT(DISTINCT p.book_id) AS bcnt');
         $query->join('LEFT', '#__categories AS c ON c.id = a.catid');
         $query->select('c.title AS category_title');
            
