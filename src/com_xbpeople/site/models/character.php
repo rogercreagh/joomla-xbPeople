@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/character.php
- * @version 0.9.9.1 1st July 2022
+ * @version 0.9.9.2 7th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,12 +15,21 @@ use Joomla\Registry\Registry;
 
 class XbpeopleModelCharacter extends JModelItem {
 	
-	protected function populateState() {
+    protected $xbfilmsStatus;
+    protected $xbbooksStatus;
+    
+    public function __construct($config = array()) {
+        $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
+        $this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
+        parent::__construct($config);
+    }
+    
+    protected function populateState() {
 		$app = Factory::getApplication('site');
 		
 		// Load state from the request.
 		$id = $app->input->getInt('id');
-		$this->setState('cnar.id', $id);
+		$this->setState('char.id', $id);
 		
 		// Load the parameters.
 		$params = $app->getParams();
@@ -58,12 +67,12 @@ class XbpeopleModelCharacter extends JModelItem {
 				
 				$item->filmcnt = 0;
 				if ($this->xbfilmsStatus) {
-				    $item->filmlist = $this->getCharFilms($item->id,'','rel_year DESC');
+				    $item->filmlist = $this->getCharFilms($item->id,'rel_year DESC');
 				    $item->filmcnt = count($item->filmlist);
 				}
 				$item->bookcnt = 0;
 				if ($this->xbbooksStatus) {
-				    $item->booklist = $this->getCharBookRoles($item->id,'','pubyear ASC');
+				    $item->booklist = $this->getCharBooks($item->id,'pubyear ASC');
 				    $item->bookcnt = count($item->booklist);
 				}
 												
@@ -79,14 +88,14 @@ class XbpeopleModelCharacter extends JModelItem {
 	 * @param boolean $order - field to order list by (role first if specified)
 	 * @return array
 	 */
-	public function getCharBookRoles(int $charid, $order='title ASC') {
+	public function getCharBooks(int $charid, $order='title ASC') {
 	    $blink = 'index.php?option=com_xbbooks';
 	    $blink .= '&view=book&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
 	    $query->select('a.char_note, b.title, b.pubyear, b.id, b.state AS bstate')
-	    ->from('#__xbbookperson AS a')
+	    ->from('#__xbbookcharacter AS a')
 	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
 	    ->where('a.char_id = "'.$charid.'"' );
 	    $query->where('b.state = 1');
@@ -108,7 +117,7 @@ class XbpeopleModelCharacter extends JModelItem {
 	 * @param boolean $order - field to order list by (role first if specified)
 	 * @return array
 	 */
-	public function getCharFilms(int $charid,$order='title ASC') {
+	public function getCharFilms(int $charid, $order='title ASC') {
 	    $flink = 'index.php?option=com_xbfilms';
 	    $flink .= '&view=film&id=';
 	    $db = Factory::getDBO();
@@ -117,7 +126,7 @@ class XbpeopleModelCharacter extends JModelItem {
 	    $query->select('a.char_note, b.title, b.rel_year, b.id, b.state AS bstate')
 	    ->from('#__xbfilmcharacter AS a')
 	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
-	    ->where('a.char_id = "'.$charnid.'"' );
+	    ->where('a.char_id = "'.$charid.'"' );
 	    $query->where('b.state = 1');
         $query->order('b.'.$order); //this will order roles as author, editor, mention, other, publisher,
 	    $db->setQuery($query);

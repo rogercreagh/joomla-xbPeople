@@ -15,13 +15,13 @@ use Joomla\CMS\Layout\FileLayout;
 
 $item = $this->item;
 
+require_once JPATH_COMPONENT.'/helpers/route.php';
+
 $imgok = (($this->show_image >0) && (JFile::exists(JPATH_ROOT.'/'.$item->portrait)));
 if ($imgok) {
 	$src = Uri::root().$item->portrait;
 	$tip = '<img src=\''.$src.'\' style=\'width:400px;\' />';
 }
-
-require_once JPATH_COMPONENT.'/helpers/route.php';
 
 $itemid = XbpeopleHelperRoute::getCategoriesRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
