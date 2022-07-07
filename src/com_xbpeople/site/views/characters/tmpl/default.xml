@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- xbBooks site/views/characters/tmpl/default.xml v0.9.5 10th May 2021 -->
 <metadata>
-	<layout title="Book Characters">
+	<layout title="Characters">
 		<message>Displays a list (table) of characters. Option to restrict to single category and filter by tags.</message>
 	</layout>
 	<fields name="params" addfieldpath="administrator/components/com_xbbooks/models/fields">

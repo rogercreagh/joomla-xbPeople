@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople site/views/categories/tmpl/default.xml v0.9.9.0 28th June 2022 -->
+<!-- xbPeople site/views/categories/tmpl/default.xml v0.9.9.2 6th July 2022 -->
 <metadata>
 	<layout title="People Category Counts">
 		<message>Displays counts of items assigned to each category. Links to list views filtered by category</message>
@@ -7,11 +7,11 @@
 	<fields name="params">
 		<!-- Basic options. -->
   		<fieldset name="basic" label="Options">
-			<field name="show_empty"
+			<field name="show_desc"
 				type="radio"
 				default="1"
-				label="XBCULTURE_SHOW_EMPTY_LABEL"
-				description="XBCULTURE_SHOW_EMPTY_DESC"
+				label="XBCULTURE_SHOW_DESC_LABEL"
+				description="XBCULTURE_SHOW_DESC_DESC"
 	  			class="btn-group btn-group-yesno btn-small radiotop"
 	  			useglobal="true"
 				>

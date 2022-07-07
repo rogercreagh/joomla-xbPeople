@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/tags/tmpl/default.xml v0.8.3 18th March 2021 -->
+<!-- xbBooks site/views/tags/tmpl/default.xml v0.9.9.2 6th July 2022 -->
 <metadata>
-	<layout title="Book Tag List">
+	<layout title="People Tag List">
 		<message>Displays a list (table) of tags. Choose tags for books, people or reviews</message>
 	</layout>
 	<fields name="request">
 		<fieldset name="request">
-			<field name="mn_type"
-				type="radio"
-				default=""
-				label="XBBOOKS_GROUP_LBL"
-				description="XBBOOKS_GROUP_DESC"
-	  			class="btn-group btn-small radiotop"
-				>
-					<option value="">XBCULTURE_ALLTAGS</option>
-					<option value="book" >XBCULTURE_BOOKTAGS</option>
-					<option value="person">XBCULTURE_PERSONTAGS</option>
-					<option value="review">XBCULTURE_REVIEW_TAGS</option>
-			</field>	
 		</fieldset>
 	</fields>
 	<fields name="params">
@@ -26,8 +14,8 @@
 			<field name="show_desc"
 				type="radio"
 				default="1"
-				label="XBBOOKS_SHOW_DESC_LABEL"
-				description="XBBOOKS_SHOW_DESC_DESC"
+				label="XBCULTURE_SHOW_DESC_LABEL"
+				description="XBCULTURE_SHOW_DESC_DESC"
 	  			class="btn-group btn-group-yesno btn-small radiotop"
 	  			useglobal="true"
 				>
@@ -37,8 +25,8 @@
 			<field name="show_parent"
 				type="radio"
 				default="1"
-				label="XBBOOKS_SHOW_PARENT_LABEL"
-				description="XBBOOKS_SHOW_PARENT_DESC"
+				label="XBCULTURE_SHOW_PARENT_LABEL"
+				description="XBCULTURE_SHOW_PARENT_DESC"
 	  			class="btn-group btn-group-yesno btn-small radiotop"
 	  			useglobal="true"
 				>
