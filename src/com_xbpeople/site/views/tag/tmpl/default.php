@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tag/tmpl/default.php
- * @version 0.8.5 24th March 2021 
+ * @version 0.9.9.2 10th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,27 +12,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\Uri\Uri;
 
 $item = $this->item;
-$xblink = 'index.php?option=com_xbbooks&view=';
+$xblink = 'index.php?option=com_xbpeople&view=';
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$itemid = XbbooksHelperRoute::getPeopleRoute();
+$itemid = XbpeopleHelperRoute::getPeopleRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $plink = $xblink.'person' . $itemid.'&id=';
 
-$itemid = XbbooksHelperRoute::getBooksRoute();
-$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$blink = $xblink.'book' . $itemid.'&id=';
-
-$itemid = XbbooksHelperRoute::getReviewsRoute();
-$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$rlink = $xblink.'bookreview' . $itemid.'&id=';
-
-$itemid = XbbooksHelperRoute::getCharsRoute();
+$itemid = XbpeopleHelperRoute::getCharsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $chlink = $xblink.'character' . $itemid.'&id=';
 
-$itemid = XbbooksHelperRoute::getTagsRoute();
+$itemid = XbpeopleHelperRoute::getTagsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $tclink = $xblink.'tags' . $itemid;
 
@@ -44,20 +36,21 @@ $tclink = $xblink.'tags' . $itemid;
 // $chlink = $xblink.'character&id=';
 // $tclink = $xblink.'tags';
 ?>
-<div class="xbbooks">
+<div class="xbpeople">
 <div class="row-fluid" style="margin-bottom:20px;">
 	<div class="span3">
-		<h4><?php echo JText::_('XBBOOKS_ITEMSTAGGED').': '; ?></h4>		
+		<h4><?php echo JText::_('XBCULTURE_ITEMSTAGGED').': '; ?></h4>		
 	</div>	
 	<div class="span9">
 		<div class="badge badge-info pull-left"><h3><?php echo $item->title; ?></h3></div>
 		
 		<?php if ((!$this->hide_empty) && (strpos($item->path,'/')!==false)) : ?>
-			<div class="xb11 pull-left" style="padding-top:20px;margin-left:40px;">
-				<i><?php echo JText::_('XBCULTURE_HEIRARCHY_U'); ?>:</i> 
-				<?php  $path = substr($item->path, 0, strrpos($item->path, '/'));
-					$path = str_replace('/', ' - ', $path);
-					echo $path; ?>
+			<div class="xb11 pull-right" style="padding-top:5px;margin-left:40px;">
+				<i><?php echo JText::_('XBCULTURE_HEIRARCHY_U'); ?>:</i><span class="xb09">
+                    <?php $path = explode('/', $item->path);
+                    for ($i = 0; $i < count($path); $i++) {
+                        echo '<br /><span style="padding-left:'.($i*10).'px;">'.'&boxur;&boxh;&nbsp;'.$path[$i].'</span>';
+                    } ?></span>
         	</div>
         <?php endif; ?>
 	</div>	
@@ -72,32 +65,6 @@ $tclink = $xblink.'tags' . $itemid;
 		</div>
 	</div>
 <?php endif; ?>
-<div class="row-fluid">
-	<div class= "span6">
-		<div class="xbbox xbboxcyan xbmh200 xbyscroll">
-			<p><?php echo $item->bcnt; ?> books tagged</p>
-			<?php if ($item->bcnt > 0 ) : ?>
-				<ul>
-				<?php foreach ($item->bks as $i=>$bk) { 
-					echo '<li><a href="'.$blink.$bk->bid.'">'.$bk->title.'</a></li> ';
-				} ?>				
-				</ul>
-			<?php endif; ?>
-		</div>
-	</div>
-	<div class= "span6">
-		<div class="xbbox xbboxmag xbmh200 xbyscroll">
-			<p><?php echo $item->rcnt; ?> reviews tagged</p>
-			<?php if ($item->rcnt > 0 ) : ?>
-				<ul>
-				<?php foreach ($item->revs as $i=>$rev) { 
-					echo '<li><a href="'.$rlink.$rev->rid.'">'.$rev->title.'</a></li> ';
-				} ?>				
-				</ul>
-			<?php endif; ?>
-		</div>
-	</div>
-</div>
 <div class="row-fluid">
 	<div class= "span6">
 		<div class="xbbox xbboxgrn xbmh200 xbyscroll">
@@ -127,7 +94,7 @@ $tclink = $xblink.'tags' . $itemid;
 <div class="row-fluid">
 	<div class="span12">
 		<div class="xbbox xbboxgrey xbmh200 xbyscroll">
-			<p><?php echo $item->othercnt; ?> other (not xbBooks) items tagged</p>
+			<p><?php echo $item->othercnt; ?> other (not xbPeople) items tagged <?php echo $item->title; ?></p>
 			<?php if ($item->othercnt > 0 ) : ?>
 						<?php $span = intdiv(12, count($item->othcnts)); ?>
 						<div class="row-fluid">
@@ -176,7 +143,7 @@ $tclink = $xblink.'tags' . $itemid;
 <div class="clearfix"></div>
 <p class="xbtc xbmt16">
 	<a href="<?php echo $tclink; ?>" class="btn btn-small">
-		<?php echo JText::_('XBBOOKS_TAG_COUNTS'); ?>
+		<?php echo JText::_('XBCULTURE_TAG_COUNTS'); ?>
 	</a>
 </p>
 <div class="clearfix"></div>

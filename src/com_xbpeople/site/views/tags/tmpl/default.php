@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/tmpl/default.php
- * @version 0.9.9.1 1st July 2022
+ * @version 0.9.9.2 10th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,7 +22,7 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$xblink = 'index.php?option=com_xbbooks&view=';
+$xblink = 'index.php?option=com_xbpeople&view=';
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
@@ -34,26 +34,19 @@ $itemid = XbpeopleHelperRoute::getPeopleRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $pllink = $xblink.'people'.$itemid.'&tagid=';
 
-$itemid = XbpeopleHelperRoute::getBooksRoute();
-$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$bllink = $xblink.'booklist'.$itemid.'&tagid=';
-
-$itemid = XbpeopleHelperRoute::getReviewsRoute();
-$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-$rllink = $xblink.'bookreviews'.$itemid.'&tagid=';
-
 $itemid = XbpeopleHelperRoute::getCharsRoute();
 $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $chllink = $xblink.'characters'.$itemid.'&tagid=';
 
+$ctlink = 'index.php?option=com_tags&view=tag&id=';
 ?>
 
-<div class="xbbooks">
+<div class="xbpeople">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
 	    echo XbcultureHelper::sitePageheader($this->header);
 	} ?>
 	
-	<form action="<?php echo Route::_('index.php?option=com_xbbooks&view=tags'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_xbpeople&view=tags'); ?>" method="post" name="adminForm" id="adminForm">
 	
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
@@ -67,10 +60,9 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
 				<?php  if ($this->show_desc != 0) : ?>      
 					<th class="hidden-phone"><?php echo JText::_('XBCULTURE_DESCRIPTION');?></th>
 				<?php endif; ?>
-				<th class="center" style="width:50px;"><?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder );?></th>
-				<th class="center" style="width:50px;"><?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_REVIEWS_U', 'rcnt', $listDirn, $listOrder );?></th>
 				<th class="center" style="width:50px;"><?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_PEOPLE_U', 'pcnt', $listDirn, $listOrder );?></th>
-				<th class="center" style="width:50px;"><?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_CHARACTERS_U', 'chcnt', $listDirn, $listOrder );?></th>
+				<th class="center" style="width:50px;"><?php echo HtmlHelper::_('grid.sort', 'XBCULTURE_CHARS', 'chcnt', $listDirn, $listOrder );?></th>
+				<th class="center" style="width:50px;"><?php echo HtmlHelper::_('grid.sort', 'Others', 'ocnt', $listDirn, $listOrder );?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -82,9 +74,9 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
  						    <span class="xbnote xb09">
  						    <?php if (substr_count($item->path,'/')>0) {
  						    	$ans = substr($item->path, 0, strrpos($item->path, '/'));
- 						    	echo str_replace('/',' - ',$ans).' - ';
+ 						    	echo str_replace('/',' - ',$ans);
  						    } ?>
-                        	</span>
+                        	</span><br />
 						<?php endif; //show_parent?>
 	    				<span  class="xb11 xbbold">
 	    					<a href="<?php echo Route::_($tvlink . $item->id); ?>" title="Details">
@@ -97,16 +89,6 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
 					<td class="hidden-phone"><?php echo $item->description; ?></td>
 				<?php endif; ?>
 	    			<td class="center">
-	   					<?php if ($item->bcnt >0) : ?> 
-	   						<a class="badge bkcnt" href="<?php  echo $bllink.$item->id; ?>"><?php echo $item->bcnt; ?></a>
-	   					<?php endif; ?>
-	   				</td>
-	    			<td class="center">
-	   					<?php if ($item->rcnt >0) : ?> 
-	   						<a class="badge revcnt" href="<?php  echo $rllink.$item->id; ?>"><?php echo $item->rcnt; ?></a>
-	   					<?php endif; ?>
-	   				</td>
-	    			<td class="center">
 	   					<?php if ($item->pcnt >0) : ?> 
 	   						<a class="badge percnt" href="<?php  echo $pllink.$item->id; ?>"><?php echo $item->pcnt; ?></a>
 	   					<?php endif; ?>
@@ -114,6 +96,11 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
 	    			<td class="center">
 	   					<?php if ($item->chcnt >0) : ?> 
 	   						<a class="badge percnt" href="<?php  echo $chllink.$item->id; ?>"><?php echo $item->chcnt; ?></a>
+	   					<?php endif; ?>
+	   				</td>
+	    			<td class="center">
+	   					<?php if ($item->ocnt >0) : ?> 
+	   						<a class="badge" href="<?php echo $ctlink.$item->id; ?>"><?php echo $item->ocnt; ?></a>
 	   					<?php endif; ?>
 	   				</td>
 				</tr>

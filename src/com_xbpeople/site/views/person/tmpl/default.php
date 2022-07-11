@@ -98,7 +98,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     	<div class="span<?php echo $item->filmcnt>0 ? '6' : '12'; ?>">
     		<p><b><?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?></b>
     			<span class="xbnit">
-    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bookcnt;
+    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bookcnt.' ';
     				echo ($item->bookcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
     			</span>
     		</p>

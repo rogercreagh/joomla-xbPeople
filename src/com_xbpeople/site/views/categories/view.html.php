@@ -36,7 +36,7 @@ class XbpeopleViewCategories extends JViewLegacy {
 // 		$this->search_bar = $this->params->get('search_bar','','int');
 // 		$this->show_desc = $this->params->get('show_desc','','int');
 		$this->show_parent = $this->params->get('show_parent','1','int');
-		$this->show_empty = $this->params->get('show_empty','0','int');
+		$this->show_clist_empty = $this->params->get('show_clist_empty','0','int');
 		
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');

@@ -29,6 +29,16 @@
 					<option value="0" >No</option>
 					<option value="1">Yes</option>
 			</field>	
+			<field name="show_clist_empty" type="radio"
+				default="0"
+				label="Show Empty Categories"
+				description="Show categories which have no items"
+	  			class="btn-group btn-group-yesno"
+	  			useglobal="true"
+				>
+					<option value="0" >No</option>
+					<option value="1">Yes</option>
+			</field>	
 		</fieldset>
   		<!-- Additional page display options (added above the standard Page Display options) -->
 		<fieldset name="page-options" label="Page Headings">

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/categories.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.2 11th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -54,6 +54,8 @@ class XbpeopleModelCategories extends JModelList {
 		
 		$query->select('(SELECT COUNT(DISTINCT p.id) FROM #__xbpersons AS p LEFT JOIN #__xbbookperson AS bp ON bp.person_id = p.id WHERE p.catid = c.id AND bp.id IS NOT NULL ) AS bpcnt');
 		$query->select('(SELECT COUNT(DISTINCT ch.id) FROM #__xbcharacters AS ch LEFT JOIN #__xbbookcharacter AS bc ON bc.char_id = ch.id WHERE ch.catid = c.id AND bc.id IS NOT NULL ) AS bchcnt');
+		$query->select('(SELECT COUNT(DISTINCT p.id) FROM #__xbpersons AS p LEFT JOIN #__xbfilmperson AS fp ON fp.person_id = p.id WHERE p.catid = c.id AND fp.id IS NOT NULL ) AS fpcnt');
+		$query->select('(SELECT COUNT(DISTINCT ch.id) FROM #__xbcharacters AS ch LEFT JOIN #__xbfilmcharacter AS fc ON fc.char_id = ch.id WHERE ch.catid = c.id AND fc.id IS NOT NULL ) AS fchcnt');
 		
 		$query->where('c.extension IN ('.$db->quote('com_xbpeople').')');
 		
@@ -97,9 +99,9 @@ class XbpeopleModelCategories extends JModelList {
 	
 	public function getItems() {
 		$items  = parent::getItems();
-// 		foreach ($items as $cat) {
-// 			$cat->allcnt = $cat->bcnt + $cat->rccnt + $cat->bpcnt + $cat->bchcnt;
-// 		}
+ 		foreach ($items as $cat) {
+ 			$cat->allcnt = $cat->bpcnt + $cat->bchcnt + $cat->fpcnt + $cat->fchcnt;
+ 		}
 		return $items;
 	}
 }

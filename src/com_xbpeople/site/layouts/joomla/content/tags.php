@@ -1,9 +1,9 @@
 <?php
 /*******
- * @package xbBooks
+ * @package xbPeople
  * @filesource site/layouts/joomla/content/tags.php
- * @version 0.9.6.c 6th January 2022
- * @desc changes link to the com_xbbooks tag view
+ * @version 0.9.9.2 10th July 2022
+ * @desc changes link to the com_xbpeople tag view
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +26,7 @@ $authorised = Factory::getUser()->getAuthorisedViewLevels();
 				<?php $tagParams = new Registry($tag->params); ?>
 				<?php $link_class = $tagParams->get('tag_link_class', 'label label-info'); ?>
 				<li class="tag-<?php echo $tag->tag_id; ?> tag-list<?php echo $i; ?>" itemprop="keywords">
-					<a href="<?php echo 'index.php?option=com_xbbooks&view=tag&id='.$tag->tag_id . ':' . $tag->alias; ?>" class="<?php echo $link_class; ?>">
+					<a href="<?php echo 'index.php?option=com_xbpeoples&view=tag&id='.$tag->tag_id . ':' . $tag->alias; ?>" class="<?php echo $link_class; ?>">
 						<?php echo $this->escape($tag->title); ?>
 					</a>
 				</li>

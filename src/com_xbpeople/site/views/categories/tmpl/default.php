@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/categories/tmpl/default.php
- * @version 0.9.9.1 1st July 2022
+ * @version 0.9.9.2 11th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -53,35 +53,37 @@ $chlink='index.php?option=com_xbpeople&view=characters&catid=';
 			</thead>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-        		<tr>
-	 				<td>
-						<p class="xbml20">
- 						<?php  if ($this->show_parent != 0) : ?>      
-					<span class="xbnote"> 
- 					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));
-						$path = str_replace('/', ' - ', $path);
-						echo $path.($path!='') ? ' - <br/>' : ''; ?>
-						
-					 </span>
-						<?php endif; //show_parent?>
-    					<a href="<?php echo Route::_($clink . $item->id.'&ext='.$item->extension); ?>" title="Details" 
-    						class="label label-success" style="padding:2px 8px;">
-    						<span class="xb11"><?php echo $item->title; ?></span>
-    					</a>
-	    				</p>
-	    			</td>
-					<td class="hidden-phone"><?php echo $item->description; ?></td>
-	    			<td class="center">
-	   					<?php if ($item->bpcnt >0) : ?> 
-	   						<a href="<?php echo $bvlink.$item->id; ?>" class="badge percnt"><?php echo $item->bpcnt; ?></a></span>
-	   					<?php endif; ?>
-	   				</td>
-	    			<td class="center">
-	   					<?php if ($item->bchcnt >0) : ?> 
-	   						<a href="<?php echo $clink.$item->id; ?>" class="badge chcnt"><?php echo $item->bchcnt; ?></a></span>
-	   					<?php endif; ?>
-	   				</td>
-				</tr>
+					<?php if (($item->allcnt >0) || ($this->show_clist_empty)) : ?>
+                		<tr>
+        	 				<td>
+        						<p class="xbml20">
+         						<?php  if ($this->show_parent != 0) : ?>      
+        					<span class="xbnote"> 
+         					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));
+        						$path = str_replace('/', ' - ', $path);
+        						echo $path.($path!='') ? ' - <br/>' : ''; ?>
+        						
+        					 </span>
+        						<?php endif; //show_parent?>
+            					<a href="<?php echo Route::_($clink . $item->id.'&ext='.$item->extension); ?>" title="Details" 
+            						class="label label-success" style="padding:2px 8px;">
+            						<span class="xb11"><?php echo $item->title; ?></span>
+            					</a>
+        	    				</p>
+        	    			</td>
+        					<td class="hidden-phone"><?php echo $item->description; ?></td>
+        	    			<td class="center">
+        	   					<?php if (($item->bpcnt + $item->fpcnt) >0) : ?> 
+        	   						<a href="<?php echo $bvlink.$item->id; ?>" class="badge percnt"><?php echo ($item->bpcnt + $item->fpcnt); ?></a></span>
+        	   					<?php endif; ?>
+        	   				</td>
+        	    			<td class="center">
+        	   					<?php if (($item->bchcnt + $item->fchcnt) >0) : ?> 
+        	   						<a href="<?php echo $clink.$item->id; ?>" class="badge chcnt"><?php echo ($item->bchcnt + $item->fchcnt); ?></a></span>
+        	   					<?php endif; ?>
+        	   				</td>
+        				</tr>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</tbody>
 		</table>

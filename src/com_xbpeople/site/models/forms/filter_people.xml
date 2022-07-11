@@ -31,7 +31,7 @@
 			published="1"
 			onchange="this.form.submit();"
 			>
-			<option value="">All xbPeople Categories</option>
+			<option value="">XBCULTURE_ALL_CATS</option>
 		</field>
 		<field name="subcats" type="radio"
 			default="1"

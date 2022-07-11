@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/tags.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.2 10th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -80,10 +80,9 @@ class XbpeopleModelTags extends JModelList {
 			$query->where("m.type_alias IN ('com_xbbooks.book','com_xbpeople.person','com_xbpeople_character','com_xbbooks.review')");
 		}
 		
-		$query->select('(SELECT COUNT(*) FROM #__contentitem_tag_map AS tb WHERE tb.tag_id = t.id AND tb.type_alias='.$db->quote('com_xbbooks.book').') AS bcnt');
 		$query->select('(SELECT COUNT(*) FROM #__contentitem_tag_map AS tp WHERE tp.tag_id = t.id AND tp.type_alias='.$db->quote('com_xbpeople.person').') AS pcnt');
-		$query->select('(SELECT COUNT(*) FROM #__contentitem_tag_map AS tr WHERE tr.tag_id = t.id AND tr.type_alias='.$db->quote('com_xbbooks.review').') AS rcnt');
 		$query->select('(SELECT COUNT(*) FROM #__contentitem_tag_map AS tr WHERE tr.tag_id = t.id AND tr.type_alias='.$db->quote('com_xbpeople.character').') AS chcnt');
+		$query->select('(SELECT COUNT(*) FROM #__contentitem_tag_map AS tr WHERE tr.tag_id = t.id AND tr.type_alias NOT LIKE '.$db->quote('com_xbpeople%').') AS ocnt');
 		
 		// Filter by published state
 		$query->where('published = 1');

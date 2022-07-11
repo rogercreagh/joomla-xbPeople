@@ -191,12 +191,12 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 				<?php endif; ?>
 				<?php if ($this->xbbooksStatus) : ?>
     				<td>
-    					<span class="badge <?php echo ($item->bookcnt>0) ? 'badge-cyan' : ''?>"><?php echo $item->bookcnt;?></span>
+    					<span class="badge <?php echo ($item->bookcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bookcnt;?></span>
     				</td>
 				<?php endif; ?>
 				<?php if ($this->xbfilmsStatus) : ?>
     				<td>
-    					<span class="badge <?php echo ($item->filmcnt>0) ? 'badge-mag' : ''?>"><?php echo $item->filmcnt;?></span>
+    					<span class="badge <?php echo ($item->filmcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->filmcnt;?></span>
     				</td>
 				<?php endif; ?>
     			<?php if(($this->showcats) || ($this->showtags)) : ?>
