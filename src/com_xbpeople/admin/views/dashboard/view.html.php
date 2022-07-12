@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/view.html.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.2 12th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -130,7 +130,7 @@ class XbpeopleViewDashboard extends JViewLegacy
 //    	}
     	$canDo = ContentHelper::getActions('com_xbpeople', 'component');
     	
-        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_('XBCULTURE_DASHBOARD'),'info-2');
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_('XBCULTURE_DASHBOARD'),'info-2');
         
         ToolbarHelper::custom('dashboard.books', 'stack', '', 'xbBooks', false) ;
         ToolbarHelper::custom('dashboard.films', 'screen', '', 'xbFilms', false) ;

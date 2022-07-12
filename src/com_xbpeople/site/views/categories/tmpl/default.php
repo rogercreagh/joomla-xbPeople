@@ -74,12 +74,12 @@ $chlink='index.php?option=com_xbpeople&view=characters&catid=';
         					<td class="hidden-phone"><?php echo $item->description; ?></td>
         	    			<td class="center">
         	   					<?php if (($item->bpcnt + $item->fpcnt) >0) : ?> 
-        	   						<a href="<?php echo $bvlink.$item->id; ?>" class="badge percnt"><?php echo ($item->bpcnt + $item->fpcnt); ?></a></span>
+        	   						<a href="<?php echo $plink.$item->id; ?>" class="badge percnt"><?php echo ($item->bpcnt + $item->fpcnt); ?></a>
         	   					<?php endif; ?>
         	   				</td>
         	    			<td class="center">
         	   					<?php if (($item->bchcnt + $item->fchcnt) >0) : ?> 
-        	   						<a href="<?php echo $clink.$item->id; ?>" class="badge chcnt"><?php echo ($item->bchcnt + $item->fchcnt); ?></a></span>
+        	   						<a href="<?php echo $chlink.$item->id; ?>" class="badge chcnt"><?php echo ($item->bchcnt + $item->fchcnt); ?></a>
         	   					<?php endif; ?>
         	   				</td>
         				</tr>

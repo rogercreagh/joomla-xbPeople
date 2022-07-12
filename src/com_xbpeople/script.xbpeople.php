@@ -142,7 +142,7 @@ class com_xbpeopleInstallerScript
          	
          	// create default categories using category table
          	$cats = array(
-         			array("title"=>"Uncat.People","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
+         			array("title"=>"Uncategorised","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
          			array("title"=>"Import.People","alias"=>"imported","desc"=>"default category for xbPeople imported data"));
          	$message .= $this->createCategory($cats);
          	
