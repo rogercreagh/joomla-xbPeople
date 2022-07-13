@@ -15,7 +15,10 @@ use Joomla\Utilities\ArrayHelper;
 
 class XbpeopleModelCategories extends JModelList {
 	
-	public function __construct($config = array()) {
+    protected $xbfilmsStatus;
+    protected $xbbooksStatus;
+    
+    public function __construct($config = array()) {
 	    $showcats = ComponentHelper::getParams('com_xbpeople')->get('show_cats',1);
 	    if (!$showcats) {
 	        header("location:javascript://history.go(-1)");
@@ -24,6 +27,8 @@ class XbpeopleModelCategories extends JModelList {
 	    if (empty($config['filterfileds'])) {
 			$config['filter_fields'] = array ('id','title','path', 'parent','bcnt','bpcnt','rccnt','bchcnt' );
 		}
+		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
+		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		parent::__construct($config);
 	}
 	
@@ -52,10 +57,16 @@ class XbpeopleModelCategories extends JModelList {
             c.description AS description, c.extension AS extension, c.lft');
 		$query->from('#__categories AS c');
 		
-		$query->select('(SELECT COUNT(DISTINCT p.id) FROM #__xbpersons AS p LEFT JOIN #__xbbookperson AS bp ON bp.person_id = p.id WHERE p.catid = c.id AND bp.id IS NOT NULL ) AS bpcnt');
-		$query->select('(SELECT COUNT(DISTINCT ch.id) FROM #__xbcharacters AS ch LEFT JOIN #__xbbookcharacter AS bc ON bc.char_id = ch.id WHERE ch.catid = c.id AND bc.id IS NOT NULL ) AS bchcnt');
-		$query->select('(SELECT COUNT(DISTINCT p.id) FROM #__xbpersons AS p LEFT JOIN #__xbfilmperson AS fp ON fp.person_id = p.id WHERE p.catid = c.id AND fp.id IS NOT NULL ) AS fpcnt');
-		$query->select('(SELECT COUNT(DISTINCT ch.id) FROM #__xbcharacters AS ch LEFT JOIN #__xbfilmcharacter AS fc ON fc.char_id = ch.id WHERE ch.catid = c.id AND fc.id IS NOT NULL ) AS fchcnt');
+		if ($this->xbbooksStatus) {
+		    $query->select('(SELECT COUNT(DISTINCT p.id) FROM #__xbpersons AS p LEFT JOIN #__xbbookperson AS bp ON bp.person_id = p.id WHERE p.catid = c.id AND bp.id IS NOT NULL ) AS bpcnt');
+            $query->select('(SELECT COUNT(DISTINCT ch.id) FROM #__xbcharacters AS ch LEFT JOIN #__xbbookcharacter AS bc ON bc.char_id = ch.id WHERE ch.catid = c.id AND bc.id IS NOT NULL ) AS bchcnt');
+		}
+		
+		
+		if ($this->xbfilmsStatus) {
+		    $query->select('(SELECT COUNT(DISTINCT p.id) FROM #__xbpersons AS p LEFT JOIN #__xbfilmperson AS fp ON fp.person_id = p.id WHERE p.catid = c.id AND fp.id IS NOT NULL ) AS fpcnt');
+            $query->select('(SELECT COUNT(DISTINCT ch.id) FROM #__xbcharacters AS ch LEFT JOIN #__xbfilmcharacter AS fc ON fc.char_id = ch.id WHERE ch.catid = c.id AND fc.id IS NOT NULL ) AS fchcnt');
+		}
 		
 		$query->where('c.extension IN ('.$db->quote('com_xbpeople').')');
 		
@@ -100,7 +111,11 @@ class XbpeopleModelCategories extends JModelList {
 	public function getItems() {
 		$items  = parent::getItems();
  		foreach ($items as $cat) {
- 			$cat->allcnt = $cat->bpcnt + $cat->bchcnt + $cat->fpcnt + $cat->fchcnt;
+ 		    if (is_null($cat->bpcnt)) $cat->bpcnt = 0;
+ 		    if (is_null($cat->bchcnt)) $cat->bchcnt = 0;
+ 		    if (is_null($cat->fpcnt)) $cat->fpcnt = 0;
+ 		    if (is_null($cat->fchcnt)) $cat->fchcnt = 0;
+ 		    $cat->allcnt = $cat->bpcnt + $cat->bchcnt + $cat->fpcnt + $cat->fchcnt;
  		}
 		return $items;
 	}
