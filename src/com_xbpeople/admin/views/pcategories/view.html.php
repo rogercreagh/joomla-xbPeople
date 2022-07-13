@@ -50,7 +50,7 @@ class XbpeopleViewPcategories extends JViewLegacy {
     	$canDo =  ContentHelper::getActions('com_xbpeople', 'component');
     	// XbpeopleHelper::getActions();
         
-        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_( 'XBPEOPLE_TITLE_CATSMANAGER' ), 'folder' );
+        ToolbarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'XBPEOPLE_TITLE_CATSMANAGER' ), 'folder' );
         
         //index.php?option=com_categories&view=category&layout=edit&extension=com_xbpeople
         if ($canDo->get('core.create') > 0) {

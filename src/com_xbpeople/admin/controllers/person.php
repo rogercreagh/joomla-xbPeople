@@ -12,8 +12,15 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\FormController;
 
-class XbpeopleControllerPerson extends JControllerForm {
+class XbpeopleControllerPerson extends FormController {
+    
+    public function __construct($config = array()) {
+        parent::__construct($config);
+    }
+    
+    
 	protected function postSaveHook(JModelLegacy $model, $validData = array()) {
 		$item = $model->getItem();
 		

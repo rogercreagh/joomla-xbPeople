@@ -51,7 +51,7 @@ class XbpeopleViewCharacter extends JViewLegacy {
         
         $isNew = ($this->item->id == 0);
         
-        $title = Text::_( 'COM_XBPEOPLE_' ).': ';
+        $title = Text::_( 'COM_XBPEOPLE' ).': ';
         if ($isNew) {
             $title .= Text::_('XBPEOPLE_TITLE_NEWCHAR');
         } else {

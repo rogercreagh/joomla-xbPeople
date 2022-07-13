@@ -33,7 +33,7 @@ class XbpeopleViewPcategory extends JViewLegacy {
 		$canDo = ContentHelper::getActions('com_xbpeople', 'component');
 		// XbpeopleHelper::getActions();
 		
-		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE_' ).': '.Text::_( 'XBPEOPLE_TITLE_CATMANAGER' ), 'tag' );
+		ToolBarHelper::title(Text::_( 'COM_XBPEOPLE' ).': '.Text::_( 'XBPEOPLE_TITLE_CATMANAGER' ), 'tag' );
 		
 		ToolbarHelper::custom('pcategory.pcategories', 'folder', '', 'XBPEOPLE_CAT_LIST', false) ;
 		

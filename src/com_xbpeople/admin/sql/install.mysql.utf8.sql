@@ -4,8 +4,8 @@
 INSERT INTO `#__content_types` (`type_title`, `type_alias`, `content_history_options`, `table`, `field_mappings`, `router`,`rules`) 
 VALUES
 
-('XbPeople Person', 'com_xbPeople.person', 
-'{"formFile":"administrator\\/components\\/com_xbPeople\\/models\\/forms\\/person.xml", 
+('XbPeople Person', 'com_xbpeople.person', 
+'{"formFile":"administrator\\/components\\/com_xbpeople\\/models\\/forms\\/person.xml", 
     "hideFields":["checked_out","checked_out_time"], 
     "ignoreChanges":["checked_out", "checked_out_time"],
     "convertToInt":[], 

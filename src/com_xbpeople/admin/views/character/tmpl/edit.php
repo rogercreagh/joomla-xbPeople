@@ -110,4 +110,4 @@ HtmlHelper::_('formbehavior.chosen', 'select');
     <?php echo HtmlHelper::_('form.token'); ?>
 </form>
 <div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit();?></p>
+<p><?php echo XbcultureHelper::credit('xbpeople');?></p>

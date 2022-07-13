@@ -66,7 +66,7 @@ class XbpeopleViewPersons extends JViewLegacy {
         
         $bar = Toolbar::getInstance('toolbar');
         
-        ToolBarHelper::title(JText::_('COM_XBPEOPLE_').': '.JText::_('XBCULTURE_TITLE_PEOPLEMANAGER'), 'users' );
+        ToolBarHelper::title(JText::_('COM_XBPEOPLE').': '.JText::_('XBCULTURE_TITLE_PEOPLEMANAGER'), 'users' );
         
         if ($canDo->get('core.create') > 0) {
             ToolBarHelper::addNew('person.add');

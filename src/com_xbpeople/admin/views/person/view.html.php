@@ -18,7 +18,7 @@ use Joomla\CMS\Helper\ContentHelper;
 class XbpeopleViewPerson extends JViewLegacy {
     
     protected $form = null;
-    protected $canDo;
+//    protected $canDo;
     
     public function display($tpl = null) {
         // Get the Data
@@ -55,19 +55,13 @@ class XbpeopleViewPerson extends JViewLegacy {
         $userId = $user->get('id');
         $checkedOut     = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
         
-        $canDo = $this->canDo;
-        
-        
-        // Hide Joomla Administrator Main menu
-        $input->set('hidemainmenu', true);
-        
         $isNew = ($this->item->id == 0);
         
         $title = Text::_( 'COM_XBPEOPLE' ).': ';
         if ($isNew) {
             $title .= Text::_('XBCULTURE_TITLE_NEWPERSON');
         } elseif ($checkedOut) {
-        	$title = Text::_('XBCULTURE_TITLE_VIEWPERSON');
+        	$title .= Text::_('XBCULTURE_TITLE_VIEWPERSON');
         } else {
             $title .= Text::_('XBCULTURE_TITLE_EDITPERSON');
         }
@@ -77,12 +71,14 @@ class XbpeopleViewPerson extends JViewLegacy {
         ToolbarHelper::apply('person.apply');
         ToolbarHelper::save('person.save');
         ToolbarHelper::save2new('person.save2new');
-        if (XbcultureHelper::checkComponent('com_xbfilms')) {
-	        ToolbarHelper::custom('personcat.save2film', 'users', '', 'Save &amp; Films', false) ;
-        }
-        if (XbcultureHelper::checkComponent('com_xbbooks')) {
-        	ToolbarHelper::custom('personcat.save2book', 'user', '', 'Save &amp; Books', false) ;
-        }
+        
+//         if (XbcultureHelper::checkComponent('com_xbfilms')) {
+// 	        ToolbarHelper::custom('personcat.save2film', 'users', '', 'Save &amp; Films', false) ;
+//         }
+//         if (XbcultureHelper::checkComponent('com_xbbooks')) {
+//         	ToolbarHelper::custom('personcat.save2book', 'user', '', 'Save &amp; Books', false) ;
+//         }
+
         if ($isNew) {
             ToolbarHelper::cancel('person.cancel','JTOOLBAR_CANCEL');
         } else {

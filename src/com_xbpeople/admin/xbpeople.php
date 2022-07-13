@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
     Factory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'),'warning');
@@ -37,16 +37,20 @@ if ($exticon) {
     $style = 'a[target="_blank"]:after {font-style: normal; font-weight:bold; content: "\2197";}' ;
     $document->addStyleDeclaration($style);
 }
+//add fontawesome5
+$cssFile = "https://use.fontawesome.com/releases/v5.8.1/css/all.css\" integrity=\"sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf\" crossorigin=\"anonymous";
+$document->addStyleSheet($cssFile);
 
 Factory::getLanguage()->load('com_xbculture');
 
 JLoader::register('XbpeopleHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbpeople.php');
 JLoader::register('XbcultureHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbculture.php');
+
 XbcultureHelper::checkComponent('com_xbfilms');
 XbcultureHelper::checkComponent('com_xbbooks');			
-XbcultureHelper::checkComponent('com_xbgigs');
+XbcultureHelper::checkComponent('com_xbevents');
 
-$controller = JControllerLegacy::getInstance('Xbpeople');
+$controller = BaseController::getInstance('xbpeople');
 
 $controller->execute(Factory::getApplication()->input->get('task'));
 

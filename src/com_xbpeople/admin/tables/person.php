@@ -27,6 +27,7 @@ class XbpeopleTablePerson extends Table {
 	function __construct(&$db) {
         parent::__construct('#__xbpersons', 'id', $db);
         $this->setColumnAlias('published', 'state');
+        $this->_supportNullValue = true;  //write empty checkedouttime as null
         Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.person'));
         $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
         $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
@@ -47,7 +48,7 @@ class XbpeopleTablePerson extends Table {
     }
     
     public function check() {
-    	$params = ComponentHelper::getParams('com_xbfilms');
+    	$params = ComponentHelper::getParams('com_xbpeople');
     	
     	$firstname = trim($this->firstname);
     	$lastname = trim($this->lastname);
@@ -152,10 +153,10 @@ class XbpeopleTablePerson extends Table {
     		$array['metadata'] = (string)$registry;
     	}
     	return parent::bind($array, $ignore);
-     	if (isset($array['rules']) && is_array($array['rules'])) {
-     		$rules = new JAccessRules($array['rules']);
-     		$this->setRules($rules);
-     	}
+//      	if (isset($array['rules']) && is_array($array['rules'])) {
+//      		$rules = new JAccessRules($array['rules']);
+//      		$this->setRules($rules);
+//      	}
     	
     }
     

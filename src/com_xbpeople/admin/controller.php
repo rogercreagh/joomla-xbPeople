@@ -9,13 +9,15 @@
  ******/
 defined('_JEXEC') or die;
 
-class XbpeopleController extends JControllerLegacy
+use Joomla\CMS\MVC\Controller\BaseController;
+
+class XbpeopleController extends BaseController
 {
 	protected $default_view = 'dashboard';
 	
 	public function display ($cachable = false, $urlparms = false){
-		require_once JPATH_COMPONENT.'/helpers/xbpeople.php';
-		require_once JPATH_COMPONENT.'/helpers/xbculture.php';
+//		require_once JPATH_COMPONENT.'/helpers/xbpeople.php';
+//		require_once JPATH_COMPONENT.'/helpers/xbculture.php';
 		
 		return parent::display();
 	}

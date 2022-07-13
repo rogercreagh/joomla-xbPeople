@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/models/forms/filter_tags.xml v0.8.6.1 6th April 2021 -->
+<!-- xbBooks site/models/forms/filter_tags.xml v0.9.9.2 13th July 2022 -->
 <form>
 	<fields name="filter" addfieldpath="administrator/components/com_xbbooks/models/fields">
 		<field
 			name="search"
 			type="text"
 			label="COM_CONTENT_FILTER_SEARCH_DESC"
-			description="XBBOOKS_SEARCH_TAGS"
+			description="XBCULTURE_SEARCH_TIT_DESC"
 			hint="JSEARCH_FILTER"
 		/>
+		<!-- 
 		<field
 			name="branch"
 			type="sql"
@@ -32,5 +33,6 @@
 					<option value="person" onchange="this.form.submit();">XBCULTURE_PERSONTAGS</option>
 					<option value="review" onchange="this.form.submit();">XBCULTURE_REVIEW_TAGS</option>
 			</field>	
+		 -->
 	</fields>
 </form>

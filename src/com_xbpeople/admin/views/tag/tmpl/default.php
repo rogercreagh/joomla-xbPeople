@@ -28,7 +28,7 @@ $pelink = '&view=person&task=person.edit&id=';
 		<form action="index.php?option=com_xbpeople&view=tag" method="post" id="adminForm" name="adminForm">
 		<div class="row-fluid xbmb8">
 			<div class= "span4">
-				  <h3><?php echo JText::_('COM_XBPEOPLE_').' '. JText::_('XBCULTURE_TAG_ITEMS').':'; ?></h3>
+				  <h3><?php echo JText::_('COM_XBPEOPLE').' '. JText::_('XBCULTURE_TAG_ITEMS').':'; ?></h3>
 			</div>
 			<div class="span6">
 				<a href="<?php echo $telink.$item->id; ?>" class="badge badge-info">

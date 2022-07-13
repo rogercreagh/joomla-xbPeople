@@ -22,7 +22,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 	protected $xbbooksStatus;
 	protected $xbfilmsStatus;
 	
-	public $typeAlias = 'com_xbfilms.person';
+	public $typeAlias = 'com_xbpeople.person';
 	
 	public function __construct($config = array()) {
 		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');

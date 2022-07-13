@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.8.7 5th June 2022
+ * @version 0.9.9.2 13th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -142,8 +142,10 @@ class com_xbpeopleInstallerScript
          	
          	// create default categories using category table
          	$cats = array(
-         			array("title"=>"Uncategorised","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
-         			array("title"=>"Import.People","alias"=>"imported","desc"=>"default category for xbPeople imported data"));
+                array("title"=>"Uncategorised","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
+                array("title"=>"Imported","alias"=>"imported","desc"=>"default category for xbPeople imported data"),
+                array("title"=>"People","alias"=>"people","desc"=>"default category for People"),
+         	    array("title"=>"Chars","alias"=>"chars","desc"=>"default category for Characters"));
          	$message .= $this->createCategory($cats);
          	
             $app = Factory::getApplication();

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/tags.php
- * @version 0.9.9.2 10th July 2022
+ * @version 0.9.9.2 13th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,7 +22,7 @@ class XbpeopleModelTags extends JModelList {
 	        exit();
 	    }
 	    if (empty($config['filterfileds'])) {
-			$config['filter_fields'] = array ('id','title','path', 'parent','bcnt','pcnt','rcnt' );
+			$config['filter_fields'] = array ('id','title','path', 'parent','chcnt','pcnt','ocnt' );
 		}
 		parent::__construct($config);
 	}
@@ -99,11 +99,11 @@ class XbpeopleModelTags extends JModelList {
 			}
 		}
 		
-		//filter by branch
-		$branch = $this->getState('filter.branch');
-		if ($branch != '') {
-			$query->where('t.alias LIKE '.$db->quote('%'.$branch.'%'));
-		}
+// 		//filter by branch
+// 		$branch = $this->getState('filter.branch');
+// 		if ($branch != '') {
+// 			$query->where('t.alias LIKE '.$db->quote('%'.$branch.'%'));
+// 		}
 		
 		// Add the list ordering clause.
 		$orderCol       = $this->state->get('list.ordering', 'title');
