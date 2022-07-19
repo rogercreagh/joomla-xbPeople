@@ -57,11 +57,12 @@
 	 		<field name="show_pcat" type="list"
 				label="Show Person Category"
 				description="If both Show Category and Show Tag are no the the column will be hidden in list view"
+				class="btn-group btn-group-yesno"
 				useglobal="true"
 				>
 				<option value="0" >JHIDE</option>
-				<option value="1">Yes - not linked</option>
-				<option value="2">Yes - linked</option>
+					<option value="1">Show (no link)</option>
+					<option value="2">Show (linked)</option>
 			</field>	
 	 		<field name="show_ptags" type="radio"
 				label="Show Person Tags"

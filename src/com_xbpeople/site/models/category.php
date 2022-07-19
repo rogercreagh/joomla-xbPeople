@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/category.php
- * @version 0.9.9.1 6th July 2022
+ * @version 0.9.9.3 14th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 class XbpeopleModelCategory extends JModelItem {
 	
     public function __construct($config = array()) {
-        $showcats = ComponentHelper::getParams('com_xbpeople')->get('show_cats',1);
-        if (!$showcats) {
+        $showcat = ComponentHelper::getParams('com_xbpeople')->get('show_cats',1);
+        if (!$showcat) {
             header('Location: index.php?option=com_xbpeople&view=people');
             exit();
         }

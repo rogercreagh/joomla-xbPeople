@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/tmpl/default.php
- * @version 0.9.9.1 6th July 2022
+ * @version 0.9.9.3 14th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,7 +48,7 @@ $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
 		<?php  // Search tools bar
 			if ($this->search_bar) {
 				$hide = '';
-				if ((!$this->showcats) || ($this->hide_cat)) { $hide .= 'filter_category_id, filter_subcats,';}
+				if ((!$this->showcat) || ($this->hide_cat)) { $hide .= 'filter_category_id, filter_subcats,';}
 				if (!$this->showtags || $this->hide_tag) { $hide .= 'filter_tagfilt,filter_taglogic,';}
 				echo '<div class="row-fluid"><div class="span12">';
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this,'hide'=>$hide));
@@ -102,12 +102,12 @@ $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
     					<?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?>
     				</th>
                <?php endif; ?>
-				<?php if($this->showcats || $this->showtags) : ?>
+				<?php if($this->showcat || $this->showtags) : ?>
     				<th class="hidden-tablet hidden-phone">
-    					<?php if ($this->showcats) {
+    					<?php if ($this->showcat) {
     						echo HtmlHelper::_('searchtools.sort','XBCULTURE_CATEGORY','category_title',$listDirn,$listOrder ).' &amp; ';
     					}
-    					if (($this->showcats) && ($this->showtags)) {
+    					if (($this->showcat) && ($this->showtags)) {
     					    echo ' &amp; ';
     					}
     					if($this->showtags) {
@@ -174,11 +174,11 @@ $plink = 'index.php?option=com_xbbooks&view=character'.$itemid.'&id=';
     					<span class="badge <?php echo ($item->filmcnt>0) ? 'badge-mag' : ''?>"><?php echo $item->filmcnt;?></span>
     				</td>
 				<?php endif; ?>
-    			<?php if(($this->showcats) || ($this->showtagss)) : ?>
+    			<?php if($this->show_ctcol) : ?>
 					<td class="hidden-phone">
- 						<?php if ($this->showcats) : ?>												
+ 						<?php if ($this->showcat) : ?>												
 							<p>
-								<?php if($this->showcats == 2) : ?>
+								<?php if($this->showcat == 2) : ?>
     								<a class="label label-success" href="<?php echo $clink.$item->catid; ?>">
     									<?php  echo $item->category_title; ?></a>		
     							<?php else: ?>
