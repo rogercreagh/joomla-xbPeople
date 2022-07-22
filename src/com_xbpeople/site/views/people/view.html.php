@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/view.html.php
- * @version 0.9.9.3 14th July 2022
+ * @version 0.9.9.3 21st July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -68,6 +68,27 @@ class XbpeopleViewPeople extends JViewLegacy {
 //	$this->show_cbooks = $this->params->get('show_cbooks','0');
 		//NB for compact list option 3 (linked list) is not available and shows as popup list
 		
+		$this->showcnts = $this->params->get('showcnts',1);
+		$this->showlists = ($this->showcnts == 1) ? $this->params->get('showlists',1) : 0;
+		
+		foreach ($this->items as $person) {
+		    $person->booklist = '';
+		    if ($person->bookcnt > 0) {
+		        $person->booklist = '<ul>';
+		        foreach ($person->books as $book) {
+		            $person->booklist .= $book->listitem;
+		        }
+		        $person->booklist .= '</ul>';
+		    }
+		    $person->filmlist = '';
+		    if ($person->filmcnt > 0) {
+		        $person->filmlist = '<ul>';
+		        foreach ($person->films as $film) {
+		            $person->filmlist .= $film->listitem;
+		        }
+		        $person->filmlist .= '</ul>';
+		    }
+		}
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');
 			return false;

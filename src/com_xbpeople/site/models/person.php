@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 0.9.9.1 30th June 2022
+ * @version 0.9.9.3 20th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -95,7 +95,7 @@ class XbpeopleModelPerson extends JModelItem {
 	}
 
 	/**
-	 * @name getPersonFilmRoles()
+	 * @name getPersonBookRoles()
 	 * @desc for given person returns and array of books and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
@@ -129,7 +129,7 @@ class XbpeopleModelPerson extends JModelItem {
 	    }
 	    
     /**
-     * @name getPersonBookRoles()
+     * @name getPersonFilmRoles()
      * @desc for given person returns and array of books and roles
      * @param int $personid
      * @param string $role - if not blank only get the specified role

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.1 5th July 2022
+ * @version 0.9.9.3 21st July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -235,42 +235,10 @@ class XbpeopleModelPeople extends JModelList {
 			$peep[$i] = $items[$i]->id;
 		}
 		$app->setUserState('people.sortorder', $peep);
+		//$showcnts = $this->getState('showcnts');
+		$showlists = $this->getState('showlists');
 		
 		foreach ($items as $i=>$item) {
-// 			//get books by role if they are being displayed...
-// 			$item->books = XbbooksGeneral::getPersonRoleArray($item->id);
-// 			$cnts = array_count_values(array_column($item->books, 'role'));
-// 			$item->acnt = (key_exists('author',$cnts))?$cnts['author'] : 0;
-// 			$item->ecnt = (key_exists('editor',$cnts))?$cnts['editor'] : 0;
-// 			$item->ocnt = (key_exists('other',$cnts))?$cnts['other'] : 0;
-// 			$item->mcnt = (key_exists('mention',$cnts))?$cnts['mention'] : 0;
-// 			if (count($item->books)>0) {
-// 			    $item->allbooks = XbbooksGeneral::makeLinkedNameList($item->books,'','<br />',true,false,2);
-// 			} else {
-// 			    $item->allbooks='';
-// 			}
-// 			//make author/editor/char lists
-// 			if ($item->acnt == 0){
-// 				$item->alist = '';
-// 			} else {
-// 				$item->alist = XbbooksGeneral::makeLinkedNameList($item->books,'author',',', true);
-// 			}
-// 			if ($item->ecnt == 0){
-// 				$item->elist = '';
-// 			} else {
-// 				$item->elist = XbbooksGeneral::makeLinkedNameList($item->books,'editor',',',true);
-// 			}
-// 			if ($item->ocnt == 0){
-// 				$item->olist = '';
-// 			} else {
-// 				$item->olist = XbbooksGeneral::makeLinkedNameList($item->books,'other',', ',true);
-// 			}
-// 			if ($item->mcnt == 0){
-// 				$item->mlist = '';
-// 			} else {
-// 				$item->mlist = XbbooksGeneral::makeLinkedNameList($item->books,'mention',', ',true);
-// 			}
-			
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 			
 			$item->bookcnt = 0;
@@ -281,6 +249,12 @@ class XbpeopleModelPeople extends JModelList {
 			    $query->where('person_id = '.$db->quote($item->id));
 			    $db->setQuery($query);
 			    $item->bookcnt = $db->loadResult();
+			    if ($item->bookcnt > 0) {
+			        //todo get list format from params
+			        $item->books = XbcultureHelper::getPersonBookRoles($item->id,'','title ASC', $showlists);
+			    } else {
+			        $item->books = '';
+			    }			    
 			}
 			$item->filmcnt = 0;
 			if ($this->xbfilmsStatus) {
@@ -290,6 +264,11 @@ class XbpeopleModelPeople extends JModelList {
 				$query->where('person_id = '.$db->quote($item->id));
 				$db->setQuery($query);
 				$item->filmcnt = $db->loadResult();
+				if ($item->filmcnt > 0) {
+				    $item->films = XbcultureHelper::getPersonFilmRoles($item->id,'','title ASC', $showlists);
+				} else {
+				    $item->films = '';
+				}
 			}
 		} //end foreach item
 		return $items;

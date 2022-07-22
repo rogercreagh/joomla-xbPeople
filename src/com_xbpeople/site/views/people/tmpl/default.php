@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/tmpl/default.php
- * @version 0.9.9.3 14th July 2022
+ * @version 0.9.9.3 21st July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,16 +100,18 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 					<?php echo Text::_('XBCULTURE_SUMMARY');?>
 				</th>
                 <?php endif; ?>
-				<?php if($this->xbbooksStatus) : ?>
-    				<th>
-    					<?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?>
-    				</th>
-               <?php endif; ?>
-				<?php if($this->xbfilmsStatus) : ?>
-    				<th>
-    					<?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?>
-    				</th>
-               <?php endif; ?>
+                <?php if ($this->showcnts) : ?>
+    				<?php if($this->xbbooksStatus) : ?>
+        				<th>
+        					<?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?>
+        				</th>
+                   <?php endif; ?>
+    				<?php if($this->xbfilmsStatus) : ?>
+        				<th>
+        					<?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?>
+        				</th>
+                   <?php endif; ?>
+                <?php endif; ?>
 				<?php if($this->showcat || $this->showtags) : ?>
     				<th class="hidden-tablet hidden-phone">
     					<?php if ($this->showcat) {
@@ -189,15 +191,43 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     					<?php endif; ?>
 				</td>
 				<?php endif; ?>
-				<?php if ($this->xbbooksStatus) : ?>
-    				<td>
-    					<span class="badge <?php echo ($item->bookcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bookcnt;?></span>
-    				</td>
-				<?php endif; ?>
-				<?php if ($this->xbfilmsStatus) : ?>
-    				<td>
-    					<span class="badge <?php echo ($item->filmcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->filmcnt;?></span>
-    				</td>
+                <?php if ($this->showcnts) : ?>
+    				<?php if ($this->xbbooksStatus) : ?>
+        				<td>
+        				<?php if (($this->showlists == 1) && ($item->bookcnt>0)) :?>
+        					<span tabindex="<?php echo $item->id; ?>"
+								class="xbpop xbcultpop xbfocus" data-trigger="focus"
+								title data-original-title="Book List" 
+								data-content="<?php echo htmlentities($item->booklist); ?>"
+							>        				
+        				<?php  endif; ?>
+        					<span class="badge <?php echo ($item->bookcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bookcnt;?></span>
+        				<?php if (($this->showlists == 1) && ($item->bookcnt>0)) :?>
+        					</span>
+						<?php endif; ?>        					
+        				<?php if ($this->showlists == 2) :?>
+        					<?php echo $item->booklist; ?>
+        				<?php endif; ?>
+        				</td>
+    				<?php endif; ?>
+    				<?php if ($this->xbfilmsStatus) : ?>
+        				<td>
+        				<?php if (($this->showlists == 1) && ($item->filmcnt>0)) :?>
+        					<span tabindex="<?php echo $item->id; ?>"
+								class="xbpop xbcultpop xbfocus" data-trigger="focus"
+								title data-original-title="Film List" 
+								data-content="<?php echo htmlentities($item->filmlist); ?>"
+							>        				
+        				<?php  endif; ?>
+        					<span class="badge <?php echo ($item->filmcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->filmcnt;?></span>
+       				<?php if (($this->showlists == 1) && ($item->filmcnt>0)) :?>
+        					</span>
+						<?php endif; ?>        					
+        				<?php if ($this->showlists == 2) :?>
+        					<?php echo $item->filmlist; ?>
+        				<?php endif; ?>
+        				</td>
+    				<?php endif; ?>
 				<?php endif; ?>
     			<?php if(($this->showcat) || ($this->showtags)) : ?>
 					<td class="hidden-phone">
