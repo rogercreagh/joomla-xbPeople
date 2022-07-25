@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/models/fields/otherrole.php
- * @version 0.9.6.f 9th January 2022
+ * @filesource admin/models/fields/crewrole.php
+ * @version 0.9.9.3 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,9 +14,9 @@ use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('combo');
 
-class JFormFieldOtherrole extends JFormFieldCombo {
+class JFormFieldCrewrole extends JFormFieldCombo {
 	
-	protected $type = 'Otherrole';
+	protected $type = 'Crewrole';
 	
 	public function getOptions() {
 		
@@ -28,7 +28,7 @@ class JFormFieldOtherrole extends JFormFieldCombo {
 			$query  = $db->getQuery(true);
 			
 			$query->select('DISTINCT role_note AS text, role_note AS value')
-			->from('#__xbbookperson')
+			->from('#__xbfilmperson')
 			->where("role = 'crew'")
 			->order('text');
 			

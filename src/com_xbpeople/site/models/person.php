@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 0.9.9.3 20th July 2022
+ * @version 0.9.9.3 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,12 +81,12 @@ class XbpeopleModelPerson extends JModelItem {
 				
 				$item->filmcnt = 0;
 				if ($this->xbfilmsStatus) {
-				    $item->filmlist = $this->getPersonFilmRoles($item->id,'','rel_year DESC');
+				    $item->filmlist = XbcultureHelper::getPersonFilmRoles($item->id,'','rel_year DESC',2);
 				    $item->filmcnt = count($item->filmlist);
 				}
 				$item->bookcnt = 0;
 				if ($this->xbbooksStatus) {
-				    $item->booklist = $this->getPersonBookRoles($item->id,'','pubyear');
+				    $item->booklist = XbcultureHelper::getPersonBookRoles($item->id,'','pubyear ASC',2);
 				    $item->bookcnt = count($item->booklist);
 				}
 			}

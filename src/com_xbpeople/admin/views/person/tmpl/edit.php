@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.9.9.1 1st July 2022
+ * @version 0.9.9.3 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -93,37 +93,49 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		<?php if($this->xbbooks_ok) : ?>
-			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
     			<h3>Books</h3>
     			<fieldset class="form-vertical">
-    				<?php echo $this->form->renderField('bookauthorlist'); ?>
-    				<?php echo $this->form->renderField('bookeditorlist'); ?>
-    				<?php echo $this->form->renderField('bookmenlist'); ?>
-    				<?php echo $this->form->renderField('bookotherlist'); ?>
+                    <div class="row-fluid">
+						<div class="span6">
+                			<?php echo $this->form->renderField('bookauthorlist'); ?>
+                			<?php echo $this->form->renderField('bookeditorlist'); ?>
+						</div>
+                      	<div class="span6">
+            				<?php echo $this->form->renderField('bookmenlist'); ?>
+            				<?php echo $this->form->renderField('bookotherlist'); ?>
+				        </div>
+			        </div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
 		<?php if($this->xbfilms_ok) : ?>
-			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'flinks', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
     			<h3>Films</h3>
     			<fieldset class="form-vertical">
-    				<?php echo $this->form->renderField('filmdirectorlist'); ?>
-    				<?php echo $this->form->renderField('filmproducerlist'); ?>
-   					<?php echo $this->form->renderField('filmcrewlist'); ?>
-   					<?php echo $this->form->renderField('filmactorlist'); ?>
-   					<?php echo $this->form->renderField('filmappearslist'); ?>
+                    <div class="row-fluid">
+						<div class="span6">
+            				<?php echo $this->form->renderField('filmdirectorlist'); ?>
+            				<?php echo $this->form->renderField('filmproducerlist'); ?>
+           					<?php echo $this->form->renderField('filmcrewlist'); ?>
+						</div>
+                      	<div class="span6">
+           					<?php echo $this->form->renderField('filmactorlist'); ?>
+           					<?php echo $this->form->renderField('filmappearslist'); ?>
+				        </div>
+			        </div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
        	<?php endif; ?>
 		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_PUBLISHING')); ?>
-		<div class="row-fluid form-horizontal-desktop">
-			<div class="span6">
-				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-			</div>
-			<div class="span6">
-				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
-			</div>
-		</div>
+    		<div class="row-fluid form-horizontal-desktop">
+    			<div class="span6">
+    				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+    			</div>
+    			<div class="span6">
+    				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+    			</div>
+    		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 	</div>
   </div>

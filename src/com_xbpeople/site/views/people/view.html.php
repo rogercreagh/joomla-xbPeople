@@ -74,7 +74,7 @@ class XbpeopleViewPeople extends JViewLegacy {
 		foreach ($this->items as $person) {
 		    $person->booklist = '';
 		    if ($person->bookcnt > 0) {
-		        $person->booklist = '<ul>';
+		        $person->booklist = "<ul style='list-style:none;margin-left:0'>";
 		        foreach ($person->books as $book) {
 		            $person->booklist .= $book->listitem;
 		        }
@@ -82,7 +82,7 @@ class XbpeopleViewPeople extends JViewLegacy {
 		    }
 		    $person->filmlist = '';
 		    if ($person->filmcnt > 0) {
-		        $person->filmlist = '<ul>';
+		        $person->filmlist = "<ul style='list-style:none;margin-left:0'>";
 		        foreach ($person->films as $film) {
 		            $person->filmlist .= $film->listitem;
 		        }

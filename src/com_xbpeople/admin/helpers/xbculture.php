@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.3 21st July 2022
+ * @version 0.9.9.3 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -203,11 +203,11 @@ class XbcultureHelper extends ContentHelper {
 	    $stylestr .= '.xbclick, .xbclick:hover {text-decoration-color:'.$pophex.';} ';
 	    $stylestr .= '.xbcultpop + .popover {border-color:'.$pophex.';} ';
 	    $stylestr .= '.xbcultpop + .popover > .popover-title {border-bottom-colour:'.$pophex.';} ';
-	    $stylestr .= '.xbcultpop + .popover > .popover-title {background-color:'.self::hex2hsl($pophex,80).' !important; ';
-	    $stylestr .= 'color:'.$pophex.';border-bottom-color:'.$pophex.';} ';
-	    $stylestr .= '.xbcultpop  + .popover > .popover-content {background-color:'.self::hex2hsl($pophex,90).' !important; ';
+	    $stylestr .= '.xbcultpop + .popover > .popover-title {background-color:'.self::hex2hsl($pophex,85).' !important; ';
+	    $stylestr .= 'color:'.$pophex.';border-bottom-color:'.$pophex.';font-weight:bold} ';
+	    $stylestr .= '.xbcultpop  + .popover > .popover-content {background-color:'.self::hex2hsl($pophex,97).' !important; ';
 	    $stylestr .= 'color:'.$pophex.';} ';
-	    $stylestr .= '.xbcultpop  + .popover > .popover-content > a {color:'.self::hex2hsl($pophex,-40).';} ';
+	    $stylestr .= '.xbcultpop  + .popover > .popover-content > a {color:'.self::hex2hsl($pophex,-30).';font-weight:bold;} ';
 	    $stylestr .= '.xbcultpop + .popover.right>.arrow:after { border-right-color:'.$pophex.';} ';
 	    $stylestr .= '.xbcultpop + .popover.left>.arrow:after { border-left-color:'.$pophex.';} ';
 	    $stylestr .= '.xbcultpop + .popover.bottom>.arrow:after { border-bottom-color:'.$pophex.';} ';
@@ -317,16 +317,14 @@ class XbcultureHelper extends ContentHelper {
 	
 	/**
 	 * @name getPersonBookRoles()
-	 * @desc for given person returns and array of books and roles
+	 * @desc for given person returns an array of books and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
 	 * @param string $order - field to order list by (role first if specified)
-	 * @param int $listfmt - 0=title only, 1=title,role,note, 2=title,note (sort by role)
-	 * if showcnt=1 list lines "[linkedtitle] : [role] ([role_note])"
-	 * if showcnt=2 list is grouped by role on newline with lines "[linkedtitle] : ([rolenote])"
+	 * @param int $listfmt - 0=title only, 1=title,role,note  2=title,note (sort by role first)
 	 * @return array of objects with title,subtitle,pubyear,role,role_note,link,listitem
-	 * where link is <a> link to the book, 
-	 * and listitem is <li> containing link with role (if showcnt=1) and note (if showcnt>0)
+	 * where link is [a] link to the book, 
+	 * and listitem is [li] formatted according to $listfmt with title linked to item
 	 */
 	public static function getPersonBookRoles(int $personid, $role='',$order='title ASC', $listfmt = 0) {
 	    $blink = 'index.php?option=com_xbbooks&view=book&id=';
@@ -348,23 +346,24 @@ class XbcultureHelper extends ContentHelper {
 	    $booklist = $db->loadObjectList(); //list of books for the person	    
 	    foreach ($booklist as $book){
 	        $booklink = Route::_($blink . $book->id);
-	        $book->link = '<a href="'.$booklink.'">'.$book->title.'</a>';
+	        $book->link = "<a href='".$booklink."'>".$book->title."</a>";
 	        $book->listitem = '<li>';
-            $book->listitem = $book->link;
-            if ($listfmt>0) $book->listitem .= ' : ';
+            $book->listitem .= $book->link;
             if ($listfmt == 1) {
+                $book->listitem .= ' : ';
                 switch ($book->role) {
                     case 'mention':
-                        $book->listitem .= Text::_('XBCULTURE_APPEARS_IN').' '.Text::_('XBCULTURE_AS_CHAR_SUBJ');
+                        $book->listitem .= Text::_('XBCULTURE_APPEARS_CHAR_SUBJ');
                         break;
                     case 'other':
                         $book->listitem .= Text::_('XBCULTURE_OTHER_ROLE');
                         break;
                     default:
-                        $book->listitem .= 'as '.ucfirst($book->role);
+                        $book->listitem .= ucfirst($book->role);
                         break;
                 }
             }
+            if (($listfmt==2) && ($book->role_note != '')) $book->listitem .= ' : ';
             if (($listfmt > 0) && ($book->role_note != '')) {
                 $book->listitem .= ' <i>('. $book->role_note.')</i>';
             }
@@ -375,11 +374,14 @@ class XbcultureHelper extends ContentHelper {
 	
 	/**
 	 * @name getPersonFilmRoles()
-	 * @desc for given person returns and array of books and roles
+	 * @desc for given person returns an array of books and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
 	 * @param boolean $order - field to order list by (role first if specified)
-	 * @return array
+	 * @param int $listfmt - 0=title only, 1=title,role,note  2=title,note (sort by role first)
+	 * @return array of objects with title,subtitle,rel_year,role,role_note,link,listitem
+	 * where link is [a] link to the book, 
+	 * and listitem is [li] formatted according to $listfmt with title linked to item
 	 */
 	public static function getPersonFilmRoles(int $personid, $role='',$order='title ASC', $listfmt = 0) {
 	    $flink = 'index.php?option=com_xbfilms&view=film&id=';
@@ -401,20 +403,20 @@ class XbcultureHelper extends ContentHelper {
 	    $filmlist = $db->loadObjectList();
 	    foreach ($filmlist as $film){
 	        $filmlink = Route::_($flink . $film->id);
-	        $film->link = '<a href="'.$filmlink.'">'.$film->title.'</a>';
-	        $film->listitem = '<li>';
-	        $film->listitem = $film->link;
-	        if ($listfmt>0) $film->listitem .= ' : ';
+	        $film->link = "<a href='".$filmlink."'>".$film->title."</a>";
+	        $film->listitem = '<li>'.$film->link;
 	        if ($listfmt == 1) {
+	            $film->listitem .= ' : ';
 	            switch ($film->role) {
 	                case 'appearsin':
-	                    $film->listitem .= Text::_('XBCULTURE_APPEARS_IN').' '.Text::_('XBCULTURE_AS_CHAR_SUBJ');
+	                    $film->listitem .= Text::_('XBCULTURE_APPEARS_CHAR_SUBJ');
 	                    break;
 	                default:
-	                    $film->listitem .= 'as '.ucfirst($film->role);
+	                    $film->listitem .= ucfirst($film->role);
 	                    break;
 	            }
 	        }
+	        if (($listfmt==2) && ($film->role_note != '')) $film->listitem .= ' : ';
 	        if (($listfmt > 0) && ($film->role_note != '')) {
 	            $film->listitem .= ' <i>('. $film->role_note.')</i>';
 	        }

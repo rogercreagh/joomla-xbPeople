@@ -235,8 +235,8 @@ class XbpeopleModelPeople extends JModelList {
 			$peep[$i] = $items[$i]->id;
 		}
 		$app->setUserState('people.sortorder', $peep);
-		//$showcnts = $this->getState('showcnts');
-		$showlists = $this->getState('showlists');
+		$showcnts = $this->getState('params')['showcnts'];
+		$showlists = $this->getState('params')['showlists'];
 		
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
@@ -250,8 +250,7 @@ class XbpeopleModelPeople extends JModelList {
 			    $db->setQuery($query);
 			    $item->bookcnt = $db->loadResult();
 			    if ($item->bookcnt > 0) {
-			        //todo get list format from params
-			        $item->books = XbcultureHelper::getPersonBookRoles($item->id,'','title ASC', $showlists);
+			        $item->books = XbcultureHelper::getPersonBookRoles($item->id,'','title ASC', $showcnts);
 			    } else {
 			        $item->books = '';
 			    }			    
@@ -265,7 +264,7 @@ class XbpeopleModelPeople extends JModelList {
 				$db->setQuery($query);
 				$item->filmcnt = $db->loadResult();
 				if ($item->filmcnt > 0) {
-				    $item->films = XbcultureHelper::getPersonFilmRoles($item->id,'','title ASC', $showlists);
+				    $item->films = XbcultureHelper::getPersonFilmRoles($item->id,'','title ASC', $showcnts);
 				} else {
 				    $item->films = '';
 				}

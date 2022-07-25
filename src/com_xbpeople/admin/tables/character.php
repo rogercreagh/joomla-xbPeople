@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Table\Observer\Tags;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Table\Table;
@@ -25,6 +26,7 @@ class XbpeopleTableCharacter extends Table {
    function __construct(&$db) {
     	parent::__construct('#__xbcharacters', 'id', $db);
         $this->setColumnAlias('published', 'state');
+        $this->_supportNullValue = true;  //write empty checkedouttime as null
         Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.character'));
         $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
         $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
@@ -135,21 +137,21 @@ class XbpeopleTableCharacter extends Table {
     public function bind($array, $ignore = '') {
     	if (isset($array['params']) && is_array($array['params'])) {
     		// Convert the params field to a string.
-    		$parameter = new JRegistry;
+    		$parameter = new Registry;
     		$parameter->loadArray($array['params']);
     		$array['params'] = (string)$parameter;
     	}
     	
     	if (isset($array['metadata']) && is_array($array['metadata'])) {
-    		$registry = new JRegistry;
+    		$registry = new Registry;
     		$registry->loadArray($array['metadata']);
     		$array['metadata'] = (string)$registry;
     	}
     	return parent::bind($array, $ignore);
-     	if (isset($array['rules']) && is_array($array['rules'])) {
-     		$rules = new JAccessRules($array['rules']);
-     		$this->setRules($rules);
-     	}
+//      	if (isset($array['rules']) && is_array($array['rules'])) {
+//      		$rules = new JAccessRules($array['rules']);
+//      		$this->setRules($rules);
+//      	}
     	
     }
     

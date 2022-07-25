@@ -19,11 +19,11 @@ use Joomla\CMS\Language\Text;
 
 class XbpeopleModelPerson extends JModelAdmin {
     
-	protected $xbbooksStatus;
+    public $typeAlias = 'com_xbpeople.person';
+    
+    protected $xbbooksStatus;
 	protected $xbfilmsStatus;
-	
-	public $typeAlias = 'com_xbpeople.person';
-	
+		
 	public function __construct($config = array()) {
 		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
 		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
