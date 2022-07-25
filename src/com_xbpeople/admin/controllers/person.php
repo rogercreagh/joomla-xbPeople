@@ -18,8 +18,7 @@ class XbpeopleControllerPerson extends FormController {
     
     public function __construct($config = array()) {
         parent::__construct($config);
-    }
-    
+    }  
     
 	protected function postSaveHook(JModelLegacy $model, $validData = array()) {
 		$item = $model->getItem();

@@ -2,14 +2,13 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.9.9.3 25th July 2022
+ * @version 0.9.9.4 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -40,20 +39,24 @@ HTMLHelper::_('formbehavior.chosen', 'select');
                    <?php echo $this->form->renderField('alias'); ?> 
                </div>
               <div class="span4">
-                   <?php echo $this->form->renderField('id'); ?>
+                   <?php echo $this->form->renderField('summary'); ?>
               </div>
               <div class="span4">
-                   <?php echo $this->form->renderField('summary'); ?>
+                   <?php echo $this->form->renderField('id'); ?>
               </div>
           	</div>
           </div>
          <div class="pull-right span3">
-    		<?php if($this->form->getValue('portrait')) : ?>
-    			<div class="control-group">
-    				<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-        				src="<?php echo Uri::root() . $this->form->getValue('portrait');?>" />
-    			</div>
-    		<?php endif; ?>
+    		<?php $src = $this->form->getValue('portrait');
+    		    if($src != '') {
+                    if (!file_exists(JPATH_ROOT.'/'.$src)) {
+                        $src = 'media/com_xbpeople/images/nofile.jpg'; //
+                    } ?>
+					<div class="control-group">
+    					<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
+        				src="<?php echo Uri::root().$src;?>" />
+    				</div>
+    		<?php } ?>
         </div>
     </div>
     

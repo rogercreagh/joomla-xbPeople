@@ -2,16 +2,16 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 0.9.6.f 11th January 2022
+ * @version 0.9.9.4 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -32,23 +32,29 @@ HtmlHelper::_('formbehavior.chosen', 'select');
         		</div>
 			</div>
 			<div class="row-fluid form-vertical">
-               <div class="span8">
+               <div class="span4">
                    <?php echo $this->form->renderField('alias'); ?> 
               </div>
               <div class="span4">
-                   <?php echo $this->form->renderField('id'); ?>
                    <?php echo $this->form->renderField('summary'); ?>
+              </div>
+              <div class="span4">
+                   <?php echo $this->form->renderField('id'); ?>
               </div>
           </div>
       </div>
-           <div class="pull-right span3">
-        		<?php if($this->form->getValue('image')){?>
-        			<div class="control-group">
-        				<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-            				src="<?php echo Uri::root() . $this->form->getValue('image');?>" />
-        			</div>
-        		<?php } ?>
-            </div>  
+       <div class="pull-right span3">
+    		<?php $src = $this->form->getValue('image'); 
+    		if($src != '') {
+    		    if (!file_exists(JPATH_ROOT.'/'.$src)) {
+    		        $src = 'media/com_xbpeople/images/nofile.jpg'; //
+    		    } ?>
+				<div class="control-group">
+					<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
+    				src="<?php echo Uri::root().$src;?>" />
+				</div>
+		<?php } ?>
+        </div>  
     </div>
     <div class="row-fluid">
       <div class="span12">
@@ -73,26 +79,26 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
-		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'links', Text::_('XBPEOPLE_FILMS_BOOKS')); ?>
-			<div class="row-fluid">
-			<?php if($this->xbfilms_ok) : ?>
-        		<div class="span6">
-        			<h3>Films</h3>
-        			<fieldset class="form-vertical">
-                   		<?php echo $this->form->renderField('filmcharlist'); ?>
-        			</fieldset>
-        		</div>
-        	<?php endif; ?>
-			<?php if($this->xbbooks_ok) : ?>
-       			<div class="span6">
-        			<h3>Books</h3>
-        			<fieldset class="form-vertical">
-                   		<?php echo $this->form->renderField('bookcharlist'); ?>
-        			</fieldset>
-        		</div>
-        	<?php endif; ?>
-			</div>
-		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		<?php if($this->xbbooks_ok) : ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
+    			<h3>Books</h3>
+    			<fieldset class="form-vertical">
+               		<?php echo $this->form->renderField('bookcharlist'); ?>
+    			</fieldset>
+			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+    	<?php endif; ?>
+		<?php if($this->xbfilms_ok) : ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'flinks', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
+    			<h3>Films</h3>
+    			<fieldset class="form-vertical">
+                    <div class="row-fluid">
+						<div class="span6">
+                       		<?php echo $this->form->renderField('filmcharlist'); ?>
+				        </div>
+			        </div>
+    			</fieldset>
+			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+       	<?php endif; ?>
 		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('XBCULTURE_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">

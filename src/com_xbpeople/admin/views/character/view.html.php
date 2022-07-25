@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.4.1 20th March 2021
+ * @version 0.9.9.4 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -44,16 +44,19 @@ class XbpeopleViewCharacter extends JViewLegacy {
     }
     
     protected function addToolBar() {
-        $input = Factory::getApplication()->input;
-        
-        // Hide Joomla Administrator Main menu
+        $input = Factory::getApplication()->input;       
         $input->set('hidemainmenu', true);
+        $user = Factory::getUser();
+        $userId = $user->get('id');
+        $checkedOut     = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
         
         $isNew = ($this->item->id == 0);
         
         $title = Text::_( 'COM_XBPEOPLE' ).': ';
         if ($isNew) {
             $title .= Text::_('XBPEOPLE_TITLE_NEWCHAR');
+        } elseif ($checkedOut) {
+            $title .= Text::_('XBCULTURE_TITLE_VIEWPERSON');
         } else {
             $title .= Text::_('XBPEOPLE_TITLE_EDITCHAR');
         }

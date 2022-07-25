@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/character.php
- * @version 0.9.7 11th January 2022
+ * @version 0.9.9.4 25th Juky 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 class XbpeopleModelCharacter extends JModelAdmin {
  
@@ -155,7 +156,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 	        foreach ($pks as $i=>$item) {
 	            $table->load($item);	            
 	            if (!$table->delete($item)) {
-	                $personpeople = ($cnt == 1)? JText::_('XBCULTURE_CHARACTER') : JText::_('XBCULTURE_CHARACTERS');
+	                $personpeople = ($cnt == 1)? Text::_('XBCULTURE_CHARACTER') : Text::_('XBCULTURE_CHARACTERS');
 	                Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
 	                $this->setError($table->getError());
 	                return false;
@@ -163,7 +164,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 	            $table->reset();
 	            $cnt++;
 	        }
-	        $personpeople = ($cnt == 1)? JText::_('XBCULTURE_CHARACTER') : JText::_('XBCULTURE_CHARACTERS');
+	        $personpeople = ($cnt == 1)? Text::_('XBCULTURE_CHARACTER') : Text::_('XBCULTURE_CHARACTERS');
 	        Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
 	        return true;
 	    }
@@ -201,7 +202,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 				$this->storeCharacterFilms($this->getState('character.id'),$data['filmcharlist']);
 			}
 			if ($this->xbbooksStatus) {
-				$this->storeCharacterBooks($this->getState('character.id'),$data['filmcharlist']);
+				$this->storeCharacterBooks($this->getState('character.id'),$data['bookcharlist']);
 			}
 			return true;
 		}
@@ -246,7 +247,7 @@ class XbpeopleModelCharacter extends JModelAdmin {
 				$query = $db->getQuery(true);
 				$query->insert($db->quoteName('#__xbbookcharacter'));
 				$query->columns('char_id,book_id,char_note');
-				$query->values('"'.$char_id.'","'.$ch['book_id'].'","'.$ch['actor_id'].'","'.$ch['char_note'].'"');
+				$query->values('"'.$char_id.'","'.$ch['book_id'].'","'.$ch['char_note'].'"');
 				$db->setQuery($query);
 				$db->execute();
 			}

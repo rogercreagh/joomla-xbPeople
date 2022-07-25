@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/character.xml v0.4.1 20th March 2021 -->
+<!-- xbPeople admin/models/forms/character.xml v0.9.9.4 25th July 2022 -->
 <form>
 	<fieldset addfieldpath="/administrator/components/com_xbpeople/models/fields">
 		<field name="id" default="0" 
@@ -33,9 +33,6 @@
 			label="JCATEGORY" description="XBCULTURE_CATEGORY_DESC" >
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
-		<field name="hcatid" type="hidden"
-			default="0"
-		/>
 		
 		<field name="state" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"

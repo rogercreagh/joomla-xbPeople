@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/character.php
- * @version 0.9.7 11th January 2022
+ * @version 0.9.9.4 25th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,8 +41,8 @@ class XbpeopleTableCharacter extends Table {
         if ($this->xbbooksStatus) {
         	$query->delete()->from('#__xbbookcharacter')->where('char_id = '. $pk);
         }
-        $this->$db->setQuery($query);
-        $this->$db->execute();
+        $this->_db->setQuery($query);
+        $this->_db->execute();
         return parent::delete($pk);
     }
     
