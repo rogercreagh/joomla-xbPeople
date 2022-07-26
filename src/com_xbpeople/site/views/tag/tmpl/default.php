@@ -29,7 +29,7 @@ $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $tclink = $xblink.'tags' . $itemid;
 
 // $item = $this->item;
-// $xblink = 'index.php?option=com_xbbooks&view=';
+// $xblink = 'index.php?option=com_xbpeople&view=';
 // $blink = $xblink.'book&id=';
 // $plink = $xblink.'person&id=';
 // $rlink = $xblink.'bookreview&id=';

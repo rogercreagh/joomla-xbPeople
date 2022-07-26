@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/character/tmpl/default.php
- * @version 0.9.9.2 13th July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,8 +38,6 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 			</div>
 		<?php endif; ?>
 		<div class="<?php echo $imgok==true ? 'span10' : 'span12'; ?>">
-			<div class="pull-right xbmr20" style="text-align:right;">
-			</div>
 			<h3><?php echo $item->name; ?>
 			</h3>
 		</div>
@@ -135,17 +133,17 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 				</span>&nbsp;
 				<?php endif; ?>
 				<?php if($item->prev > 0) : ?>
-					<a href="index.php?option=com_xbbooks&view=character&id=<?php echo $item->prev ?>" class="btn btn-small">
+					<a href="index.php?option=com_xbpeople&view=character&id=<?php echo $item->prev ?>" class="btn btn-small">
 						<?php echo Text::_('XBCULTURE_PREV'); ?></a>
 			    <?php endif; ?>
 			</div>
 			<div class="span8"><center>
-				<a href="index.php?option=com_xbbooks&view=characters" class="btn btn-small">
+				<a href="index.php?option=com_xbpeople&view=characters" class="btn btn-small">
 					<?php echo Text::_('XBCULTURE_CHAR_LIST'); ?></a></center>
 			</div>
 			<div class="span2">
 			<?php if($item->next > 0) : ?>
-				<a href="index.php?option=com_xbbooks&view=character&id=<?php echo $item->next ?>" class="btn btn-small pull-right">
+				<a href="index.php?option=com_xbpeople&view=character&id=<?php echo $item->next ?>" class="btn btn-small pull-right">
 					<?php echo Text::_('XBCULTURE_NEXT'); ?></a>
 		    <?php endif; ?>
 			</div>

@@ -268,11 +268,6 @@
 			label="Characters List Specific Options"
 			class="info"
 		/>	
-		<field name="characters_layout" type="componentlayout"
-	        label="Characters Layout"
-	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-	       	extension="com_xbbooks" view="characters" 
-	    />
 		<field name="show_cpiccol" type="radio"
 			label="Image Column"
 			description="Show image column by default - can override in menu options"
@@ -291,6 +286,25 @@
 			<option value="0" >JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>	 
+		<field name="showccnts" type="radio"
+			label="Show counts"
+			description="Show counts for books and films for each character"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field name="showclists" type="list"
+			label="Show item lists"
+			description="Show lists of books/films and roles as popover on the count (more compact) or full list. Popover will be click to show, and in both cases title will be linked to item entry"
+			default="1"
+			showon="showcnts!:0"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1" >Show as popover</option>
+			<option value="2" >Show as list</option>
+		</field>
 			    
   		<field name="catlistnote" type="note"
 			label="Category Counts View Options"

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.3 21st July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -213,9 +213,9 @@ class XbpeopleModelPeople extends JModelList {
                 case 'category_title':
                 	$query->order('category_title '.$orderDirn.', lastname');
                 	break;
-                case 'bcnt':
-                	$query->order('bcnt '.$orderDirn.', lastname');
-                	break;
+//                 case 'bcnt':
+//                 	$query->order('bcnt '.$orderDirn.', lastname');
+//                 	break;
                 default:
                     $query->order($db->escape($orderCol.' '.$orderDirn));
                     break;

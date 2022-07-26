@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/view.html.php
- * @version 0.9.9.3 14th July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,10 +33,6 @@ class XbpeopleViewCharacters extends JViewLegacy {
 		$this->header['subtitle'] = $this->params->get('list_subtitle','','text');
 		$this->header['text'] = $this->params->get('list_headtext','','text');
 		
-		$this->search_bar = $this->params->get('search_bar','','int');
-		$this->hide_cat = $this->params->get('menu_category_id',0)>0 ? true : false;
-		$this->hide_tag = (!empty($this->params->get('menu_tag',''))) ? true : false;
-		
 		$show_cats = $this->params->get('show_cats','1','int');
 		$this->showcat = ($show_cats) ? $this->params->get('show_ccat','1','int') : 0;
 		
@@ -45,11 +41,37 @@ class XbpeopleViewCharacters extends JViewLegacy {
 		
 		$this->show_ctcol = $this->showcat + $this->showtags;
 		
+		$this->search_bar = $this->params->get('search_bar','','int');
+		$this->hide_cat = (!$this->showcat || ($this->params->get('menu_category_id',0)>0)) ? true : false;
+		$this->hide_tag = (!$this->showtags || (!empty($this->params->get('menu_tag','')))) ? true : false;
+		
 		$this->show_pic = $this->params->get('show_cpiccol','1','int');
 		$this->show_sum = $this->params->get('show_csumcol','1','int');
 		
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
+		
+		$this->showcnts = $this->params->get('showccnts',1);
+		$this->showlists = ($this->showccnts == 1) ? $this->params->get('showclists',1) : 0;
+		
+		foreach ($this->items as $char) {
+		    $char->booklist = '';
+		    if ($char->bookcnt > 0) {
+		        $char->booklist = "<ul style='list-style:none;margin-left:0'>";
+		        foreach ($char->books as $book) {
+		            $char->booklist .= $book->listitem;
+		        }
+		        $char->booklist .= '</ul>';
+		    }
+		    $char->filmlist = '';
+		    if ($char->filmcnt > 0) {
+		        $char->filmlist = "<ul style='list-style:none;margin-left:0'>";
+		        foreach ($char->films as $film) {
+		            $char->filmlist .= $film->listitem;
+		        }
+		        $char->filmlist .= '</ul>';
+		    }
+		}
 		
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');

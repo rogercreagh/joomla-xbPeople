@@ -38,7 +38,7 @@ HtmlHelper::_('formbehavior.chosen', 'select');
               <div class="span4">
                    <?php echo $this->form->renderField('summary'); ?>
               </div>
-              <div class="span4">
+              <div class="span2 offset1">
                    <?php echo $this->form->renderField('id'); ?>
               </div>
           </div>
@@ -83,7 +83,11 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
     			<h3>Books</h3>
     			<fieldset class="form-vertical">
-               		<?php echo $this->form->renderField('bookcharlist'); ?>
+                    <div class="row-fluid">
+						<div class="span8">
+		               		<?php echo $this->form->renderField('bookcharlist'); ?>
+				        </div>
+			        </div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
@@ -92,7 +96,7 @@ HtmlHelper::_('formbehavior.chosen', 'select');
     			<h3>Films</h3>
     			<fieldset class="form-vertical">
                     <div class="row-fluid">
-						<div class="span6">
+						<div class="span8">
                        		<?php echo $this->form->renderField('filmcharlist'); ?>
 				        </div>
 			        </div>

@@ -41,7 +41,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
               <div class="span4">
                    <?php echo $this->form->renderField('summary'); ?>
               </div>
-              <div class="span4">
+              <div class="span2 offset1">
                    <?php echo $this->form->renderField('id'); ?>
               </div>
           	</div>

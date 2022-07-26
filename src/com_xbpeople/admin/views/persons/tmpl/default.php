@@ -263,7 +263,8 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							<div class="hasPopover" title data-original-title="Book Roles"
 								data-content="<?php echo $tlist; ?>">
 								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"><?php echo $item->bcnt; ?></span>
+									<span class="badge bkcnt"><?php echo $item->bookcnt;
+										if ($item->bcnt<>$item->bookcnt) { echo ' / '.$item->bcnt;} ?></span>
 						    	</a>
 							</div>
 						<?php endif; ?> 
@@ -279,7 +280,8 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 							<div class="hasPopover" title data-original-title="Film Roles"
 								data-content="<?php echo $tlist; ?>">
 								<a href="<?php echo $fplink; ?>" >
-									<span class="badge flmcnt"><?php echo $item->fcnt; ?></span>
+									<span class="badge flmcnt"><?php echo $item->filmcnt;
+										if ($item->fcnt<>$item->filmcnt) {echo ' / '.$item->fcnt;} ?></span>
 						    	</a>
 						    </div>
 						<?php endif; ?>

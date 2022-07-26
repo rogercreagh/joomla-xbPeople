@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople site/views/people/tmpl/default.xml v0.9.9.3 21st July 2022 -->
+<!-- xbPeople site/views/people/tmpl/default.xml v0.9.9.4 26th July 2022 -->
 <metadata>
 	<layout title="People List">
 		<message>Displays a list (table) of people. Option to restrict to single category and filter tags.</message>
 	</layout>
-	<fields name="params" addfieldpath="administrator/components/com_xbbooks/models/fields">
+	<fields name="params" addfieldpath="administrator/components/com_xbpeople/models/fields">
 <!-- Basic options. -->
 		<fieldset name="basic" label="Options">
 		
@@ -38,25 +38,25 @@
 				<option value="0" >JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-		<field name="showcnts" type="radio"
-			label="Show counts"
-			description="Show counts for books and films per person"
-			class="btn-group btn-group-yesno"
-			useglobal="true"
-			>
-			<option value="0" >JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-		<field name="showlists" type="list"
-			label="Show item lists"
-			description="Show lists of books/films and roles as popover on the count (more compact) or full list. Popover will be click to show, and in both cases title will be linked to item entry"
-			useglobal="true"
-			showon="showcnts:1"
-			>
-			<option value="0" >JHIDE</option>
-			<option value="1" >Show as popover</option>
-			<option value="2" >Show as list</option>
-		</field>
+			<field name="showcnts" type="radio"
+				label="Show counts"
+				description="Show counts for books and films per person"
+				class="btn-group btn-group-yesno"
+				useglobal="true"
+				>
+				<option value="0" >JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="showlists" type="list"
+				label="Show item lists"
+				description="Show lists of books/films and roles as popover on the count (more compact) or full list. Popover will be click to show, and in both cases title will be linked to item entry"
+				useglobal="true"
+				showon="showcnts:1"
+				>
+				<option value="0" >JHIDE</option>
+				<option value="1" >Show as popover</option>
+				<option value="2" >Show as list</option>
+			</field>
 			
 	 		<field name="show_pcat" type="list"
 				label="Show Person Category"

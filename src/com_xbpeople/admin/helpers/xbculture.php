@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.3 25th July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -425,5 +425,72 @@ class XbcultureHelper extends ContentHelper {
 	    return $filmlist;
 	}
 	
+	/**
+	 * @name getCharBookRoles()
+	 * @desc for given person returns and array of books and roles
+	 * @param int $charid
+	 * @param boolean $order - field to order list by (role first if specified)
+	 * @return array
+	 */
+	public static function getCharBooks(int $charid, $order='title ASC') {
+	    $blink = 'index.php?option=com_xbbooks&view=book&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.char_note, b.title, b.pubyear, b.id, b.state AS bstate')
+	    ->from('#__xbbookcharacter AS a')
+	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
+	    ->where('a.char_id = "'.$charid.'"' );
+	    $query->where('b.state = 1');
+	    $query->order('b.'.$order);
+	    $db->setQuery($query);
+	    $list = $db->loadObjectList();
+	    foreach ($list as $i=>$book){
+	        $tlink = Route::_($blink . $book->id);
+	        $book->link = '<a href="'.$tlink.'">'.$book->title.'</a>';
+	        $book->listitem = '<li>'.$book->link;
+	        if ($book->char_note !='') {
+	            $book->listitem .= ' <i>('.$book->charnote.')</li>';
+	        }
+	    }
+	    return $list;
+	}
+	
+	/**
+	 * @name getCharFilm()
+	 * @desc for given person returns and array of films
+	 * @param int $charid
+	 * @param boolean $order - field to order list by (role first if specified)
+	 * @return array
+	 */
+	public static function getCharFilms(int $charid, $order='title ASC') {
+	    $flink = 'index.php?option=com_xbfilms&view=film&id=';
+	    $plink = 'index.php?option=com_xbfilms&view=person&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);	    
+	    $query->select('a.char_note, a.actor_id, p.firstname,p.lastname,
+            b.title, b.rel_year, b.id, b.state AS bstate')
+	    ->from('#__xbfilmcharacter AS a')
+	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
+	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
+	    ->where('a.char_id = "'.$charid.'"' );
+	    $query->where('b.state = 1');
+	    $query->order('b.'.$order); //this will order roles as author, editor, mention, other, publisher,
+	    $db->setQuery($query);
+	    $list = $db->loadObjectList();
+	    foreach ($list as $i=>$film){
+	        $tlink = Route::_($flink . $film->id);
+	        $film->link = '<a href="'.$tlink.'">'.$film->display.'</a>';
+	        $film->listitem = '<li>'.$film->link;
+	        if (!(is_null($film->actor_id))) {
+	            $alink = Route::_($plink.$film->actor_id);
+	            $film->listitem .= ' : <a href="'.$alink.'">'.$film->firstname.' '.$film->lastname.'</a>';
+	        }
+	        if ($film->char_note !='') {
+	            $film->listitem .= ' <i>('.$film->charnote.')</li>';
+	        }
+	    }
+	    return $list;
+	}
 	
 }

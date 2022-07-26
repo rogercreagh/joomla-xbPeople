@@ -208,7 +208,7 @@ class XbpeopleModelPersons extends JModelList {
 			$item->flist='';
 			if ($item->fcnt>0) {
 				$query = $db->getQuery(true);
-				$query->select('DISTINCT f.title, fp.role')->from('#__xbfilms AS f');
+				$query->select('f.title, fp.role')->from('#__xbfilms AS f');
 				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
 				$query->where('fp.person_id = '.$db->quote($item->id));
 				$query->order('f.title ASC');

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/character.php
- * @version 0.9.9.2 7th July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,7 +20,7 @@ class XbpeopleModelCharacter extends JModelItem {
     
     public function __construct($config = array()) {
         $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
-        $this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
+        $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
         parent::__construct($config);
     }
     
@@ -67,77 +67,18 @@ class XbpeopleModelCharacter extends JModelItem {
 				
 				$item->filmcnt = 0;
 				if ($this->xbfilmsStatus) {
-				    $item->filmlist = $this->getCharFilms($item->id,'rel_year DESC');
+				    $item->filmlist = XbcultureHelper::getCharFilms($item->id,'rel_year DESC');
 				    $item->filmcnt = count($item->filmlist);
 				}
 				$item->bookcnt = 0;
 				if ($this->xbbooksStatus) {
-				    $item->booklist = $this->getCharBooks($item->id,'pubyear ASC');
+				    $item->booklist = XbcultureHelper::getCharBooks($item->id,'pubyear ASC');
 				    $item->bookcnt = count($item->booklist);
-				}
-												
+				}												
 			}
 		}
 		return $this->item;
 	}
 
-	/**
-	 * @name getCharBookRoles()
-	 * @desc for given person returns and array of books and roles
-	 * @param int $charid
-	 * @param boolean $order - field to order list by (role first if specified)
-	 * @return array
-	 */
-	public function getCharBooks(int $charid, $order='title ASC') {
-	    $blink = 'index.php?option=com_xbbooks';
-	    $blink .= '&view=book&id=';
-	    $db = Factory::getDBO();
-	    $query = $db->getQuery(true);
-	    
-	    $query->select('a.char_note, b.title, b.pubyear, b.id, b.state AS bstate')
-	    ->from('#__xbbookcharacter AS a')
-	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
-	    ->where('a.char_id = "'.$charid.'"' );
-	    $query->where('b.state = 1');
-	    $query->order('b.'.$order); 
-	    $db->setQuery($query);
-	    $list = $db->loadObjectList();
-	    foreach ($list as $i=>$item){
-	        $tlink = Route::_($blink . $item->id);
-	        $item->display = $item->title;
-	        $item->link = '<a href="'.$tlink.'">'.$item->display.'</a>';
-	    }
-	    return $list;
-	}
-	
-	/**
-	 * @name getCharFilm()
-	 * @desc for given person returns and array of films
-	 * @param int $charid
-	 * @param boolean $order - field to order list by (role first if specified)
-	 * @return array
-	 */
-	public function getCharFilms(int $charid, $order='title ASC') {
-	    $flink = 'index.php?option=com_xbfilms';
-	    $flink .= '&view=film&id=';
-	    $db = Factory::getDBO();
-	    $query = $db->getQuery(true);
-	    
-	    $query->select('a.char_note, b.title, b.rel_year, b.id, b.state AS bstate')
-	    ->from('#__xbfilmcharacter AS a')
-	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
-	    ->where('a.char_id = "'.$charid.'"' );
-	    $query->where('b.state = 1');
-        $query->order('b.'.$order); //this will order roles as author, editor, mention, other, publisher,
-	    $db->setQuery($query);
-	    $list = $db->loadObjectList();
-	    foreach ($list as $i=>$item){
-	        $tlink = Route::_($flink . $item->id);
-	        $item->display = $item->title;
-	        $item->link = '<a href="'.$tlink.'">'.$item->display.'</a>';
-	    }
-	    return $list;
-	}
-	
 }
 	

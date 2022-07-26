@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/view.html.php
- * @version 0.9.9.3 21st July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -45,7 +45,6 @@ class XbpeopleViewPeople extends JViewLegacy {
 		$this->show_ctcol = $this->showcat + $this->showtags;
 		
 		$this->search_bar = $this->params->get('search_bar','','int');
-		$this->hide_book = $this->params->get('menu_book',0)>0 ? true : false;
 		$this->hide_tag = (!$this->showtags || (!empty($this->params->get('menu_tag','')))) ? true : false;
 		//		$this->hide_cat = $this->params->get('menu_category_id',0)>0 ? true : false;
 		$this->hide_cat = (!$this->showcat || ($this->params->get('menu_category_id',0)>0)) ? true : false;
@@ -89,6 +88,7 @@ class XbpeopleViewPeople extends JViewLegacy {
 		        $person->filmlist .= '</ul>';
 		    }
 		}
+
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');
 			return false;

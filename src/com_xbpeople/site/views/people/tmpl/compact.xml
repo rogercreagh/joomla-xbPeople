@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/people/tmpl/compact.xml v0.9.9.2 13th July 2022 -->
+<!-- xbBooks site/views/people/tmpl/compact.xml v0.9.9.4 26th July 2022 -->
 <metadata>
 	<layout title="People - Compact List">
 		<message>Displays a list (table) of people. Option to restrict to single category and filter by role and tags.</message>
 	</layout>
-	<fields name="params" addfieldpath="administrator/components/com_xbbooks/models/fields">
+	<fields name="params" addfieldpath="administrator/components/com_xbpeople/models/fields">
 		<!-- Basic options. -->
 		<fieldset name="basic" label="Options">
 	 	 

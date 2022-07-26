@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/characters.php
- * @version 0.9.9.1 6th July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -75,7 +75,7 @@ class XbpeopleModelCharacters extends JModelList {
             
             // Filter by published state, we only show published items in the front-end. Both item and its category must be published.
             $query->where('a.state = 1');
-            $query->where('c.published = 1');
+//            $query->where('c.published = 1');
             
              // Filter by search in title/id/synop
             $search = $this->getState('filter.search');
@@ -119,7 +119,7 @@ class XbpeopleModelCharacters extends JModelList {
             
             //filter by tag
             $tagfilt = array($this->getState('tagId'));
-            $this->setState('tagId','');
+//            $this->setState('tagId','');
             $taglogic = 0;
             if (empty($tagfilt)) {
                 $tagfilt = $this->getState('params')['menu_tag'];
@@ -210,6 +210,8 @@ class XbpeopleModelCharacters extends JModelList {
 			$peep[$i] = $items[$i]->id;
 		}
 		$app->setUserState('characters.sortorder', $peep);
+		$showcnts = $this->getState('params')['showccnts'];
+		$showlists = $this->getState('params')['showclists'];
 		
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
@@ -222,6 +224,11 @@ class XbpeopleModelCharacters extends JModelList {
 			    $query->where('person_id = '.$db->quote($item->id));
 			    $db->setQuery($query);
 			    $item->bookcnt = $db->loadResult();
+			    if ($item->bookcnt > 0) {
+			        $item->books = XbcultureHelper::getCharBooks($item->id,'','title ASC', $showcnts);
+			    } else {
+			        $item->books = '';
+			    }
 			}
 			$item->filmcnt = 0;
 			if ($this->xbfilmsStatus) {
@@ -231,6 +238,11 @@ class XbpeopleModelCharacters extends JModelList {
 			    $query->where('person_id = '.$db->quote($item->id));
 			    $db->setQuery($query);
 			    $item->filmcnt = $db->loadResult();
+			    if ($item->filmcnt > 0) {
+			        $item->films = XbcultureHelper::getCharFilms($item->id,'','title ASC', $showcnts);
+			    } else {
+			        $item->films = '';
+			    }
 			}
 		} //end foreach item
 		return $items;

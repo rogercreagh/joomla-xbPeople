@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/character/view.html.php
- * @version 0.9.9.2 7th July 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,27 +38,17 @@ class XbpeopleViewCharacter extends JViewLegacy {
 		
 		$this->booklist = '';
 		if ($this->item->bookcnt>0) {
-		    $role = '';
 		    $this->booklist = '<ul>';
 		    foreach ($this->item->booklist as $book) {
-		        $this->booklist .= '<li>'.$book->link;
-		        if ($book->char_note!='') {
-		            $this->booklist .= ' <i>('. $book->char_note.')</i>';
-		        }
-		        $this->booklist .= '</li>';
+		        $this->booklist .= $book->listitem;
 		    }
 		    $this->booklist .= '</ul>';
 		}
 		$this->filmlist = '';
 		if ($this->item->filmcnt>0) {
-		    $role = '';
 		    $this->filmlist = '<ul>';
 		    foreach ($this->item->filmlist as $film) {
-		        $this->filmlist .= '<li>'.$film->link;
-		        if ($film->char_note!='') {
-		            $this->filmlist .= ' <i>('. $film->char_note.')</i>';
-		        }
-		        $this->filmlist .= '</li>';
+		        $this->filmlist .= $film->listitem;
 		    }
 		    $this->filmlist .= '</ul>';
 		}
