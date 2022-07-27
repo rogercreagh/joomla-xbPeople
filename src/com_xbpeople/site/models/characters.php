@@ -225,7 +225,7 @@ class XbpeopleModelCharacters extends JModelList {
 			    $db->setQuery($query);
 			    $item->bookcnt = $db->loadResult();
 			    if ($item->bookcnt > 0) {
-			        $item->books = XbcultureHelper::getCharBooks($item->id,'','title ASC', $showcnts);
+			        $item->books = XbcultureHelper::getCharBooks($item->id, 'title ASC', $showcnts);
 			    } else {
 			        $item->books = '';
 			    }
@@ -239,7 +239,7 @@ class XbpeopleModelCharacters extends JModelList {
 			    $db->setQuery($query);
 			    $item->filmcnt = $db->loadResult();
 			    if ($item->filmcnt > 0) {
-			        $item->films = XbcultureHelper::getCharFilms($item->id,'','title ASC', $showcnts);
+			        $item->films = XbcultureHelper::getCharFilms($item->id,'title ASC', $showcnts);
 			    } else {
 			        $item->films = '';
 			    }

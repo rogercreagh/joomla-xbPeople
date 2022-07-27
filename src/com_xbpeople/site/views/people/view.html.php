@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 class XbpeopleViewPeople extends JViewLegacy {
 	
@@ -39,23 +38,15 @@ class XbpeopleViewPeople extends JViewLegacy {
 		$show_cats = $this->params->get('show_cats','1','int');
 		$this->showcat = ($show_cats) ? $this->params->get('show_pcat','1','int') : 0;
 		
-		$show_tags = $this->params->get('show_fltags','1','int');
+		$show_tags = $this->params->get('show_tags','1','int');
 		$this->showtags = ($show_tags) ? $this->params->get('show_ptags','1','int') : 0;
 		
 		$this->show_ctcol = $this->showcat + $this->showtags;
 		
 		$this->search_bar = $this->params->get('search_bar','','int');
 		$this->hide_tag = (!$this->showtags || (!empty($this->params->get('menu_tag','')))) ? true : false;
-		//		$this->hide_cat = $this->params->get('menu_category_id',0)>0 ? true : false;
 		$this->hide_cat = (!$this->showcat || ($this->params->get('menu_category_id',0)>0)) ? true : false;
 		$this->hide_prole = $this->params->get('menu_prole',0)>0 ? true : false;
-//		$this->hide_tag = (!empty($this->params->get('menu_tag',''))) ? true : false;
-		
-//		$this->xbpeople_ok = Factory::getSession()->get('xbpeople_ok');
-//		$show_cats = ($this->xbpeople_ok) ? $this->params->get('show_cats','1','int') : 0;
-//		$this->show_cat = ($show_cats) ? $this->params->get('show_pcat','2','int') :0;
-//		$show_tags = $this->params->get('show_tags','1','int');
-//		$this->show_tags = ($show_tags) ? $this->params->get('show_ptags','1','int') : 0;
 		
 		$this->show_pic = $this->params->get('show_ppiccol','1','int');
 		$this->show_pdates = $this->params->get('show_pdates','1');

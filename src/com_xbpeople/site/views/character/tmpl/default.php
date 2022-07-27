@@ -89,7 +89,7 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 <?php  if (!empty($item->description)) :?>
 	<div class="xbnit xbmb8"><?php echo Text::_('XBCULTURE_DESCRIPTION');?></div>
     <div class="xbbox xbboxcyan">
-    	<?php echo $item->biography; ?>
+    	<?php echo $item->description; ?>
     </div>
 <?php else: ?>
 	<?php if (!$this->hide_empty) {

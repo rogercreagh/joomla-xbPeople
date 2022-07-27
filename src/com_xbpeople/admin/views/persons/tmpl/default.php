@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.9.9.4 26th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -47,6 +47,7 @@ $cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
 $telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
 $bplink = 'index.php?option=com_xbbooks&view=persons';
 $fplink = 'index.php?option=com_xbpeople&view=persons';
+$tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 
 ?>
 <form action="index.php?option=com_xbpeople&view=persons" method="post" id="adminForm" name="adminForm">
@@ -121,12 +122,20 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
     			</th>
     			<?php if($this->xbbooks_ok) : ?>
     			<th>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>
+                    <div class="pull-right"><span class="hasPopover xbinfo fas fa-info-circle" style="text-decoration: none;" data-trigger="hover" title 
+					data-original-title="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_TITLE');?>" data-content="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_INFO'); ?>" >
+				</span>&nbsp;</div>
     			</th>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>					
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
+					<?php if (!$this->xbbooks_ok) : ?>
+						<div class="pull-right"><span class="hasPopover xbinfo fas fa-info-circle" style="text-decoration: none;" data-trigger="hover" title 
+							data-original-title="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_TITLE');?>" data-content="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_INFO'); ?>" >
+						</span>&nbsp;</div>
+					<?php endif; ?>					
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">

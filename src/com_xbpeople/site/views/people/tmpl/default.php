@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/tmpl/default.php
- * @version 0.9.9.3 21st July 2022
+ * @version 0.9.9.4 27th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -121,7 +121,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     					    echo ' &amp; ';
     					}
     					if($this->showtags) {
-    					    echo Text::_( 'XBCULTURE_TAGS_U' ); 
+    					    echo ucfirst(Text::_( 'XBCULTURE_TAGS')); 
     					} ?>                
     				</th>
                 <?php endif; ?>

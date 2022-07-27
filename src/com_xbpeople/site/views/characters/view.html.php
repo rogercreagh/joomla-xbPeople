@@ -51,8 +51,8 @@ class XbpeopleViewCharacters extends JViewLegacy {
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		
-		$this->showcnts = $this->params->get('showccnts',1);
-		$this->showlists = ($this->showccnts == 1) ? $this->params->get('showclists',1) : 0;
+		$this->showccnts = $this->params->get('showccnts',1);
+		$this->showclists = ($this->showccnts == 1) ? $this->params->get('showclists',1) : 0;
 		
 		foreach ($this->items as $char) {
 		    $char->booklist = '';

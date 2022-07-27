@@ -353,7 +353,7 @@ class XbcultureHelper extends ContentHelper {
                 $book->listitem .= ' : ';
                 switch ($book->role) {
                     case 'mention':
-                        $book->listitem .= Text::_('XBCULTURE_APPEARS_CHAR_SUBJ');
+                        $book->listitem .= Text::_('XBCULTURE_APPEARS_IN');
                         break;
                     case 'other':
                         $book->listitem .= Text::_('XBCULTURE_OTHER_ROLE');
@@ -409,7 +409,7 @@ class XbcultureHelper extends ContentHelper {
 	            $film->listitem .= ' : ';
 	            switch ($film->role) {
 	                case 'appearsin':
-	                    $film->listitem .= Text::_('XBCULTURE_APPEARS_CHAR_SUBJ');
+	                    $film->listitem .= Text::_('XBCULTURE_APPEARS_IN');
 	                    break;
 	                default:
 	                    $film->listitem .= ucfirst($film->role);
@@ -450,7 +450,7 @@ class XbcultureHelper extends ContentHelper {
 	        $book->link = '<a href="'.$tlink.'">'.$book->title.'</a>';
 	        $book->listitem = '<li>'.$book->link;
 	        if ($book->char_note !='') {
-	            $book->listitem .= ' <i>('.$book->charnote.')</li>';
+	            $book->listitem .= ' <i>('.$book->char_note.')</li>';
 	        }
 	    }
 	    return $list;
@@ -480,14 +480,14 @@ class XbcultureHelper extends ContentHelper {
 	    $list = $db->loadObjectList();
 	    foreach ($list as $i=>$film){
 	        $tlink = Route::_($flink . $film->id);
-	        $film->link = '<a href="'.$tlink.'">'.$film->display.'</a>';
+	        $film->link = '<a href="'.$tlink.'">'.$film->title.'</a>';
 	        $film->listitem = '<li>'.$film->link;
 	        if (!(is_null($film->actor_id))) {
 	            $alink = Route::_($plink.$film->actor_id);
 	            $film->listitem .= ' : <a href="'.$alink.'">'.$film->firstname.' '.$film->lastname.'</a>';
 	        }
 	        if ($film->char_note !='') {
-	            $film->listitem .= ' <i>('.$film->charnote.')</li>';
+	            $film->listitem .= ' <i>('.$film->char_note.')</li>';
 	        }
 	    }
 	    return $list;
