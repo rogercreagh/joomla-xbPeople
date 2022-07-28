@@ -34,7 +34,7 @@ class XbpeopleViewDashboard extends JViewLegacy
 	    
 	    $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
 		$this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
-		$this->xbgigs_ok = Factory::getSession()->get('xbgigs_ok');
+		$this->xbevents_ok = Factory::getSession()->get('xbevents_ok');
 		
 		$this->pcatStates = $this->get('PcatStates');
 		$this->perStates = $this->get('PerStates');
@@ -134,7 +134,7 @@ class XbpeopleViewDashboard extends JViewLegacy
         
         ToolbarHelper::custom('dashboard.books', 'stack', '', 'xbBooks', false) ;
         ToolbarHelper::custom('dashboard.films', 'screen', '', 'xbFilms', false) ;
-        ToolbarHelper::custom('dashboard.live', 'music', '', 'xbLive', false) ;
+        ToolbarHelper::custom('dashboard.live', 'music', '', 'xbEvents', false) ;
         if ($canDo->get('core.admin')) {
             ToolbarHelper::preferences('com_xbpeople');
         }

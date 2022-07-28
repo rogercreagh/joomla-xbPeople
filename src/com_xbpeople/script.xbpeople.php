@@ -51,10 +51,10 @@ class com_xbpeopleInstallerScript
         if (!$pkguninstall) {
            // this is not a package uninstall so we need to check if xbfilms or xbbooks or xblive are still here
             $db = Factory::getDBO();
-            $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks').' OR element = '.$db->quote('com_xblive'));
+            $db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote('com_xbfilms').' OR element = '.$db->quote('com_xbbooks').' OR element = '.$db->quote('com_xbevents'));
             $res = $db->loadResult();
             if ($res) {
-                $message = 'At least one xbCulture component is still installed. xbPeople component must be uninstalled after xbBooks, xbFilms and xbLive.';
+                $message = 'At least one xbCulture component is still installed. xbPeople component must be uninstalled after xbBooks, xbFilms and xbEvents.';
                 $targ = Uri::base().'index.php?option=com_xbpeople&view=dashboard&err='.urlencode($message);
                 header("Location: ".$targ);
                 exit();

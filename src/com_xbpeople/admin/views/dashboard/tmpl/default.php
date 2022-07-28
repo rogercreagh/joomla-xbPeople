@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/tmpl/default.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.4 28th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +26,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 		<hr />
         <div class="xbinfopane">
         	<div class="row-fluid hidden-phone">
-        	<?php echo HtmlHelper::_('bootstrap.startAccordion', 'slide-dashboard', array('active' => '')); ?>
+        	<?php echo HtmlHelper::_('bootstrap.startAccordion', 'slide-dashboard', array('active' => 'sysinfo')); ?>
         		<?php echo HtmlHelper::_('bootstrap.addSlide', 'slide-dashboard', Text::_('XBPEOPLE_SYSINFO'), 'sysinfo','xbaccordion'); ?>
         			<p><b><?php echo Text::_( 'XBPEOPLE_COMPONENT' ); ?></b>
     					<br /><?php echo Text::_('XBCULTURE_VERSION').': '.$this->xmldata['version'].' '.
@@ -40,7 +40,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
                                   </i></p>
                                   <?php echo Text::_('XBCULTURE_OTHER_COMPS'); ?>
                                   <ul>
-                              	<?php $coms = array('com_xbbooks','com_xbfilms','com_xblive');
+                              	<?php $coms = array('com_xbbooks','com_xbfilms','com_xbevents');
                               	foreach ($coms as $element) {
                               	    echo '<li>';
                                   	$ext = XbcultureHelper::getExtensionInfo($element);
