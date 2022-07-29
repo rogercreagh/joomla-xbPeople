@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/tmpl/default.php
- * @version 0.9.9.4 26th July 2022
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -169,15 +169,15 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
                 <?php if ($this->showccnts) : ?>
     				<?php if ($this->xbbooksStatus) : ?>
         				<td>
-        				<?php if (($this->showclists == 1) && ($item->bookcnt>0)) :?>
+        				<?php if (($this->showclists == 1) && ($item->bcnt>0)) :?>
         					<span tabindex="<?php echo $item->id; ?>"
 								class="xbpop xbcultpop xbfocus" data-trigger="focus"
 								title data-original-title="Book List" 
 								data-content="<?php echo htmlentities($item->booklist); ?>"
 							>        				
         				<?php  endif; ?>
-        					<span class="badge <?php echo ($item->bookcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bookcnt;?></span>
-        				<?php if (($this->showclists == 1) && ($item->bookcnt>0)) :?>
+        					<span class="badge <?php echo ($item->bcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bcnt;?></span>
+        				<?php if (($this->showclists == 1) && ($item->bcnt>0)) :?>
         					</span>
 						<?php endif; ?>        					
         				<?php if ($this->showclists == 2) :?>
@@ -187,15 +187,15 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
     				<?php endif; ?>
     				<?php if ($this->xbfilmsStatus) : ?>
         				<td>
-        				<?php if (($this->showclists == 1) && ($item->filmcnt>0)) :?>
+        				<?php if (($this->showclists == 1) && ($item->fcnt>0)) :?>
         					<span tabindex="<?php echo $item->id; ?>"
 								class="xbpop xbcultpop xbfocus" data-trigger="focus"
 								title data-original-title="Film List" 
 								data-content="<?php echo htmlentities($item->filmlist); ?>"
 							>        				
         				<?php  endif; ?>
-        					<span class="badge <?php echo ($item->filmcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->filmcnt;?></span>
-       				<?php if (($this->showclists == 1) && ($item->filmcnt>0)) :?>
+        					<span class="badge <?php echo ($item->fcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->fcnt;?></span>
+       				<?php if (($this->showclists == 1) && ($item->fcnt>0)) :?>
         					</span>
 						<?php endif; ?>        					
         				<?php if ($this->showclists == 2) :?>
