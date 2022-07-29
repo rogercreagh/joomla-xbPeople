@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/categories/view.html.php
- * @version 0.9.9.0 28th June 2022
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -35,7 +35,7 @@ class XbpeopleViewCategories extends JViewLegacy {
 		
 // 		$this->search_bar = $this->params->get('search_bar','','int');
 // 		$this->show_desc = $this->params->get('show_desc','','int');
-		$this->show_parent = $this->params->get('show_parent','1','int');
+		$this->show_cat_parent = $this->params->get('show_cat_parent','1','int');
 		$this->show_clist_empty = $this->params->get('show_clist_empty','0','int');
 		
 		if (count($errors = $this->get('Errors'))) {

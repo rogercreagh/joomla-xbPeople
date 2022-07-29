@@ -107,7 +107,7 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
 				<?php if($this->showcat || $this->showtags) : ?>
     				<th class="hidden-tablet hidden-phone">
     					<?php if ($this->showcat) {
-    						echo HtmlHelper::_('searchtools.sort','XBCULTURE_CATEGORY','category_title',$listDirn,$listOrder ).' &amp; ';
+    						echo HtmlHelper::_('searchtools.sort','XBCULTURE_CATEGORY','category_title',$listDirn,$listOrder );
     					}
     					if (($this->showcat) && ($this->showtags)) {
     					    echo ' &amp; ';

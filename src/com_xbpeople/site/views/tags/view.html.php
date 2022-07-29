@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/view.html.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,7 +33,7 @@ class XbpeopleViewTags extends JViewLegacy {
 		$this->header['text'] = $this->params->get('list_headtext','','text');
 		
 		$this->show_desc = $this->params->get('show_desc','','int');
-		$this->show_parent = $this->params->get('show_parent','','int');
+		$this->show_tag_parent = $this->params->get('show_tag_parent','','int');
 		
 		$app = Factory::getApplication();
 		$this->tagtype = $app->getUserState('fmtype');

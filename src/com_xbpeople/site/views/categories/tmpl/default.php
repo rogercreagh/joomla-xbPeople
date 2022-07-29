@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/categories/tmpl/default.php
- * @version 0.9.9.2 11th July 2022
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -57,14 +57,14 @@ $chlink='index.php?option=com_xbpeople&view=characters&catid=';
                 		<tr>
         	 				<td>
         						<p class="xbml20">
-         						<?php  if ($this->show_parent != 0) : ?>      
+         						<?php  if ($this->show_cat_parent != 0) : ?>      
         					<span class="xbnote"> 
          					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));
         						$path = str_replace('/', ' - ', $path);
         						echo $path.($path!='') ? ' - <br/>' : ''; ?>
         						
         					 </span>
-        						<?php endif; //show_parent?>
+        						<?php endif; //show_cat_parent?>
             					<a href="<?php echo Route::_($clink . $item->id.'&ext='.$item->extension); ?>" title="Details" 
             						class="label label-success" style="padding:2px 8px;">
             						<span class="xb11"><?php echo $item->title; ?></span>

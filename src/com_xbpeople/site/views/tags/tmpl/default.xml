@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/tags/tmpl/default.xml v0.9.9.2 6th July 2022 -->
+<!-- xbBooks site/views/tags/tmpl/default.xml v0.9.9.4 29th July 2022 -->
 <metadata>
 	<layout title="People Tag List">
 		<message>Displays a list (table) of tags. Choose tags for books, people or reviews</message>
@@ -13,7 +13,6 @@
   		<fieldset name="basic" label="Options">
 			<field name="show_desc"
 				type="radio"
-				default="1"
 				label="XBCULTURE_SHOW_DESC_LABEL"
 				description="XBCULTURE_SHOW_DESC_DESC"
 	  			class="btn-group btn-group-yesno btn-small radiotop"
@@ -22,9 +21,8 @@
 					<option value="0" >No</option>
 					<option value="1">Yes</option>
 			</field>	
-			<field name="show_parent"
+			<field name="show_tag_parent"
 				type="radio"
-				default="1"
 				label="XBCULTURE_SHOW_PARENT_LABEL"
 				description="XBCULTURE_SHOW_PARENT_DESC"
 	  			class="btn-group btn-group-yesno btn-small radiotop"

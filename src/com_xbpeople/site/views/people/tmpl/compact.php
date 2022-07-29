@@ -138,15 +138,18 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
                 <?php if ($this->showcnts) : ?>
 					<?php if ($this->xbbooksStatus) : ?>
         				<td>
-        				<?php if (($this->showlists == 1) && ($item->bookcnt>0)) :?>
+        				<?php if (($this->showlists == 1) && ($item->bcnt>0)) :?>
         					<span tabindex="<?php echo $item->id; ?>"
 								class="xbpop xbcultpop xbfocus" data-trigger="focus"
 								title data-original-title="Book List" 
 								data-content="<?php echo htmlentities($item->booklist); ?>"
 							>        				
         				<?php  endif; ?>
-        					<span class="badge <?php echo ($item->bookcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bookcnt;?></span>
-        				<?php if (($this->showlists == 1) && ($item->bookcnt>0)) :?>
+        					<span class="badge <?php echo ($item->bcnt>0) ? 'bkcnt' : ''?>"><?php echo $item->bcnt;
+            					if ($item->brolecnt>$item->bcnt) {
+            					    echo ' <span class="xbit xbnorm">('.$item->brolecnt.')</span>'; } ?>
+            					</span>
+        					<?php if (($this->showlists == 1) && ($item->bcnt>0)) :?>
         					</span>
 						<?php endif; ?>        					
         				<?php if ($this->showlists == 2) :?>
@@ -156,15 +159,18 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     				<?php endif; ?>
     				<?php if ($this->xbfilmsStatus) : ?>
         				<td>
-        				<?php if (($this->showlists == 1) && ($item->filmcnt>0)) :?>
+        				<?php if (($this->showlists == 1) && ($item->fcnt>0)) :?>
         					<span tabindex="<?php echo $item->id; ?>"
 								class="xbpop xbcultpop xbfocus" data-trigger="focus"
 								title data-original-title="Film List" 
 								data-content="<?php echo htmlentities($item->filmlist); ?>"
 							>        				
         				<?php  endif; ?>
-        					<span class="badge <?php echo ($item->filmcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->filmcnt;?></span>
-       				<?php if (($this->showlists == 1) && ($item->filmcnt>0)) :?>
+        					<span class="badge <?php echo ($item->fcnt>0) ? 'flmcnt' : ''?>"><?php echo $item->fcnt;
+        					if ($item->frolecnt>$item->fcnt) {
+        					    echo ' <span class="xbit xbnorm">('.$item->frolecnt.')</span>'; } ?>
+        					</span>
+        					<?php if (($this->showlists == 1) && ($item->fcnt>0)) :?>
         					</span>
 						<?php endif; ?>        					
         				<?php if ($this->showlists == 2) :?>

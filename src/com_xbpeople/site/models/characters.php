@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/characters.php
- * @version 0.9.9.4 26th July 2022
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -213,15 +213,15 @@ class XbpeopleModelCharacters extends JModelList {
 		$showcnts = $this->getState('params')['showccnts'];
 		$showlists = $this->getState('params')['showclists'];
 		
+	    $db    = Factory::getDbo();		
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
 			
 			$item->bookcnt = 0;
 			if ($this->xbbooksStatus) {
-			    $db    = Factory::getDbo();
 			    $query = $db->getQuery(true);
-			    $query->select('COUNT(*)')->from('#__xbbookperson');
-			    $query->where('person_id = '.$db->quote($item->id));
+			    $query->select('COUNT(*)')->from('#__xbbookcharacter');
+			    $query->where('char_id = '.$db->quote($item->id));
 			    $db->setQuery($query);
 			    $item->bookcnt = $db->loadResult();
 			    if ($item->bookcnt > 0) {
@@ -232,10 +232,9 @@ class XbpeopleModelCharacters extends JModelList {
 			}
 			$item->filmcnt = 0;
 			if ($this->xbfilmsStatus) {
-			    $db    = Factory::getDbo();
 			    $query = $db->getQuery(true);
-			    $query->select('COUNT(*)')->from('#__xbfilmperson');
-			    $query->where('person_id = '.$db->quote($item->id));
+			    $query->select('COUNT(*)')->from('#__xbfilmcharacter');
+			    $query->where('char_id = '.$db->quote($item->id));
 			    $db->setQuery($query);
 			    $item->filmcnt = $db->loadResult();
 			    if ($item->filmcnt > 0) {

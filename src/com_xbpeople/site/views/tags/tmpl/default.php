@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/tmpl/default.php
- * @version 0.9.9.2 10th July 2022
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -70,14 +70,14 @@ $ctlink = 'index.php?option=com_tags&view=tag&id=';
 				<tr>
 	 				<td>
 						<p class="xbml10">
- 						<?php  if ($this->show_parent != 0) : ?>
+ 						<?php  if ($this->show_tag_parent != 0) : ?>
  						    <span class="xbnote xb09">
  						    <?php if (substr_count($item->path,'/')>0) {
  						    	$ans = substr($item->path, 0, strrpos($item->path, '/'));
  						    	echo str_replace('/',' - ',$ans);
  						    } ?>
                         	</span><br />
-						<?php endif; //show_parent?>
+						<?php endif; //show_tag_parent?>
 	    				<span  class="xb11 xbbold">
 	    					<a href="<?php echo Route::_($tvlink . $item->id); ?>" title="Details">
 	    						<?php echo $item->title; ?>

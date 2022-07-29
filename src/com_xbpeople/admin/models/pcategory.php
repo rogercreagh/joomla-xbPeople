@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/pcategory.php
- * @version 0.9.1.1 9th April 2021
+ * @version 0.9.9.4 29th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -70,7 +70,7 @@ class XbpeopleModelPcategory extends JModelItem {
 						->from('#__categories AS c');
 					$query->join('LEFT','#__xbcharacters AS ch ON ch.catid = c.id');
 					$query->where('c.id='.$item->id);
-					$query->order('ch.lastname');
+					$query->order('ch.name');
 					$db->setQuery($query);
 					$item->chars = $db->loadObjectList();
 				} else {
