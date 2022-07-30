@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/tmpl/default.php
- * @version 0.9.9.4 27th July 2022
+ * @version 0.9.9.5 30th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -103,12 +103,12 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
                 <?php if ($this->showcnts) : ?>
     				<?php if($this->xbbooksStatus) : ?>
         				<th>
-        					<?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?>
+        					<?php echo HtmlHelper::_('searchtools.sort','Books','bcnt',$listDirn,$listOrder ); ?>
         				</th>
                    <?php endif; ?>
     				<?php if($this->xbfilmsStatus) : ?>
         				<th>
-        					<?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?>
+        					<?php echo HtmlHelper::_('searchtools.sort','Films','fcnt',$listDirn,$listOrder ); ?>
         				</th>
                    <?php endif; ?>
                 <?php endif; ?>

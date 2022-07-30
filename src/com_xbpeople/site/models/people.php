@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.4 26th July 2022
+ * @version 0.9.9.5 30th July 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,7 +24,7 @@ class XbpeopleModelPeople extends JModelList {
 			$config['filter_fields'] = array ( 'firstname', 'lastname',
 					'catid', 'a.catid', 'category_id', 'tagfilt',
 					'category_title', 'c.title',
-					'sortdate' );
+					'sortdate','fcnt','bcnt' );
 		}
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
@@ -73,6 +73,10 @@ class XbpeopleModelPeople extends JModelList {
 		$query->select('IF((year_born>-9999),year_born,year_died) AS sortdate');
 //            ->select('(GROUP_CONCAT(p.person_id SEPARATOR '.$db->quote(',') .')) AS personlist');
  		$query->from($db->quoteName('#__xbpersons','a'));
+ 		
+ 		if ($this->xbfilmsStatus) $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp WHERE fp.person_id = a.id) AS fcnt');
+ 		if ($this->xbbooksStatus) $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp WHERE bp.person_id = a.id) AS bcnt');
+ 		
  		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
         $query->select('c.title AS category_title');
            
@@ -238,35 +242,26 @@ class XbpeopleModelPeople extends JModelList {
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 	
-			$item->bcnt = 0;
 			$item->brolecnt = 0;
+            $item->books = '';
 			if ($this->xbbooksStatus) {
-			    $query = $db->getQuery(true);
-			    $query->select('COUNT(DISTINCT(book_id))')->from('#__xbbookperson');
-			    $query->where('person_id = '.$db->quote($item->id));
-			    $db->setQuery($query);
-			    $item->bcnt = $db->loadResult();
 			    if ($item->bcnt > 0) {
     		        $item->books = XbcultureHelper::getPersonBookRoles($item->id,'','title ASC', $showcnts);
     		        $item->brolecnt = count($item->books);
-    		    } else {
-    		        $item->books = '';
 			    }			    
+    		} else {
+    		  $item->bcnt = 0;
 			}
-			$item->fcnt = 0;
+
 			$item->frolecnt = 0;
+			$item->films = '';
 			if ($this->xbfilmsStatus) {
-				$query = $db->getQuery(true);
-				$query->select('COUNT(DISTINCT(film_id))')->from('#__xbfilmperson');
-				$query->where('person_id = '.$db->quote($item->id));
-				$db->setQuery($query);
-				$item->fcnt = $db->loadResult();
 				if ($item->fcnt > 0) {
 				    $item->films = XbcultureHelper::getPersonFilmRoles($item->id,'','title ASC', $showcnts);
 				    $item->frolecnt = count($item->films);
-				} else {
-				    $item->films = '';
 				}
+			} else {
+			    $item->fcnt = 0;
 			}
 		} //end foreach item
 		return $items;
