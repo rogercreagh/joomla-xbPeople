@@ -374,7 +374,7 @@ class XbcultureHelper extends ContentHelper {
 	
 	/**
 	 * @name getPersonFilmRoles()
-	 * @desc for given person returns an array of books and roles
+	 * @desc for given person returns an array of films and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
 	 * @param boolean $order - field to order list by (role first if specified)
