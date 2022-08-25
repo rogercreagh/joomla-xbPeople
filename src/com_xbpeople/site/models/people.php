@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.5 30th July 2022
+ * @version 0.9.9.6 24th August 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -43,10 +43,6 @@ class XbpeopleModelPeople extends JModelList {
 		$tagId = $app->getUserStateFromRequest('tagid', 'tagid','');
 		$app->setUserState('tagid', '');
 		$this->setState('tagId',$tagId);
-		
-//		$catid = $app->input->getStr('catid');
-//		$this->setState('catid', $catid);
-//		$app->setUserState('catid', $catid);
 		
 		parent::populateState($ordering, $direction);
 		
@@ -142,7 +138,7 @@ class XbpeopleModelPeople extends JModelList {
            
             //filter by tag
             $tagfilt = $this->getState('tagId');
- //           $this->setState('tagId','');
+            // $this->setState('tagId','');
             $taglogic = 0;
             if (empty($tagfilt)) {
                 $tagfilt = $this->getState('params')['menu_tag'];
@@ -150,57 +146,36 @@ class XbpeopleModelPeople extends JModelList {
             }
             
             if (($searchbar==1) && (empty($tagfilt))) { 	//look for menu options
-            	//look for filter options and ignore menu options
-            	$tagfilt = $this->getState('filter.tagfilt');
-            	$taglogic = $this->getState('filter.taglogic'); //1=AND otherwise OR
-            }
-            // Run simplified query when filtering by one tag.
-            if (is_array($tagfilt) && count($tagfilt) === 1) {
-            	$tagfilt = $tagfilt[0];
+                //look for filter options and ignore menu options
+                $tagfilt = $this->getState('filter.tagfilt');
+                $taglogic = $this->getState('filter.taglogic'); //1=AND otherwise OR
             }
             
             if ($tagfilt && is_array($tagfilt)) {
-            	$tagfilt = ArrayHelper::toInteger($tagfilt);           	
-            	if ($taglogic) { //AND logic
-            		for ($i = 0; $i < count($tagfilt); $i++) {
-            			$mapname = 'tagmap'.$i;
-            			$query->join( 'INNER', $db->quoteName('#__contentitem_tag_map', $mapname).
-            					' ON ' . $db->quoteName($mapname.'.content_item_id') . ' = ' . $db->quoteName('a.id'));
-            			$query->where( array(
-            					$db->quoteName($mapname.'.tag_id') . ' = ' . $tagfilt[$i],
-            					$db->quoteName($mapname.'.type_alias') . ' = ' . $db->quote('com_xbpeople.person'))
-            					);
-            		}
-            	} else { //OR logic            		
-            		$subQuery = $db->getQuery(true)
-            		->select('DISTINCT ' . $db->quoteName('content_item_id'))
-            		->from($db->quoteName('#__contentitem_tag_map'))
-            		->where(
-            				array(
-            						$db->quoteName('tag_id') . ' IN (' . implode(',', $tagfilt) . ')',
-            						$db->quoteName('type_alias') . ' = ' . $db->quote('com_xbpeople.person'),
-            				)
-            				);
-            		
-            		$query->join(
-            				'INNER',
-            				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap')
-            				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            				);            		
-            	}            	
-            } elseif ($tag = (int) $tagfilt) { //simple query for one tag
-            	$query->join(
-            			'INNER',
-            			$db->quoteName('#__contentitem_tag_map', 'tagmap')
-            			. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            			)
-            			->where(
-            					array(
-            							$db->quoteName('tagmap.tag_id') . ' = ' . $tagfilt,
-            							$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_xbpeople.person')
-            					)
-            					);
-            } //endif tagfilt
+                $tagfilt = ArrayHelper::toInteger($tagfilt);
+                $subquery = '(SELECT tmap.tag_id AS tlist FROM #__contentitem_tag_map AS tmap
+                WHERE tmap.type_alias = '.$db->quote('com_xbpeople.person').'
+                AND tmap.content_item_id = a.id)';
+                switch ($taglogic) {
+                    case 1: //all
+                        for ($i = 0; $i < count($tagfilt); $i++) {
+                            $query->where($tagfilt[$i].' IN '.$subquery);
+                        }
+                        break;
+                    case 2: //none
+                        for ($i = 0; $i < count($tagfilt); $i++) {
+                            $query->where($tagfilt[$i].' NOT IN '.$subquery);
+                        }
+                        break;
+                    default: //any
+                        $conds = array();
+                        for ($i = 0; $i < count($tagfilt); $i++) {
+                            $conds[] = $tagfilt[$i].' IN '.$subquery;
+                        }
+                        $query->extendWhere('AND', $conds, 'OR');
+                        break;
+                }
+            } //end if $tagfilt
             
             // Add the list ordering clause.
             $orderCol       = $this->state->get('list.ordering', 'lastname');

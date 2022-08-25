@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/characters/tmpl/default.xml v0.9.9.4 26th July 2022 -->
+<!-- xbBooks site/views/characters/tmpl/default.xml v0.9.9.6 24th August 2022 -->
 <metadata>
 	<layout title="Characters">
 		<message>Displays a list (table) of characters. Option to restrict to single category and filter by tags.</message>
@@ -114,9 +114,9 @@
 	  			class="btn-group btn-small radiotop"
 				showon="menu_tag!:"
 			>
-				<option value="1" onchange="this.form.submit();">XBCULTURE_ALL</option>
-				<option value="0" onchange="this.form.submit();">XBCULTURE_ANY</option>
-				<option value="2" onchange="this.form.submit();">XBCULTURE_NONE</option>
+				<option value="1">XBCULTURE_ALL</option>
+				<option value="0">XBCULTURE_ANY</option>
+				<option value="2">XBCULTURE_NONE</option>
 			</field>	
 		</fieldset>
 		
