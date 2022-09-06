@@ -314,3 +314,7 @@ ul.nav-tabs {
 .xbnotpubflag {
 	background-color: yellow;
 }
+.xbdetails {
+	list-style:none;
+	margin-left:10px;
+}

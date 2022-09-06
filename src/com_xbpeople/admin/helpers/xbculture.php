@@ -377,14 +377,19 @@ class XbcultureHelper extends ContentHelper {
 	 * @desc for given person returns an array of films and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
-	 * @param boolean $order - field to order list by (role first if specified)
+	 * @param string $order - field to order list by (role first if specified)
 	 * @param int $listfmt - 0=title only, 1=title,role,note  2=title,note (sort by role first)
 	 * @return array of objects with title,subtitle,rel_year,role,role_note,link,listitem
 	 * where link is [a] link to the book, 
 	 * and listitem is [li] formatted according to $listfmt with title linked to item
 	 */
 	public static function getPersonFilmRoles(int $personid, $role='',$order='title ASC', $listfmt = 0) {
-	    $flink = 'index.php?option=com_xbfilms&view=film&id=';
+//	    $app = Factory::getApplication();
+	    $flink = 'index.php?option=com_xbfilms&view=film';
+	    if (Factory::getApplication()->isClient('administrator')) {
+	        $flink .= '&layout=edit';
+	    }
+	    $flink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
@@ -465,8 +470,14 @@ class XbcultureHelper extends ContentHelper {
 	 * @return array
 	 */
 	public static function getCharFilms(int $charid, $order='title ASC') {
-	    $flink = 'index.php?option=com_xbfilms&view=film&id=';
-	    $plink = 'index.php?option=com_xbpeople&view=person&id=';
+	    $flink = 'index.php?option=com_xbfilms&view=film';
+	    $plink = 'index.php?option=com_xbpeople&view=person';
+	    if (Factory::getApplication()->isClient('administrator')) {
+	        $flink .= '&layout=edit';
+	        $plink .= '&layout=edit';
+	    }
+	    $flink .= '&id=';
+	    $plink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);	    
 	    $query->select('a.char_note, a.actor_id, p.firstname,p.lastname,
@@ -478,8 +489,8 @@ class XbcultureHelper extends ContentHelper {
 	    $query->where('b.state = 1');
 	    $query->order('b.'.$order); 
 	    $db->setQuery($query);
-	    $list = $db->loadObjectList();
-	    foreach ($list as $i=>$film){
+	    $films = $db->loadObjectList();
+	    foreach ($films as $i=>$film){
 	        $tlink = Route::_($flink . $film->id);
 	        $film->link = '<a href="'.$tlink.'">'.$film->title.'</a>';
 	        $film->listitem = '<li>'.$film->link;
@@ -492,7 +503,7 @@ class XbcultureHelper extends ContentHelper {
 	        }
 	        $film->listitem .= '</li>';
 	    }
-	    return $list;
+	    return $films;
 	}
 	
 }
