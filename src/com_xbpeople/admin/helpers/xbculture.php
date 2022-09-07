@@ -63,6 +63,91 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
+	 * @name makeLinkedNameList
+	 * @desc takes array of items with name/title, link, role, and note for each and returns a string list of the items
+	 * @param array $items required - array of details to turn into list
+	 * NB each item must contain $item->name, and may contain ->link ->role ->note
+	 * @param string $role default '' - filter by role type
+	 * @param string $sep default comma - separtor between list elements (eg comma | br | li | [string]
+	 * NB comma = ', ' if only 2 items then comma = ' &amp; '. li will be '<li>item</li>' 
+	 * NB [string] can be html eg '<p>/' where the / tells it to close the tag at end of row
+	 * @param boolean $linked default true - if true link names to detail view 
+	 * @param boolean $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note 
+	 * NB if filtering by role then role not shown so 2=0, 3=1
+	 * NB no overall wrapper is provided eg <ul> or <div> so that wrapper and css can be added when output
+	 * @return string
+	 */
+	//TODO check role_note etc is aliased as note
+	public static function makeLinkedNameList($items, $role='', $sep=', ', $linked=true, $rowfmt = 0) {
+	    $list = '';
+	    $cnt = count($items);
+	    for ($i = 0; $i < $cnt; $i++) {
+	       $item = $items[$i];
+	       if ($sep == 'li') {
+	           $list .= '<li>';
+	       } elseif ($sep[-1] == '/') {
+	           $list .= trim($sep,'/');
+	       }
+	       if ((empty($role)) && ($rowfmt == '1')) {
+	           $list .= $item->role . ' ';
+	       }
+	       //.....
+	       
+	       if ($sep == 'li') {
+	           $list .= '</li>';
+	       } elseif ($sep[-1] == '/') {
+	           $list .= '</'.trim($sep,'</');
+	       } elseif ($cnt > $i+1) {
+	           if ($sep == 'br') {
+	               $list = '<br />';
+	           } elseif (($cnt == 2) && ($sep == 'comma')) {
+    	           $list .= ' &amp; ';
+    	       } else {
+    	           $list .= $sep;
+    	       }
+	       }
+	    }
+	    
+	    foreach ($arr as $item) {
+	        $item->listitem = '';
+	        if ($listfmt==0) {
+	            $p->listitem .= $p->link;
+	        } elseif (!empty($role)) {
+	            $p->listitem .= $p->display . ' (' . $p->role_note . ')';
+	        } elseif ($listfmt==1) {
+	            $p->listitem .= '<i>'.$p->role .'</i> ' . $p->display;
+	            if (!empty ($p->role_note)) $p->listitem .= ' (' . $p->role_note . ')';
+	        } else {
+	            $p->listitem .= $p->display . '<i>'.$p->role ;
+	            if (!empty ($p->role_note)) $p->listitem .= ' (' . $p->role_note . ')';
+	            $p->listitem .= '</i>';
+	        }
+	        $p->listitem .= '';
+	        
+	        
+	        
+	        if (($role=='') || ($role == $item->role)) {
+	            if($note==1) {
+	                $wynik .= '<span class="xbnit xbsp60">'.$item->role_note.':</span> ';
+	            }
+	            $wynik .= ($linked) ? $item->link : $item->display;
+	            if (($note==2) && ($item->role_note !='')) {
+	                $wynik .= ' ('.$item->role_note.')';
+	            }
+	            $wynik .= $sep;
+	            $cnt++;
+	        }
+	    }
+	    //strip off final separator which could be a string so can't use trim
+	    if (substr($wynik,-strlen($sep))===$sep) $wynik = substr($wynik, 0, strlen($wynik)-strlen($sep));
+	    //if it is a comma list with only two items then we might use & rather than ,
+	    if (($cnt==2) && (trim($sep)==',') && $amp) {
+	        $wynik = str_replace($sep,' &amp; ',$wynik);
+	    }
+	    return trim($wynik);
+	}
+	
+	/**
 	 * @name getItemCnt
 	 * @desc returns the number of items in a table
 	 * @param string $table
