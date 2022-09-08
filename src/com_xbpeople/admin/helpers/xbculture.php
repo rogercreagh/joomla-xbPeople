@@ -118,7 +118,10 @@ class XbcultureHelper extends ContentHelper {
     	           $list .= '</li>';
     	       } elseif ($sep[-1] == '/') {
     	           $list .= '</'.trim($sep,'</');
-    	       } elseif ($cnt > $i+1) {
+    	       } else {
+    	           if ($i < ($cnt-1)) {
+    	               
+    	       }
     	           if ($sep == 'br') {
     	               $list = '<br />';
     	           } elseif ($sep == 'comma') {
@@ -133,6 +136,7 @@ class XbcultureHelper extends ContentHelper {
     	       }
 	       }
 	    } //endfor
+	    //trim trailing separator
 	    if ($sep == 'ul') {
 	        $list .= '</ul>';
 	    } elseif ($sep == 'ol') {
