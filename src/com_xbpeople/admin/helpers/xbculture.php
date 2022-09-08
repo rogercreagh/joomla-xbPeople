@@ -81,50 +81,64 @@ class XbcultureHelper extends ContentHelper {
 	//TOD check that ->link is just the link
 	public static function makeLinkedNameList($items, $role='', $sep=', ', $linked=true, $rowfmt = 0) {
 	    $list = '';
-	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('Producer'), 'crew'=>Text::_('Crew'), 'actor'=>Text::_('Cast member'),'appearsin'=>Text::_('Subject or appears'));
+	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('Producer'), 'crew'=>Text::_('Crew'), 
+	        'actor'=>Text::_('Actor'),'appearsin'=>'','char'=>'Character');
 	    $cnt = count($items);
+	    if ($sep == 'ul') {
+	        $list .= '<ul class="xblist">';
+	    } elseif ($sep == 'ol') {
+	        $list .= '<ol>';
+	    }
 	    for ($i = 0; $i < $cnt; $i++) {
 	       $item = $items[$i];
-	       if ($sep == 'li') {
+	       if (($role == '') || ($item->role == $role)) {
+	           if (($sep == 'ul') || ($sep == 'ol')) {
 	           $list .= '<li>';
-	       } elseif ($sep[-1] == '/') {
-	           $list .= trim($sep,'/');
-	       }
-	       if ((empty($role)) && ($rowfmt == '1')) {
-	           $list .= '<span class="xblistrolefirst">'.$item->role . '</span> ';
-	       }
-	       if ($linked) {
-	           $list .= '<a href="'.$item->link.'" class="xblistlink">';
-	       }
-	       $list .= '<span class="xblistname">'.$item->name.'</span>';
-	       if ($linked) {
-	           $list .= '</a>';
-	       }
-	       $list .= ' ';
-	       if ((empty($role)) && ($rowfmt >= 2)) {
-	           $list .= '<span class="xblistrolesecond">'.$roletitles[$item->role] . '</span> ';	           
-	       }
-	       if ((!empty($item->note)) && (($rowfmt ==1) || ($rowfmt == 3))) {
-	           $list .= '<span class="xblistnote">'.$item->note.'</span>';
-	       }
-	       if ($sep == 'li') {
-	           $list .= '</li>';
-	       } elseif ($sep[-1] == '/') {
-	           $list .= '</'.trim($sep,'</');
-	       } elseif ($cnt > $i+1) {
-	           if ($sep == 'br') {
-	               $list = '<br />';
-	           } elseif ($sep == 'comma') {
-	               if ($cnt == 2) {
-        	           $list .= ' &amp; ';
-	               } else {
-	                   $list .= ', ';
-	               }
-    	       } else {
-    	           $list .= $sep;
+    	       } elseif ($sep[-1] == '/') {
+    	           $list .= trim($sep,'/');
+    	       }
+    	       if ((empty($role)) && ($rowfmt == '1')) {
+    	           $list .= '<span class="xblistrolefirst">'.$roletitles[$item->role] . '</span> ';
+    	       }
+    	       if ($linked) {
+    	           $list .= '<a href="'.$item->link.'" class="xblistlink">';
+    	       }
+    	       $list .= '<span class="xblistname">'.$item->name.'</span>';
+    	       if ($linked) {
+    	           $list .= '</a>';
+    	       }
+    	       $list .= ' ';
+    	       if ((empty($role)) && ($rowfmt >= 2)) {
+    	           $list .= '<span class="xblistrolesecond">'.$roletitles[$item->role] . '</span> ';	           
+    	       }
+    	       if ((!empty($item->note)) && (($rowfmt ==1) || ($rowfmt == 3))) {
+    	           $list .= '<span class="xblistnote">'.$item->note.'</span>';
+    	       }
+    	       if (($sep == 'ul') || ($sep == 'ol')) {
+    	           $list .= '</li>';
+    	       } elseif ($sep[-1] == '/') {
+    	           $list .= '</'.trim($sep,'</');
+    	       } elseif ($cnt > $i+1) {
+    	           if ($sep == 'br') {
+    	               $list = '<br />';
+    	           } elseif ($sep == 'comma') {
+    	               if ($cnt == 2) {
+            	           $list .= ' &amp; ';
+    	               } else {
+    	                   $list .= ', ';
+    	               }
+        	       } else {
+        	           $list .= $sep;
+        	       }
     	       }
 	       }
+	    } //endfor
+	    if ($sep == 'ul') {
+	        $list .= '</ul>';
+	    } elseif ($sep == 'ol') {
+	        $list .= '</ol>';
 	    }
+	    
 	    return $list;
 	}
 	

@@ -229,6 +229,7 @@ ul.nav-tabs {
 .xbmh200 {max-height:200px; }
 .xbmh300 {max-height:300px; }
 .xbmh400 {max-height:400px; }
+.xbpr10 {padding-right:10px;}
 .xbyscroll { overflow-y:scroll;}
 
 .xbhlt {
@@ -314,7 +315,23 @@ ul.nav-tabs {
 .xbnotpubflag {
 	background-color: yellow;
 }
-.xbdetails {
+.xbdetails, ul.xblist {
 	list-style:none;
 	margin-left:10px;
+}
+.xblistrolefirst {
+	display:inline-block;
+	min-width: 60px;
+}
+.xblistrolesecond {
+	padding-left:10px
+}
+li :not(a) .xblistname {
+	font-weight:bold;
+}
+.xblistnote:before {
+	content:' (';
+}
+.xblistnote:after {
+	content:')';
 }
