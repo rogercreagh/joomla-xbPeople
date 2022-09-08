@@ -72,7 +72,7 @@ class XbcultureHelper extends ContentHelper {
 	 * NB comma = ', ' if only 2 items then comma = ' &amp; '. li will be '[li]item[/li]' 
 	 * NB [string] can be html eg '[p]/' where the / tells it to close the tag at end of row
 	 * @param boolean $linked default true - if true link names to detail view 
-	 * @param boolean $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note 
+	 * @param int $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note 
 	 * NB if filtering by role then role not shown so 2=0, 3=1
 	 * NB no overall wrapper is provided eg [ul] or [div] so that wrapper and css can be added when output
 	 * @return string
