@@ -81,8 +81,8 @@ class XbcultureHelper extends ContentHelper {
 	//TOD check that ->link is just the link
 	public static function makeLinkedNameList($items, $role='', $sep=', ', $linked=true, $rowfmt = 0) {
 	    $list = '';
-	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('Producer'), 'crew'=>Text::_('Crew'), 
-	        'actor'=>Text::_('Actor'),'appearsin'=>'','char'=>'Character');
+	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
+	        'actor'=>Text::_('XBCULTURE__ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'));
 	    $cnt = count($items);
 	    if ($sep == 'ul') {
 	        $list .= '<ul class="xblist">';
