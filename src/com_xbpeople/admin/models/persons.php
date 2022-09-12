@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.4 17th April 2021
+ * @version 0.9.9.7 12th September 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -84,6 +84,12 @@ class XbpeopleModelPersons extends JModelList {
 			$query->where('published = ' . (int) $published);
 			//        } elseif ($published === '') {
 			//$query->where('(state IN (0, 1))');
+		}
+		
+		//filter by nationality
+		$natfilt = $this->getState('filter.nationality');
+		if (!empty($natfilt)) {
+		    $query->where('a.nationality = '.$db->quote($natfilt));
 		}
 		
 		// Filter by category.

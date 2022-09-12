@@ -93,7 +93,13 @@ class XbpeopleModelPeople extends JModelList {
             	}
             }
             
-           // Filter by category and subcats
+            //filter by nationality
+            $natfilt = $this->getState('filter.nationality');
+            if (!empty($natfilt)) {
+                $query->where('a.nationality = '.$db->quote($natfilt));
+            }
+            
+            // Filter by category and subcats
             $categoryId = $this->getState('categoryId');
             $this->setState('categoryId','');
             $dosubcats = 0;
