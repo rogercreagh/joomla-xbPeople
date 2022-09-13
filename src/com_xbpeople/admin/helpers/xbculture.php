@@ -77,12 +77,10 @@ class XbcultureHelper extends ContentHelper {
 	 * NB no overall wrapper is provided eg [ul] or [div] so that wrapper and css can be added when output
 	 * @return string
 	 */
-	//TODO check role_note etc is aliased as note
-	//TOD check that ->link is just the link
 	public static function makeLinkedNameList($items, $role='', $sep=', ', $linked=true, $rowfmt = 0) {
 	    $list = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
-	        'actor'=>Text::_('XBCULTURE__ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'));
+	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'));
 	    $cnt = count($items);
 	    if ($sep == 'ul') {
 	        $list .= '<ul class="xblist">';
@@ -531,7 +529,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.role, a.role_note, f.title AS name, f.rel_year, f.id, f.state AS fstate')
+	    $query->select('a.role, a.role_note AS note, f.title AS name, f.rel_year, f.id, f.state AS fstate')
 	    ->from('#__xbfilmperson AS a')
 	    ->join('LEFT','#__xbfilms AS f ON f.id=a.film_id')
 	    ->where('a.person_id = "'.$personid.'"' );
