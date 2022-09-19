@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.9.7 12th September 2022
+ * @version 0.9.9.7 14th September 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -23,7 +23,8 @@ class XbpeopleModelPersons extends JModelList {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
 					'id', 'a,id', 'firstname', 'lastname',
-					'published', 'a.state', 'ordering', 'a.ordering',
+			    'nationality', 'a.nationality',
+			    'published', 'a.state', 'ordering', 'a.ordering',
 					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
 					'sortdate', 'bcnt','fcnt' );
 		}
@@ -92,6 +93,8 @@ class XbpeopleModelPersons extends JModelList {
 		    $query->where('a.nationality = '.$db->quote($natfilt));
 		}
 		
+		//TODO add filter by roles and status book/film/orphan
+		
 		// Filter by category.
 		$app = Factory::getApplication();
 		$categoryId = $app->getUserStateFromRequest('catid', 'catid','');
@@ -99,7 +102,7 @@ class XbpeopleModelPersons extends JModelList {
 		if ($categoryId=='') {
 			$categoryId = $this->getState('filter.category_id');
 		}
-		$subcats=0;
+//		$subcats=0;
 		if (is_numeric($categoryId))
 		{
 			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
@@ -190,7 +193,7 @@ class XbpeopleModelPersons extends JModelList {
 	
 	public function getItems() {
 		$items  = parent::getItems();
-		// we are going to add the list of people (with roles) for each film
+		// we are going to add the list of films (with roles) for each person
 		$tagsHelper = new TagsHelper;
 		
 		$db    = Factory::getDbo();
@@ -210,18 +213,22 @@ class XbpeopleModelPersons extends JModelList {
 			} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
 			
 			
-			$item->filmcnt = 0;
-			$item->flist='';
-			if ($item->fcnt>0) {
-				$query = $db->getQuery(true);
-				$query->select('f.title, fp.role')->from('#__xbfilms AS f');
-				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
-				$query->where('fp.person_id = '.$db->quote($item->id));
-				$query->order('f.title ASC');
-				$db->setQuery($query);
-				$item->flist = $db->loadObjectList();
-				$item->filmcnt = count($item->flist);
-			}
+			$item->films = XbcultureHelper::getPersonFilms($item->id);
+			$item->frolecnt = count($item->films);
+			$item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
+			
+// 			$item->filmcnt = 0;
+// 			$item->flist='';
+// 			if ($item->fcnt>0) {
+// 				$query = $db->getQuery(true);
+// 				$query->select('f.title, fp.role')->from('#__xbfilms AS f');
+// 				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
+// 				$query->where('fp.person_id = '.$db->quote($item->id));
+// 				$query->order('f.title ASC');
+// 				$db->setQuery($query);
+// 				$item->flist = $db->loadObjectList();
+// 				$item->filmcnt = count($item->flist);
+// 			}
 			
 			$item->ext_links = json_decode($item->ext_links);
 			$item->ext_links_list ='';
@@ -234,8 +241,8 @@ class XbpeopleModelPersons extends JModelList {
 				$item->ext_links_list = trim($item->ext_links_list,', ');
 			} //end if is_object
 			$item->persontags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
-			$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.person' , $item->id);
-			$item->booktags = $tagsHelper->getItemTags('com_xbbooks.person' , $item->id);
+//			$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.person' , $item->id);
+//			$item->booktags = $tagsHelper->getItemTags('com_xbbooks.person' , $item->id);
 		} //end foreach item
 		return $items;
 	}

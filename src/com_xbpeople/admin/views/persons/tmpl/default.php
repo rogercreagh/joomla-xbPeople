@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.9.9.4 26th July 2022
+ * @version 0.9.9.7 14th September 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -281,20 +281,21 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
 					<td>
-						<?php if ($item->filmcnt>0) : ?> 
-							<?php $tlist='';
-							foreach ($item->flist as $f) {
-								$tlist .= $f->title.' ('.$f->role.')<br />';
-							} ?>
-							<div class="hasPopover" title data-original-title="Film Roles"
-								data-content="<?php echo $tlist; ?>">
-								<a href="<?php echo $fplink; ?>" >
-									<span class="badge flmcnt"><?php echo $item->filmcnt;
-										if ($item->fcnt<>$item->filmcnt) {echo ' / '.$item->fcnt;} ?></span>
-						    	</a>
-						    </div>
-						<?php endif; ?>
-					</td>
+						<?php if ($item->fcnt>0) :?>
+    					<details>
+    						<summary><span class="xbnit">
+								<?php echo $item->fcnt.' ';
+								    echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>       					
+    							<?php if ($item->frolecnt > $item->fcnt ) : ?>
+             					    <span class="xbit xbnorm"> (
+             					    	<?php echo $item->frolecnt.' '.Text::_('XBCULTURE_ROLES');?>
+             					    )</span>
+             					<?php endif; ?>
+    						</span></summary>
+    						<?php echo $item->filmlist; ?>    						
+    					</details>
+    					<?php endif; ?>
+   					</td>
     			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 
