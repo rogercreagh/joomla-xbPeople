@@ -230,6 +230,7 @@ ul.nav-tabs {
 .xbmh300 {max-height:300px; }
 .xbmh400 {max-height:400px; }
 .xbpr10 {padding-right:10px;}
+.xbpt17 {padding-top:17px;}
 .xbyscroll { overflow-y:scroll;}
 
 .xbhlt {
@@ -277,7 +278,7 @@ ul.nav-tabs {
 .xbwid100 {
 	width:100px;
 }
-/* add spacing in toolbar to group buttone */
+/* add spacing in toolbar to group buttons */
 #toolbar-publish,  #toolbar-batch {
 	margin-left:25px;
 }
