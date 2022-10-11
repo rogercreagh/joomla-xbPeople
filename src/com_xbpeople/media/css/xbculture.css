@@ -1,7 +1,7 @@
 /*******
  * @package xbCulture components
  * @filesource media/css/xbculture.css
- * @version 0.9.8.8 7th June 2022
+ * @version 0.9.9.8 11th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -255,7 +255,7 @@ ul.nav-tabs {
 .xbrevlist {
 	border-bottom:1px solid lightgray;
 	padding-bottom:2px;
-	margin-bottom:6px;
+	margin-bottom:16px;
 }
 .xbgold { color:#edc500; }
 .xbred { color:#c00000; }
