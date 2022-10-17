@@ -1,7 +1,7 @@
 /*******
  * @package xbCulture components
  * @filesource media/css/xbculture.css
- * @version 0.9.9.8 11th October 2022
+ * @version 0.9.9.8 17th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -262,6 +262,7 @@ ul.nav-tabs {
 .xbfilm, .xbblue { color: #004080;}
 .xbbook, .xbgreen { color: #008040;}
 .xbdarkgrey { color: #555;}
+.xbgrey {color:#999;}
 
 .xbstarcell { /*used in backend dashboard */
 	overflow-wrap:anywhere; 
@@ -336,4 +337,7 @@ li :not(a) .xblistname {
 }
 .xblistnote:after {
 	content:')';
+}
+.xbrow0 > td {
+	background-color: #f9f9f9;
 }

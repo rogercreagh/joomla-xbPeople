@@ -74,7 +74,6 @@ class XbcultureHelper extends ContentHelper {
 	 * @param boolean $linked default true - if true link names to detail view 
 	 * @param int $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note 
 	 * NB if filtering by role then role not shown so 2=0, 3=1
-	 * NB no overall wrapper is provided eg [ul] or [div] so that wrapper and css can be added when output
 	 * @return string
 	 */
 	public static function makeLinkedNameList($items, $role='', $sep=', ', $linked=true, $rowfmt = 0) {
@@ -117,19 +116,18 @@ class XbcultureHelper extends ContentHelper {
     	       } elseif ($sep[-1] == '/') {
     	           $list .= '</'.trim($sep,'</');
     	       } else {
-    	           if ($i < ($cnt-1)) {
-    	               
-    	       }
-    	           if ($sep == 'br') {
-    	               $list = '<br />';
-    	           } elseif ($sep == 'comma') {
-    	               if ($cnt == 2) {
-            	           $list .= ' &amp; ';
-    	               } else {
-    	                   $list .= ', ';
-    	               }
-        	       } else {
-        	           $list .= $sep;
+    	           if ($i < ($cnt-1)) {    	               
+        	           if ($sep == 'br') {
+        	               $list = '<br />';
+        	           } elseif ($sep == 'comma') {
+        	               if ($cnt == 2) {
+                	           $list .= ' &amp; ';
+        	               } else {
+        	                   $list .= ', ';
+        	               }
+            	       } else {
+            	           $list .= $sep;
+        	           }
         	       }
     	       }
 	       }
@@ -140,7 +138,6 @@ class XbcultureHelper extends ContentHelper {
 	    } elseif ($sep == 'ol') {
 	        $list .= '</ol>';
 	    }
-	    
 	    return $list;
 	}
 	
