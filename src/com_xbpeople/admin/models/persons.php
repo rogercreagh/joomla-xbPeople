@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.9.7 14th September 2022
+ * @version 0.9.9.8 20th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -56,6 +56,7 @@ class XbpeopleModelPersons extends JModelList {
 		if ($this->xbbooksStatus) {
 			$query->join('LEFT',$db->quoteName('#__xbbookperson', 'b') . ' ON ' . $db->quoteName('b.person_id') . ' = ' .$db->quoteName('a.id'));
 			$query->select('COUNT(DISTINCT b.book_id) AS bcnt');
+        //TODO add eventpersons
 		} else {
 			$query->select('0 AS bcnt');
 		}
@@ -93,8 +94,40 @@ class XbpeopleModelPersons extends JModelList {
 		    $query->where('a.nationality = '.$db->quote($natfilt));
 		}
 		
-		//TODO add filter by roles and status book/film/orphan
-		
+		//Filter by role
+		$rolefilt = $this->getState('filter.rolefilt');
+		if (!empty($rolefilt)) {
+		    if ($this->xbfilmsStatus && ($rolefilt == 'film')) {
+		        $query->where('f.id IS NOT NULL');
+		    } elseif ($this->xbbooksStatus && ($rolefilt == 'book')) {
+		        $query->where('b.id IS NOT NULL');
+		    //TODO add event person filter
+		    } elseif ($rolefilt == 'orphans') {
+		        if ($this->xbbooksStatus) {
+		            $query->where('b.id IS NULL'); //TODO and e.id is null for events
+		        }
+		        if ($this->xbfilmsStatus) {
+		            $query->where('f.id IS NULL'); //TODO and e.id is null for events
+		        }
+		    } else {
+		        $rolestr = '';
+		        //TODO tidy this up as if both books and films exist we'll be looking for film roles in books and vice versa
+		        if ($this->xbfilmsStatus){
+		            $rolestr = 'f.role = '.$db->quote($rolefilt);
+		        }
+		        if ($this->xbfilmsStatus && $this->xbbooksStatus) {
+		            $rolestr .= ' OR ';
+		        }
+		        if ($this->xbbooksStatus){
+		            $rolestr = 'b.role = '.$db->quote($rolefilt);
+		        }
+		        //TODO add event person filter
+		        if ($rolestr) {
+    		        $query->where('('.$rolestr.')');
+		        }
+		    }
+		}
+			
 		// Filter by category.
 		$app = Factory::getApplication();
 		$categoryId = $app->getUserStateFromRequest('catid', 'catid','');
@@ -119,60 +152,82 @@ class XbpeopleModelPersons extends JModelList {
 			$taglogic = $this->getState('filter.taglogic');  //0=ANY 1=ALL 2= None
 		}
 		
-		if (($taglogic === '2') && (empty($tagfilt))) {
-			//if if we select tagged=excl and no tags specified then only show untagged items
-			$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
+		if (empty($tagfilt)) {
+		    $subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
  					WHERE type_alias LIKE '.$db->quote('com_xb%.person').')';
-			$query->where('a.id NOT IN '.$subQuery);
-		}
+		    if ($taglogic === '1') {
+		        $query->where('a.id NOT IN '.$subQuery);
+		    } elseif ($taglogic === '2') {
+		        $query->where('a.id IN '.$subQuery);
+		    }
+		} else {
+		    $tagfilt = ArrayHelper::toInteger($tagfilt);
+		    $subquery = '(SELECT tmap.tag_id AS tlist FROM #__contentitem_tag_map AS tmap
+                WHERE tmap.type_alias = '.$db->quote('com_xbpeople.person').'
+                AND tmap.content_item_id = a.id)';
+		    switch ($taglogic) {
+		        case 1: //all
+		            for ($i = 0; $i < count($tagfilt); $i++) {
+		                $query->where($tagfilt[$i].' IN '.$subquery);
+		            }
+		            break;
+		        case 2: //none
+		            for ($i = 0; $i < count($tagfilt); $i++) {
+		                $query->where($tagfilt[$i].' NOT IN '.$subquery);
+		            }
+		            break;
+		        default: //any
+		            if (count($tagfilt)==1) {
+		                $query->where($tagfilt[0].' IN '.$subquery);
+		            } else {
+    		            $conds = array();
+    		            for ($i = 0; $i < count($tagfilt); $i++) {
+    		                $conds[] = $tagfilt[$i].' IN '.$subquery;
+    		            }
+		                $query->where('1=1'); //bodge to ensure there is a where clause to extend
+		                $query->extendWhere('AND', $conds, 'OR');
+		            }
+		            break;
+		      }
+		  } //end if $tagfilt
+// 		if (($taglogic === '2') && (empty($tagfilt))) {
+// 			//if if we select tagged=excl and no tags specified then only show untagged items
+// 			$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
+//  					WHERE type_alias LIKE '.$db->quote('com_xb%.person').')';
+// 			$query->where('a.id NOT IN '.$subQuery);
+// 		}
 		
-		if (!empty($tagfilt)) {
-			$tagfilt = ArrayHelper::toInteger($tagfilt);
-			
-			if ($taglogic==2) { //exclude anything with a listed tag
-				// subquery to get a virtual table of item ids to exclude
-				$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
-					WHERE type_alias LIKE '.$db->quote('com_xb%.person').
-					' AND tag_id IN ('.implode(',',$tagfilt).'))';
-				$query->where('a.id NOT IN '.$subQuery);
-			} else {
-				if (count($tagfilt)==1)	{ //simple version for only one tag
-					$query->join( 'INNER', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-							. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id') )
-							->where(array( $db->quoteName('tagmap.tag_id') . ' = ' . $tagfilt[0],
-									$db->quoteName('tagmap.type_alias') . ' LIKE ' . $db->quote('com_xb%.person') )
-									);
-				} else { //more than one tag
-					if ($taglogic == 1) { // match ALL listed tags
-						// iterate through the list adding a match condition for each
-						for ($i = 0; $i < count($tagfilt); $i++) {
-							$mapname = 'tagmap'.$i;
-							$query->join( 'INNER', $db->quoteName('#__contentitem_tag_map', $mapname).
-									' ON ' . $db->quoteName($mapname.'.content_item_id') . ' = ' . $db->quoteName('a.id'));
-							$query->where( array(
-									$db->quoteName($mapname.'.tag_id') . ' = ' . $tagfilt[$i],
-									$db->quoteName($mapname.'.type_alias') . ' LIKE ' . $db->quote('com_xb%.person'))
-									);
-						}
-					} else { // match ANY listed tag
-						// make a subquery to get a virtual table to join on
-						$subQuery = $db->getQuery(true)
-						->select('DISTINCT ' . $db->quoteName('content_item_id'))
-						->from($db->quoteName('#__contentitem_tag_map'))
-						->where( array(
-								$db->quoteName('tag_id') . ' IN (' . implode(',', $tagfilt) . ')',
-								$db->quoteName('type_alias') . ' LIKE ' . $db->quote('com_xb%.person'))
-								);
-						$query->join(
-								'INNER',
-								'(' . $subQuery . ') AS ' . $db->quoteName('tagmap')
-								. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-								);
-						
-					} //endif all/any
-				} //endif one/many tag
-			}
-		} //if not empty tagfilt
+// 		if ($tagfilt && is_array($tagfilt)) {
+// 		    $tagfilt = ArrayHelper::toInteger($tagfilt);
+// 		    $subquery = '(SELECT tmap.tag_id AS tlist FROM #__contentitem_tag_map AS tmap
+//                 WHERE tmap.type_alias = '.$db->quote('com_xbpeople.person').'
+//                 AND tmap.content_item_id = a.id)';
+// 		    switch ($taglogic) {
+// 		        case 1: //all
+// 		            for ($i = 0; $i < count($tagfilt); $i++) {
+// 		                $query->where($tagfilt[$i].' IN '.$subquery);
+// 		            }
+// 		            break;
+// 		        case 2: //none
+// 		            for ($i = 0; $i < count($tagfilt); $i++) {
+// 		                $query->where($tagfilt[$i].' NOT IN '.$subquery);
+// 		            }
+// 		            break;
+// 		        default: //any
+// 		            $conds = array();
+// 		            for ($i = 0; $i < count($tagfilt); $i++) {
+// 		                $conds[] = $tagfilt[$i].' IN '.$subquery;
+// 		            }
+// 		            if (count($tagfilt)==1) {
+// 		                $query->where($tagfilt[0].' IN '.$subquery);
+// 		            } else {
+// 		                $query->where('1=1'); //bodge to ensure there is a where clause to extend
+// 		                $query->extendWhere('AND', $conds, 'OR');
+// 		            }
+// 		            break;
+// 		    }
+// 		} //end if $tagfilt
+		
 		
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'lastname');
@@ -201,21 +256,48 @@ class XbpeopleModelPersons extends JModelList {
 			$item->bookcnt = 0;
 			$item->blist='';
 			if ($item->bcnt>0) {
-				//we want a list of book title and role for each person (item)
-				$query = $db->getQuery(true);
-				$query->select('b.title, bp.role')->from('#__xbbooks AS b');
-				$query->join('LEFT', '#__xbbookperson AS bp ON bp.book_id = b.id');
-				$query->where('bp.person_id = '.$db->quote($item->id));
-				$query->order('b.title ASC');
-				$db->setQuery($query);
-				$item->blist = $db->loadObjectList();
-				$item->bookcnt = count($item->blist);
-			} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
+// 				//we want a list of book title and role for each person (item)
+// 				$query = $db->getQuery(true);
+// 				$query->select('b.title, bp.role')->from('#__xbbooks AS b');
+// 				$query->join('LEFT', '#__xbbookperson AS bp ON bp.book_id = b.id');
+// 				$query->where('bp.person_id = '.$db->quote($item->id));
+// 				$query->order('b.title ASC');
+// 				$db->setQuery($query);
+// 				$item->blist = $db->loadObjectList();
+// 				$item->bookcnt = count($item->blist);
+			    $item->books = XbcultureHelper::getPersonBooks($item->id);
+			    $item->brolecnt = count($item->books);
+			    $broles = array_column($item->books,'role');
+			    $item->authorcnt = count(array_keys($broles, 'author'));
+			    $item->editorcnt = count(array_keys($broles, 'editor'));
+			    $item->othercnt = count(array_keys($broles, 'other'));
+			    $item->mentioncnt = count(array_keys($broles, 'mention'));
+			    
+			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,1);
+			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,1);
+			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,1);
+			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,1);
+			} //bcnt is the number of books, brolecnt is the number of roles (there may be 2 roles in a book)
 			
-			
-			$item->films = XbcultureHelper::getPersonFilms($item->id);
-			$item->frolecnt = count($item->films);
-			$item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
+			if ($item->fcnt>0) {
+    			$item->films = XbcultureHelper::getPersonFilms($item->id);
+    			$item->frolecnt = count($item->films);
+    //			$item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
+    			
+    			$froles = array_column($item->films,'role');
+    			$item->dircnt = count(array_keys($froles, 'director'));
+    			$item->prodcnt = count(array_keys($froles, 'producer'));
+    			$item->crewcnt = count(array_keys($froles, 'crew'));
+    			$item->appcnt = count(array_keys($froles, 'appearsin'));
+    			$item->castcnt = count(array_keys($froles, 'actor'));
+    			
+    			$item->dirlist = $item->dircnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'director','ul',true,1);
+    			$item->prodlist = $item->prodcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'producer','ul',true,1);
+    			$item->crewlist = $item->crewcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'crew','ul',true,1);
+    			$item->castlist = $item->castcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'actor','ul',true,1);
+    			$item->applist = $item->appcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'appearsin','ul',true,1);
+			    
+			}
 			
 // 			$item->filmcnt = 0;
 // 			$item->flist='';

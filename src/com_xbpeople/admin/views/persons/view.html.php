@@ -19,19 +19,14 @@ use Joomla\CMS\Layout\FileLayout;
 class XbpeopleViewPersons extends JViewLegacy {
 
     function display($tpl = null) {
-        // Get application
-//        $app = Factory::getApplication();
-//        $context = "xbpeople.list.admin.persons";
-        // Get data from the model
+
         $this->items		= $this->get('Items');
+
         $this->pagination	= $this->get('Pagination');
-        
         $this->state			= $this->get('State');
         $this->filterForm    	= $this->get('FilterForm');
         $this->activeFilters 	= $this->get('ActiveFilters');
         
-        // $this->filter_order 	= $app->getUserStateFromRequest($context.'filter_order', 'filter_order', 'lastname', 'cmd');
-        // $this->filter_order_Dir = $app->getUserStateFromRequest($context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
         $this->searchTitle = $this->state->get('filter.search');
         $this->catid 		= $this->state->get('catid');
         if ($this->catid>0) {

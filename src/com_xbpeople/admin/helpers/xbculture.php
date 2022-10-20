@@ -557,6 +557,52 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
+	 * @name getPersonFilms()
+	 * @desc for given person returns an array of films and roles
+	 * @param int $personid
+	 * @param string $role - if not blank only get the specified role
+	 * @return array of objects with name,rel_year,role,role_note,link
+	 */
+	public static function getPersonBooks(int $personid, $role='') {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $blink = 'index.php?option=com_xbbooks&view=book';
+	    if ($isadmin) {
+	        $blink .= '&layout=edit';
+	    }
+	    $blink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.role, a.role_note AS note, b.title AS name, b.pubyear, b.id, b.state AS bstate')
+	    ->from('#__xbbookperson AS a')
+	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
+	    ->where('a.person_id = "'.$personid.'"' );
+	    if (!$isadmin) {
+	        $query->where('b.state = 1');
+	    }
+	    if (!empty($role)) {
+	        $query->where('a.role = "'.$role.'"');
+	    } else { //order by role, listorder before title
+	        $query->order('(case a.role when '.$db->quote('author').' then 0
+                when '.$db->quote('editor').' then 1
+                when '.$db->quote('other').' then 2
+                when '.$db->quote('mention').' then 3
+                end)');
+	        $query->order('a.listorder ASC');
+	    }
+	    $query->order('b.title');
+	    $db->setQuery($query);
+	    $books = $db->loadObjectList();
+	    foreach ($books as $book){
+	        $book->link = Route::_($blink . $book->id);
+	        if ($book->bstate != 1) {
+	            $book->name = '<span class="xbhlt">'.$book->name.'</span>';
+	        }
+	    }
+	    return $books;
+	}
+	
+	/**
 	 * @name getCharBookRoles()
 	 * @desc for given person returns and array of books and roles
 	 * @param int $charid

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.9.9.7 14th September 2022
+ * @version 0.9.9.8 20th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -123,19 +123,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<?php if($this->xbbooks_ok) : ?>
     			<th>
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>
-                    <div class="pull-right"><span class="hasPopover xbinfo fas fa-info-circle" style="text-decoration: none;" data-trigger="hover" title 
-					data-original-title="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_TITLE');?>" data-content="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_INFO'); ?>" >
-				</span>&nbsp;</div>
     			</th>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
     			<th >
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
-					<?php if (!$this->xbbooks_ok) : ?>
-						<div class="pull-right"><span class="hasPopover xbinfo fas fa-info-circle" style="text-decoration: none;" data-trigger="hover" title 
-							data-original-title="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_TITLE');?>" data-content="<?php echo Text::_('XBCULTURE_ITEM_COUNTS_INFO'); ?>" >
-						</span>&nbsp;</div>
-					<?php endif; ?>					
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
@@ -264,37 +256,136 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
                     </td>
     			<?php if($this->xbbooks_ok) : ?>
 					<td>
-						<?php if ($item->bookcnt>0) : ?> 
-							<?php $tlist='';
-							foreach ($item->blist as $bk) {
-								$tlist .= $bk->title.' ('.$bk->role.')<br />';
-							} ?>
+						<?php if ($item->bcnt>0) :?>
+							<?php echo $item->brolecnt.' ';
+							echo $item->brolecnt ==1 ? Text::_('XBCULTURE_ROLE') : Text::_('XBCULTURE_ROLES');?>
+							in
+							<?php echo $item->bcnt.' ';
+							echo $item->bcnt ==1 ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
+    						<?php if ($item->authorcnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_AUTHOR_OF').' '.$item->authorcnt.' ';
+     								echo ($item->authorcnt==1)?Text ::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
+                                </span></summary>
+     							<?php echo $item->authorlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->editorcnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_EDITOR_OF').' '.$item->editorcnt.' ';
+     								echo ($item->editorcnt==1)? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
+                                </span></summary>
+    							<?php echo $item->editorlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->othercnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_OTHER_ROLE_ON').' '.$item->othercnt.' ';
+     								echo ($item->othercnt==1)? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
+                                </span></summary>
+    							<?php echo $item->otherlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->mentioncnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_MENTION_IN').' '.$item->mentioncnt.' ';
+     								echo ($item->mentioncnt==1)? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
+                                </span></summary>
+    							<?php echo $item->mentionlist; ?>
+                              </details>
+    						<?php endif; ?> 
+						<?php endif; ?>
+    			
+    			<!-- 
+						<?php //if ($item->bookcnt>0) : ?> 
+							<?php //$tlist='';
+							//foreach ($item->blist as $bk) {
+								//$tlist .= $bk->title.' ('.$bk->role.')<br />';
+							//} ?>
 							<div class="hasPopover" title data-original-title="Book Roles"
-								data-content="<?php echo $tlist; ?>">
-								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"><?php echo $item->bookcnt;
-										if ($item->bcnt<>$item->bookcnt) { echo ' / '.$item->bcnt;} ?></span>
+								data-content="<?php //echo $tlist; ?>">
+								<a href="<?php //echo $bplink; ?>" >
+									<span class="badge bkcnt"><?php //echo $item->bookcnt;
+										//if ($item->bcnt<>$item->bookcnt) { echo ' / '.$item->bcnt;} ?></span>
 						    	</a>
 							</div>
-						<?php endif; ?> 
+						<?php //endif; ?> 
+    			 -->
 					</td>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
 					<td>
 						<?php if ($item->fcnt>0) :?>
+							<?php echo $item->frolecnt.' ';
+							echo $item->frolecnt ==1 ? Text::_('XBCULTURE_ROLE') : Text::_('XBCULTURE_ROLES');?>
+							in
+							<?php echo $item->fcnt.' ';
+							echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>
+    						<?php if ($item->dircnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_DIRECTOR_OF').' '.$item->dircnt.' ';
+                                    echo ($item->dircnt==1)?Text ::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
+                                </span></summary>
+     							<?php echo $item->dirlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->prodcnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_PRODUCER_OF').' '.$item->prodcnt.' ';
+                                    echo ($item->prodcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
+                                </span></summary>
+    							<?php echo $item->prodlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->crewcnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_CREW_ON').' '.$item->crewcnt.' ';
+     								echo ($item->crewcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
+                                </span></summary>
+    							<?php echo $item->crewlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->castcnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_ACTOR_IN').' '.$item->castcnt.' ';
+     								echo ($item->castcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
+                                </span></summary>
+    							<?php echo $item->castlist; ?>
+                              </details>
+    						<?php endif; ?> 
+    						<?php if ($item->appcnt>0) : ?>
+                              <details>
+                              	<summary><span class="xbnit">
+     								<?php echo Text::_('XBCULTURE_SUBJECT_CAMEO').' '.$item->appcnt.' ';
+     								echo ($item->appcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
+                                </span></summary>
+    							<?php echo $item->applist; ?>
+                              </details>
+    						<?php endif; ?> 
+						<?php endif; ?>
+						<!-- 
     					<details>
     						<summary><span class="xbnit">
-								<?php echo $item->fcnt.' ';
-								    echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>       					
-    							<?php if ($item->frolecnt > $item->fcnt ) : ?>
+								<?php //echo $item->fcnt.' ';
+								    //echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>       					
+    							<?php //if ($item->frolecnt > $item->fcnt ) : ?>
              					    <span class="xbit xbnorm"> (
-             					    	<?php echo $item->frolecnt.' '.Text::_('XBCULTURE_ROLES');?>
+             					    	<?php //echo $item->frolecnt.' '.Text::_('XBCULTURE_ROLES');?>
              					    )</span>
-             					<?php endif; ?>
+             					<?php //endif; ?>
     						</span></summary>
-    						<?php echo $item->filmlist; ?>    						
+    						<?php //echo $item->filmlist; ?>    						
     					</details>
-    					<?php endif; ?>
+    					<?php // endif; ?>
+						 -->
    					</td>
     			<?php endif; ?>
 					<td>
@@ -306,16 +397,6 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 						<ul class="inline">
 						<?php foreach ($item->persontags as $t) : ?>
 							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
-								<?php echo $t->title; ?></a>
-							</li>													
-						<?php endforeach; ?>
-						<?php foreach ($item->booktags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label bkcnt">
-								<?php echo $t->title; ?></a>
-							</li>													
-						<?php endforeach; ?>
-						<?php foreach ($item->filmtags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label flmcnt">
 								<?php echo $t->title; ?></a>
 							</li>													
 						<?php endforeach; ?>
