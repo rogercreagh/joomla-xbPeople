@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.9.8 20th October 2022
+ * @version 0.9.9.8 21st October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -154,7 +154,7 @@ class XbpeopleModelPersons extends JModelList {
 		
 		if (empty($tagfilt)) {
 		    $subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
- 					WHERE type_alias LIKE '.$db->quote('com_xb%.person').')';
+ 					WHERE type_alias LIKE '.$db->quote('com_xbpeople.person').')';
 		    if ($taglogic === '1') {
 		        $query->where('a.id NOT IN '.$subQuery);
 		    } elseif ($taglogic === '2') {
@@ -180,12 +180,12 @@ class XbpeopleModelPersons extends JModelList {
 		            if (count($tagfilt)==1) {
 		                $query->where($tagfilt[0].' IN '.$subquery);
 		            } else {
-    		            $conds = array();
-    		            for ($i = 0; $i < count($tagfilt); $i++) {
-    		                $conds[] = $tagfilt[$i].' IN '.$subquery;
-    		            }
-		                $query->where('1=1'); //bodge to ensure there is a where clause to extend
-		                $query->extendWhere('AND', $conds, 'OR');
+		                $tagIds = implode(',', $tagfilt);
+		                if ($tagIds) {
+		                    $subQueryAny = '(SELECT DISTINCT content_item_id FROM #__contentitem_tag_map
+                                WHERE tag_id IN ('.$tagIds.') AND type_alias = '.$db->quote('com_xbpeople.person').')';
+		                    $query->innerJoin('(' . (string) $subQueryAny . ') AS tagmap ON tagmap.content_item_id = a.id');
+		                }
 		            }
 		            break;
 		      }
