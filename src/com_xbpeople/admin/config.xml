@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople config.xml v0.9.9.4 29th July 2022 -->
+<!-- xbPeople config.xml v0.9.9.8 22nd October 2022 -->
 <config>
 <!-- GENERAL TAB -->
 	<fieldset name="general"
@@ -307,60 +307,76 @@
 		</field>
 			    
   		<field name="catlistnote" type="note"
-			label="Category Counts View Options"
+			label="Categories View Options"
+			showon="show_cats:1"
 			class="info"
 		/>	
-		<field name="show_cat_desc" type="radio"
+  		<field name="nocatlistnote" type="note"
+			label="Categories are disabled for xbFilms Component"
+			showon="show_cats:0"
+			class="info"
+		/>	
+		<field name="show_clist_desc" type="radio"
 			default="1"
 			label="Show Description"
-			description="Show category description column"
+			description="Show description column"
   			class="btn-group btn-group-yesno"
+			showon="show_cats:1"
 			>
-				<option value="0" >JNO</option>
-				<option value="1">JYES</option>
+				<option value="0" >No</option>
+				<option value="1">Yes</option>
 		</field>	
 		<field name="show_clist_empty" type="radio"
 			default="0"
 			label="Show Empty Categories"
 			description="Show categories which have no items"
   			class="btn-group btn-group-yesno"
+			showon="show_cats:1"
 			>
 				<option value="0" >No</option>
 				<option value="1">Yes</option>
 		</field>	
-		<field name="show_cat_parent" type="radio"
+		<field name="show_catspath" type="radio"
+			label="Show Parents (hierarchy)"
+			description="Show parents (if not level 1) as column before title in list views."
+			class="btn-group btn-group-yesno"
+			showon="show_cats:1"
 			default="1"
-			label="Show Category parents"
-			description="Show category hierarchy - requires showing empty categories, sort will be by parent then title"
-  			class="btn-group btn-group-yesno"
-  			showon="show_clist_empty:1"
 			>
-				<option value="0" >JNO</option>
-				<option value="1">JYES</option>
-		</field>	
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 		
   		<field name="taglistnote" type="note"
-			label="Tag Counts View Options"
+			label="Tag List View Options"
+			class="info"
+			showon="show_tags:1"
+		/>	
+  		<field name="notaglistnote" type="note"
+			label="Tags are disabled for xbFilms Component"
+			showon="show_tags:0"
 			class="info"
 		/>	
-		<field name="show_tag_desc" type="radio"
+		<field name="show_tlist_desc" type="radio"
 			default="1"
 			label="Show Description"
-			description="show description column"
+			description="Show description column"
   			class="btn-group btn-group-yesno"
+			showon="show_tags:1"
 			>
-				<option value="0" >JNO</option>
-				<option value="1">JYES</option>
+				<option value="0" >No</option>
+				<option value="1">Yes</option>
 		</field>	
-		<field name="show_tag_parent" type="radio"
+		<field name="show_tagspath" type="radio"
+			label="Show Parents (hierarchy)"
+			description="Show parents (if not level 1) as column before title in list view."
+			class="btn-group btn-group-yesno"
+			showon="show_tags:1"
 			default="1"
-			label="Show Tag parents"
-			description="show tag hierarchy - if shown sort will be by parent, then title"
-  			class="btn-group btn-group-yesno"
 			>
-				<option value="0" >JNO</option>
-				<option value="1">JYES</option>
-		</field>	
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 		
  	</fieldset>
 
@@ -422,43 +438,67 @@
 
   		<field name="categorynote" type="note"
 			label="Category View Options"
-			description="Options for the Category view which lists all the items in a category."
+			description="Options for the Single Category view which lists all the items in a category."
 			class="info"
+			showon="show_cats:1"
 		/>			
-		<field name="category_layout" type="componentlayout"
-	        label="JFIELD_ALT_LAYOUT_LABEL"
-	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-	       	extension="com_xbbooks" view="category" 
-	    />
+  		<field name="nocatnote" type="note"
+			label="Categories are disabled for xbFilms Component"
+			showon="show_cats:0"
+			class="info"
+		/>	
 		<field name="show_catdesc" type="radio" 
 	        label="Show Description"
-	        description="Show category description under the name"
+	        description="Show category description under the name and above the lists,"
 			class="btn-group btn-group-yesno"
-			default="1"
+	        default="1"
+			showon="show_cats:1"
 	    	>
 	        	<option value="0">JNO</option>
 	        	<option value="1">JYES</option>
 		</field>       
+		<field name="show_catpath" type="radio"
+			label="Show Parents (hierarchy)"
+			description="Show parents (if not level 1) before title."
+			class="btn-group btn-group-yesno"
+			showon="show_cats:1"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
   		<field name="tagnote" type="note"
 			label="Tag View Options"
-			description="Options for the Category view which lists all the items in a category."
+			description="Options for the Tag view which lists all the items with a given tag."
 			class="info"
+			showon="show_tags:1"
 		/>			
-		<field name="tag_layout" type="componentlayout"
-	        label="JFIELD_ALT_LAYOUT_LABEL"
-	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-	       	extension="com_xbbooks" view="tag" 
-	    />
+  		<field name="notagnote" type="note"
+			label="Tags are disabled for xbFilms Component"
+			showon="show_cats:0"
+			class="info"
+		/>	
 		<field name="show_tagdesc" type="radio" 
 	        label="Show Description"
 	        description="Show tag description under the name and above the lists,"
 			class="btn-group btn-group-yesno"
-			default="1"
+	        default="1"
+			showon="show_tags:1"
 	    	>
 	        	<option value="0">JNO</option>
 	        	<option value="1">JYES</option>
 		</field>       
+		<field name="show_tagpath" type="radio"
+			label="Show Parents (hierarchy)"
+			description="Show parents (if not level 1) as column before title in list view."
+			class="btn-group btn-group-yesno"
+			showon="show_tags:1"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
 	</fieldset>
 

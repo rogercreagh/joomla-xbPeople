@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tag/view.html.php
- * @version 0.9.9.0 29th June 2022
+ * @version 0.9.9.8 18th October 2022
  * @since v0.5.1
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -28,6 +28,7 @@ class XbpeopleViewTag extends JViewLegacy {
 		}
 		
 		$this->hide_empty = $this->params->get('hide_empty','','int');
+		$this->show_tagpath = $this->params->get('show_tagpath',1,'int');
 		
 		$document = $this->document; //Factory::getDocument();
 		$document->setTitle('Tag view: '.$this->item->title);

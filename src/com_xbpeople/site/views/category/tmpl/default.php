@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/category/tmpl/default.php
- * @version 0.9.9.1 6th July 2022
+ * @version 0.9.9.8 18th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -40,16 +40,14 @@ $show_catdesc = $this->params->get('show_catdesc',1);
 		<h4><?php echo Text::_('XBCULTURE_ITEMS_IN_CAT'); ?></h4>		
 	</div>	
 	<div class="span9">
-          <div class="badge badge-success pull-left"><h3><?php echo $item->title; ?></h3></div>
-          
-		<?php if ((!$this->hide_empty) && (strpos($item->path,'/')!==false)) : ?>
-			<div class="xb11 pull-left" style="padding-top:20px;margin-left:40px;">
-				<i><?php echo Text::_('XBCULTURE_HEIRARCHY_U'); ?>:</i> 
+		<?php if (($this->show_catpath) && ($item->level>1)) : ?>
+			<div class="xb11 pull-left xbmr10 xbpt17 xbit xbgrey">				
 				<?php  $path = substr($item->path, 0, strrpos($item->path, '/'));
 					$path = str_replace('/', ' - ', $path);
-					echo $path; ?>
+					echo $path.' - ' ; ?>
         	</div>
         <?php endif; ?>
+          <div class="badge badge-success pull-left"><h3><?php echo $item->title; ?></h3></div>
 	</div>	
 </div>
 <?php if (($show_catdesc) && ($item->description != '')) : ?>
