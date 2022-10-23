@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.4 29th July 2022
+ * @version 0.9.9.8 23rd October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -86,57 +86,78 @@ class XbcultureHelper extends ContentHelper {
 	    } elseif ($sep == 'ol') {
 	        $list .= '<ol>';
 	    }
+        $p = 0;
 	    for ($i = 0; $i < $cnt; $i++) {
-	       $item = $items[$i];
-	       if (($role == '') || ($item->role == $role)) {
-	           if (($sep == 'ul') || ($sep == 'ol')) {
-	           $list .= '<li>';
-    	       } elseif ($sep[-1] == '/') {
-    	           $list .= trim($sep,'/');
-    	       }
-    	       if ((empty($role)) && ($rowfmt == '1')) {
-    	           $list .= '<span class="xblistrolefirst">'.$roletitles[$item->role] . '</span> ';
-    	       }
-    	       if ($linked) {
-    	           $list .= '<a href="'.$item->link.'" class="xblistlink">';
-    	       }
-    	       $list .= '<span class="xblistname">'.$item->name.'</span>';
-    	       if ($linked) {
-    	           $list .= '</a>';
-    	       }
-    	       $list .= ' ';
-    	       if ((empty($role)) && ($rowfmt >= 2)) {
-    	           $list .= '<span class="xblistrolesecond">'.$roletitles[$item->role] . '</span> ';	           
-    	       }
-    	       if ((!empty($item->note)) && (($rowfmt ==1) || ($rowfmt == 3))) {
-    	           $list .= '<span class="xblistnote">'.$item->note.'</span>';
-    	       }
-    	       if (($sep == 'ul') || ($sep == 'ol')) {
-    	           $list .= '</li>';
-    	       } elseif ($sep[-1] == '/') {
-    	           $list .= '</'.trim($sep,'</');
-    	       } else {
-    	           if ($i < ($cnt-1)) {    	               
-        	           if ($sep == 'br') {
-        	               $list = '<br />';
-        	           } elseif ($sep == 'comma') {
-        	               if ($cnt == 2) {
-                	           $list .= ' &amp; ';
+	        if (($role=='') || ($role == $item->role)) {
+    	        $item = $items[$i];
+    	        $p ++;
+    	        if (($role == '') || ($item->role == $role)) {
+    	           if (($sep == 'ul') || ($sep == 'ol')) {
+    	               $list .= '<li>';
+        	       } elseif ($sep[-1] == '/') {
+        	           $list .= trim($sep,'/');
+        	       }
+        	       if ((empty($role)) && ($rowfmt == '1')) {
+        	           $list .= '<span class="xblistrolefirst">'.$roletitles[$item->role] . '</span> ';
+        	       }
+        	       if ($linked) {
+        	           $list .= '<a href="'.$item->link.'" class="xblistlink">';
+        	       }
+        	       $list .= '<span class="xblistname">'.$item->name.'</span>';
+        	       if ($linked) {
+        	           $list .= '</a>';
+        	       }
+        	       $list .= ' ';
+        	       if ((empty($role)) && ($rowfmt >= 2)) {
+        	           $list .= '<span class="xblistrolesecond">'.$roletitles[$item->role] . '</span> ';	           
+        	       }
+        	       if ((!empty($item->note)) && (($rowfmt ==1) || ($rowfmt == 3))) {
+        	           $list .= '<span class="xblistnote">'.$item->note.'</span>';
+        	       }
+        	       switch ($sep) {
+        	           case 'ul':
+        	           case 'ol':
+        	               $list .= '</li>';
+        	               break;
+        	           case 'comma':
+        	               if ($p == 1) {
+        	                   $list .= ' &amp; ';
         	               } else {
         	                   $list .= ', ';
         	               }
-            	       } else {
-            	           $list .= $sep;
-        	           }
+        	               break;
+        	           case 'br':
+        	               $list .= '<br />';
+        	               break;
+        	           default:
+        	               $list .= $sep;
+        	               break;
         	       }
     	       }
-	       }
+	            
+	        }
+	       
 	    } //endfor
-	    //trim trailing separator
-	    if ($sep == 'ul') {
-	        $list .= '</ul>';
-	    } elseif ($sep == 'ol') {
-	        $list .= '</ol>';
+	    switch ($sep) {
+	        case 'ul':
+	            $list .= '</ul>';
+    	        break;
+	        case 'ol':
+	            $list .= '</ol>';
+	            break;
+	        case 'comma' :
+	            $list = trim($list,', ');
+	            if (substr($list,-5)== '&amp;') {
+	                $list = substr($list,0,strlen($list-5));
+	            }
+	            break;
+	        case 'br':
+	            if (substr($list,-6)== '<br />') {
+	               $list = substr($list,0,strlen($list)-6);
+	            }
+	        default:
+	                $list = trim($list,$sep);
+	        break;
 	    }
 	    return $list;
 	}
