@@ -72,11 +72,11 @@ class XbcultureHelper extends ContentHelper {
 	 * NB comma = ', ' if only 2 items then comma = ' &amp; '. li will be '[li]item[/li]' 
 	 * NB [string] can be html eg '[p]/' where the / tells it to close the tag at end of row
 	 * @param boolean $linked default true - if true link names to detail view 
-	 * @param int $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note 
+	 * @param int $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note , 4=name
 	 * NB if filtering by role then role not shown so 2=0, 3=1
 	 * @return string
 	 */
-	public static function makeLinkedNameList($items, $role='', $sep=', ', $linked=true, $rowfmt = 0) {
+	public static function makeLinkedNameList($items, $role='', $sep='comma', $linked=true, $rowfmt = 0) {
 	    $list = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
 	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'));
@@ -87,9 +87,8 @@ class XbcultureHelper extends ContentHelper {
 	        $list .= '<ol>';
 	    }
         $p = 0;
-	    for ($i = 0; $i < $cnt; $i++) {
+    	foreach ($items as $item) {
 	        if (($role=='') || ($role == $item->role)) {
-    	        $item = $items[$i];
     	        $p ++;
     	        if (($role == '') || ($item->role == $role)) {
     	           if (($sep == 'ul') || ($sep == 'ol')) {
@@ -148,7 +147,7 @@ class XbcultureHelper extends ContentHelper {
 	        case 'comma' :
 	            $list = trim($list,', ');
 	            if (substr($list,-5)== '&amp;') {
-	                $list = substr($list,0,strlen($list-5));
+	                $list = substr($list,0,strlen($list)-5);
 	            }
 	            break;
 	        case 'br':
@@ -578,8 +577,8 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
-	 * @name getPersonFilms()
-	 * @desc for given person returns an array of films and roles
+	 * @name getPersonBooks()
+	 * @desc for given person returns an array of books and roles
 	 * @param int $personid
 	 * @param string $role - if not blank only get the specified role
 	 * @return array of objects with name,rel_year,role,role_note,link
@@ -624,7 +623,7 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
-	 * @name getCharBookRoles()
+	 * @name getCharBooks()
 	 * @desc for given person returns and array of books and roles
 	 * @param int $charid
 	 * @param boolean $order - field to order list by (role first if specified)
@@ -632,6 +631,10 @@ class XbcultureHelper extends ContentHelper {
 	 */
 	public static function getCharBooks(int $charid, $order='title ASC') {
 	    $blink = 'index.php?option=com_xbbooks&view=book&id=';
+	    if (Factory::getApplication()->isClient('administrator')) {
+	        $blink .= '&layout=edit';
+	    }
+	    $blink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
@@ -642,8 +645,8 @@ class XbcultureHelper extends ContentHelper {
 	    $query->where('b.state = 1');
 	    $query->order('b.'.$order);
 	    $db->setQuery($query);
-	    $list = $db->loadObjectList();
-	    foreach ($list as $i=>$book){
+	    $books = $db->loadObjectList();
+	    foreach ($books as $i=>$book){
 	        $tlink = Route::_($blink . $book->id);
 	        $book->link = '<a href="'.$tlink.'">'.$book->title.'</a>';
 	        $book->listitem = '<li>'.$book->link;
@@ -656,7 +659,7 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
-	 * @name getCharFilm()
+	 * @name getCharFilms()
 	 * @desc for given person returns and array of films
 	 * @param int $charid
 	 * @param boolean $order - field to order list by (role first if specified)
@@ -689,7 +692,7 @@ class XbcultureHelper extends ContentHelper {
 	        $film->listitem = '<li>'.$film->link;
 	        if ($film->actor_id > 0) {
 	            $alink = Route::_($plink.$film->actor_id);
-	            $film->listitem .= ' <i>played by <a href="'.$alink.'">'.$film->firstname.' '.$film->lastname.'</a></i>)';
+	            $film->listitem .= ' <span class="xb09">(<i>played by <a href="'.$alink.'">'.$film->firstname.' '.$film->lastname.'</a></i>)</span>';
 	        }
 	        if ($film->char_note !='') {
 	            $film->listitem .= ' <i>('.$film->char_note.')</i>';

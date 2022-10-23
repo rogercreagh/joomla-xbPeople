@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/tag/tmpl/edit.php
- * @version 0.9.6.f 8th January 2022
+ * @version 0.9.9.8 23rd October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,18 +27,25 @@ $pelink = '&view=person&task=person.edit&id=';
 <?php endif;?>
 		<form action="index.php?option=com_xbpeople&view=tag" method="post" id="adminForm" name="adminForm">
 		<div class="row-fluid xbmb8">
-			<div class= "span4">
+			<div class= "span3">
 				  <h3><?php echo JText::_('COM_XBPEOPLE').' '. JText::_('XBCULTURE_TAG_ITEMS').':'; ?></h3>
 			</div>
-			<div class="span6">
+			<div class="span5">
+    			<div class="xb11 pull-left xbit xbpt17 xbgrey xbmr20">    				 
+    				<?php  $path = substr($item->path, 0, strrpos($item->path, '/'));
+    					$path = str_replace('/', ' - ', $path);
+    					echo 'root - '.$path; ?>
+            	</div>
 				<a href="<?php echo $telink.$item->id; ?>" class="badge badge-info">
 					<h2><?php echo $item->title; ?></h2>
 				</a>
 			</div>
             <div class="span2">
-				<p><?php echo '<i>'.JText::_('JGRID_HEADING_ID').'</i>: '.$item->id; ?></p>
                 <p><?php echo '<i>'.JText::_('XBCULTURE_ALIAS').'</i>: '.$item->alias; ?></p>
             </div>
+			<div class= "span2">
+				<p><?php echo '<i>'.JText::_('JGRID_HEADING_ID').'</i>: '.$item->id; ?></p>
+			</div>
 		</div>
 		<div class="row-fluid xbmb8">
 			<div class= "span6">
