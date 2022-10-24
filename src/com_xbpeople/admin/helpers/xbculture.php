@@ -357,6 +357,35 @@ class XbcultureHelper extends ContentHelper {
 		return $db->loadObjectList()[0];
 	}
 
+	/**
+	 *
+	 * @param unknown $linktable the table pointed to by the content_item on tag map eg #__xbbookperson or #__xbbooks or xbbookcharacter
+	 * @param unknown $linkitem the id field in linktable that will match the content_item id eg person_id or id or char_id
+	 * @param unknown $typealias the type alias for the tag map entries eg com_xbpeople.person or com_xbbooks.book
+	 * @return number
+	 */
+	public function getTagCntItem($linktable, $linkitem, $typealias) {
+	    //         SELECT a.content_item_id
+	    //         from `n6vbq_contentitem_tag_map` AS a
+	    //         JOIN  `n6vbq_xbfilmperson` AS bp
+	    //         ON bp.person_id = a.content_item_id
+	    //         WHERE a.type_alias = 'com_xbpeople.person'
+	    //         GROUP BY a.core_content_id
+	    $db = Factory::getDbo();
+	    $query =$db->getQuery(true);
+	    $query->select('a.content_item_id')
+	    ->from($db->quoteName('#__contentitem_tag_map'),'a')
+	    ->innerJoin($linktable.' AS lnk ON lnk.'.$linkitem.' = a.content_item_id')
+	    ->where('a.type_alias = '.$typealias)
+	    ->group('a.core_content_id');
+	    $db->setQuery($query);
+	    $res = $db->loadColumn();
+	    if ($res) return count($res);
+	    return 0;
+	}
+	
+	
+		
 /************ functions used on site side only **********************/
 	
 	/**

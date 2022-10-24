@@ -117,7 +117,7 @@ class XbpeopleModelDashboard extends JModelList {
     public function getTagcnts() {
     	//nedds rewrite 
     	$result = array('tagcnts' => array('percnt' => 0, 'charcnt' => 0), 'tags' => array(), 'taglist' => '' );
-    	$db = $this->getDbo();
+    	$db = Factory::getDbo();
     	$query =$db->getQuery(true);
     	//first we get the total number of each type of item with one or more tags
     	$query->select('type_alias,core_content_id, COUNT(*) AS numtags')
