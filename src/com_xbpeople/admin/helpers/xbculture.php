@@ -357,14 +357,16 @@ class XbcultureHelper extends ContentHelper {
 		return $db->loadObjectList()[0];
 	}
 
-	/**
-	 *
-	 * @param unknown $linktable the table pointed to by the content_item on tag map eg #__xbbookperson or #__xbbooks or xbbookcharacter
-	 * @param unknown $linkitem the id field in linktable that will match the content_item id eg person_id or id or char_id
-	 * @param unknown $typealias the type alias for the tag map entries eg com_xbpeople.person or com_xbbooks.book
-	 * @return number
-	 */
-	public function getTagCntItem($linktable, $linkitem, $typealias) {
+/**
+ * @name getItemsTaggedCnt()
+ * @desc return number of a specific type of item that have been tagged (distinct items)
+ * @param string $component - name of the component lower case with 'com_' prefix
+ * @param string $item - name of the item type
+ * @param string $linktable - optional restrict only to items with an entry in this table
+ * @param string $linkfield - optional name of field in linktable containg the item id used a content_item_id in tagmap
+ * @return number
+ */
+	public static function getItemsTaggedCnt($typealias, $linktable = '', $linkfield = 'id') {
 	    //         SELECT a.content_item_id
 	    //         from `n6vbq_contentitem_tag_map` AS a
 	    //         JOIN  `n6vbq_xbfilmperson` AS bp
@@ -374,9 +376,59 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDbo();
 	    $query =$db->getQuery(true);
 	    $query->select('a.content_item_id')
-	    ->from($db->quoteName('#__contentitem_tag_map'),'a')
-	    ->innerJoin($linktable.' AS lnk ON lnk.'.$linkitem.' = a.content_item_id')
-	    ->where('a.type_alias = '.$typealias)
+	       ->from($db->quoteName('#__contentitem_tag_map'),'a');
+	    if ($linktable) {
+	        $query->innerJoin($linktable.' AS lnk ON lnk.'.$linkfield.' = a.content_item_id');
+	    }	    
+	    $query->where('a.type_alias = '.$typealias)
+	       ->group('a.core_content_id');
+	    $db->setQuery($query);
+	    $res = $db->loadColumn();
+	    if ($res) return count($res);
+	    return 0;
+	}
+	
+	/**
+	 * @name getTagsItemCnts()
+	 * @desc returns the number of distinct items tagged with a specific typealias (eg com_xbbook.book)
+	 * @param string $typealias
+	 * @param string $itemtype optionally for .person or .character
+	 * @return number
+	 */
+	public static function getTagtypeItemCnts(string $typealias, $itemtype='')	{
+	    // 
+	    $linktable = '';
+	    $linkfield = '';
+	    switch ($itemtype) {
+	        case 'book':
+	            if ($typealias == 'com_xbpeople.person') {
+    	            $linktable = '#__xbbookperson';
+	                $linkfield = 'person_id';
+	            } elseif ($typealias == 'com_xbpeople.character') {
+	                $linktable = '#__xbbookcharacter';
+	                $linkfield = 'char_id';
+	            }
+	            break;	        
+	        case 'film':
+	            if ($typealias == 'com_xbpeople.person') {
+	                $linktable = '#__xbfilmperson';
+	                $linkfield = 'person_id';
+	            } elseif ($typealias == 'com_xbpeople.character') {
+	                $linktable = '#__xbfilmcharacter';
+	                $linkfield = 'char_id';
+	            }
+	            break;
+	        default:
+    	        break;
+	    }
+	    $db = Factory::getDbo();
+	    $query =$db->getQuery(true);
+	    $query->select('a.content_item_id')
+	    ->from($db->quoteName('#__contentitem_tag_map').' AS a');
+	    if ($linktable) {
+	        $query->innerJoin($linktable.' AS lnk ON lnk.'.$linkfield.' = a.content_item_id');
+	    }
+	    $query->where('a.type_alias = '.$db->quote($typealias))
 	    ->group('a.core_content_id');
 	    $db->setQuery($query);
 	    $res = $db->loadColumn();
@@ -384,8 +436,6 @@ class XbcultureHelper extends ContentHelper {
 	    return 0;
 	}
 	
-	
-		
 /************ functions used on site side only **********************/
 	
 	/**

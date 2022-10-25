@@ -116,28 +116,38 @@ class XbpeopleModelDashboard extends JModelList {
     
     public function getTagcnts() {
     	//nedds rewrite 
-    	$result = array('tagcnts' => array('percnt' => 0, 'charcnt' => 0), 'tags' => array(), 'taglist' => '' );
+    	$result = array('tagcnts' => array('bookper' => 0, 'filmper' =>0, 'allper' => 0, 
+    	    'bookchar' => 0, 'filmchar=> 0, allchar' => 0,
+    	    'percnt' => 0, 'charcnt' => 0), 'tags' => array(), 'taglist' => '' );
+    	
+    	$result['tagcnts']['bookper'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.person','book');
+    	$result['tagcnts']['bookchar'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.character','book');
+    	$result['tagcnts']['filmper'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.person','film');
+    	$result['tagcnts']['filmchar'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.character','film');
+    	$result['tagcnts']['allper'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.person','');
+    	$result['tagcnts']['allchar'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.character','');
+    	
     	$db = Factory::getDbo();
     	$query =$db->getQuery(true);
     	//first we get the total number of each type of item with one or more tags
-    	$query->select('type_alias,core_content_id, COUNT(*) AS numtags')
-    	->from('#__contentitem_tag_map')
-    	->where('type_alias LIKE '.$db->quote('com_xbfilms%'))
-    	->group('core_content_id, type_alias');
-    	//not checking that tag is published, not using numtags at this stage - poss in future
-    	$db->setQuery($query);
-    	$db->execute();
-    	$items = $db->loadObjectList();
-    	foreach ($items as $it) {
-    	    switch ($it->type_alias) {
-    	        case 'com_xbfilms.person':
-    	            $result['tagcnts']['percnt'] ++;
-    	            break;
-    	        case 'com_xbfilms.character':
-    	            $result['tagcnts']['charcnt'] ++;
-    	            break;
-    	    }
-    	}
+//     	$query->select('type_alias,core_content_id, COUNT(*) AS numtags')
+//     	->from('#__contentitem_tag_map')
+//     	->where('type_alias LIKE '.$db->quote('com_xbfilms%'))
+//     	->group('core_content_id, type_alias');
+//     	//not checking that tag is published, not using numtags at this stage - poss in future
+//     	$db->setQuery($query);
+//     	$db->execute();
+//     	$items = $db->loadObjectList();
+//     	foreach ($items as $it) {
+//     	    switch ($it->type_alias) {
+//     	        case 'com_xbfilms.person':
+//     	            $result['tagcnts']['percnt'] ++;
+//     	            break;
+//     	        case 'com_xbfilms.character':
+//     	            $result['tagcnts']['charcnt'] ++;
+//     	            break;
+//     	    }
+//     	}
     	//now we get the number of each type of item assigned to each tag
     	$query->clear();
     	$query->select('type_alias,t.id, t.title AS tagname ,COUNT(*) AS tagcnt')

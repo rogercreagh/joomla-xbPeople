@@ -199,17 +199,21 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 			<?php  endif; ?>
 			<div class="xbbox xbboxgrey">
 				<h2 class="xbtitle">
-					<span class="badge badge-info pull-right"><?php echo ($this->tags['tagcnts']['percnt']  + $this->tags['tagcnts']['charcnt']) ; ?></span> 
-					<?php echo Text::_('XBPEOPLE_TAGGED_ITEMS'); ?>
+					<span class="badge badge-info pull-right"><?php echo ($this->tags['tagcnts']['allper']  + $this->tags['tagcnts']['allchar']) ; ?></span> 
+					<?php echo Text::_('xbPeople Tagged Items'); ?>
 				</h2>
 				<div class="row-striped">
-                    <div class="row-fluid">
-                      <?php echo 'People: ';
-						echo '<span class="percnt badge pull-right">'.$this->tags['tagcnts']['percnt'].'</span>'; ?>
+                    <div class="row-fluid">xbBooks
+                    	<span class="percnt badge pull-right">
+                          People: <?php echo $this->tags['tagcnts']['bookper']; ?>
+                          Characters: <?php echo $this->tags['tagcnts']['bookchar']; ?>
+                    	</span>
                     </div>  
-                    <div class="row-fluid">
-                      <?php echo 'Characters: ';
-						echo '<span class="revcnt badge pull-right">'.$this->tags['tagcnts']['charcnt'].'</span>'; ?>
+                    <div class="row-fluid">xbFilms
+                    	<span class="percnt badge pull-right">
+                          People: <?php echo $this->tags['tagcnts']['filmper']; ?>
+                          Characters: <?php echo $this->tags['tagcnts']['filmchar']; ?>
+                    	</span>
                     </div>  
                  </div>
 				 <h2 class="xbtitle">Tag counts <span class="xb09 xbnorm"><i>(people:chars)</i></span></h2>
