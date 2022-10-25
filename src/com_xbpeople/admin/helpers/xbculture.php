@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.8 23rd October 2022
+ * @version 0.9.9.8 25th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,8 +20,8 @@ use Joomla\CMS\Router\Route;
 // use Joomla\CMS\Application\ApplicationHelper;
 
 class XbcultureHelper extends ContentHelper {
-	
-	/**
+	    
+    /**
 	 * @name makeSummaryText
 	 * @desc returns a plain text version of the source trunctated at the first or last sentence within the specified length
 	 * @param string $source the string to make a summary from
@@ -357,65 +357,43 @@ class XbcultureHelper extends ContentHelper {
 		return $db->loadObjectList()[0];
 	}
 
-/**
- * @name getItemsTaggedCnt()
- * @desc return number of a specific type of item that have been tagged (distinct items)
- * @param string $component - name of the component lower case with 'com_' prefix
- * @param string $item - name of the item type
- * @param string $linktable - optional restrict only to items with an entry in this table
- * @param string $linkfield - optional name of field in linktable containg the item id used a content_item_id in tagmap
- * @return number
- */
-	public static function getItemsTaggedCnt($typealias, $linktable = '', $linkfield = 'id') {
-	    //         SELECT a.content_item_id
-	    //         from `n6vbq_contentitem_tag_map` AS a
-	    //         JOIN  `n6vbq_xbfilmperson` AS bp
-	    //         ON bp.person_id = a.content_item_id
-	    //         WHERE a.type_alias = 'com_xbpeople.person'
-	    //         GROUP BY a.core_content_id
-	    $db = Factory::getDbo();
-	    $query =$db->getQuery(true);
-	    $query->select('a.content_item_id')
-	       ->from($db->quoteName('#__contentitem_tag_map'),'a');
-	    if ($linktable) {
-	        $query->innerJoin($linktable.' AS lnk ON lnk.'.$linkfield.' = a.content_item_id');
-	    }	    
-	    $query->where('a.type_alias = '.$typealias)
-	       ->group('a.core_content_id');
-	    $db->setQuery($query);
-	    $res = $db->loadColumn();
-	    if ($res) return count($res);
-	    return 0;
-	}
-	
 	/**
 	 * @name getTagsItemCnts()
 	 * @desc returns the number of distinct items tagged with a specific typealias (eg com_xbbook.book)
 	 * @param string $typealias
-	 * @param string $itemtype optionally for .person or .character
+	 * @param string $itemtype optional book or film or event
 	 * @return number
 	 */
-	public static function getTagtypeItemCnts(string $typealias, $itemtype='')	{
-	    // 
+	public static function getTagtypeItemCnt(string $typealias, $itemtype='')	{
 	    $linktable = '';
 	    $linkfield = '';
+	    $xbbooks_ok = Factory::getSession()->get('xbbooks_ok',false);
+	    $xbfilms_ok = Factory::getSession()->get('xbfilms_ok',false);
 	    switch ($itemtype) {
 	        case 'book':
-	            if ($typealias == 'com_xbpeople.person') {
-    	            $linktable = '#__xbbookperson';
-	                $linkfield = 'person_id';
-	            } elseif ($typealias == 'com_xbpeople.character') {
-	                $linktable = '#__xbbookcharacter';
-	                $linkfield = 'char_id';
+	            if ($xbbooks_ok){
+    	            if ($typealias == 'com_xbpeople.person') {
+        	            $linktable = '#__xbbookperson';
+    	                $linkfield = 'person_id';
+    	            } elseif ($typealias == 'com_xbpeople.character') {
+    	                $linktable = '#__xbbookcharacter';
+    	                $linkfield = 'char_id';
+    	            }                
+	            } else {
+	                return 0;
 	            }
 	            break;	        
 	        case 'film':
-	            if ($typealias == 'com_xbpeople.person') {
-	                $linktable = '#__xbfilmperson';
-	                $linkfield = 'person_id';
-	            } elseif ($typealias == 'com_xbpeople.character') {
-	                $linktable = '#__xbfilmcharacter';
-	                $linkfield = 'char_id';
+	            if ($xbfilms_ok) {
+    	            if ($typealias == 'com_xbpeople.person') {
+    	                $linktable = '#__xbfilmperson';
+    	                $linkfield = 'person_id';
+    	            } elseif ($typealias == 'com_xbpeople.character') {
+    	                $linktable = '#__xbfilmcharacter';
+    	                $linkfield = 'char_id';
+    	            }
+	            } else {
+	                return 0;
 	            }
 	            break;
 	        default:
@@ -430,6 +408,64 @@ class XbcultureHelper extends ContentHelper {
 	    }
 	    $query->where('a.type_alias = '.$db->quote($typealias))
 	    ->group('a.core_content_id');
+	    $db->setQuery($query);
+	    $res = $db->loadColumn();
+	    if ($res) return count($res);
+	    return 0;
+	}
+	
+	/**
+	 * @name getTagtypeTagCnt()
+	 * @desc returns number of distinct tags used by a component for people and chars
+	 * can optional restrict to only items in a particular link table (if type alias is LIKE %xbpeople%)
+	 * @param string $typealias
+	 * @param string $itemtype optional book or film or event
+	 * @return number
+	 */
+	public static function getTagtypeTagCnt(string $typealias, $itemtype='') {
+	    $linktable = '';
+	    $linkfield = '';
+	    $xbbooks_ok = Factory::getSession()->get('xbbooks_ok',false);
+	    $xbfilms_ok = Factory::getSession()->get('xbfilms_ok',false);
+	    switch ($itemtype) {
+	        case 'book':
+	            if ($xbbooks_ok){
+	                if ($typealias == 'com_xbpeople.person') {
+    	                $linktable = '#__xbbookperson';
+    	                $linkfield = 'person_id';
+	                } elseif ($typealias == 'com_xbpeople.character') {
+    	                $linktable = '#__xbbookcharacter';
+    	                $linkfield = 'char_id';
+	                }
+	            } else {
+	                return 0;
+	            }
+	            break;
+	        case 'film':
+	            if ($xbfilms_ok){
+	                if ($typealias == 'com_xbpeople.person') {
+    	                $linktable = '#__xbfilmperson';
+    	                $linkfield = 'person_id';
+	                } elseif ($typealias == 'com_xbpeople.character') {
+    	                $linktable = '#__xbfilmcharacter';
+    	                $linkfield = 'char_id';
+	                }
+	            } else {
+	                return 0;
+	           }
+	            break;
+	        default:
+	            break;
+	    }
+	    $db = Factory::getDbo();
+	    $query =$db->getQuery(true);
+	    $query->select('a.tag_id')
+	    ->from($db->quoteName('#__contentitem_tag_map').' AS a');
+	    if ($linktable) {
+	        $query->innerJoin($linktable.' AS lnk ON lnk.'.$linkfield.' = a.content_item_id');
+	    }
+	    $query->where('a.type_alias = '.$db->quote($typealias))
+	    ->group('a.tag_id');
 	    $db->setQuery($query);
 	    $res = $db->loadColumn();
 	    if ($res) return count($res);

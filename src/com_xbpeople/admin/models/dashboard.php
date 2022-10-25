@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/dashboard.php
- * @version 0.4.6 4th April 2021
+ * @version 0.9.9.8 25th October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -115,70 +115,25 @@ class XbpeopleModelDashboard extends JModelList {
     }
     
     public function getTagcnts() {
-    	//nedds rewrite 
-    	$result = array('tagcnts' => array('bookper' => 0, 'filmper' =>0, 'allper' => 0, 
-    	    'bookchar' => 0, 'filmchar=> 0, allchar' => 0,
-    	    'percnt' => 0, 'charcnt' => 0), 'tags' => array(), 'taglist' => '' );
+    	$result = array('bookper' => 0, 'filmper' =>0, 'eventper' => 0, 'allper' => 0, 
+    	    'bookchar' => 0, 'filmchar' => 0, 'eventchar' => 0, 'allchar' => 0,
+    	    'bookpertags' => 0, 'bookchartags' => 0, 'allbook' => 0,
+    	    'filmpertags' => 0, 'filmchartags' => 0, 'allfilm' => 0,);
     	
-    	$result['tagcnts']['bookper'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.person','book');
-    	$result['tagcnts']['bookchar'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.character','book');
-    	$result['tagcnts']['filmper'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.person','film');
-    	$result['tagcnts']['filmchar'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.character','film');
-    	$result['tagcnts']['allper'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.person','');
-    	$result['tagcnts']['allchar'] = XbcultureHelper::getTagtypeItemCnts('com_xbpeople.character','');
-    	
-    	$db = Factory::getDbo();
-    	$query =$db->getQuery(true);
-    	//first we get the total number of each type of item with one or more tags
-//     	$query->select('type_alias,core_content_id, COUNT(*) AS numtags')
-//     	->from('#__contentitem_tag_map')
-//     	->where('type_alias LIKE '.$db->quote('com_xbfilms%'))
-//     	->group('core_content_id, type_alias');
-//     	//not checking that tag is published, not using numtags at this stage - poss in future
-//     	$db->setQuery($query);
-//     	$db->execute();
-//     	$items = $db->loadObjectList();
-//     	foreach ($items as $it) {
-//     	    switch ($it->type_alias) {
-//     	        case 'com_xbfilms.person':
-//     	            $result['tagcnts']['percnt'] ++;
-//     	            break;
-//     	        case 'com_xbfilms.character':
-//     	            $result['tagcnts']['charcnt'] ++;
-//     	            break;
-//     	    }
-//     	}
-    	//now we get the number of each type of item assigned to each tag
-    	$query->clear();
-    	$query->select('type_alias,t.id, t.title AS tagname ,COUNT(*) AS tagcnt')
-    	->from('#__contentitem_tag_map')
-    	->join('LEFT', '#__tags AS t ON t.id = tag_id')
-    	->where('type_alias LIKE '.$db->quote('%xbfilms%'))
-    	->where('t.published = 1') //only published tags
-    	->group('type_alias, tagname');
-    	$db->setQuery($query);
-    	$db->execute();
-    	$tags = $db->loadObjectList();
-    	foreach ($tags as $k=>$t) {
-    	    if (!key_exists($t->tagname, $result['tags'])) {
-    	        $result['tags'][$t->tagname]=array('id' => $t->id, 'tbcnt' =>0, 'tpcnt' => 0, 'tccnt' => 0, 'trcnt' => 0, 'tagcnt'=>0);
-    	    }
-    	    $result['tags'][$t->tagname]['tagcnt'] += $t->tagcnt;
-    	    switch ($t->type_alias) {
-    	        case 'com_xbfilms.film' :
-    	            $result['tags'][$t->tagname]['tbcnt'] += $t->tagcnt;
-    	            break;
-    	        case 'com_xbfilms.person':
-    	            $result['tags'][$t->tagname]['tpcnt'] += $t->tagcnt;
-    	            break;
-    	        case 'com_xbfilms.character':
-    	            $result['tags'][$t->tagname]['tccnt'] += $t->tagcnt;
-    	            break;
-    	        case 'com_xbfilms.review':
-    	            $result['tags'][$t->tagname]['trcnt'] += $t->tagcnt;
-    	            break;
-    	    }
+    	if ($this->xbbooks_ok) {
+        	$result['bookper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','book');
+        	$result['bookchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','book');
+        	$result['bookpertags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.person','book');
+        	$result['bookchartags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.character','book');    	    
     	}
+    	if ($this->xbfilms_ok) {
+        	$result['filmper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','film');
+        	$result['filmchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','film');
+        	$result['filmpertags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.person','film');
+        	$result['filmchartags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.character','film');    	    
+    	}
+    	$result['allper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','');
+    	$result['allchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','');
     	return $result;
     }
     
