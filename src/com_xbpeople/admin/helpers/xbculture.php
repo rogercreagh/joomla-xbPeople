@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.8 25th October 2022
+ * @version 0.9.9.9 31st October 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -817,4 +817,23 @@ class XbcultureHelper extends ContentHelper {
 	    return $films;
 	}
 	
+	/**
+	 * @name getDateFmt()
+	 * @desc funtion to shorten date formats before $limityear and month-year only if 1st of month and year only if 1st january
+	 * Used to format vague dates appropriately - it will screw up any dates that were actually the 1st of month! (one in 30 on average)
+	 * @param string $sqldate - date string from database in format yyyy-mm-dd (optional time will be ignored)
+	 * @param string $datefmt - the default format
+	 * @param string $limityear - the year early than which to shorten vague dates
+	 * @return string
+	 */
+	public static function getDateFmt(string $sqldate, $datefmt = 'D j M Y', $limityear = '2011') {
+	    if (substr($sqldate,0,4) < 2011) {
+	        if (substr($sqldate,5,5)=='01-01') {
+	            $datefmt = 'Y';
+	        } elseif (substr($sqldate,8,2) == '01') {
+	            $datefmt = 'M Y';
+	        }
+	    }
+	    return $datefmt;
+	}
 }
