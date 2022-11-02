@@ -22,6 +22,8 @@ if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
 }
 
 $document = Factory::getDocument();
+Factory::getLanguage()->load('com_xbculture');
+
 $params = ComponentHelper::getParams('com_xbpeople');
 if ($params->get('savedata','notset')=='notset') {
     Factory::getApplication()->enqueueMessage(Text::_('XBCULTURE_OPTIONS_UNSAVED'),'Error');
@@ -45,8 +47,6 @@ if ($exticon) {
 //add fontawesome5
 $cssFile = "https://use.fontawesome.com/releases/v5.8.1/css/all.css\" integrity=\"sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf\" crossorigin=\"anonymous";
 $document->addStyleSheet($cssFile);
-
-Factory::getLanguage()->load('com_xbculture');
 
 JLoader::register('XbpeopleHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbpeople.php');
 JLoader::register('XbcultureHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbculture.php');
