@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/character.php
- * @version 0.9.9.4 25th July 2022
+ * @version 0.9.9.9 2nd November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,7 +81,7 @@ class XbpeopleTableCharacter extends Table {
             if ($params->get('def_new_charcat')>0) {
                 $defcat=$params->get('def_new_charcat');
             } else {
-                $defcat = XbpeopleHelper::getIdFromAlias('#__categories', 'uncategorised', 'com_xbpeople');
+                $defcat = XbcultureHelper::getIdFromAlias('#__categories', 'uncategorised', 'com_xbpeople');
             }
             if ($defcat>0) {
                 $this->catid = $defcat;

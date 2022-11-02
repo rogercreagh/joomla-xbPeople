@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.9.2 13th July 2022
+ * @version 0.9.9.9 2nd November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -66,8 +66,8 @@ class com_xbpeopleInstallerScript
     	$message = 'Uninstalling xbPeople component v.'.$componentXML['version'].' '.$componentXML['creationDate'].' ';
     	
     	//are we also clearing data?
-    	$killdata = ComponentHelper::getParams('com_xbpeople')->get('killdata',0);
-        if ($killdata) {
+    	$savedata = ComponentHelper::getParams('com_xbpeople')->get('savedata',0);
+        if ($savedata == 0) {
             if ($this->uninstalldata()) {
                 $message .= ' ... xbPeople data tables deleted';
             }           

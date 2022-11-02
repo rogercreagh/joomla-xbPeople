@@ -61,7 +61,7 @@ class XbpeopleViewDashboard extends JViewLegacy
 		
 		$params = ComponentHelper::getParams('com_xbpeople');
 
-		$this->killdata = $params->get('killdata',0);
+		$this->savedata = $params->get('savedata',0);
 		
 		$this->show_cat = $params->get('show_cats',1);
 		$this->show_pcat = $params->get('show_pcat',1);

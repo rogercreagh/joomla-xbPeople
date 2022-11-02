@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.9.9.2 13th July 2022
+ * @version 0.9.9.9 2nd November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -110,12 +110,12 @@ class XbpeopleHelper extends ContentHelper {
 					);
 			
 			JHtmlSidebar::addEntry(
-					ucfirst(Text::_('XBCULTURE_PEOPLE')),
+					ucfirst(Text::_('XBPEOPLE_PEOPLE')),
 					'index.php?option=com_xbpeople&view=persons',
 					$vName == 'films'
 					);
 			JHtmlSidebar::addEntry(
-					ucfirst(Text::_('XBCULTURE_CHARACTERS')),
+					ucfirst(Text::_('XBPEOPLE_CHARACTERS')),
 					'index.php?option=com_xbpeople&view=characters',
 					$vName == 'characters'
 					);
@@ -127,42 +127,6 @@ class XbpeopleHelper extends ContentHelper {
 		}
 	}
 
-/*** deprecated
-	public static function getActions($component = 'com_xbpeople', $section = 'component', $categoryid = 0) {
-		//$extension = 'com_xbpeople';
-		
-		$user 	=Factory::getUser();
-		$result = new JObject;
-		if (empty($categoryid)) {
-			$assetName = $component;
-			$level = $section;
-		} else {
-			$assetName = $component.'.category.'.(int) $categoryid;
-			$level = 'category';
-		}
-		$actions = Access::getActions('com_xbpeople', $level);
-		foreach ($actions as $action) {
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-		return $result;
-	}
-***/
-	
-	public static function getIdFromAlias($table,$alias, $ext = 'com_xbpeople') {
-		$alias = trim($alias,"' ");
-		$table = trim($table,"' ");
-		$db = Factory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('id')->from($db->quoteName($table))->where($db->quoteName('alias')." = ".$db->quote($alias));
-		if ($table === '#__categories') {
-			$query->where($db->quoteName('extension')." = ".$db->quote($ext));
-		}
-		$db->setQuery($query);
-		$res =0;
-		$res = $db->loadResult();
-		return $res;
-	}
-	
 	public static function checkPersonExists($firstname, $lastname) {
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
