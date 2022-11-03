@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.9.9 2nd November 2022
+ * @version 0.9.9.9 3rd November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -115,7 +115,7 @@ class com_xbpeopleInstallerScript
     function postflight($type, $parent) {
     	$componentXML = Installer::parseXMLInstallFile(Path::clean(JPATH_ADMINISTRATOR . '/components/com_xbpeople/xbpeople.xml'));
     	if ($type=='install') {
-    		$message = 'xbPeople '.$componentXML['version'].' '.$componentXML['creationDate'].'<br />';
+    		$message = '<b>xbPeople '.$componentXML['version'].' '.$componentXML['creationDate'].'</b><br />';
     		
     		//create xbpeople image folder
         	if (!file_exists(JPATH_ROOT.'/images/xbpeople')) {
