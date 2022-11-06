@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.9 2nd November 2022
+ * @version 0.9.9.9 6th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,7 +81,9 @@ class XbcultureHelper extends ContentHelper {
 	public static function makeLinkedNameList($items, $role='', $sep='comma', $linked=true, $rowfmt = 0) {
 	    $list = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
-	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'));
+	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'),
+	        'author'=>Text::_('Author'), 'editor'=>Text::_('Editor'), 'mention'=>'', 'other'=>''
+	    );
 	    $cnt = count($items);
 	    if ($sep == 'ul') {
 	        $list .= '<ul class="xblist">';
