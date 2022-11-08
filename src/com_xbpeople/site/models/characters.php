@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/characters.php
- * @version 0.9.9.8 21st October 2022
+ * @version 0.9.9.9 8th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,7 +22,7 @@ class XbpeopleModelCharacters extends JModelList {
     public function __construct($config = array()) {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array ('name', 'category_title','c.title',
-					'catid', 'a.catid', 'category_id', 'tagfilt');
+					'catid', 'a.catid', 'category_id', 'tagfilt','fcnt','bcnt');
 		}
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
@@ -63,15 +63,15 @@ class XbpeopleModelCharacters extends JModelList {
             a.created AS created, a.created_by_alias AS created_by_alias,
             a.ordering AS ordering, a.params AS params, a.note AS note');
             $query->from('#__xbcharacters AS a');
-//             	->join('LEFT OUTER',$db->quoteName('#__xbbookcharacter', 'p') . ' ON ' .$db->quoteName('a.id') . ' = ' . $db->quoteName('p.char_id'))
-//             	->where('p.book_id IS NOT NULL');
+            if ($this->xbfilmsStatus) $query->select('(SELECT COUNT(DISTINCT(fc.film_id)) FROM #__xbfilmcharacter AS fc WHERE fc.char_id = a.id) AS fcnt');
+            if ($this->xbbooksStatus) $query->select('(SELECT COUNT(DISTINCT(bc.book_id)) FROM #__xbbookcharacter AS bc WHERE bc.char_id = a.id) AS bcnt');
             	
             $query->select('c.title AS category_title');
             $query->join('LEFT', '#__categories AS c ON c.id = a.catid');
             
             // Filter by published state, we only show published items in the front-end. Both item and its category must be published.
             $query->where('a.state = 1');
-//            $query->where('c.published = 1');
+            $query->where('c.published = 1');
             
              // Filter by search in title/id/synop
             $search = $this->getState('filter.search');
@@ -194,42 +194,42 @@ class XbpeopleModelCharacters extends JModelList {
 		
 		$app = Factory::getApplication();
 		$peep = array();
-		for ($i = 0; $i < count($items); $i++) {
-			$peep[$i] = $items[$i]->id;
-		}
-		$app->setUserState('characters.sortorder', $peep);
+
+		if ($items) {
+		    for ($i = 0; $i < count($items); $i++) {
+		        $peep[$i] = $items[$i]->id;
+		    }
+		    Factory::getApplication()->setUserState('characters.sortorder', $peep);
+		    
+		    foreach ($items as $i=>$item) {
+		        $item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
+		        //get books
+		        if ($item->bcnt>0) {
+		            $item->books = XbcultureHelper::getCharBooks($item->id);
+		            $item->booklist = '<ul class="xblist">';
+		            foreach ($item->books as $book) {
+		                $item->booklist .= $book->listitem;
+		            }
+		            $item->booklist .= '</ul>';
+		        } else {
+		            $item->books = '';
+		            $item->booklist = '';
+		        }
+		        //get films
+		        if ($item->fcnt>0) {
+		            $item->films = XbcultureHelper::getCharFilms($item->id);
+		            $item->filmlist = '<ul class="xblist">';
+		            foreach ($item->films as $film) {
+		                $item->filmlist .= $film->listitem;
+		            }
+		            $item->filmlist .= '</ul>';
+		        } else {
+		            $item->films = '';
+		            $item->filmlist = '';
+		        }
+		    } //end foreach item
+		} //end if items
 		
-	    $db    = Factory::getDbo();		
-		foreach ($items as $i=>$item) {
-			$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
-			
-			$item->cnt = 0;
-			if ($this->xbbooksStatus) {
-			    $query = $db->getQuery(true);
-			    $query->select('COUNT(*)')->from('#__xbbookcharacter');
-			    $query->where('char_id = '.$db->quote($item->id));
-			    $db->setQuery($query);
-			    $item->bcnt = $db->loadResult();
-			    if ($item->bcnt > 0) {
-			        $item->books = XbcultureHelper::getCharBooks($item->id, 'title ASC');
-			    } else {
-			        $item->books = '';
-			    }
-			}
-			$item->fcnt = 0;
-			if ($this->xbfilmsStatus) {
-			    $query = $db->getQuery(true);
-			    $query->select('COUNT(*)')->from('#__xbfilmcharacter');
-			    $query->where('char_id = '.$db->quote($item->id));
-			    $db->setQuery($query);
-			    $item->fcnt = $db->loadResult();
-			    if ($item->fcnt > 0) {
-			        $item->films = XbcultureHelper::getCharFilms($item->id,'title ASC');
-			    } else {
-			        $item->films = '';
-			    }
-			}
-		} //end foreach item
 		return $items;
 	}
 		

@@ -55,22 +55,21 @@ $chlink='index.php?option=com_xbpeople&view=characters&catid=';
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if (($item->allcnt >0) || ($this->show_clist_empty)) : ?>
                 		<tr>
-        	 				<td>
-        						<p class="xbml20">
-         						<?php  if ($this->show_catspath != 0) : ?>      
+	 				<td>
+						<p>
+ 						<?php  if (($this->show_catspath != 0) && ($item->level > 1)) : ?>      
         					<span class="xbnote"> 
-         					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));
-        						$path = str_replace('/', ' - ', $path);
-        						echo $path.($path!='') ? '<br/>' : ''; ?>
-        						
+             					<?php 	$path = substr($item->path, 0, strrpos($item->path, '/'));
+            						$path = str_replace('/', ' &mdash; ', $path);
+            						echo $path.' &ndash;<br />'.str_repeat('&nbsp;', $item->level + 1); ?>       						
         					 </span>
-        						<?php endif; //show_cat_parent?>
-            					<a href="<?php echo Route::_($clink . $item->id.'&ext='.$item->extension); ?>" title="Details" 
-            						class="label label-success" style="padding:2px 8px;">
-            						<span class="xb11"><?php echo $item->title; ?></span>
-            					</a>
-        	    				</p>
-        	    			</td>
+ 						<?php endif; //show_parent?>
+    					<a href="<?php echo Route::_($clink . $item->id.'&ext='.$item->extension); ?>" title="Details" 
+    						class="label label-success" style="padding:2px 8px;">
+    						<span class="xb11"><?php echo $item->title; ?></span>
+    					</a>
+	    				</p>
+	    			</td>
         					<td class="hidden-phone"><?php echo $item->description; ?></td>
         	    			<td class="center">
         	   					<?php if (($item->bpcnt + $item->fpcnt) >0) : ?> 

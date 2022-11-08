@@ -30,6 +30,11 @@ $celink = 'index.php?option=com_categories&task=category.edit&id=';
 				  <h3><?php echo JText::_('XBCULTURE_CAT_ITEMS'); ?></h3>
 			</div>
 			<div class= "span5">
+    			<div class="xb11 pull-left xbit xbpt17 xbgrey xbmr20">   				 
+    				<?php  $path = substr($item->path, 0, strrpos($item->path, '/'));
+    					$path = str_replace('/', ' - ', $path);
+    					echo 'root - '.$path; ?>
+            	</div>
 				<a href="<?php echo $celink.$item->id; ?>" class="badge badge-success">
 					<h2><?php echo $item->title; ?></h2>
 				</a></div>
@@ -41,13 +46,6 @@ $celink = 'index.php?option=com_categories&task=category.edit&id=';
  			</div>
 		</div>
 		<div class="row-fluid xbmb8">
-			<div class= "span6">
-					<p class="xb11">
-						<i><?php JText::_('XBCULTURE_CATEGORY').' '.JText::_('XBCULTURE_HEIRARCHY'); ?></i> 
-						<?php $path = str_replace('/', ' - ', $item->path);
-						echo 'root - '.$path; ?>
-					</p>
-			</div>
 			<div class= "span6">
 				<p><i><?php Jtext::_('XBCULTURE_ADMIN_NOTE'); ?>:</i>  <?php echo $item->note; ?></p>
 			</div>

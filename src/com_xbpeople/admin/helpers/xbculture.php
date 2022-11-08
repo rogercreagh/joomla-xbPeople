@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.9 6th November 2022
+ * @version 0.9.9.9 8th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -849,7 +849,7 @@ class XbcultureHelper extends ContentHelper {
 	        }
 	        $book->listitem .= '</li>';
 	    }
-	    return $list;
+	    return $books;
 	}
 	
 	/**

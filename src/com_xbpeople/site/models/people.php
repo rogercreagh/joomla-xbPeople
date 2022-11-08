@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.8 21st October 2022
+ * @version 0.9.9.9 8th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -236,27 +236,14 @@ class XbpeopleModelPeople extends JModelList {
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 	
-			$item->brolecnt = 0;
-            $item->books = '';
-			if ($this->xbbooksStatus) {
-			    if ($item->bcnt > 0) {
-    		        $item->books = XbcultureHelper::getPersonBookRoles($item->id,'','title ASC', $showcnts);
-    		        $item->brolecnt = count($item->books);
-			    }			    
-    		} else {
-    		  $item->bcnt = 0;
-			}
-
-			$item->frolecnt = 0;
-			$item->films = '';
-			if ($this->xbfilmsStatus) {
-				if ($item->fcnt > 0) {
-				    $item->films = XbcultureHelper::getPersonFilmRoles($item->id,'','title ASC', $showcnts);
-				    $item->frolecnt = count($item->films);
-				}
-			} else {
-			    $item->fcnt = 0;
-			}
+			$item->books = XbcultureHelper::getPersonBooks($item->id);
+			$item->brolecnt = count($item->books);
+			$item->booklist = $item->brolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,3);
+			
+			$item->films = XbcultureHelper::getPersonFilms($item->id);
+			$item->frolecnt = count($item->films);
+			$item->filmlist = $item->brolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
+			
 		} //end foreach item
 		return $items;
 	}

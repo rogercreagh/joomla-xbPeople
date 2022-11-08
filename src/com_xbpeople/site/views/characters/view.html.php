@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/view.html.php
- * @version 0.9.9.4 26th July 2022
+ * @version 0.9.9.9 8th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -53,25 +53,6 @@ class XbpeopleViewCharacters extends JViewLegacy {
 		
 		$this->showccnts = $this->params->get('showccnts',1);
 		$this->showclists = ($this->showccnts == 1) ? $this->params->get('showclists',1) : 0;
-		
-		foreach ($this->items as $char) {
-		    $char->booklist = '';
-		    if ($char->bcnt > 0) {
-		        $char->booklist = "<ul style='list-style:none;margin-left:0'>";
-		        foreach ($char->books as $book) {
-		            $char->booklist .= $book->listitem;
-		        }
-		        $char->booklist .= '</ul>';
-		    }
-		    $char->filmlist = '';
-		    if ($char->fcnt > 0) {
-		        $char->filmlist = "<ul style='list-style:none;margin-left:0'>";
-		        foreach ($char->films as $film) {
-		            $char->filmlist .= $film->listitem;
-		        }
-		        $char->filmlist .= '</ul>';
-		    }
-		}
 		
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');
