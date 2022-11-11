@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/fields/childtags.php
- * @version 0.9.10.0 10th November 2022
+ * @version 0.9.10.0 11th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -52,13 +52,21 @@ class JFormFieldChildtags extends Joomla\CMS\Form\Field\TagField
 	protected function getOptions()
 	{
         $published = (string) $this->element['published'] ?: array(0, 1);		
-		$component = (string) $this->element['component'];
-		$tagoption = (string) $this->element['tagoption'];
-		$parent = 0;
-		if ($component && $tagoption) {
-		    $params = ComponentHelper::getParams($component);		    
-		    $parent = $params->get($tagoption,1);
+//		$component = (string) $this->element['component'];
+//		$tagoption = (string) $this->element['tagoption'];
+		
+		$parent_id = 0;
+		$parent_definition = (string) $this->element['parent_definition'];
+		if ($parent_definition && (substr($parent_definition,0,4 == 'com_'))) {
+		    //for php8 use str_starts_with(string $haystack, string $needle): bool
+		    $parent_definition = explode('.',$parent_definition);
+		    $params = ComponentHelper::getParams($parent_definition[0]);
+		    if ($params) $parent_id = $params->get($parent_definition[1],1);		    
 		}
+// 		if ($component && $tagoption) {
+// 		    $params = ComponentHelper::getParams($component);		    
+// 		    $parent_id = $params->get($tagoption,1);
+// 		}
 		
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
@@ -70,8 +78,8 @@ class JFormFieldChildtags extends Joomla\CMS\Form\Field\TagField
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		
 		// Limit options to only children of parent
-	    if ($parent>1) {
-	        $query->where('b.id = '. $parent);
+	    if ($parent_id > 1) {
+	        $query->where('b.id = '. $parent_id);
 	    }
 			
 		// Limit Options in multilanguage
