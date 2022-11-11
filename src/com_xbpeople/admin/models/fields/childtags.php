@@ -57,18 +57,14 @@ class JFormFieldChildtags extends Joomla\CMS\Form\Field\TagField
 		
 		$parent_id = 0;
 		$parent_definition = (string) $this->element['parent_definition'];
-		if ($parent_definition && (substr($parent_definition,0,4 == 'com_'))) {
+		if ($parent_definition && (substr($parent_definition,0,4) == 'com_'))  {
 		    //for php8 use str_starts_with(string $haystack, string $needle): bool
 		    $parent_definition = explode('.',$parent_definition);
 		    $params = ComponentHelper::getParams($parent_definition[0]);
 		    if ($params) $parent_id = $params->get($parent_definition[1],1);		    
 		}
-// 		if ($component && $tagoption) {
-// 		    $params = ComponentHelper::getParams($component);		    
-// 		    $parent_id = $params->get($tagoption,1);
-// 		}
-		
-		$app       = Factory::getApplication();
+
+        $app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
 
 		$db    = Factory::getDbo();
