@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.9.8 21st October 2022
+ * @version 0.9.10.3 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -299,19 +299,6 @@ class XbpeopleModelPersons extends JModelList {
 			    
 			}
 			
-// 			$item->filmcnt = 0;
-// 			$item->flist='';
-// 			if ($item->fcnt>0) {
-// 				$query = $db->getQuery(true);
-// 				$query->select('f.title, fp.role')->from('#__xbfilms AS f');
-// 				$query->join('LEFT', '#__xbfilmperson AS fp ON fp.film_id = f.id');
-// 				$query->where('fp.person_id = '.$db->quote($item->id));
-// 				$query->order('f.title ASC');
-// 				$db->setQuery($query);
-// 				$item->flist = $db->loadObjectList();
-// 				$item->filmcnt = count($item->flist);
-// 			}
-			
 			$item->ext_links = json_decode($item->ext_links);
 			$item->ext_links_list ='';
 			$item->ext_links_cnt = 0;
@@ -322,9 +309,7 @@ class XbpeopleModelPersons extends JModelList {
 				}
 				$item->ext_links_list = trim($item->ext_links_list,', ');
 			} //end if is_object
-			$item->persontags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
-//			$item->filmtags = $tagsHelper->getItemTags('com_xbfilms.person' , $item->id);
-//			$item->booktags = $tagsHelper->getItemTags('com_xbbooks.person' , $item->id);
+			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 		} //end foreach item
 		return $items;
 	}

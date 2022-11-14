@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.9.10.3 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -235,34 +235,40 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
                     </td>
     			<?php if($this->xbbooks_ok) : ?>
 					<td>
-						<?php if ($item->bookcnt>0) : ?> 
-							<?php $tlist='';
-							foreach ($item->blist as $bk) {
-								$tlist .= $bk->title.'<br />';
-							} ?>
-							<div class="hasPopover" title data-original-title="Book Roles"
-								data-content="<?php echo $tlist; ?>">
-								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"><?php echo $item->bookcnt; ?></span>
-						    	</a>
-							</div>
+						<?php if (($item->bcnt==1) || ($item->bcnt==2)) : ?> 
+                            <ul class="xbdetails">
+								<?php echo $item->booklist; ?>
+							</ul>
+						<?php elseif ($item->bcnt>2) : ?> 
+						    <details>
+						    <summary><span class="xbnit">
+						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->bcnt.' ';
+						    echo Text::_('XBCULTURE_BOOKS');   ?>
+                            </span></summary>
+                            <ul class="xbdetails">
+								<?php echo $item->booklist; ?>
+							</ul>
+                          </details>
 						<?php endif; ?> 
 					</td>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
 					<td>
-						<?php if ($item->filmcnt>0) : ?> 
-							<?php $tlist='';
-							foreach ($item->flist as $f) {
-								$tlist .= $f->title.'<br />';
-							} ?>
-							<div class="hasPopover" title data-original-title="Film Roles"
-								data-content="<?php echo $tlist; ?>">
-								<a href="<?php echo $bplink; ?>" >
-									<span class="badge bkcnt"><?php echo $item->filmcnt; ?></span>
-						    	</a>
-						    </div>
-						<?php endif; ?>
+						<?php if (($item->fcnt==1) || ($item->fcnt==2)) : ?> 
+                            <ul class="xbdetails">
+								<?php echo $item->filmlist; ?>
+							</ul>
+						<?php elseif ($item->fcnt>2) : ?> 
+						    <details>
+						    <summary><span class="xbnit">
+						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->fcnt.' ';
+						    echo Text::_(($item->fcnt==1)?'XBCULTURE_FILM':'XBCULTURE_FILMS');   ?>
+                            </span></summary>
+                            <ul class="xbdetails">
+								<?php echo $item->filmlist; ?>
+							</ul>
+                          </details>
+						 <?php endif; ?> 
 					</td>
     			<?php endif; ?>
 					<td>
@@ -272,18 +278,8 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 						</a></p>						
 						
 						<ul class="inline">
-						<?php foreach ($item->persontags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
-								<?php echo $t->title; ?></a>
-							</li>													
-						<?php endforeach; ?>
-						<?php foreach ($item->filmtags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
-								<?php echo $t->title; ?></a>
-							</li>													
-						<?php endforeach; ?>
-						<?php foreach ($item->booktags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
+						<?php foreach ($item->tags as $t) : ?>
+							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label chcnt">
 								<?php echo $t->title; ?></a>
 							</li>													
 						<?php endforeach; ?>

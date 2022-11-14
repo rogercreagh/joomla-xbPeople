@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.9.9.8 20th October 2022
+ * @version 0.9.10.3 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -396,7 +396,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 						
 						<ul class="inline">
 						<?php foreach ($item->persontags as $t) : ?>
-							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label label-info">
+							<li><a href="<?php echo $tvlink.$t->id; ?>" class="label percnt">
 								<?php echo $t->title; ?></a>
 							</li>													
 						<?php endforeach; ?>
