@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.9.9.4 25th July 2022
+ * @version 0.9.10.2 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,15 @@ class XbpeopleViewCharacter extends JViewLegacy {
         $this->item = $this->get('Item');
         $this->canDo = ContentHelper::getActions('com_xbpeople', 'character', $this->item->id);
         // XbpeopleHelper::getActions('com_xbpeople', 'character', $this->item->id);
+        
+        $this->params      = $this->get('State')->get('params');
+        $this->chartaggroup_parent = $this->params->get('chartaggroup_parent',0);
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('id, title, description')->from($db->quoteName('#__tags'))
+        ->where('id = '.$this->chartaggroup_parent);
+        $db->setQuery($query);
+        $this->taggroupinfo = $db->loadAssocList('id');
         
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

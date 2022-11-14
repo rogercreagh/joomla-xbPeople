@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- xbPeople admin/models/forms/character.xml v0.9.9.4 26th July 2022 -->
 <form>
-	<fieldset addfieldpath="/administrator/components/com_xbpeople/models/fields">
+	<fieldset>
 		<field name="id" default="0" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly" />
@@ -51,6 +51,13 @@
 				multiple="true"
 		>
 		</field>
+		<field name="chartaggroup" type="childtags"
+			label="Character Tags" description="Description to be taken from parent tag"
+			parent="com_xbpeople.chartaggroup_parent"
+			multiple="true"  published="1"
+			mode="nested" custom="deny"
+		/>
+
 
 		<field name="note" type="textarea" rows="3" cols="50"
 			label="XBCULTURE_NOTE" description="XBCULTURE_ADMIN_NOTE" />

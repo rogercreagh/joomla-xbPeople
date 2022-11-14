@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.9.10.2 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -76,6 +76,14 @@ class XbpeopleModelPerson extends JModelAdmin {
 		if (empty($data)) {
 			$data = $this->getItem();
 		}
+		$tagsHelper = new TagsHelper;
+		$params = ComponentHelper::getParams('com_xbpeople');
+		$peeptaggroup_parent = $params->get('peeptaggroup_parent','');
+		if ($peeptaggroup_parent && !(empty($data->tags))) {
+		    $peeptaggroup_tags = $tagsHelper->getTagTreeArray($peeptaggroup_parent);
+		    $data->peeptaggroup = array_intersect($peeptaggroup_tags, explode(',', $data->tags));
+		}
+		
 		if (is_object($data)) {
 			if ($this->xbfilmsStatus) {
 				$data->filmdirectorlist=$this->getPersonFilmslist('director');
@@ -206,6 +214,11 @@ class XbpeopleModelPerson extends JModelAdmin {
 		// allow nulls for year (therwise empty value defaults to 0)
 		if ($data['year_born']=='') { $data['year_born'] = NULL; }
 		if ($data['year_died']=='') { $data['year_died'] = NULL; }
+		
+		if ($data['peeptaggroup']) {
+		    $data['tags'] = ($data['tags']) ? array_unique(array_merge($data['tags'],$data['peeptaggroup'])) : $data['peeptaggroup'];
+		}
+		
 		if (parent::save($data)) {
 			if ($this->xbfilmsStatus) {
 				$this->storePersonFilms($this->getState('person.id'),'director', $data['filmdirectorlist']);

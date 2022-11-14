@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.9.6.a 16th December 2021
+ * @version 0.9.10.2 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,6 +27,15 @@ class XbpeopleViewPerson extends JViewLegacy {
         
         $this->canDo = ContentHelper::getActions('com_xbpeople', 'person', $this->item->id);
         // JHelperContent::getActions('com_xbpeople', 'person', $this->item->id);
+        
+        $this->params      = $this->get('State')->get('params');
+        $this->peeptaggroup_parent = $this->params->get('peeptaggroup_parent',0);
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('id, title, description')->from($db->quoteName('#__tags'))
+        ->where('id = '.$this->peeptaggroup_parent);
+        $db->setQuery($query);
+        $this->taggroupinfo = $db->loadAssocList('id');
         
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {

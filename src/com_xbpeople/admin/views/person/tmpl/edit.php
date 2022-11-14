@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 0.9.9.4 25th July 2022
+ * @version 0.9.10.2 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -91,6 +91,15 @@ HTMLHelper::_('formbehavior.chosen', 'select');
  				<fieldset class="form-vertical">
            			<?php echo $this->form->renderField('portrait'); ?>
  				</fieldset>
+					<?php if ($this->peeptaggroup_parent) : ?>
+						<h4>Person Tags</h4>
+ 						<?php  $this->form->setFieldAttribute('tags','label',Text::_('XBCULTURE_ALLTAGS'));
+ 						    $this->form->setFieldAttribute('tags','description',Text::_('XBCULTURE_ALLTAGS_DESC'));						    
+ 						    $this->form->setFieldAttribute('peeptaggroup','label',$this->taggroupinfo[$this->peeptaggroup_parent]['title']);
+ 						    $this->form->setFieldAttribute('peeptaggroup','description',$this->taggroupinfo[$this->peeptaggroup_parent]['description']);
+ 						    echo $this->form->renderField('peeptaggroup'); 
+						endif; ?>
+ 				<h4><?php echo Text::_('XBCULTURE_STATUS_CATS_TAGS'); ?></h4> 				
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>

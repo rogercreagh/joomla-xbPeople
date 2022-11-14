@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/character.php
- * @version 0.9.9.4 25th Juky 2022
+ * @version 0.9.10.2 14th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -78,6 +78,14 @@ class XbpeopleModelCharacter extends JModelAdmin {
         
         if (empty($data)) {
             $data = $this->getItem();
+        }
+        
+        $tagsHelper = new TagsHelper;
+        $params = ComponentHelper::getParams('com_xbpeople');
+        $chartaggroup_parent = $params->get('chartaggroup_parent','');
+        if ($chartaggroup_parent && !(empty($data->tags))) {
+            $chartaggroup_tags = $tagsHelper->getTagTreeArray($chartaggroup_parent);
+            $data->chartaggroup = array_intersect($chartaggroup_tags, explode(',', $data->tags));
         }
         
         if (is_object($data)) {
@@ -197,6 +205,11 @@ class XbpeopleModelCharacter extends JModelAdmin {
 	
 	public function save($data) {
 		$input = Factory::getApplication()->input;
+
+		if ($data['chartaggroup']) {
+		    $data['tags'] = ($data['tags']) ? array_unique(array_merge($data['tags'],$data['chartaggroup'])) : $data['chartaggroup'];
+		}
+		
 		if (parent::save($data)) {
 			if ($this->xbfilmsStatus) {
 				$this->storeCharacterFilms($this->getState('character.id'),$data['filmcharlist']);
