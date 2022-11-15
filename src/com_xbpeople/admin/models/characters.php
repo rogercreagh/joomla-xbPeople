@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.9.10.3 14th November 2022
+ * @version 0.9.11.0 15th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -184,39 +184,26 @@ class XbpeopleModelCharacters extends JModelList {
         // we are going to add the list of characters for each film
         $tagsHelper = new TagsHelper;
         
-        $db    = Factory::getDbo();
         foreach ($items as $i=>$item) {
         	$item->bookcnt = 0;
-        	$item->blist='';
+        	$item->booklist='';
         	if ($item->bcnt>0) {
-        		//we want a list of book title and role for each character (item)
-        		$query = $db->getQuery(true);
-        		$query->select('b.title')->from('#__xbbooks AS b');
-        		$query->join('LEFT', '#__xbbookcharacter AS bp ON bp.book_id = b.id');
-        		$query->where('bp.char_id = '.$db->quote($item->id));
-        		$query->order('b.title ASC');
-        		$db->setQuery($query);
-        		$item->blist = $db->loadObjectList();
-        		$item->bookcnt = count($item->blist);
+        	    $item->books = XbcultureHelper::getCharBooks($item->id);
+        		$item->bookcnt = count($item->books);
+        		$item->booklist = $item->bookcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,4);
         	} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
-        	
-        	
+        	       	
         	$item->filmcnt = 0;
-        	$item->flist='';
-        	if ($this->xbfilmsStatus) {
-        		$query = $db->getQuery(true);
-        		$query->select('DISTINCT f.title')->from('#__xbfilms AS f');
-        		$query->join('LEFT', '#__xbfilmcharacter AS fp ON fp.film_id = f.id');
-        		$query->where('fp.char_id = '.$db->quote($item->id));
-        		$query->order('f.title ASC');
-        		$db->setQuery($query);
-        		$item->flist = $db->loadObjectList();
-        		$item->filmcnt = count($item->flist);
-        	}
-        	
+        	$item->filmlist='';
+        	if ($item->fcnt>0) {
+        	    $item->films = XbcultureHelper::getCharFilms($item->id);
+        	    $item->filmcnt = count($item->films);
+        	    $item->filmlist = $item->bookcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,4);
+        	} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
+        	        	
         	$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
         } //end foreach item
-	        return $items;
+	    return $items;
     }
 
 }

@@ -204,29 +204,14 @@ class XbpeopleModelCharacters extends JModelList {
 		    foreach ($items as $i=>$item) {
 		        $item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
 		        //get books
-		        if ($item->bcnt>0) {
-		            $item->books = XbcultureHelper::getCharBooks($item->id);
-		            $item->booklist = '<ul class="xblist">';
-		            foreach ($item->books as $book) {
-		                $item->booklist .= $book->listitem;
-		            }
-		            $item->booklist .= '</ul>';
-		        } else {
-		            $item->books = '';
-		            $item->booklist = '';
-		        }
+	            $item->books = XbcultureHelper::getCharBooks($item->id);
+		        $item->brolecnt = count($item->books);
+		        $item->booklist = $item->brolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,4);
 		        //get films
-		        if ($item->fcnt>0) {
-		            $item->films = XbcultureHelper::getCharFilms($item->id);
-		            $item->filmlist = '<ul class="xblist">';
-		            foreach ($item->films as $film) {
-		                $item->filmlist .= $film->listitem;
-		            }
-		            $item->filmlist .= '</ul>';
-		        } else {
-		            $item->films = '';
-		            $item->filmlist = '';
-		        }
+	            $item->films = XbcultureHelper::getCharFilms($item->id);
+	            $item->frolecnt = count($item->films);
+	            $item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,4);
+		            
 		    } //end foreach item
 		} //end if items
 		

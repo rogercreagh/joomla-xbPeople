@@ -242,7 +242,7 @@ class XbpeopleModelPeople extends JModelList {
 			
 			$item->films = XbcultureHelper::getPersonFilms($item->id);
 			$item->frolecnt = count($item->films);
-			$item->filmlist = $item->brolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
+			$item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
 			
 		} //end foreach item
 		return $items;

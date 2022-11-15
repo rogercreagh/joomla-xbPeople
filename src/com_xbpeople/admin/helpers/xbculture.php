@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.9.9 8th November 2022
+ * @version 0.9.11.0 15th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -74,7 +74,7 @@ class XbcultureHelper extends ContentHelper {
 	 * NB comma = ', ' if only 2 items then comma = ' &amp; '. li will be '[li]item[/li]' 
 	 * NB [string] can be html eg '[p]/' where the / tells it to close the tag at end of row
 	 * @param boolean $linked default true - if true link names to detail view 
-	 * @param int $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note , 4=name
+	 * @param int $rowfmt default 0 - 0=role-name, 1=role-name-note, 2=name-role, 3=name-role-note , 4=name.(note), 5==name only
 	 * NB if filtering by role then role not shown so 2=0, 3=1
 	 * @return string
 	 */
@@ -94,52 +94,66 @@ class XbcultureHelper extends ContentHelper {
     	foreach ($items as $item) {
 	        if (($role=='') || ($role == $item->role)) {
     	        $p ++;
-    	        if (($role == '') || ($item->role == $role)) {
-    	           if (($sep == 'ul') || ($sep == 'ol')) {
-    	               $list .= '<li>';
-        	       } elseif ($sep[-1] == '/') {
-        	           $list .= trim($sep,'/');
-        	       }
-        	       if ((empty($role)) && ($rowfmt == '1')) {
-        	           $list .= '<span class="xblistrolefirst">'.$roletitles[$item->role] . '</span> ';
-        	       }
-        	       if ($linked) {
-        	           $list .= '<a href="'.$item->link.'" class="xblistlink">';
-        	       }
-        	       $list .= '<span class="xblistname">'.$item->name.'</span>';
-        	       if ($linked) {
-        	           $list .= '</a>';
-        	       }
-        	       $list .= ' ';
-        	       if ((empty($role)) && ($rowfmt >= 2)) {
-        	           $list .= '<span class="xblistrolesecond">'.$roletitles[$item->role] . '</span> ';	           
-        	       }
-        	       if ((!empty($item->note)) && (($rowfmt ==1) || ($rowfmt == 3))) {
-        	           $list .= '<span class="xblistnote">'.$item->note.'</span>';
-        	       }
-        	       switch ($sep) {
-        	           case 'ul':
-        	           case 'ol':
-        	               $list .= '</li>';
-        	               break;
-        	           case 'comma':
-        	               if ($p == 1) {
-        	                   $list .= ' &amp; ';
-        	               } else {
-        	                   $list .= ', ';
-        	               }
-        	               break;
-        	           case 'br':
-        	               $list .= '<br />';
-        	               break;
-        	           default:
-        	               $list .= $sep;
-        	               break;
-        	       }
+    	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
+    	        $name = '<span class="xblistname">'.$name.'</span>';
+	            if (($sep == 'ul') || ($sep == 'ol')) {
+	               $list .= '<li>';
+    	        } elseif ($sep[-1] == '/') {
+    	           $list .= trim($sep,'/');
+    	        }
+                if ($linked) {
+                    $name = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
+                }
+    	       switch ($rowfmt) {
+    	           case 0: // (role).name
+    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$roletitles[$item->role].'</span> ';
+    	               $list .= $name;
+    	               break;
+    	           case 1: //(role).name.(note)
+    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$roletitles[$item->role].'</span> ';
+    	               $list .= $name;
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               break;
+    	           case 2: //name.(role)
+    	               $list .= $name;
+    	               $list .= (empty($role)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               break;
+    	           case 3: //name.(role).(note)
+    	               $list .= $name;
+    	               $list .= (empty($role)) ? '' : '<span class="xblistrolesecond">'.$roletitles[$item->role].'</span> ';
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               break;
+    	           case 4: //name.(note)
+    	               $list .= $name;
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               break;
+    	           case 5: //name only
+    	               $list .= $name;
+    	               break;   	               
+    	           default:
+    	               ;
+    	               break;
     	       }
-	            
-	        }
-	       
+    	       switch ($sep) {
+    	           case 'ul':
+    	           case 'ol':
+    	               $list .= '</li>';
+    	               break;
+    	           case 'comma':
+    	               if ($p == 1) {
+    	                   $list .= ' &amp; ';
+    	               } else {
+    	                   $list .= ', ';
+    	               }
+    	               break;
+    	           case 'br':
+    	               $list .= '<br />';
+    	               break;
+    	           default:
+    	               $list .= $sep;
+    	               break;
+    	       }
+	        }	       
 	    } //endfor
 	    switch ($sep) {
 	        case 'ul':
@@ -550,6 +564,47 @@ class XbcultureHelper extends ContentHelper {
 	    return $res;
 	}
 	
+	/**
+	 * @name checkPersonExists()
+	 * @desc returns true if person with same names already exists (case insensitive)
+	 * @param string $firstname
+	 * @param string $lastname
+	 * @return boolean
+	 */
+	public static function checkPersonExists( $firstname,  $lastname) {
+	    $db = Factory::getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('id')->from('#__xbpersons')
+	    ->where('LOWER('.$db->quoteName('firstname').')='.$db->quote(strtolower($firstname)).' AND LOWER('.$db->quoteName('lastname').')='.$db->quote(strtolower($lastname)));
+	    $db->setQuery($query);
+	    $res = $db->loadResult();
+	    if ($res > 0) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/**
+	 * @name checkTitleExists()
+	 * @desc returns true if given title exists in given table (case insensitive)
+	 * If table is xbcharacters then uses name column rather than title
+	 * @param string $title
+	 * @param string $table
+	 * @return boolean
+	 */
+	public static function checkTitleExists( $title,  $table) {
+	    $col = ($table == '#__xbcharacters') ? 'name' : 'title';
+	    $db = Factory::getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('id')->from($db->quoteName($table))
+	    ->where('LOWER('.$db->quoteName($col).')='.$db->quote(strtolower($title)));
+	    $db->setQuery($query);
+	    $res = $db->loadResult();
+	    if ($res > 0) {
+	        return true;
+	    }
+	    return false;
+	}	
 	
 	/************ functions used on site side only **********************/
 	
@@ -824,8 +879,9 @@ class XbcultureHelper extends ContentHelper {
 	 * @return array
 	 */
 	public static function getCharBooks(int $charid, $order='title ASC') {
-	    $blink = 'index.php?option=com_xbbooks&view=book&id=';
-	    if (Factory::getApplication()->isClient('administrator')) {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $blink = 'index.php?option=com_xbbooks&view=book';
+	    if ($isadmin) {
 	        $blink .= '&layout=edit';
 	    }
 	    $blink .= '&id=';
@@ -836,18 +892,17 @@ class XbcultureHelper extends ContentHelper {
 	    ->from('#__xbbookcharacter AS a')
 	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
 	    ->where('a.char_id = "'.$charid.'"' );
-	    $query->where('b.state = 1');
+	    if (!$isadmin) {
+	        $query->where('b.state = 1');
+	    }   
 	    $query->order('b.'.$order);
 	    $db->setQuery($query);
 	    $books = $db->loadObjectList();
 	    foreach ($books as $i=>$book){
-	        $tlink = Route::_($blink . $book->id);
-	        $book->link = '<a href="'.$tlink.'">'.$book->title.'</a>';
-	        $book->listitem = '<li>'.$book->link;
-	        if ($book->char_note !='') {
-	            $book->listitem .= ' <i>('.$book->char_note.')</i>';
+	        $book->link = Route::_($blink . $book->id);
+	        if ($book->bstate != 1) {
+	            $book->name = '<span class="xbhlt">'.$book->name.'</span>';
 	        }
-	        $book->listitem .= '</li>';
 	    }
 	    return $books;
 	}
@@ -860,38 +915,30 @@ class XbcultureHelper extends ContentHelper {
 	 * @return array
 	 */
 	public static function getCharFilms(int $charid, $order='title ASC') {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
 	    $flink = 'index.php?option=com_xbfilms&view=film';
-	    $plink = 'index.php?option=com_xbpeople&view=person';
-	    if (Factory::getApplication()->isClient('administrator')) {
+	    if ($isadmin) {
 	        $flink .= '&layout=edit';
-	        $plink .= '&layout=edit';
 	    }
 	    $flink .= '&id=';
-	    $plink .= '&id=';
 	    $db = Factory::getDBO();
-	    $query = $db->getQuery(true);	    
-	    $query->select('a.char_note, a.actor_id, p.firstname,p.lastname,
-            b.title, b.rel_year, b.id, b.state AS bstate')
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.char_note AS note, f.title AS name, f.rel_year, f.id, f.state AS fstate')
 	    ->from('#__xbfilmcharacter AS a')
-	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
-	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
+	    ->join('LEFT','#__xbfilms AS f ON f.id=a.film_id')
 	    ->where('a.char_id = "'.$charid.'"' );
-	    $query->where('b.state = 1');
-	    $query->order('b.'.$order); 
+	    if (!$isadmin) {
+	        $query->where('f.state = 1');
+	    }
+	    $query->order('f.'.$order);
 	    $db->setQuery($query);
 	    $films = $db->loadObjectList();
-	    foreach ($films as $i=>$film){
-	        $tlink = Route::_($flink . $film->id);
-	        $film->link = '<a href="'.$tlink.'">'.$film->title.'</a>';
-	        $film->listitem = '<li>'.$film->link;
-	        if ($film->actor_id > 0) {
-	            $alink = Route::_($plink.$film->actor_id);
-	            $film->listitem .= ' <span class="xb09">(<i>played by <a href="'.$alink.'">'.$film->firstname.' '.$film->lastname.'</a></i>)</span>';
+	    foreach ($films as $film){
+	        $film->link = Route::_($flink . $film->id);
+	        if ($film->fstate != 1) {
+	            $film->name = '<span class="xbhlt">'.$film->name.'</span>';
 	        }
-	        if ($film->char_note !='') {
-	            $film->listitem .= ' <i>('.$film->char_note.')</i>';
-	        }
-	        $film->listitem .= '</li>';
 	    }
 	    return $films;
 	}

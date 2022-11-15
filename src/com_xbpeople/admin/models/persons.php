@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.10.3 14th November 2022
+ * @version 0.9.111.0 15th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -190,44 +190,6 @@ class XbpeopleModelPersons extends JModelList {
 		            break;
 		      }
 		  } //end if $tagfilt
-// 		if (($taglogic === '2') && (empty($tagfilt))) {
-// 			//if if we select tagged=excl and no tags specified then only show untagged items
-// 			$subQuery = '(SELECT content_item_id FROM #__contentitem_tag_map
-//  					WHERE type_alias LIKE '.$db->quote('com_xb%.person').')';
-// 			$query->where('a.id NOT IN '.$subQuery);
-// 		}
-		
-// 		if ($tagfilt && is_array($tagfilt)) {
-// 		    $tagfilt = ArrayHelper::toInteger($tagfilt);
-// 		    $subquery = '(SELECT tmap.tag_id AS tlist FROM #__contentitem_tag_map AS tmap
-//                 WHERE tmap.type_alias = '.$db->quote('com_xbpeople.person').'
-//                 AND tmap.content_item_id = a.id)';
-// 		    switch ($taglogic) {
-// 		        case 1: //all
-// 		            for ($i = 0; $i < count($tagfilt); $i++) {
-// 		                $query->where($tagfilt[$i].' IN '.$subquery);
-// 		            }
-// 		            break;
-// 		        case 2: //none
-// 		            for ($i = 0; $i < count($tagfilt); $i++) {
-// 		                $query->where($tagfilt[$i].' NOT IN '.$subquery);
-// 		            }
-// 		            break;
-// 		        default: //any
-// 		            $conds = array();
-// 		            for ($i = 0; $i < count($tagfilt); $i++) {
-// 		                $conds[] = $tagfilt[$i].' IN '.$subquery;
-// 		            }
-// 		            if (count($tagfilt)==1) {
-// 		                $query->where($tagfilt[0].' IN '.$subquery);
-// 		            } else {
-// 		                $query->where('1=1'); //bodge to ensure there is a where clause to extend
-// 		                $query->extendWhere('AND', $conds, 'OR');
-// 		            }
-// 		            break;
-// 		    }
-// 		} //end if $tagfilt
-		
 		
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'lastname');
@@ -256,15 +218,6 @@ class XbpeopleModelPersons extends JModelList {
 			$item->bookcnt = 0;
 			$item->blist='';
 			if ($item->bcnt>0) {
-// 				//we want a list of book title and role for each person (item)
-// 				$query = $db->getQuery(true);
-// 				$query->select('b.title, bp.role')->from('#__xbbooks AS b');
-// 				$query->join('LEFT', '#__xbbookperson AS bp ON bp.book_id = b.id');
-// 				$query->where('bp.person_id = '.$db->quote($item->id));
-// 				$query->order('b.title ASC');
-// 				$db->setQuery($query);
-// 				$item->blist = $db->loadObjectList();
-// 				$item->bookcnt = count($item->blist);
 			    $item->books = XbcultureHelper::getPersonBooks($item->id);
 			    $item->brolecnt = count($item->books);
 			    $broles = array_column($item->books,'role');
@@ -273,10 +226,10 @@ class XbpeopleModelPersons extends JModelList {
 			    $item->othercnt = count(array_keys($broles, 'other'));
 			    $item->mentioncnt = count(array_keys($broles, 'mention'));
 			    
-			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,1);
-			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,1);
-			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,1);
-			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,1);
+			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,4);
+			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,4);
+			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,4);
+			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,4);
 			} //bcnt is the number of books, brolecnt is the number of roles (there may be 2 roles in a book)
 			
 			if ($item->fcnt>0) {
@@ -291,11 +244,11 @@ class XbpeopleModelPersons extends JModelList {
     			$item->appcnt = count(array_keys($froles, 'appearsin'));
     			$item->castcnt = count(array_keys($froles, 'actor'));
     			
-    			$item->dirlist = $item->dircnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'director','ul',true,1);
-    			$item->prodlist = $item->prodcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'producer','ul',true,1);
-    			$item->crewlist = $item->crewcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'crew','ul',true,1);
-    			$item->castlist = $item->castcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'actor','ul',true,1);
-    			$item->applist = $item->appcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'appearsin','ul',true,1);
+    			$item->dirlist = $item->dircnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'director','ul',true,4);
+    			$item->prodlist = $item->prodcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'producer','ul',true,4);
+    			$item->crewlist = $item->crewcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'crew','ul',true,4);
+    			$item->castlist = $item->castcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'actor','ul',true,4);
+    			$item->applist = $item->appcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'appearsin','ul',true,4);
 			    
 			}
 			
