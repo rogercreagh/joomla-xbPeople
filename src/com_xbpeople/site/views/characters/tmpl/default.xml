@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/characters/tmpl/default.xml v0.9.9.6 24th August 2022 -->
+<!-- xbBooks site/views/characters/tmpl/default.xml v0.9.11.2 17th November 2022 -->
 <metadata>
 	<layout title="Characters">
 		<message>Displays a list (table) of characters. Option to restrict to single category and filter by tags.</message>
@@ -35,16 +35,6 @@
 				>
 				<option value="0" >JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>
-			<field name="showclists" type="list"
-				label="Show item lists"
-				description="Show lists of books/films and roles as popover on the count (more compact) or full list. Popover will be click to show, and in both cases title will be linked to item entry"
-				useglobal="true"
-				showon="showcnts:1"
-				>
-				<option value="0" >JHIDE</option>
-				<option value="1" >Show as popover</option>
-				<option value="2" >Show as list</option>
 			</field>
 
 			<field name="show_ccat" type="list"

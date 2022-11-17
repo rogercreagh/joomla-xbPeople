@@ -172,7 +172,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 					</td>
 					<td class="center">
 						<div class="btn-group">
-							<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'person.', true, 'cb'); ?>
+							<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'character.', true, 'cb'); ?>
 							<?php if ($item->note!=''){ ?>
 								<span class="btn btn-micro active hasTooltip" title="" 
 									data-original-title="<?php echo '<b>'.Text::_( 'XBCULTURE_NOTE' ) .'</b>: '. htmlentities($item->note); ?>">

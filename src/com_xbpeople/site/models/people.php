@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.9.9.9 8th November 2022
+ * @version 0.9.11.2 17th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -93,7 +93,26 @@ class XbpeopleModelPeople extends JModelList {
             	}
             }
             
-            //filter by nationality
+            //Filter by role
+            $rolefilt = $this->getState('filter.rolefilt');
+            if (!empty($rolefilt)) {
+                $rolestr = '';
+                //TODO tidy this up as if both books and films exist we'll be looking for film roles in books and vice versa
+                if ($this->xbfilmsStatus){
+                    if (strpos(' director producer actor crew appearsin', $rolefilt) > 0 ) {
+                        $rolestr = 'f.role = '.$db->quote($rolefilt);
+                        $query->where($rolestr);
+                    }
+                }
+                if ($this->xbbooksStatus){
+                     if (strpos(' author editor mention other', $rolefilt) > 0 ) {
+                       $rolestr = 'b.role = '.$db->quote($rolefilt);
+                       $query->where($rolestr);
+                    }
+                 }
+             }
+		
+	       //filter by nationality
             $natfilt = $this->getState('filter.nationality');
             if (!empty($natfilt)) {
                 $query->where('a.nationality = '.$db->quote($natfilt));
@@ -122,25 +141,6 @@ class XbpeopleModelPeople extends JModelList {
             		$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
             	}
             }
-//TODO add book film and event role filter           
-//         	switch ($prole) {
-//         		case 1: //all
-//          			break;
-//         		case 2: //authors
-//         			$query->where('p.role = '. $db->quote('author'));
-//         			break;
-//         		case 3: //editors
-//          			$query->where('p.role = '. $db->quote('editor'));
-//        			break;
-//         		case 4: //mention
-//         			$query->where('p.role = '. $db->quote('mention'));
-//         			break;
-//         		case 5: //other
-//         		    $query->where('p.role = '. $db->quote('other'));
-//         		    break;
-//         		default:
-//         			break;        			
-//         	}
            
             //filter by tag
             $tagfilt = $this->getState('tagId');

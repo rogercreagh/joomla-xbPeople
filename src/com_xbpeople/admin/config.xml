@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople config.xml v0.9.10.2 14th November 2022 -->
+<!-- xbPeople config.xml v0.9.11.2 17th November 2022 -->
 <config>
 <!-- GENERAL TAB -->
 	<fieldset name="general"
@@ -274,16 +274,6 @@
 			<option value="0" >JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="showlists" type="list"
-			label="Show item lists"
-			description="Show lists of books/films and roles as popover on the count (more compact) or full list. Popover will be click to show, and in both cases title will be linked to item entry"
-			default="1"
-			showon="showcnts!:0"
-			>
-			<option value="0" >JHIDE</option>
-			<option value="1" >Show as popover</option>
-			<option value="2" >Show as list</option>
-		</field>
   		<field name="charslistnote" type="note"
 			label="Characters List Specific Options"
 			class="info"
@@ -314,16 +304,6 @@
 			>
 			<option value="0" >JHIDE</option>
 			<option value="1">JSHOW</option>
-		</field>
-		<field name="showclists" type="list"
-			label="Show item lists"
-			description="Show lists of books/films and roles as popover on the count (more compact) or full list. Popover will be click to show, and in both cases title will be linked to item entry"
-			default="1"
-			showon="showcnts!:0"
-			>
-			<option value="0" >JHIDE</option>
-			<option value="1" >Show as popover</option>
-			<option value="2" >Show as list</option>
 		</field>
 			    
   		<field name="catlistnote" type="note"
@@ -420,11 +400,6 @@
 			label="Person View Options"
 			class="info"
 		/>			
-		<field name="person_layout" type="componentlayout"
-	        label="JFIELD_ALT_LAYOUT_LABEL"
-	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-	       	extension="com_xbbooks" view="person" 
-	    />
 		<field name="show_pimage" type="list"
 	        label="Show Picture"
 	        description="Show picture of person with their name"
@@ -441,11 +416,6 @@
 			description="These global options to do with images are common for both real people and characters"
 			class="info"
 		/>			
-		<field name="character_layout" type="componentlayout"
-	        label="JFIELD_ALT_LAYOUT_LABEL"
-	        description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-	       	extension="com_xbbooks" view="character" 
-	    />
 		<field name="show_cimage" type="list" 
 	        label="Show Picture"
 	        description="Show picture of character with their name"

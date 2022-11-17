@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.9.11.0 15th November 2022
+ * @version 0.9.11.2 17th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,7 @@ class XbpeopleModelCharacters extends JModelList {
                 'ordering','a.ordering',
                 'category_title', 'c.title',
                 'catid', 'a.catid', 'category_id',
-                'published','a.state' );
+                'published','a.state', 'b.id','f.id', 'fcnt', 'bcnt');
         }
         $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
         $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
@@ -89,6 +89,18 @@ class XbpeopleModelCharacters extends JModelList {
             $query->where('state = ' . (int) $published);
         } elseif ($published === '') {
             $query->where('(state IN (0, 1))');
+        }
+        
+        //Filter orphans
+        $orphfilt = $this->getState('filter.orphans');
+        if ($orphfilt == '1') {
+            if ($this->xbbooksStatus) {
+                $query->where('b.id IS NULL');
+            }
+            if ($this->xbfilmsStatus) {
+                $query->where('f.id IS NULL'); 
+            }
+            //TODO and e.id is null for events
         }
         
         // Filter by category.

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.111.0 15th November 2022
+ * @version 0.9.11.2 17th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +26,7 @@ class XbpeopleModelPersons extends JModelList {
 			    'nationality', 'a.nationality',
 			    'published', 'a.state', 'ordering', 'a.ordering',
 					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
-					'sortdate', 'bcnt','fcnt' );
+					'sortdate', 'bcnt','fcnt' , 'b.id','f.id');
 		}
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
@@ -94,40 +94,18 @@ class XbpeopleModelPersons extends JModelList {
 		    $query->where('a.nationality = '.$db->quote($natfilt));
 		}
 		
-		//Filter by role
-		$rolefilt = $this->getState('filter.rolefilt');
-		if (!empty($rolefilt)) {
-		    if ($this->xbfilmsStatus && ($rolefilt == 'film')) {
-		        $query->where('f.id IS NOT NULL');
-		    } elseif ($this->xbbooksStatus && ($rolefilt == 'book')) {
-		        $query->where('b.id IS NOT NULL');
-		    //TODO add event person filter
-		    } elseif ($rolefilt == 'orphans') {
-		        if ($this->xbbooksStatus) {
-		            $query->where('b.id IS NULL'); //TODO and e.id is null for events
-		        }
-		        if ($this->xbfilmsStatus) {
-		            $query->where('f.id IS NULL'); //TODO and e.id is null for events
-		        }
-		    } else {
-		        $rolestr = '';
-		        //TODO tidy this up as if both books and films exist we'll be looking for film roles in books and vice versa
-		        if ($this->xbfilmsStatus){
-		            $rolestr = 'f.role = '.$db->quote($rolefilt);
-		        }
-		        if ($this->xbfilmsStatus && $this->xbbooksStatus) {
-		            $rolestr .= ' OR ';
-		        }
-		        if ($this->xbbooksStatus){
-		            $rolestr = 'b.role = '.$db->quote($rolefilt);
-		        }
-		        //TODO add event person filter
-		        if ($rolestr) {
-    		        $query->where('('.$rolestr.')');
-		        }
+		//Filter orphans
+		$orphfilt = $this->getState('filter.orphans');
+		if ($orphfilt == '1') {
+		    if ($this->xbbooksStatus) {
+		        $query->where('b.id IS NULL');
 		    }
+		    if ($this->xbfilmsStatus) {
+		        $query->where('f.id IS NULL');
+		    }
+		    //TODO and e.id is null for events
 		}
-			
+		
 		// Filter by category.
 		$app = Factory::getApplication();
 		$categoryId = $app->getUserStateFromRequest('catid', 'catid','');

@@ -17,14 +17,14 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
-		<field name="rolefilt" type="rolelist"
-			label="XBCULTURE_ROLE_FILTER_LABEL"
-			description="XBCULTURE_ROLE_FILTER_DESC"
-			size="40" class="inputbox" maxlength="40"
-			onchange="this.form.submit();"
-			default="" 
+		<field
+			name="orphans" type="radio"
+			label="Orphans" description="Find those not assigned to book or film"
+  			class="btn-group btn-small radiotop"
+			default="0"
 		>
-			<option value="">XBCULTURE_ROLE_FILTER</option>
+			<option value="0" onchange="this.form.submit();">XBCULTURE_ALL</option>
+			<option value="1" onchange="this.form.submit();">Orphans Only</option>
 		</field>
 		<field name="nationality" type="natlist"
 			label="XBCULTURE_NATIONALITY"

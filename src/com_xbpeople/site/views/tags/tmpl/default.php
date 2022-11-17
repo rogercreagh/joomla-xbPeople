@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/tmpl/default.php
- * @version 0.9.9.4 29th July 2022
+ * @version 0.9.11.2 17th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -66,7 +66,9 @@ $ctlink = 'index.php?option=com_tags&view=tag&id=';
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($this->items as $i => $item) : ?>
+				<?php foreach ($this->items as $i => $item) : 
+				//only show tags that are assigned to people or chars
+				    if (($item->pcnt + $item->chcnt) > 0) : ?>
 				<tr>
 	 				<td>
 						<p class="xbml10">
@@ -99,12 +101,13 @@ $ctlink = 'index.php?option=com_tags&view=tag&id=';
 	   					<?php endif; ?>
 	   				</td>
 	    			<td class="center">
-	   					<?php if ($item->ocnt >0) : ?> 
+	   					<?php if (($item->ocnt >0) && (($item->pcnt >0) || ($item->chcnt >0)) ) : ?> 
 	   						<a class="badge" href="<?php echo $ctlink.$item->id; ?>"><?php echo $item->ocnt; ?></a>
 	   					<?php endif; ?>
 	   				</td>
 				</tr>
-				<?php endforeach; ?>
+				
+				<?php endif; endforeach; ?>
 			</tbody>
 		</table>
 	<?php endif; ?>

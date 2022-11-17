@@ -8,20 +8,17 @@
 			description=""
             hint="JSEARCH_FILTER"
         /> 
-<!-- 
-		<field name="prole" type="list"
-				default="1"
-				label="Person role"
-				description="Filter by person role. Appearances means subjects of a book or mentioned in a book, Other roles include translator, illustrator, ghost writer..."
+
+		<field name="rolefilt" type="rolelist"
+			label="XBCULTURE_ROLE_FILTER_LABEL"
+			description="XBCULTURE_ROLE_FILTER_DESC"
+			size="40" class="inputbox" maxlength="40"
 			onchange="this.form.submit();"
-				>
-					<option value="1">All Book People</option>
-					<option value="2">Authors</option>
-					<option value="3">Editors</option>
-					<option value="4">Appearances</option>
-					<option value="5">Other Roles</option>
-		</field>	
- -->
+			default="" 
+		>
+			<option value="">XBCULTURE_ROLE_FILTER</option>
+		</field>
+
 		<field name="nationality" type="natlist"
 			label="XBCULTURE_NATIONALITY"
 			description="XBCULTURE_NATIONALITY_DESC"
