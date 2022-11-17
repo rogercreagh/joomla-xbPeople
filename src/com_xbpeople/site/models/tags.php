@@ -29,7 +29,7 @@ class XbpeopleModelTags extends JModelList {
 	
 	protected function populateState($ordering = null, $direction = null) {
 		// Load state from the request.
-//		$app = Factory::getApplication();
+		$app = Factory::getApplication();
 		
 //		$ip_type = $app->input->getStr('type');
 // 		$mn_type = $app->input->getStr('mn_type');

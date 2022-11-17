@@ -27,14 +27,14 @@ class JFormFieldRolelist extends JFormFieldList {
 		
 		$options = array();
 		if ($xbbooksStatus) {
-		    $options[] = array('text'=>Text::_('BOOK ROLES'), 'value'=>'');
+		    $options[] = array('text'=>Text::_('BOOK ROLES'), 'value'=>'B');
 		    $options[] = array('text'=>Text::_('XBCULTURE_AUTHORS'), 'value'=>'author');
 		    $options[] = array('text'=>Text::_('XBCULTURE_EDITORS'), 'value'=>'editor');
 		    $options[] = array('text'=>Text::_('XBCULTURE_MENTIONED'), 'value'=>'mention');
 		    $options[] = array('text'=>Text::_('XBCULTURE_OTHER_ROLES'), 'value'=>'other');
 		}
 		if ($xbfilmsStatus) {
-		    $options[] = array('text'=>Text::_('FILM ROLES'), 'value'=>'');
+		    $options[] = array('text'=>Text::_('FILM ROLES'), 'value'=>'F');
 		    $options[] = array('text'=>Text::_('XBCULTURE_DIRECTORS'), 'value'=>'director');
 		    $options[] = array('text'=>Text::_('XBCULTURE_PRODUCERS'), 'value'=>'producer');
 		    $options[] = array('text'=>Text::_('XBCULTURE_CREW'), 'value'=>'crew');

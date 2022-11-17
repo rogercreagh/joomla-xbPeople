@@ -91,10 +91,10 @@ class XbpeopleViewPersons extends JViewLegacy {
         }
         ToolbarHelper::custom(); //spacer
         if ($this->xbbooks_ok) {
-        	ToolbarHelper::custom('persons.books', 'stack', '', 'xbBooks', false) ;
+        	ToolbarHelper::custom('persons.books', 'stack', '', 'Book People', false) ;
         }
         if ($this->xbfilms_ok) {
-        	ToolbarHelper::custom('persons.films', 'screen', '', 'xbFilms', false) ;
+        	ToolbarHelper::custom('persons.films', 'screen', '', 'Film People', false) ;
         }
         
         if ($canDo->get('core.admin')) {
