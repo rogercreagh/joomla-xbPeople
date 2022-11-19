@@ -16,12 +16,9 @@ class XbpeopleViewCategories extends JViewLegacy {
 	public function display($tpl = null) {
 		
 		$this->items 		= $this->get('Items');
-//		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->params      = $this->state->get('params');
-// 		$this->filterForm    	= $this->get('FilterForm');
-// 		$this->activeFilters 	= $this->get('ActiveFilters');
-// 		$this->searchTitle = $this->state->get('filter.search');
+		$this->hide_empty = $this->params->get('hide_empty',1);
 		
 		$this->header = array();
 		$this->header['showheading'] = $this->params->get('show_page_heading',0,'int');
@@ -33,8 +30,6 @@ class XbpeopleViewCategories extends JViewLegacy {
 		$this->header['subtitle'] = $this->params->get('list_subtitle','','text');
 		$this->header['text'] = $this->params->get('list_headtext','','text');
 		
-// 		$this->search_bar = $this->params->get('search_bar','','int');
-// 		$this->show_desc = $this->params->get('show_desc','','int');
 		$this->show_catspath = $this->params->get('show_catspath','1','int');
 		$this->show_clist_empty = $this->params->get('show_clist_empty','0','int');
 		

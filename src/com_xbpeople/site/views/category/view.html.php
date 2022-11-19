@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/category/view.html.php
- * @version 0.9.9.8 18th October 2022
+ * @version 0.9.11.2 18th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,6 +20,7 @@ class XbpeopleViewCategory extends JViewLegacy {
 		
 		$this->state = $this->get('State');
 		$this->params = $this->state->get('params');
+		$this->hide_empty = $this->params->get('hide_empty',1);
 		
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');

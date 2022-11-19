@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.11.2 17th November 2022
+ * @version 0.9.11.2 18th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -80,12 +80,9 @@ class XbpeopleModelPersons extends JModelList {
 		}
 		
 		// Filter by published state
-		$published = $this->getState('filter.published');
-		
-		if (is_numeric($published)) {
-			$query->where('published = ' . (int) $published);
-			//        } elseif ($published === '') {
-			//$query->where('(state IN (0, 1))');
+		$published = $this->getState('filter.published');		
+		if ($published !=='') {
+		    $query->where($db->quoteName('a.state').' = ' . (int) $published);
 		}
 		
 		//filter by nationality

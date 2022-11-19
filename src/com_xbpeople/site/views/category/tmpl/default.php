@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/category/tmpl/default.php
- * @version 0.9.9.8 18th October 2022
+ * @version 0.9.11.2 18th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -61,10 +61,8 @@ $show_catdesc = $this->params->get('show_catdesc',1);
 	</div>
 <?php endif; ?>
 <div class="row-fluid">
-	<?php if($item->extension == 'com_xbpeople') : ?>
-	<?php else: ?>
- 	<?php endif; ?>
-   	<div class= "span6">
+	<?php if(($item->pcnt > 0) || (!$this->hide_empty)) : ?>
+   		<div class= "span6">
     		<div class="xbbox xbboxgrn  xbyscroll xbmh300">
     			<p><?php echo $item->pcnt; ?> people</p>
     			<?php if ($item->pcnt > 0 ) : ?>
@@ -76,6 +74,8 @@ $show_catdesc = $this->params->get('show_catdesc',1);
     			<?php endif; ?>
     		</div>
     	</div>
+ 	<?php endif; ?>
+	<?php if(($item->chcnt > 0) || (!$this->hide_empty)) : ?>
     	<div class="span6">
     		<div class="xbbox xbboxcyan  xbyscroll xbmh300">
     			<p><?php echo $item->chcnt; ?> characters</p>
@@ -88,6 +88,7 @@ $show_catdesc = $this->params->get('show_catdesc',1);
     			<?php endif; ?>
     		</div>
     	</div>
+ 	<?php endif; ?>
 </div>
 <div class="clearfix"></div>
 <p class="xbtc xbmt16">

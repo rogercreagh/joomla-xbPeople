@@ -84,11 +84,8 @@ class XbpeopleModelCharacters extends JModelList {
         
         // Filter by published state
         $published = $this->getState('filter.published');
-        
-        if (is_numeric($published)) {
-            $query->where('state = ' . (int) $published);
-        } elseif ($published === '') {
-            $query->where('(state IN (0, 1))');
+        if ($published !=='') {
+            $query->where($db->quoteName('a.state').' = ' . (int) $published);
         }
         
         //Filter orphans

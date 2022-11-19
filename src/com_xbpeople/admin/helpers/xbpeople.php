@@ -15,9 +15,6 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Access\Access;
-// use Joomla\CMS\HTML\HTMLHelper;
-// use Joomla\CMS\Filter\OutputFilter;
-// use Joomla\CMS\Application\ApplicationHelper;
 
 class XbpeopleHelper extends ContentHelper {
 	

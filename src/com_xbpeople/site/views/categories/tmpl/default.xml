@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople site/views/categories/tmpl/default.xml v0.9.9.4 29th July 2022 -->
+<!-- xbPeople site/views/categories/tmpl/default.xml v0.9.11.2 18th November 2022 -->
 <metadata>
 	<layout title="People Category Counts">
 		<message>Displays counts of items assigned to each category. Links to list views filtered by category</message>
@@ -17,7 +17,7 @@
 					<option value="0" >No</option>
 					<option value="1">Yes</option>
 			</field>	
-			<field name="show_cat_parent"
+			<field name="show_catspath"
 				type="radio"
 				label="XBCULTURE_SHOW_PARENT_LABEL"
 				description="XBCULTURE_SHOW_PARENT_DESC"

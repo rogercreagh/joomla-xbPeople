@@ -37,6 +37,14 @@ class JFormFieldChildtags extends Joomla\CMS\Form\Field\TagField
 	 */
 	public $type = 'Childtags';
 
+	public function __construct()
+	{
+	    parent::__construct();
+	    
+	    // force nested mode
+	    $this->isNested = true;
+	}
+	
 	/**
 	 * Method to get a list of tags
 	 *
