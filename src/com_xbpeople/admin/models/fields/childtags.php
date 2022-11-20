@@ -37,43 +37,29 @@ class JFormFieldChildtags extends Joomla\CMS\Form\Field\TagField
 	 */
 	public $type = 'Childtags';
 
-	public function __construct()
-	{
-	    parent::__construct();
-	    
-	    // force nested mode
-	    $this->isNested = true;
-	}
+	/**
+	 * {@inheritDoc}
+	 * @see \Joomla\CMS\Form\Field\TagField::getOptions()
+	 * Modified Roger C-O Nov 2022 to allow options to limit values to children of a specified tag.
+	 * Add a new property 'parent="[component].[optionname] to specify the parent of the tags to be listed as options
+	 * Also forces nested mode to prevent ajax going outside the specified branch 
+	 */
 	
 	/**
-	 * Method to get a list of tags
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.1
 	 * 
-	 * Modified Roger C-O Nov 2022 to allow options to limit values to children of a specified tag.
-	 * Additional elements on the childtag
-	 *     component - the component in whose options the parent tag is specified
-	 *     tagoption - the id of the parent tag specified in a tag field of this name in the component options
 	 */
 	protected function getOptions()
 	{
         $published = (string) $this->element['published'] ?: array(0, 1);		
 		
-		$parent_id = 0;
+		$parent_id = 1;
 		$parent = (string) $this->element['parent'];
 		if ($parent && (substr($parent,0,4) == 'com_'))  { //we're looking in the option params for a component
 		    //for php8 use str_starts_with($parent, string 'com_')
 		    $parent = explode('.',$parent);
 		    $params = ComponentHelper::getParams($parent[0]);
 		    if ($params) $parent_id = $params->get($parent[1],1);		    
-		} elseif (intval($parent)>1) { //we've got the id entered directly
-		    $parent_id = $parent;
-		} else { //try for an alias (name is not required to be unique)
-		    $parent_id = XbcultureHelper::getIdFromAlias('#__tags',$parent);
-		}
-		    
+		}		    
 
         $app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
@@ -142,50 +128,33 @@ class JFormFieldChildtags extends Joomla\CMS\Form\Field\TagField
 		}
 
 		// Block the possibility to set a tag as it own parent
-		if ($this->form->getName() === 'com_tags.tag')
-		{
-			$id   = (int) $this->form->getValue('id', 0);
-
-			foreach ($options as $option)
-			{
-				if ($option->value == $id)
-				{
-					$option->disable = true;
-				}
-			}
-		}
+		// REMOVED as this is not used bycom_tags.tag
 
 		// Merge any additional options in the XML definition.
-          $grandparent = $this->get_grandparent_class($this);
-          $options = ($grandparent) ? array_merge($grandparent::getOptions(), $options) : $options;
-        // 
-        //$options = array_merge(get_parent_class(get_parent_class(get_class($this)))::getOptions(), $options);   
+        $options = array_merge(get_parent_class(get_parent_class(get_class($this)))::getOptions(), $options);   
 
 		// Prepare nested data
-		if ($this->isNested())
-		{
-			$this->prepareOptionsNested($options);
-		}
-		else
-		{
-			$options = TagsHelper::convertPathsToNames($options);
-		}
+		$this->prepareOptionsNested($options);
 
 		return $options;
 	}
+	
+	/**
+	 * Override parent function to force always use nested mode
+	 * {@inheritDoc}
+	 * @see \Joomla\CMS\Form\Field\TagField::isNested()
+	 */
+	public function isNested()
+	{
+	    return true;
+	}
 
-    /**
-    * Get the grand parent class of the specified class
-    *
-    * @param $currentClass
-    * @return string
-    */
-    private function get_grandparent_class($currentClass)
-    {
-        if (is_object($currentClass)) {
-            $currentClass = get_class($currentClass);
-        }
-        return get_parent_class(get_parent_class($currentClass));      
-    }
+//     private function get_grandparent_class($currentClass)
+//     {
+//         if (is_object($currentClass)) {
+//             $currentClass = get_class($currentClass);
+//         }
+//         return get_parent_class(get_parent_class($currentClass));      
+//     }
 
 }
