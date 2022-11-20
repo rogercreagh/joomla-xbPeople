@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.9.11.0 15th November 2022
+ * @version 0.10.0.0 20th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -372,9 +372,25 @@ class XbcultureHelper extends ContentHelper {
 		->from('#__categories AS a ')
 		->where('a.id = '.$catid);
 		$db->setQuery($query);
-		return $db->loadObjectList()[0];
+		return $db->loadObject();
 	}
 
+	/**
+	 * @name getTag()
+	 * @desc gets a tag's details given its id
+	 * @param (int) $tagid
+	 * @return unknown|mixed
+	 */
+	public static function getTag($tagid) {
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    $query->select('*')
+	    ->from('#__tags AS a ')
+	    ->where('a.id = '.$tagid);
+	    $db->setQuery($query);
+	    return $db->loadObject(); 
+	}
+	
 	/**
 	 * @name getTagsItemCnts()
 	 * @desc returns the number of distinct items tagged with a specific typealias (eg com_xbbook.book)
