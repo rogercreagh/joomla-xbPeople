@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.10.0.0 20th November 2022
+ * @version 0.10.0.0 22nd November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -368,7 +368,7 @@ class XbcultureHelper extends ContentHelper {
 	public static function getCat($catid) {
 		$db = Factory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('a.title, a.description')
+		$query->select('*')
 		->from('#__categories AS a ')
 		->where('a.id = '.$catid);
 		$db->setQuery($query);
@@ -517,44 +517,41 @@ class XbcultureHelper extends ContentHelper {
 	 * @param string $desc - optional description
 	 * @return integer - id of new or existing category, or false if error. Error message is enqueued
 	 */
-	public static function createCategory($name, $alias='',$parentid = 0,  $ext='com_xbpeople', $desc='' ) {
+	public static function createCategory($name, $alias='',$parentid = 1,  $ext='com_xbpeople', $desc='' ) {
 	    if ($alias=='') {
 	        //create alias from name
 	        $alias = OutputFilter::stringURLSafe(strtolower($name));
 	    }
 	    //check category doesn't already exist
-	    $db = Factory::getDbo();
-	    $query = $db->getQuery(true);
-	    $query->select('id')->from($db->quoteName('#__categories'))->where($db->quoteName('alias')." = ".$db->quote($alias));
-	    $query->where($db->quoteName('extension')." = ".$db->quote($ext));
-	    $db->setQuery($query);
-	    $id =0;
-	    $res = $db->loadResult();
-	    if ($res>0) {
-	        return $res;
+	    $catid = XbcultureHelper::getIdFromAlias('#__categories',$alias, $ext);
+	    if ($catid>0) {
+	        return $catid;
+	    } else {	        
+    	    $db = Factory::getDbo();
+    	    $query = $db->getQuery(true);
+    	    //get category model
+    	    $basePath = JPATH_ADMINISTRATOR.'/components/com_categories';
+    	    require_once $basePath.'/models/category.php';
+    	    $config  = array('table_path' => $basePath.'/tables');
+    	    //setup data for new category
+    	    $category_model = new CategoriesModelCategory($config);
+    	    $category_data['id'] = 0;
+    	    $category_data['parent_id'] = $parentid;
+    	    $category_data['published'] = 1;
+    	    $category_data['language'] = '*';
+    	    $category_data['params'] = array('category_layout' => '','image' => '');
+    	    $category_data['metadata'] = array('author' => '','robots' => '');
+    	    $category_data['extension'] = $ext;
+    	    $category_data['title'] = $name;
+    	    $category_data['alias'] = $alias;
+    	    $category_data['description'] = $desc;
+    	    if(!$category_model->save($category_data)){
+    	        Factory::getApplication()->enqueueMessage('Error creating category: '.$category_model->getError(), 'error');
+    	        return false;
+    	    }
+    	    $id = $category_model->getItem()->id;
+    	    return $id;
 	    }
-	    //get category model
-	    $basePath = JPATH_ADMINISTRATOR.'/components/com_categories';
-	    require_once $basePath.'/models/category.php';
-	    $config  = array('table_path' => $basePath.'/tables');
-	    //setup data for new category
-	    $category_model = new CategoriesModelCategory($config);
-	    $category_data['id'] = 0;
-	    $category_data['parent_id'] = $parentid;
-	    $category_data['published'] = 1;
-	    $category_data['language'] = '*';
-	    $category_data['params'] = array('category_layout' => '','image' => '');
-	    $category_data['metadata'] = array('author' => '','robots' => '');
-	    $category_data['extension'] = $ext;
-	    $category_data['title'] = $name;
-	    $category_data['alias'] = $alias;
-	    $category_data['description'] = $desc;
-	    if(!$category_model->save($category_data)){
-	        Factory::getApplication()->enqueueMessage('Error creating category: '.$category_model->getError(), 'error');
-	        return false;
-	    }
-	    $id = $category_model->getItem()->id;
-	    return $id;
 	}
 	
 	/**

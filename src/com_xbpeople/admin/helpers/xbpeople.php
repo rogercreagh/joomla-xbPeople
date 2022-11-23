@@ -102,7 +102,7 @@ class XbpeopleHelper extends ContentHelper {
 		} else {
 			JHtmlSidebar::addEntry(
 					Text::_('XBPEOPLE_DASHBOARD'),
-					'index.php?option=com_xbfilms&view=dashboard',
+					'index.php?option=com_xbpeople&view=dashboard',
 					$vName == 'dashboard'
 					);
 			

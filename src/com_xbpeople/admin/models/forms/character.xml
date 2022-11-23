@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/character.xml v0.9.9.4 26th July 2022 -->
+<!-- xbPeople admin/models/forms/character.xml v0.10.0.0 22nd November 2022 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -28,7 +28,9 @@
 		<field name="image" type="media"
 			label="XBCULTURE_IMAGE" description="XBCULTURE_FIELD_IMAGE_DESC" />
 			
-		<field name="catid" type="category" extension="com_xbpeople" class="chzn-custom-value"
+		<field name="catid" type="xbcats" 
+			extension="com_xbpeople" class="chzn-custom-value"
+			parent="rootcat_char"
 			required="true"
 			label="JCATEGORY" description="XBCULTURE_CATEGORY_DESC" >
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
@@ -51,8 +53,8 @@
 				multiple="true"
 		>
 		</field>
-		<field name="chartaggroup" type="childtags"
-			label="Character Tags" description="Description to be taken from parent tag"
+		<field name="chartaggroup" type="xbtags"
+			label="(value from parent)" description="(Description to be taken from parent tag)"
 			parent="com_xbpeople.chartaggroup_parent"
 			multiple="true"  published="1"
 			mode="nested" custom="deny"

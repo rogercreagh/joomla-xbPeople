@@ -108,9 +108,11 @@ class XbpeopleModelCharacters extends JModelList {
         	$categoryId = $this->getState('filter.category_id');
         }
 //        $subcats=0;
-        if (is_numeric($categoryId))
-        {
+        if (is_numeric($categoryId)) {
         	$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+        } elseif (is_array($categoryId)) {
+            $categoryId = implode(',', $categoryId);
+            $query->where($db->quoteName('a.catid') . ' IN ('.$categoryId.')');
         }
         
 //         //        $subcats = $this->getState('filter.subcats');

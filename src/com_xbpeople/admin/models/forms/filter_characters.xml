@@ -29,22 +29,20 @@
 			<option value="1" onchange="this.form.submit();">Orphans Only</option>
 		</field>
 		<field
-			name="category_id"
-			type="category"
+			name="category_id" type="xbitemcats"
 			label="JOPTION_FILTER_CATEGORY"
-			extension="com_xbpeople"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			extension="com_xbpeople"
+			itemtable="#__xbcharacters"
+			multiple="true"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
 		<field
-			name="tagfilt"
-			type="tag"
+			name="tagfilt" type="tag"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
-			multiple="true"
-			class="multipleTags"
+			multiple="true" class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
 			showon="tagged:1"

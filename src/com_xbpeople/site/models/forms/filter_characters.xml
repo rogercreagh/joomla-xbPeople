@@ -9,26 +9,16 @@
             hint="JSEARCH_FILTER"
         /> 
 		<field
-			name="category_id" type="catsubtree"
+			name="category_id" type="xbitemcaats"
 			label="XBCULTURE_CATFILT_LABEL"
 			description="XBCULTURE_CATFILT_DESC"
 			extension="com_xbpeople"
-			itemtype="char"
+			itemtable="#__xbcharacters"
+			multiple="true"
 			published="1"
 			onchange="this.form.submit();"
 			>
-			<option value="">XBCULTURE_ALL_CATS</option>
 		</field>
-		<field name="subcats" type="radio"
-			default=""
-			label="XBCULTURE_CATFILT_SUBS_LABEL"
-			description="XBCULTURE_CATFILT_SUBS_DESC"
-  			class="btn-group btn-small radiotop"
-  			showon="category_id!:"
-		>
-			<option value="" onchange="this.form.submit();">XBCULTURE_EXCLUDE</option>
-			<option value="1" onchange="this.form.submit();">XBCULTURE_INCLUDE</option>
-		</field>	
        
 		<field
 			name="tagfilt" type="tag"

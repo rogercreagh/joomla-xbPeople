@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/fields/xbcats.php
- * @version 0.9.12.0 20th November 2022
+ * @version 0.10.0.0 21st November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,25 +48,33 @@ class JFormFieldXbcats extends JFormFieldList
         $options = array();
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
         $published = (string) $this->element['published'];
-        $language  = (string) $this->element['language'];
-        $parent_id = 0;
+//        $language  = (string) $this->element['language'];
+        $parent_id = 1;
         $levels = 0;
         $maxlevel = 0;
         $parent = (string) $this->element['parent'];
-        $levels = (string) $this->element['levels'];
-        if ($parent && (substr($parent,0,4) == 'com_'))  { //we're looking in the option params for a component
+        $levels = (int) $this->element['levels'];
+        if ($parent)  { 
             //for php8 use str_starts_with($parent, string 'com_')
-            $parent = explode('.',$parent);
-            $params = ComponentHelper::getParams($parent[0]);
-            if ($params) $parent_id = $params->get($parent[1],1);
+        }
+        if ($parent) {
+            if (substr($parent,0,4) == 'com_')  { //we're looking in the option params for a component
+                //for php8 use str_starts_with($parent, string 'com_')
+                $parent = explode('.',$parent);
+                $params = ComponentHelper::getParams($parent[0]);
+                if ($params) {
+                    $parent_id = $params->get($parent[1],1);
+                }
+            } else { // maybe the parent setting is in the cat extension options and $parent is just the option name
+                $params = ComponentHelper::getParams($extension);
+                if ($params) $parent_id = $params->get($parent,1);               
+            }
         }
         if ($levels) {
-            //if parent set get level
+            //if level set get maxlevel
             $maxlevel = $levels;
             if ($parent_id>1) {
-                //get parent level
-                $ptag = XbcultureHelper::getTag($parent_id);
-                $maxlevel += $ptag->level;
+                $maxlevel += XbcultureHelper::getCat($parent_id)->level;
             }
         }
         
@@ -78,7 +86,7 @@ class JFormFieldXbcats extends JFormFieldList
             $groups = implode(',', $user->getAuthorisedViewLevels());
             
             $query = $db->getQuery(true)
-                ->select('a.id AS value, a.title AS text, a.level, a.language, a.published, a.lft')
+                ->select('DISTINCT a.id AS value, a.title AS text, a.level, a.language, a.published, a.lft')
                 ->from('#__categories AS a')
                 ->join('LEFT', $db->qn('#__categories','b').' ON '.
                     $db->qn('a.lft').' > '.$db->qn('b.lft').' AND '.$db->qn('a.rgt').' < '.$db->qn('b.rgt'))
@@ -88,7 +96,7 @@ class JFormFieldXbcats extends JFormFieldList
             $query->where($db->qn('a.extension').' = ' . $db->quote($extension));
             
             // Filter on user access level
-            $query->where($db->qn('a.access').' IN (' . $groups . ')');
+//            $query->where($db->qn('a.access').' IN (' . $groups . ')');
     
             // Limit options to only children of parent
             if ($parent_id > 1) {
@@ -101,12 +109,13 @@ class JFormFieldXbcats extends JFormFieldList
                     
             // Filter on the published state
             //no value forces published only, missing element shows all states same as "-2,0,1,2" 
-            if ($published==='') { // does not include 0
+            if ($published==='') { // === does not include 0
                 $published = 1;
+            }
             if (is_numeric($published)) { //includes 0
                 $query->where('a.published = ' . (int) $published);
             } else {
-                if (is_array($published)) {
+                if (is_array($published)) { 
                     $published = ArrayHelper::toInteger($published);
                 } else {
                     $published = ArrayHelper::toInteger(explode(',',$published));
@@ -115,18 +124,34 @@ class JFormFieldXbcats extends JFormFieldList
             }
                         
             //never show ROOT
-            $query->where($db->qn('a.lft') . ' > 0');
+//            $query->where($db->qn('a.lft') . ' > 0');
             
             // Filter on the language
-            if (isset($language))
-            {
-                   $query->where('a.language = ' . $db->quote($config['filter.language']));
-            }
+//             if ($language)
+//             {
+//                    $query->where('a.language = ' . $db->quote($language));
+//             }
             
             $query->order('a.lft ASC');
             
             $db->setQuery($query);
-            $items = $db->loadObjectList();
+            $options = $db->loadObjectList();
+            
+            foreach ($options as $opt) {
+                if ($opt->level > 1) {
+                    $opt->text = str_repeat('-', ($opt->level)-1).' '.$opt->text;
+                }
+            }
+            if (($this->element['incparent']==1) && ($parent_id > 1)) {
+                //get parent name & id
+                $query = $db->getQuery(true);
+                $query->select('a.id AS value, a.title AS text')
+                    ->from('#__categories AS a')
+                    ->where($db->qn('a.id').' ='.$db->q($parent_id));
+                $db->setQuery($query);
+                $parentopt = $db->loadAssoc();
+                $options = array_merge($parentopt,$options);
+            }
             
         }
         else

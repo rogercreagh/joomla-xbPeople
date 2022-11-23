@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.9.9.9 3rd November 2022
+ * @version 0.10.0.0 22nd November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -143,10 +143,12 @@ class com_xbpeopleInstallerScript
          	// create default categories using category table
          	$cats = array(
                 array("title"=>"Uncategorised","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
-                array("title"=>"Imported","alias"=>"imported","desc"=>"default category for xbPeople imported data"),
-                array("title"=>"People","alias"=>"people","desc"=>"default category for People"),
-         	    array("title"=>"Chars","alias"=>"chars","desc"=>"default category for Characters"));
-         	$message .= $this->createCategory($cats);
+         	    array("title"=>"Imported","alias"=>"imported","desc"=>"default category for xbPeople imported data"),
+         	    array("title"=>"all-people","alias"=>"all-people","desc"=>"parent category for People, add subcategories as needed"),
+         	    array("title"=>"all-chars","alias"=>"all-chars","desc"=>"parent category for Characters, add subcategories as needed"),
+         	    array("title"=>"People","alias"=>"people","parent"=>"all-people","desc"=>"default category for People"),
+         	    array("title"=>"Chars","alias"=>"chars","parent"=>"all-chars","desc"=>"default category for Characters"));
+         	$message .= $this->createCategories($cats);
          	
             $app = Factory::getApplication();
             $app->enqueueMessage($message,'Info');
@@ -204,8 +206,8 @@ class com_xbpeopleInstallerScript
             
             echo '<h3>xbPeople Component</h3>';
             echo '<p>Version '.$parent->get('manifest')->version.' '.$parent->get('manifest')->creationDate.'</p>';
-            echo '<p>xbPeople is a minimal component designed to supplement xbCulture components. It will install the people and character data tables if they don&quot;t exist,';
-            echo 'and recover any previously saved Categories for people, or create default "Uncat.People" and "Import.People" categories.</p>';
+            echo '<p>xbPeople component is designed to provide People and Character resources for xbCulture extensions. It will install the people and character data tables if they don&quot;t exist,';
+            echo 'and recover any previously saved Categories for people, or create defaults.</p>';
             echo '<p><i>Check the Dashboard for an overview</i>&nbsp;&nbsp;';
             echo '<a href="index.php?option=com_xbpeople&view=dashboard" class="btn btn-small btn-success">xbPeople Dashboard</a></p>';
             echo '</div>';
@@ -213,17 +215,13 @@ class com_xbpeopleInstallerScript
     	}
     }
 
-    protected function createCategory($cats) {
+    protected function createCategories($cats) {
     	$message = 'Creating '.$this->extension.' default categories... ';
+		$db = Factory::getDBO();
     	foreach ($cats as $cat) {
-    		$db = Factory::getDBO();
-    		$query = $db->getQuery(true);
-    		$query->select('id')->from($db->quoteName('#__categories'))
-    		->where($db->quoteName('title')." = ".$db->quote($cat['title']))
-    		->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
-    		$db->setQuery($query);
-    		if ($db->loadResult()>0) {
-    			// $message .= '"'.$cat['title'].' already exists.  ';
+    	    $catid = $this->getCatidFromName($cat['title']);
+    	    if ($catid>0) {
+    			$message .= '"'.$cat['title'].' already exists.  ';
     		} else {
     			$category = Table::getInstance('Category');
     			$category->extension = $this->extension;
@@ -236,7 +234,8 @@ class com_xbpeopleInstallerScript
     			$category->metadata = '{"page_title":"","author":"","robots":""}';
     			$category->language = '*';
     			// Set the location in the tree
-    			$category->setLocation(1, 'last-child');
+    			$parent_id = (array_key_exists('parent', $cat)) ? $this->getCatidFromName($cat['parent']) : 1; 
+    			$category->setLocation($parent_id, 'last-child');
     			// Check to make sure our data is valid
     			if ($category->check()) {
     				if ($category->store(true)) {
@@ -254,6 +253,16 @@ class com_xbpeopleInstallerScript
     		}
     	}
     	return $message;
+    }
+    
+    protected function getCatidFromName($title) {
+        $db = Factory::getDBO();
+        $query = $db->getQuery(true);
+        $query->select('id')->from($db->quoteName('#__categories'))
+        ->where($db->quoteName('title')." = ".$db->quote($title))
+        ->where($db->quoteName('extension')." = ".$db->quote('com_xbpeople'));
+        $db->setQuery($query);
+        return $db->loadResult();
     }
     
     protected function uninstalldata() {

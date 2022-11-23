@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople site/models/forms/filter_people.xml v0.0.9.9.8 18th October 2022 -->
+<!-- xbPeople site/models/forms/filter_people.xml v0.10.0.0 22nd November 2022 -->
 <form>
     <fields name="filter" addfieldpath="administrator/components/com_xbpeople/models/fields">
         <field name="search"
@@ -29,20 +29,19 @@
 			<option value="">- Nationality Filter -</option>
 		</field>	
 		<field
-			name="category_id" type="catsubtree"
+			name="category_id" type="xbitemcats"
 			label="XBCULTURE_CATFILT_LABEL"
 			description="XBCULTURE_CATFILT_DESC"
 			extension="com_xbpeople"
-			itemtype="person"
+			itemtable="#__xbpersons"
 			published="1"
 			onchange="this.form.submit();"
 			>
-			<option value="">XBCULTURE_ALL_CATS</option>
 		</field>
 		<field name="subcats" type="radio"
-			default="1"
-			label="XBCULTURE_CATFILT_SUBS_LABEL"
-			description="XBCULTURE_CATFILT_SUBS_DESC"
+			default=""
+			label="XBFILMS_SUBCATS_LBL"
+			description="XBFILMS_SUBCATS_DESC"
   			class="btn-group btn-small radiotop"
   			showon="category_id!:"
 		>

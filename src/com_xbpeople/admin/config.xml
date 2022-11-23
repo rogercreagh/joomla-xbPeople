@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople config.xml v0.9.11.2 18th November 2022 -->
+<!-- xbPeople config.xml v0.10.0.0 22nd November 2022 -->
 <config>
 <!-- GENERAL TAB -->
 	<fieldset name="general"
@@ -72,7 +72,7 @@
 	</fieldset>
 
 <!-- ITEMS DEFAULTS TAB -->				
-	<fieldset name="itemdefaults" 
+	<fieldset name="itemdefaults"  addfieldpath="administrator/components/com_xbpeople/models/fields"
 		label="XBCULTURE_CONFIG_ITEMS_NOTE_LABEL" 
 		description="XBCULTURE_CONFIG_ITEMS_NOTE_DESC"
 	>	
@@ -80,19 +80,18 @@
  		<field name="peepsnote" type="note"
 			label="XBCULTURE_CONFIG_PEOPLE_SETTINGS"
 		/>	
-  		<field name="people_sort"
-			type="radio"
-			default="0"
-			label="Name Order"
-			description="In all views names are displayed as 'Firstnames Lastname'. List views can be sorted by both Lastname and Firstname. This setting determines the order for name lists used in selectors (eg in seach/filter options) which will be listed alphabetically according to tis setting."
+  		<field name="people_sort" type="radio"
+			label="XBCULTURE_CONFIG_NAME_ORDER_LABEL"
+			description="XBCULTURE_CONFIG_NAME_ORDER_DESC"
  			class="btn-group"
+			default="0"
 			>
-				<option value="0" >First Last</option>
-				<option value="1">Last, First</option>
+				<option value="0" >XBCULTURE_CONFIG_FIRST_LAST</option>
+				<option value="1">XBCULTURE_CONFIG_LAST_FIRST</option>
 		</field>			
  		<field name="show_pcat" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_PCAT_LABEL"
-			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			description="XBCULTURE_CONFIG_SHOW_CAT_DESC"
 			class="btn-group btn-group-yesno"
 			showon="show_cats!:0"
 			default="1"
@@ -103,35 +102,28 @@
 		</field>	
 		<field
 			name="rootcat_person" type="category"
-			label="XBCULTURE_CONFIG_PCAT_INCROOT_LABEL"
-			description="XBCULTURE_CONFIG_ROOTCAT_DESC"
+			label="XBCULTURE_CONFIG_PCAT_ROOT_LABEL"
+			description="XBCULTURE_CONFIG_CAT_ROOT_DESC"
 			extension="com_xbpeople"
-			default=""
+			default="" show_root="true"
+			onchange="Joomla.submitbutton('config.save.component.apply');"
 			showon="show_cats!:0[AND]show_pcat!:0"
 			>			
-			<option value="" >JOPTION_SELECT_CATEGORY</option>
-		</field>
-		<field name="incroot_person" type="radio"
-			label="XBCULTURE_CONFIG_INCROOT_LABEL"
-			description="XBCULTURE_CONFIG_INCROOT_DESC"
-			class="btn-group btn-group-yesno"
-			showon="show_cats!:0[AND]show_pcat!:0[AND]rootcat_person!:"
-		>
-			<option value="0" >JNO</option>
-			<option value="1">JYES</option>
+			<option value="" >XBCULTURE_CONFIG_SELECT_PARENT</option>
 		</field>
   		<field
-			name="def_new_personcat" type="category"
-			label="XBCULTURE_CONFIG_NEW_PERSON_CAT_LABEL"
-			description="XBCULTURE_CONFIG_DEFAULT_CAT_DESC"
+			name="def_new_personcat" type="xbcats"
+			label="XBCULTURE_CONFIG_CAT_DEF_LABEL"
+			description="XBCULTURE_CONFIG_CAT_DEF_DESC"
 			extension="com_xbpeople"
+			parent="com_xbpeople.rootcat_person"
 			showon="show_cats!:0[AND]show_pcat!:0"
 			>			
-			<option value="" >XBCULTURE_CONFIG_SELECT_DEFAULT_NEW</option>
+			<option value="" >XBCULTURE_CONFIG_UNCAT</option>
 		</field>
  		<field name="show_ptags" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_PTAG_LABEL"
-			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			description="XBCULTURE_CONFIG_SHOW_TAG_DESC"
 			class="btn-group btn-group-yesno"
 			showon="show_tags:1"
 			default="1"
@@ -141,12 +133,13 @@
 		</field>	
 		<field name="peeptaggroup_parent" type="tag" 
 			mode="nested" published="1"
-			label="People tag group" description="Show additional tag selector on edit form which is limited to children of the tag specified here. Other tags can still be selected in the standard tags field."
+			label="XBCULTURE_CONFIG_PTAG_GROUP_LABEL" 
+			description="XBCULTURE_CONFIG_TAG_GROUP_DESC"
 			multiple="false"
 			showon="show_tags:1[AND]show_ptags:1"
 			default=""
 		>
-			<option value="">- not used -</option>
+			<option value="">XBCULTURE_CONFIG_NO_GROUP</option>
 		</field>
 		
  		<field name="charsnote" type="note"
@@ -154,7 +147,7 @@
 		/>	
  		<field name="show_ccat" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_CCAT_LABEL"
-			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			description="XBCULTURE_CONFIG_SHOW_CAT_DESC"
 			class="btn-group btn-group-yesno"
 			showon="show_cats!:0"
 			default="1"
@@ -165,35 +158,28 @@
 		</field>	
 		<field
 			name="rootcat_char" type="category"
-			label="XBCULTURE_CONFIG_CCAT_INCROOT_LABEL"
-			description="XBCULTURE_CONFIG_ROOTCAT_DESC"
+			label="XBCULTURE_CONFIG_PCAT_ROOT_LABEL"
+			description="XBCULTURE_CONFIG_CAT_ROOT_DESC"
 			extension="com_xbpeople"
-			default=""
+			default="" showroot="true"
+			onchange="Joomla.submitbutton('config.save.component.apply');"
 			showon="show_cats!:0[AND]show_ccat!:0"
 			>			
 			<option value="" >JOPTION_SELECT_CATEGORY</option>
 		</field>
-		<field name="incroot_char" type="radio"
-			label="XBCULTURE_CONFIG_INCROOT_LABEL" 
-			description="XBCULTURE_CONFIG_INCROOT_DESC" 
-			class="btn-group btn-group-yesno"
-			showon="show_cats!:0[AND]show_ccat!:0[AND]rootcat_char!:"
-		>
-			<option value="0" >JNO</option>
-			<option value="1">JYES</option>
-		</field>
   		<field
-			name="def_new_charcat" type="category"
-			label="XBCULTURE_CONFIG_NEW_CHAR_CAT_LABEL"
-			description="XBCULTURE_CONFIG_DEFAULT_CAT_DESC"
+			name="def_new_charcat" type="xbcats"
+			label="XBCULTURE_CONFIG_CAT_DEF_LABEL"
+			description="XBCULTURE_CONFIG_CAT_DEF_DESC"
 			extension="com_xbpeople"
+			parent="rootcat_char"
 			showon="show_cats!:0[AND]show_ccat!:0"
 			>			
-			<option value="" >XBCULTURE_CONFIG_SELECT_DEFAULT_NEW</option>
+			<option value="" >XBCULTURE_CONFIG_UNCAT</option>
 		</field>
  		<field name="show_ctags" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_CTAG_LABEL"
-			description="XBCULTURE_CONFIG_CATTAG_NO_DESC"
+			description="XBCULTURE_CONFIG_SHOW_TAG_DESC"
 			class="btn-group btn-group-yesno"
 			showon="show_tags:1"
 			default="1"
@@ -203,12 +189,12 @@
 		</field>	
 		<field name="chartaggroup_parent" type="tag" 
 			mode="nested" published="1"
-			label="Character tag group" description="Show additional tag selector on edit form which is limited to children of the tag specified here. Other tags can still be selected in the standard tags field."
+			label="XBCULTURE_CONFIG_CTAG_GROUP_LABEL" description="XBCULTURE_CONFIG_TAG_GROUP_DESC"
 			multiple="false"
 			showon="show_tags:1[AND]show_ctags:1"
 			default=""
 		>
-			<option value="">- not used -</option>
+			<option value="">XBCULTURE_CONFIG_NO_GROUP</option>
 		</field>
 				
 	</fieldset>

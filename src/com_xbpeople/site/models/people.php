@@ -130,17 +130,24 @@ class XbpeopleModelPeople extends JModelList {
             	$categoryId = $this->getState('filter.category_id');
             	$dosubcats=$this->getState('filter.subcats');
             }
-//            if ($this->getState('catid')>0) { $categoryId = $this->getState('catid'); }
-            if ($categoryId > 0) {
-            	if ($dosubcats) {
-            		$catlist = $categoryId;
-            		$subcatlist = XbpeopleHelper::getChildCats($categoryId,'com_xbpeople');
-            		if ($subcatlist) { $catlist .= ','.implode(',',$subcatlist);}
-            		$query->where('a.catid IN ('.$catlist.')');
-            	} else {
-            		$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
-            	}
+            if (is_numeric($categoryId))
+            {
+                $query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+            } elseif (is_array($categoryId)) {
+                $categoryId = implode(',', $categoryId);
+                $query->where($db->quoteName('a.catid') . ' IN ('.$categoryId.')');
             }
+            //            if ($this->getState('catid')>0) { $categoryId = $this->getState('catid'); }
+//             if ($categoryId > 0) {
+//             	if ($dosubcats) {
+//             		$catlist = $categoryId;
+//             		$subcatlist = XbpeopleHelper::getChildCats($categoryId,'com_xbpeople');
+//             		if ($subcatlist) { $catlist .= ','.implode(',',$subcatlist);}
+//             		$query->where('a.catid IN ('.$catlist.')');
+//             	} else {
+//             		$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+//             	}
+//             }
            
             //filter by tag
             $tagfilt = $this->getState('tagId');
