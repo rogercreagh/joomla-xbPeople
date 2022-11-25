@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/fields/xbcats.php
- * @version 0.10.0.0 21st November 2022
+ * @version 0.10.0.1 24th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -154,9 +154,8 @@ class JFormFieldXbcats extends JFormFieldList
             }
             
         }
-        else
-        {
-            Log::add(JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'), Log::WARNING, 'jerror');
+        else {
+            Log::add(JText::_('Extension attribute is empty in the XbCats field'), Log::WARNING, 'jerror');
         }
         
         // Merge any additional options in the XML definition.

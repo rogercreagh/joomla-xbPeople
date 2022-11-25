@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople config.xml v0.10.0.0 22nd November 2022 -->
+<!-- xbPeople config.xml v0.10.0.1 24th November 2022 -->
 <config>
 <!-- GENERAL TAB -->
 	<fieldset name="general"
@@ -77,6 +77,15 @@
 		description="XBCULTURE_CONFIG_ITEMS_NOTE_DESC"
 	>	
         
+		<field name="nocatnote" type="note"
+			description="Categories are disabled for Site views on the General tab above. The Category settings below will only apply for Admin views"
+			showon="show_cats:0" class="warning"
+		/>
+		<field name="notagnote" type="note"
+			description="Tags are disabled for Site views on the General tab above. The Tag settings below will only apply for Admin views"
+			showon="show_tags:0" class="warning"
+		/>
+
  		<field name="peepsnote" type="note"
 			label="XBCULTURE_CONFIG_PEOPLE_SETTINGS"
 		/>	
@@ -91,10 +100,10 @@
 		</field>			
  		<field name="show_pcat" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_PCAT_LABEL"
-			description="XBCULTURE_CONFIG_SHOW_CAT_DESC"
+			description="XBCULTURE_CONFIG_SHOW_CATS_DESC"
 			class="btn-group btn-group-yesno"
 			showon="show_cats!:0"
-			default="1"
+			default="2"
 			>
 			<option value="0" >JHIDE</option>
 			<option value="1">XBCULTURE_CONFIG_YES_NO_LINK</option>
@@ -105,11 +114,10 @@
 			label="XBCULTURE_CONFIG_PCAT_ROOT_LABEL"
 			description="XBCULTURE_CONFIG_CAT_ROOT_DESC"
 			extension="com_xbpeople"
-			default="" show_root="true"
+			default="" 
 			onchange="Joomla.submitbutton('config.save.component.apply');"
-			showon="show_cats!:0[AND]show_pcat!:0"
 			>			
-			<option value="" >XBCULTURE_CONFIG_SELECT_PARENT</option>
+			<option value="" >XBCULTURE_CONFIG_CAT_UNSPEC</option>
 		</field>
   		<field
 			name="def_new_personcat" type="xbcats"
@@ -117,9 +125,9 @@
 			description="XBCULTURE_CONFIG_CAT_DEF_DESC"
 			extension="com_xbpeople"
 			parent="com_xbpeople.rootcat_person"
-			showon="show_cats!:0[AND]show_pcat!:0"
+			incparent="true"
 			>			
-			<option value="" >XBCULTURE_CONFIG_UNCAT</option>
+			<option value="" >XBCULTURE_CONFIG_CAT_UNCAT</option>
 		</field>
  		<field name="show_ptags" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_PTAG_LABEL"
@@ -147,10 +155,10 @@
 		/>	
  		<field name="show_ccat" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_CCAT_LABEL"
-			description="XBCULTURE_CONFIG_SHOW_CAT_DESC"
+			description="XBCULTURE_CONFIG_SHOW_CATS_DESC"
 			class="btn-group btn-group-yesno"
 			showon="show_cats!:0"
-			default="1"
+			default="2"
 			>
 			<option value="0" >JHIDE</option>
 			<option value="1">XBCULTURE_CONFIG_YES_NO_LINK</option>
@@ -161,11 +169,10 @@
 			label="XBCULTURE_CONFIG_PCAT_ROOT_LABEL"
 			description="XBCULTURE_CONFIG_CAT_ROOT_DESC"
 			extension="com_xbpeople"
-			default="" showroot="true"
+			default=""
 			onchange="Joomla.submitbutton('config.save.component.apply');"
-			showon="show_cats!:0[AND]show_ccat!:0"
 			>			
-			<option value="" >JOPTION_SELECT_CATEGORY</option>
+			<option value="" >XBCULTURE_CONFIG_CAT_UNSPEC</option>
 		</field>
   		<field
 			name="def_new_charcat" type="xbcats"
@@ -173,9 +180,9 @@
 			description="XBCULTURE_CONFIG_CAT_DEF_DESC"
 			extension="com_xbpeople"
 			parent="rootcat_char"
-			showon="show_cats!:0[AND]show_ccat!:0"
+			incparent="true"
 			>			
-			<option value="" >XBCULTURE_CONFIG_UNCAT</option>
+			<option value="" >XBCULTURE_CONFIG_CAT_UNCAT</option>
 		</field>
  		<field name="show_ctags" type="radio"
 			label="XBCULTURE_CONFIG_SHOW_CTAG_LABEL"

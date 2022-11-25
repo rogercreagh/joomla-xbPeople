@@ -45,7 +45,6 @@
 			multiple="true" class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
-			showon="tagged:1"
 		/>
 		<field name="taglogic"
 			type="radio"
@@ -53,7 +52,6 @@
 			label="XBCULTURE_MULTITAG_LBL"
 			description="XBCULTURE_MULTITAG_DESC"
   			class="btn-group btn-small radiotop"
-			showon="tagged:1"
 		>
 			<option value="1" onchange="this.form.submit();">XBCULTURE_ALL</option>
 			<option value="0" onchange="this.form.submit();">XBCULTURE_ANY</option>

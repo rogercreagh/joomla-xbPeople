@@ -73,7 +73,7 @@
 				type="tag"
 				label="JTAG" 
 				description="JTAG_DESC"
-				multiple="true"
+				multiple="true" custom="deny"  published="1"
 		>
 		</field>
 		<field name="peeptaggroup" type="xbtags"

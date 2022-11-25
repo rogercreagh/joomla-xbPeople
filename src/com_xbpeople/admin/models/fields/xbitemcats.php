@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/fields/xbitemcats.php
- * @version 0.10.0.0 22nd November 2022
+ * @version 0.10.0.1 24th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Log\Log;
 
 FormHelper::loadFieldClass('list');
 
@@ -44,22 +45,24 @@ class JFormFieldXbitemcats extends JFormFieldList {
                 ->from($db->quotename('#__categories').' AS '.$db->qn('a'))
                 ->join('INNER', $db->qn($itemtable).'AS b ON '.$db->qn('b.'.$catcol).' = a.id' )
     		    ->where('extension = '.$db->quote($catext));
-   		if ($published) {
-			$query->where($db->qn('a.published').' IN ('.$published.')');
+       		if ($published) {
+    			$query->where($db->qn('a.published').' IN ('.$published.')');
+    		}
+    		$query->order('lft');
+    		$db->setQuery($query);
+    		$options = $db->loadObjectList();
+    		foreach ($options as &$item) {
+    			if ($item->level>1) {
+    				$item->text = str_repeat('- ', $item->level - 1).$item->text;				
+    			}
+    		}
+    		// Merge any additional options in the XML definition.
+    		$options = array_merge(parent::getOptions(), $options);
+    		return $options;
+		} else {
+		    Log::add(Text::_('Itemtable attribute is empty in the XbitemCats field'), Log::WARNING, 'jerror');
 		}
-		$query->order('lft');
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
-		foreach ($options as &$item) {
-			if ($item->level>1) {
-				$item->text = str_repeat('- ', $item->level - 1).$item->text;				
-			}
-		}
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-		return $options;
 	}
-		}
 		
 }
 	
