@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.9.11.2 18th November 2022
+ * @version 0.10.0.1 25th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +26,8 @@ class XbpeopleModelPersons extends JModelList {
 			    'nationality', 'a.nationality',
 			    'published', 'a.state', 'ordering', 'a.ordering',
 					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
-					'sortdate', 'bcnt','fcnt' , 'b.id','f.id');
+			    'created', 'a.created',
+			    'sortdate', 'bcnt','fcnt' , 'b.id','f.id');
 		}
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
@@ -40,7 +41,7 @@ class XbpeopleModelPersons extends JModelList {
 		$query->select('a.id AS id, a.firstname AS firstname, a.lastname AS lastname, a.alias AS alias,
 			a.summary AS summary, a.portrait AS portrait, a.biography AS biography, a.ext_links AS ext_links,
 			a.nationality AS nationality, a.year_born AS year_born, a.year_died AS year_died,
-			a.catid AS catid, a.state AS published, a.created AS created, a.created_by AS created_by,
+			a.catid AS catid, a.state AS published, a.created AS created, a.created_by AS created_by, a.created AS created
 			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time,
             a.metadata AS metadata, a.ordering AS ordering, a.params AS params, a.note AS note');
 		$query->select('IF((year_born>-9999),year_born,year_died) AS sortdate');

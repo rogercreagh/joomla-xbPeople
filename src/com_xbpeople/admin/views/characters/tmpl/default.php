@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.9.11.0 15th November 2022
+ * @version 0.10.0.1 25th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -28,8 +28,8 @@ if (!$listOrder) {
 	$listDirn = 'ascending';
 }
 $orderNames = array('name'=>Text::_('XBCULTURE_NAME'),
-		'id'=>'id','category_title'=>Text::_('XBCULTURE_CATEGORY'),
-		'published'=>Text::_('XBCULTURE_STATE'),'a.ordering'=>Text::_('XBCULTURE_ORDERING'));
+    'id'=>'id','category_title'=>Text::_('XBCULTURE_CATEGORY'),'a.created'=>Text::_('XBCULTURE_DATE_ADDED'),
+		'published'=>Text::_('XBCULTURE_STATUS'),'a.ordering'=>Text::_('XBCULTURE_ORDERING'));
 
 $saveOrder      = $listOrder == 'ordering';
 $canOrder       = $user->authorise('core.edit.state', 'com_xbpeople.character');
@@ -58,16 +58,17 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 	<?php else : ?>
         <div id="j-main-container">
 	<?php endif;?>
-	<div class="pull-right span2">
-		<p style="text-align:right;">
-			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_PERSON':'XBCULTURE_PEOPLE').' '.Text::_('XBCULTURE_FOUND');			
-            ?>
-		</p>
+ 	<div class="pull-right span6 xbtr xbm0">
+ 			<?php $fnd = $this->pagination->total;
+			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_CHARACTER':'XBCULTURE_CHARACTERS').' '.Text::_('XBCULTURE_FOUND').', ';
+			?>
+            <?php echo 'sorted by '.$orderNames[$listOrder].' '.$listDirn ; ?>
 	</div>
 	<div class="clearfix"></div>
-	<?php
-        // Search tools bar
+    <div class="pull-right pagination xbm0" style="padding-left:10px;">
+        <?php echo $this->pagination->getPagesLinks(); ?>
+    </div>
+	<?php // Search tools bar
         echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
     ?>
 	<div class="clearfix"></div>
@@ -84,11 +85,6 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 		}
 		echo '</p>';
 	} ?> 
-	<div class="pagination">
-		<?php  echo $this->pagination->getPagesLinks(); ?>
-		<br />
-	    <?php echo 'sorted by '.$orderNames[$listOrder].' '.$listDirn ; ?>
-	</div>
 
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">

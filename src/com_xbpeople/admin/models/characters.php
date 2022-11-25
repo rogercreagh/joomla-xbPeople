@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.9.11.2 17th November 2022
+ * @version 0.10.0.1 25th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,6 +27,7 @@ class XbpeopleModelCharacters extends JModelList {
                 'ordering','a.ordering',
                 'category_title', 'c.title',
                 'catid', 'a.catid', 'category_id',
+                'created', 'a.created',
                 'published','a.state', 'b.id','f.id', 'fcnt', 'bcnt');
         }
         $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
@@ -45,7 +46,7 @@ class XbpeopleModelCharacters extends JModelList {
         $query->select('a.id AS id, a.name AS name, a.alias AS alias, 
 			a.summary AS summary, a.image AS image, a.description AS description, 
 			a.catid AS catid, a.state AS published, a.created AS created, a.created_by AS created_by, 
-			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, 
+			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, a.created AS created, 
             a.metadata AS metadata, a.ordering AS ordering, a.params AS params, a.note AS note')
 
             ->from($db->quoteName('#__xbcharacters','a'));
