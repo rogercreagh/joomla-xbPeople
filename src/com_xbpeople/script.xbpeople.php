@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.10.0.0 22nd November 2022
+ * @version 0.10.0.2 26th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -144,10 +144,8 @@ class com_xbpeopleInstallerScript
          	$cats = array(
                 array("title"=>"Uncategorised","alias"=>"uncategorised","desc"=>"default fallback category for all xbPeople items"),
          	    array("title"=>"Imported","alias"=>"imported","desc"=>"default category for xbPeople imported data"),
-         	    array("title"=>"all-people","alias"=>"all-people","desc"=>"parent category for People, add subcategories as needed"),
-         	    array("title"=>"all-chars","alias"=>"all-chars","desc"=>"parent category for Characters, add subcategories as needed"),
-         	    array("title"=>"People","alias"=>"people","parent"=>"all-people","desc"=>"default category for People"),
-         	    array("title"=>"Chars","alias"=>"chars","parent"=>"all-chars","desc"=>"default category for Characters"));
+         	    array("title"=>"People","alias"=>"people","desc"=>"default category for People"),
+         	    array("title"=>"Characters","alias"=>"chars","desc"=>"default category for Characters"));
          	$message .= $this->createCategories($cats);
          	
             $app = Factory::getApplication();

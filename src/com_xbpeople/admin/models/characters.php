@@ -46,7 +46,7 @@ class XbpeopleModelCharacters extends JModelList {
         $query->select('a.id AS id, a.name AS name, a.alias AS alias, 
 			a.summary AS summary, a.image AS image, a.description AS description, 
 			a.catid AS catid, a.state AS published, a.created AS created, a.created_by AS created_by, 
-			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, a.created AS created, 
+			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time,
             a.metadata AS metadata, a.ordering AS ordering, a.params AS params, a.note AS note')
 
             ->from($db->quoteName('#__xbcharacters','a'));

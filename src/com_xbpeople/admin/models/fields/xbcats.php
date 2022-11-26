@@ -142,7 +142,7 @@ class JFormFieldXbcats extends JFormFieldList
                     $opt->text = str_repeat('-', ($opt->level)-1).' '.$opt->text;
                 }
             }
-            if (($this->element['incparent']==1) && ($parent_id > 1)) {
+            if (($this->element['incparent']==="true") && ($parent_id > 1)) {
                 //get parent name & id
                 $query = $db->getQuery(true);
                 $query->select('a.id AS value, a.title AS text')
