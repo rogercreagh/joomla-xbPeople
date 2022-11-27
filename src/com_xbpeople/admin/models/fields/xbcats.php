@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/fields/xbcats.php
- * @version 0.10.0.1 24th November 2022
+ * @version 0.10.0.3 27th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -142,14 +142,14 @@ class JFormFieldXbcats extends JFormFieldList
                     $opt->text = str_repeat('-', ($opt->level)-1).' '.$opt->text;
                 }
             }
-            if (($this->element['incparent']==="true") && ($parent_id > 1)) {
+            if (($this->element['incparent']=='true') && ($parent_id > 1)) {
                 //get parent name & id
                 $query = $db->getQuery(true);
                 $query->select('a.id AS value, a.title AS text')
                     ->from('#__categories AS a')
                     ->where($db->qn('a.id').' ='.$db->q($parent_id));
                 $db->setQuery($query);
-                $parentopt = $db->loadAssoc();
+                $parentopt = $db->loadObjectList();
                 $options = array_merge($parentopt,$options);
             }
             
