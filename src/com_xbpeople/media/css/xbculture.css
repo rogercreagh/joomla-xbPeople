@@ -13,19 +13,6 @@
 	width: unset !important;
 }
 
-/*improve chosen selectors on frontend as per isis template for backend*/
-.xbbooks .chzn-container-single .chzn-single {
-    background-color: #fff;
-    background-clip: inherit;
-    background-image: none;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 1px 2px rgba(0,0,0,0.05);
-    height: auto;
-    line-height: 26px;
-}
-
 /*adjust default margins round labels for tags and cats */
 .label { margin:2px;}
 .tags ul.inline > li {
@@ -342,3 +329,170 @@ li :not(a) .xblistname {
 .xbrow0 > td {
 	background-color: #f9f9f9;
 }
+
+/*Bootstrap chosen styles from Isis admin template lines 7197 onwards ish*/
+
+/* make category selections in chosen have green background */
+div#filter_category_id_chzn.chzn-container-multi .chzn-choices li.search-choice {background-color: #2B542C; }
+
+/* NB this requires each page to be wrapped in a div class .xbculture */ 
+.xbculture .chzn-container .chzn-drop {
+	border-radius: 0 0 3px 3px;
+}
+.xbculture .control-group .chzn-container {
+	max-width: 100%;
+}
+.xbculture .control-group .chzn-container .chzn-choices li.search-field,
+.xbculture .control-group .chzn-container .chzn-choices li.search-field input {
+	width: 100% !important;
+}
+.xbculture .chzn-container-single .chzn-single {
+	background-color: #fff;
+	background-clip: inherit;
+	background-image: none;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0,0,0,0.2);
+	border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 1px 2px rgba(0,0,0,0.05);
+	height: auto;
+	line-height: 26px;
+}
+.xbculture .chzn-container-single .chzn-single div {
+	background-color: #f3f3f3;
+	border-left: 1px solid #ccc;
+	bottom: 0;
+	height: auto;
+	text-align: center;
+	width: 21px;
+}
+.xbculture .chzn-container-single .chzn-single div b {
+	background-image: none;
+	display: inline-block;
+}
+.xbculture .chzn-container-single .chzn-single div b:after {
+	content: '\E011';
+	font-family: IcoMoon;
+}
+.xbculture .chzn-container-single .chzn-single abbr {
+	background: none;
+	right: 36px;
+	top: 0;
+}
+.xbculture .chzn-container-single .chzn-single abbr:before {
+	font-family: IcoMoon;
+	content: '\0049';
+	font-size: 10px;
+	line-height: 26px;
+}
+.xbculture .chzn-container-single .chzn-single abbr:hover {
+	color: #000;
+}
+.xbculture .chzn-container-single .chzn-search:after {
+	content: '\0053';
+	font-family: IcoMoon;
+	position: relative;
+	right: 20px;
+	top: 2px;
+}
+.xbculture .chzn-container-single .chzn-search input[type="text"] {
+	background: none;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	box-shadow: none;
+	height: 25px;
+}
+.xbculture .chzn-container-single .chzn-search input[type="text"]:focus {
+	border-color: #3071A9;
+}
+.xbculture .chzn-container-single .chzn-drop {
+	background-clip: padding-box;
+	border-color: #3071A9;
+	border-radius: 0 0 3px 3px;
+}
+.xbculture .chzn-container-active .chzn-single {
+	color: #3071A9;
+}
+.xbculture .chzn-container-active.chzn-with-drop .chzn-single {
+	background-image: none;
+	border: 1px solid #3071A9;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.xbculture .chzn-container-active.chzn-with-drop .chzn-single div {
+	background-color: #f3f3f3;
+	border-bottom: 1px solid #ccc;
+	border-bottom-left-radius: 3px;
+	border-left: 1px solid #ccc;
+}
+.xbculture .chzn-container-active.chzn-with-drop .chzn-single div b:after {
+	content: '\E00F';
+	font-family: IcoMoon;
+}
+.xbculture .chzn-container-active.chzn-container-multi .chzn-choices {
+	border: 1px solid #3071A9;
+	box-shadow: none;
+}
+.xbculture .chzn-container .chzn-results {
+	background-color: #fff;
+	border-radius: 0 0 3px 3px;
+	margin: 0;
+	padding: 0;
+}
+.xbculture .chzn-container .chzn-results li.highlighted {
+	background-color: #3071A9;
+	background-image: none;
+}
+.xbculture .chzn-color[rel="value_"] div {
+	background-color: #f3f3f3;
+	border-left: 1px solid #ccc;
+}
+.xbculture .chzn-color-state.chzn-single div,
+.xbculture .chzn-color.chzn-single[rel="value_0"] div,
+.xbculture .chzn-color.chzn-single[rel="value_1"] div,
+.xbculture .chzn-color-state.chzn-single[rel="value_-1"] div,
+.xbculture .chzn-color-state.chzn-single[rel="value_-2"] div,
+.xbculture .chzn-color.chzn-single[rel="value_hide"] div,
+.xbculture .chzn-color.chzn-single[rel="value_show_no_link"] div,
+.xbculture .chzn-color.chzn-single[rel="value_show_with_link"] div {
+	background-color: transparent !important;
+	border: none !important;
+}
+.xbculture .chzn-container-active .chzn-choices {
+	border: 1px solid #3071A9;
+}
+.xbculture .chzn-container-multi .chzn-choices {
+	background-image: none;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+}
+.xbculture .chzn-container-multi .chzn-choices li.search-choice {
+	background-color: #3071A9;
+	background-image: none;
+	border: 0;
+	box-shadow: none;
+	color: #fff;
+	line-height: 20px;
+	padding: 0 7px;
+}
+.xbculture .chzn-container-multi .chzn-choices li.search-choice .search-choice-close {
+	color: #f5f5f5;
+	display: inline-block;
+	margin-left: 5px;
+	position: relative;
+	top: 0;
+	left: 0;
+	background-image: none;
+	font-size: inherit;
+}
+.xbculture .chzn-container-multi .chzn-choices li.search-choice .search-choice-close:hover {
+	text-decoration: none;
+}
+.xbculture .chzn-container-multi .chzn-choices li.search-choice .search-choice-close:before {
+	font-family: IcoMoon;
+	content: '\004A';
+	position: relative;
+	right: 1px;
+	top: 0;
+}
+
+

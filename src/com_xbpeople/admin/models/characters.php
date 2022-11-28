@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.10.0.1 25th November 2022
+ * @version 0.10.0.3 27th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -85,7 +85,7 @@ class XbpeopleModelCharacters extends JModelList {
         
         // Filter by published state
         $published = $this->getState('filter.published');
-        if ($published !=='') {
+        if (is_numeric($published)) {
             $query->where($db->quoteName('a.state').' = ' . (int) $published);
         }
         

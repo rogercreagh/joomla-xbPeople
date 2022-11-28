@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/tags/tmpl/default.php
- * @version 0.9.11.2 17th November 2022
+ * @version 0.10.0.4 28th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,7 +41,7 @@ $chllink = $xblink.'characters'.$itemid.'&tagid=';
 $ctlink = 'index.php?option=com_tags&view=tag&id=';
 ?>
 
-<div class="xbpeople">
+<div class="xbculture">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
 	    echo XbcultureHelper::sitePageheader($this->header);
 	} ?>

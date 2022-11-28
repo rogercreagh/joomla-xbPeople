@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.10.0.1 25th November 2022
+ * @version 0.10.0.3 27th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -63,7 +63,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 	<?php endif;?>
  	<div class="pull-right span6 xbtr xbm0">
  			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_REVIEW':'XBCULTURE_REVIEWS').' '.Text::_('XBCULTURE_FOUND').', ';
+			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_PERSON':'XBCULTURE_PEOPLE').' '.Text::_('XBCULTURE_FOUND').', ';
 			?>
             <?php echo 'sorted by '.$orderNames[$listOrder].' '.$listDirn ; ?>
 	</div>
