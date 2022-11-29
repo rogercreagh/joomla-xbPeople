@@ -12,7 +12,6 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 FormHelper::loadFieldClass('list');
@@ -61,7 +60,7 @@ class JFormFieldXbitemcats extends JFormFieldList {
     		$options = array_merge(parent::getOptions(), $options);
     		return $options;
 		} else {
-		    Log::add(Text::_('Itemtable attribute is empty in the XbitemCats field'), Log::WARNING, 'jerror');
+		    Log::add('Itemtable attribute is empty in the XbitemCats field', Log::WARNING, 'jerror');
 		}
 	}
 		

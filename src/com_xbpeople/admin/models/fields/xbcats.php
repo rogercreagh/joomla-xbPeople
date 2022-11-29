@@ -155,7 +155,7 @@ class JFormFieldXbcats extends JFormFieldList
             
         }
         else {
-            Log::add(JText::_('Extension attribute is empty in the XbCats field'), Log::WARNING, 'jerror');
+            Log::add('Extension attribute is empty in the XbCats field', Log::WARNING, 'jerror');
         }
         
         // Merge any additional options in the XML definition.
