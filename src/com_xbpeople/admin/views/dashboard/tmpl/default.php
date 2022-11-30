@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/tmpl/default.php
- * @version 0.9.9.9 2nd November 2022
+ * @version 0.10.0.5 30th November 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -174,7 +174,7 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
 			</div>
 			<div class="xbbox xbboxgrey">
 				<div class="row-fluid"><div class="span12">
-					<h2 class="xbtitle"><?php echo Text::_('xbPeople number of items tagged'); ?>
+					<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_NUM_ITEMS_TAGGED'); ?>
 						<span class="pull-right">
 							<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_TOTAL'); ?>: </span>
         					<span class="badge badge-info" style="border: blue solid 1px;"><?php echo ($this->tags['allper']  + $this->tags['allchar']) ; ?></span> 
@@ -185,24 +185,24 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
  					<h4>Items tagged per type</h4>
 					<div class="row-fluid">
 						<div class="span4">
-							<?php echo Text::_('People'); ?>
+							<?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('in books:'); ?> <span class="percnt badge"><?php echo $this->tags['bookper']; ?></span>
+							<?php echo Text::_('XBCULTURE_INBOOKS'); ?>: <span class="percnt badge"><?php echo $this->tags['bookper']; ?></span>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('in films'); ?> <span class="percnt badge"><?php echo $this->tags['filmper']; ?>
+							<?php echo Text::_('XBCULTURE_INFILMS'); ?>: <span class="percnt badge"><?php echo $this->tags['filmper']; ?>
 						</div>
 					</div>
 					<div class="row-fluid">
 						<div class="span4">
-							<?php echo Text::_('Characters'); ?>
+							<?php echo Text::_('XBCULTURE_CHARACTERS_U'); ?>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('in books:'); ?> <span class="chcnt badge"><?php echo $this->tags['bookchar']; ?></span>
+							<?php echo Text::_('XBCULTURE_INFILMS'); ?>: <span class="chcnt badge"><?php echo $this->tags['bookchar']; ?></span>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('in films'); ?> <span class="chcnt badge"><?php echo $this->tags['filmchar']; ?>
+							<?php echo Text::_('XBCULTURE_INFILMS'); ?>: <span class="chcnt badge"><?php echo $this->tags['filmchar']; ?>
 						</div>
 					</div>
 				</div>
@@ -211,24 +211,24 @@ $chelink='index.php?option=com_xbpeople&view=character&layout=edit&id=';
  					<h4>Tags used per type</h4>
 					<div class="row-fluid">
 						<div class="span4">
-							<?php echo Text::_('Books'); ?>
+							<?php echo Text::_('XBCULTURE_BOOKS_U'); ?>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('people:'); ?> <span class="bkcnt badge"><?php echo $this->tags['bookpertags']; ?></span>
+							<?php echo Text::_('XBCULTURE_PEOPLE'); ?>: <span class="bkcnt badge"><?php echo $this->tags['bookpertags']; ?></span>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('characters'); ?> <span class="flmcnt badge"><?php echo $this->tags['filmpertags']; ?></span>
+							<?php echo Text::_('XBCULTURE_CHARACTERS'); ?>: <span class="flmcnt badge"><?php echo $this->tags['filmpertags']; ?></span>
 						</div>
 					</div>
 					<div class="row-fluid">
 						<div class="span4">
-							<?php echo Text::_('Films'); ?>
+							<?php echo Text::_('XBCULTURE_FILMS_U'); ?>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('people:'); ?> <span class="bkcnt badge"><?php echo $this->tags['bookchartags']; ?></span>
+							<?php echo Text::_('XBCULTURE_PEOPLE'); ?>: <span class="bkcnt badge"><?php echo $this->tags['bookchartags']; ?></span>
 						</div>
 						<div class="span4">
-							<?php echo Text::_('characters'); ?> <span class="flmcnt badge"><?php echo $this->tags['filmchartags']; ?></span>
+							<?php echo Text::_('XBCULTURE_CHARACTERS'); ?>: <span class="flmcnt badge"><?php echo $this->tags['filmchartags']; ?></span>
 						</div>
 					</div>
 				</div>
