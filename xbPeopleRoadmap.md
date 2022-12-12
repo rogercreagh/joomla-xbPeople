@@ -1,22 +1,17 @@
-##xbPeople Roadmap
+## xbPeople Roadmap
 
+#### Planned
 
-v0.2 **RC1**
-- all language strings completed
+#### v1.1
 
-v0.3 **RC2**
+- add xbgroups table and views  (required for xbEvents)
 
-- add cPanel view
+#### v1.2
 
-
-v1.0 **On JED**
-
-
-
-v2.0 **Joomla4**
+- implement datamanger for xbPeople
 
 
 
-**Future ideas**
+#### Future ideas
 
-
+- Joomla 4 compatibility - only when required by paying client
