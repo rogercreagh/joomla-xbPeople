@@ -125,7 +125,7 @@ class XbcultureHelper extends ContentHelper {
     	               break;
     	           case 4: //name.(note)
     	               $list .= $name;
-    	               $list .= (empty($item->note)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xbnit">('.$item->note.')</span>';
     	               break;
     	           case 5: //name only
     	               $list .= $name;

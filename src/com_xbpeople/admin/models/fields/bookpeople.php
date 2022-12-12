@@ -2,7 +2,7 @@
 /*******
  * @package xbBooks
  * @filesource admin/models/fields/people.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.12.0.1 7th Deceber 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,11 +24,12 @@ class JFormFieldBookpeople extends JFormFieldList {
     
     public function getOptions() {
         
-    	$params = ComponentHelper::getParams('com_xbbooks');
+        $published = (isset($this->element['published'])) ? $this->element['published'] : '1';
+    	$params = ComponentHelper::getParams('com_xbpeople');
     	$people_sort = $params->get('people_sort');
     	$select = ($people_sort == 0) ? 'CONCAT(firstname, " ", lastname) AS text' : 'CONCAT(lastname, ", ", firstname ) AS text';
-    	//poss param to show state " (", state, ")"
-    	$options = array();
+
+        $options = array();
         
         $db = Factory::getDbo();
         $query  = $db->getQuery(true);
@@ -37,9 +38,13 @@ class JFormFieldBookpeople extends JFormFieldList {
 	        ->select($select)
 	        ->from('#__xbpersons AS p')
 	        ->join('LEFT', '#__xbbookperson AS bp ON bp.person_id = p.id')
-	        ->where('bp.id IS NOT NULL')
-	        ->where('state = 1')
-	        ->order('text');
+	        ->where('bp.id IS NOT NULL');
+        if (strpos($published,',')!==false) {
+            $query->where('state IN  ('.$published.')');
+        } else {
+            $query->where('state = '.$db->q($published));
+        }
+	    $query->order('text');
         // Get the options.
         $db->setQuery($query);
         $options = $db->loadObjectList();

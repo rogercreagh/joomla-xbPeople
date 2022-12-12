@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 0.9.10.2 14th November 2022
+ * @version 0.12.0 6th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -153,9 +153,12 @@ class XbpeopleModelPerson extends JModelAdmin {
 				->set('state = ' . (int) $value)
 				->where('id='.$item);
 				$db->setQuery($query);
-				if (!($db->execute())) {
-					$this->setError($db->getErrorMsg());
-					return false;
+				try {
+				    $db->execute();
+				}
+				catch (\RuntimeException $e) {
+				    throw new \Exception($e->getMessage(), 500);
+				    return false;
 				}
 			}
 			return true;
@@ -246,7 +249,13 @@ class XbpeopleModelPerson extends JModelAdmin {
 		$query->delete($db->quoteName('#__xbfilmperson'));
 		$query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
 		$db->setQuery($query);
-		$db->execute();
+		try {
+		    $db->execute();
+		}
+		catch (\RuntimeException $e) {
+		    throw new \Exception($e->getMessage(), 500);
+		    return false;
+		}
 		//restore the new list
 		foreach ($personList as $per) {
 			if ($per['film_id']>0) {
@@ -255,7 +264,13 @@ class XbpeopleModelPerson extends JModelAdmin {
 				$query->columns('person_id,film_id,role,role_note');
 				$query->values($db->quote($person_id).','.$db->quote($per['film_id']).','.$db->quote($role).','.$db->quote($per['role_note']));
 				$db->setQuery($query);
-				$db->execute();
+				try {
+				    $db->execute();
+				}
+				catch (\RuntimeException $e) {
+				    throw new \Exception($e->getMessage(), 500);
+				    return false;
+				}
 				//if actor id is set we also need to check the filmperson table
 				//to see if that link already exists and if no add it
 			}
@@ -269,7 +284,13 @@ class XbpeopleModelPerson extends JModelAdmin {
 		$query->delete($db->quoteName('#__xbbookperson'));
 		$query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
 		$db->setQuery($query);
-		$db->execute();
+		try {
+		    $db->execute();
+		}
+		catch (\RuntimeException $e) {
+		    throw new \Exception($e->getMessage(), 500);
+		    return false;
+		}
 		//restore the new list
 		foreach ($personList as $per) {
 			if ($per['book_id']>0) {
@@ -278,7 +299,13 @@ class XbpeopleModelPerson extends JModelAdmin {
 				$query->columns('person_id,book_id,role, role_note');
 				$query->values($db->quote($person_id).','.$db->quote($per['book_id']).','.$db->quote($role).','.$db->quote($per['role_note']));
 				$db->setQuery($query);
-				$db->execute();
+				try {
+				    $db->execute();
+				}
+				catch (\RuntimeException $e) {
+				    throw new \Exception($e->getMessage(), 500);
+				    return false;
+				}
 			}
 		}
 	}

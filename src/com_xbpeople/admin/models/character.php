@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/character.php
- * @version 0.9.10.2 14th November 2022
+ * @version 0.12.0 6th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -148,10 +148,13 @@ class XbpeopleModelCharacter extends JModelAdmin {
     	            ->set('state = ' . (int) $value)
     	            ->where('id='.$item);
 	            $db->setQuery($query);
-	            if (!($db->execute())) {
-	                $this->setError($db->getErrorMsg());
-	                return false;
+	            try {
+	                $db->execute();
 	            }
+	            catch (\RuntimeException $e) {
+	                throw new \Exception($e->getMessage(), 500);
+	                return false;
+	            }	            
 	        }
 	        return true;
 	    }
@@ -230,7 +233,13 @@ class XbpeopleModelCharacter extends JModelAdmin {
 		$query->delete($db->quoteName('#__xbfilmcharacter'));
 		$query->where('char_id = '.$char_id.' ');
 		$db->setQuery($query);
-		$db->execute();
+		try {
+		    $db->execute();
+		}
+		catch (\RuntimeException $e) {
+		    throw new \Exception($e->getMessage(), 500);
+		    return false;
+		}
 		//restore the new list
 		foreach ($charList as $ch) {
 		    if ($ch['film_id']>0) {
@@ -239,8 +248,14 @@ class XbpeopleModelCharacter extends JModelAdmin {
 			$query->columns('char_id,film_id,actor_id,char_note');
 			$query->values('"'.$char_id.'","'.$ch['film_id'].'","'.$ch['actor_id'].'","'.$ch['char_note'].'"');
 			$db->setQuery($query);
-			$db->execute();
-		    //if actor id is set we also need to check the filmperson table
+			try {
+			    $db->execute();
+			}
+			catch (\RuntimeException $e) {
+			    throw new \Exception($e->getMessage(), 500);
+			    return false;
+			}
+			//if actor id is set we also need to check the filmperson table
 		    //to see if that link already exists and if no add it
 		    }
 		}
@@ -253,7 +268,13 @@ class XbpeopleModelCharacter extends JModelAdmin {
 		$query->delete($db->quoteName('#__xbbookcharacter'));
 		$query->where('char_id = '.$char_id.' ');
 		$db->setQuery($query);
-		$db->execute();
+		try {
+		    $db->execute();
+		}
+		catch (\RuntimeException $e) {
+		    throw new \Exception($e->getMessage(), 500);
+		    return false;
+		}
 		//restore the new list
 		foreach ($charList as $ch) {
 			if ($ch['book_id']>0) {
@@ -262,7 +283,13 @@ class XbpeopleModelCharacter extends JModelAdmin {
 				$query->columns('char_id,book_id,char_note');
 				$query->values('"'.$char_id.'","'.$ch['book_id'].'","'.$ch['char_note'].'"');
 				$db->setQuery($query);
-				$db->execute();
+				try {
+				    $db->execute();
+				}
+				catch (\RuntimeException $e) {
+				    throw new \Exception($e->getMessage(), 500);
+				    return false;
+				}
 			}
 		}
 	}

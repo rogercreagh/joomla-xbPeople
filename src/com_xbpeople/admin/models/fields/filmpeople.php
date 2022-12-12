@@ -2,7 +2,7 @@
 /*******
  * @package xbFilms
  * @filesource admin/models/fields/filmpeople.php
- * @version 0.9.6.f 9th January 2022
+ * @version 0.12.0.1 7th Deceber 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +26,8 @@ class JFormFieldFilmpeople extends JFormFieldList {
      */
     public function getOptions() {
         
-    	$params = ComponentHelper::getParams('com_xbfilms');
+        $published = (isset($this->element['published'])) ? $this->element['published'] : '1';
+    	$params = ComponentHelper::getParams('com_xbpeople');
     	$people_sort = $params->get('people_sort');
     	$names = ($people_sort == 0) ? 'firstname, " ", lastname' : 'lastname, ", ", firstname';
         
@@ -35,9 +36,13 @@ class JFormFieldFilmpeople extends JFormFieldList {
         $query->select('DISTINCT a.id As value')
         	->select('CONCAT('.$names.') AS text')
 	        ->from('#__xbfilmperson AS fp')
-	        ->join('LEFT','#__xbpersons AS a ON a.id = fp.person_id')
-	        ->where('a.state = 1')
-	        ->order('text ASC');
+	        ->join('LEFT','#__xbpersons AS a ON a.id = fp.person_id');
+        if (strpos($published,',')!==false) {
+            $query->where('state IN  ('.$published.')');
+        } else {
+            $query->where('state = '.$db->q($published));
+        }
+	    $query->order('text ASC');
         $db->setQuery($query);
         $options = $db->loadObjectList();
         // Merge any additional options in the XML definition.

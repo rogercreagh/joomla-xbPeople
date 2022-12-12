@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/character.php
- * @version 0.9.9.9 2nd November 2022
+ * @version 0.12.0.1 11th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -34,15 +34,30 @@ class XbpeopleTableCharacter extends Table {
     
     public function delete($pk=null) {
         $db = $this->getDbo();
-        $query = $db->getQuery(true);
         if ($this->xbfilmsStatus) {
-        	$query->delete()->from('#__xbfilmcharacter')->where('char_id = '. $pk);
+            $query = $db->getQuery(true);
+            $query->delete()->from('#__xbfilmcharacter')->where('char_id = '. $pk);
+            $this->_db->setQuery($query);
+            try {
+                $this->_db->execute();
+            }
+            catch (\RuntimeException $e) {
+                throw new \Exception($e->getMessage(), 500);
+                return false;
+            }
         }
         if ($this->xbbooksStatus) {
-        	$query->delete()->from('#__xbbookcharacter')->where('char_id = '. $pk);
+            $query = $db->getQuery(true);
+            $query->delete()->from('#__xbbookcharacter')->where('char_id = '. $pk);
+            $this->_db->setQuery($query);
+            try {
+                $this->_db->execute();
+            }
+            catch (\RuntimeException $e) {
+                throw new \Exception($e->getMessage(), 500);
+                return false;
+            }
         }
-        $this->_db->setQuery($query);
-        $this->_db->execute();
         return parent::delete($pk);
     }
     

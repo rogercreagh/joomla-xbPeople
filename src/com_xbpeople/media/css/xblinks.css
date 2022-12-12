@@ -1,0 +1,26 @@
+/**
+a[target="_blank"]:after {font-style: normal; font-weight:bold; content: "\2197";}
+<i class="fas fa-external-link-square-alt"></i>
+<i class="fas fa-external-link-alt"></i>
+ a[href^="http://"]:not([href^="http://www.yourdomainname.com"])
+**/
+
+/*off site links */
+a[href^="https://"]:not([href^="http://http://j3.localhost/"]) { 
+	font-style: normal; 
+	font-weight:bold; 
+	content:"\2197&"
+}
+
+/* new tab links (all) fontawesome version*/
+a[target="_blank"]:after {
+	font-style: normal; 
+	font-weight: bold; 
+	content: "<i class=\"fas fa-external-link-alt\"></i>";
+}
+/* new tab links (all) iconmoon joomla version*/
+a[target="_blank"]:after {
+	font-style: normal; 
+	font-weight: bold; 
+	content: "<span class=\"icon-out-2 small\"></span>";
+}

@@ -78,7 +78,7 @@
 				<field name="film_id" type="films" label="Film (required)" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="actor_id" type="people" label="Actor (optional)" >
+				<field name="actor_id" type="allpeople" label="Actor (optional)" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="char_note" type="text" label="Note" size="20" maxlength="50"

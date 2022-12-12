@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople site/views/person/tmpl/default.xml v0.9.9.0 29th June 2022 -->
+<!-- xbPeople site/views/person/tmpl/default.xml v0.12.0.1 7th Deceber 2022 -->
 <metadata>
 	<layout title="Person View">
 		<message>Display a single person details</message>
@@ -7,7 +7,7 @@
 	<fields name="request">
 		<fieldset name="request" addfieldpath="/administrator/components/com_xbpeople/models/fields">	
 			<field 
-				name="id"  type="people"
+				name="id"  type="bookpeople"
 				label="Select person"
 				description="Choose person to display."
 				required="true"

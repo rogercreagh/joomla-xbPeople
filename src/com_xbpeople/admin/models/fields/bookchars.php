@@ -1,8 +1,8 @@
 <?php
 /*******
- * @package xbPeople
- * @filesource admin/models/fields/people.php
- * @version 0.12.0.1 7th Deceber 2022
+ * @package xbBooks
+ * @filesource admin/models/fields/bookchars.php
+ * @version 0.12.0.1 11th Deceber 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,30 +16,29 @@ use Joomla\CMS\Form\FormHelper;
 FormHelper::loadFieldClass('list');
 
 /**
- * Provides an object list of people with state=published
+ * Provides an object list of people who are in a book and state=published
  */
-class JFormFieldPeople extends JFormFieldList {
+class JFormFieldBookchars extends JFormFieldList {
     
-    protected $type = 'People';
+    protected $type = 'Bookchars';
     
     public function getOptions() {
         
-        $published = (isset($this->element['published'])) ? $this->element['published'] : '1';
-        $params = ComponentHelper::getParams('com_xbpeople');
-    	$people_sort = $params->get('people_sort');
-    	$select = ($people_sort == 0) ? 'CONCAT(firstname, " ", lastname) AS text' : 'CONCAT(lastname, ", ", firstname ) AS text';
+    	$published = (isset($this->element['published'])) ? $this->element['published'] : '1';
     	$options = array();
         
         $db = Factory::getDbo();
         $query  = $db->getQuery(true);
         
-        $query->select('DISTINCT p.id As value')
-	        ->select($select)
-	        ->from('#__xbpersons AS p');
+        $query->select('DISTINCT c.id AS value')
+	        ->select('c.name AS text')
+	        ->from('#__xbcharacters AS c')
+	        ->join('LEFT', '#__xbbookcharacter AS bc ON bc.char_id = c.id')
+	        ->where('bc.id IS NOT NULL');
         if (strpos($published,',')!==false) {
             $query->where('state IN  ('.$published.')');
         } else {
-            $query->where('state = '.$db->q($published));
+           $query->where('state = '.$db->q($published));               
         }
         $query->order('text');
         // Get the options.

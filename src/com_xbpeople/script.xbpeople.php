@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.10.0.2 26th November 2022
+ * @version 0.12.0 6th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -89,8 +89,15 @@ class com_xbpeopleInstallerScript
         			->update('#__categories')
         			->set('extension='.$db->q('!com_xbpeople!'))
         			->where('extension='.$db->q('com_xbpeople'))
-    		)
-        		->execute();
+    		);
+    		try {
+    		    $db->execute();
+    		}
+    		catch (\RuntimeException $e) {
+    		    throw new \Exception($e->getMessage(), 500);
+    		    return false;
+    		}
+    		
             $cnt = $db->getAffectedRows(); 
             
             if ($cnt>0) {
