@@ -1,13 +1,18 @@
 /*******
  * @package xbCulture components
  * @filesource media/css/xbculture.css
- * @version 0.9.9.9 3rd November 2022
+ * @version 1.0.0.1 15th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 
 /* Joomla system overrides/improvements */ 
+/* set width to 100% for url controls (used in extlinks subform) */
+.controls input[type="url"] {
+	max-width: 100%;
+}
+
 /* allow width to be set on joomla text area controls */
 .controls textarea {
 	width: unset !important;
