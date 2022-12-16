@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 0.12.0 6th December 2022
+ * @version 1.0.0.1 16th December 2022
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
  ******/
 // No direct access to this file
@@ -273,7 +273,7 @@ class com_xbpeopleInstallerScript
     protected function uninstalldata() {
         $message = 'this would uninstall the xbpeople data';
         $db = Factory::getDBO();
-        $db->setQuery('DROP TABLE IF EXISTS `#__xbpersons`, `#__xbcharacters`');
+        $db->setQuery('DROP TABLE IF EXISTS `#__xbpersons`, `#__xbgroups`, `xbgroupperson`, `#__xbcharacters`');
         $res = $db->execute();
         if ($res === false) {
             $message = 'Error deleting xbPeople tables, please check manually';

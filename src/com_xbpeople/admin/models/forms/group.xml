@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/character.xml v1.0.0.1 16th December 2022 -->
+<!-- xbPeople admin/models/forms/group.xml v1.0.0.1 16th December 2022 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly" />
 
-		<field name="name" type="text"
+		<field name="title" type="text"
 			label="XBCULTURE_NAME"
 			description="XBCULTURE_NAME_DESC"
 			required="true"
@@ -30,7 +30,7 @@
 			
 		<field name="catid" type="xbcats" 
 			extension="com_xbpeople" class="chzn-custom-value"
-			parent="rootcat_char"
+			parent="rootcat_group"
 			required="true"
 			label="JCATEGORY" description="XBCULTURE_CATEGORY_DESC" >
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
@@ -53,9 +53,9 @@
 				multiple="true"
 		>
 		</field>
-		<field name="chartaggroup" type="xbtags"
+		<field name="grouptaggroup" type="xbtags"
 			label="(value from parent)" description="(Description to be taken from parent tag)"
-			parent="com_xbpeople.chartaggroup_parent"
+			parent="com_xbpeople.grouptaggroup_parent"
 			multiple="true"  published="1"
 			mode="nested" custom="deny"
 		/>
@@ -64,6 +64,7 @@
 		<field name="note" type="textarea" rows="3" cols="50"
 			label="XBCULTURE_NOTE" description="XBCULTURE_ADMIN_NOTE" />
 
+<!-- 
 		<field name= "filmcharlist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMCHAR_LABEL"
@@ -104,8 +105,30 @@
 				/>
 			</form>
 		</field>
+ -->
 			
-		<field name= "eventcharlist"
+		<field name= "grouppersonlist"
+			type= "subform"
+			label= "XBCULTURE_FIELD_EVENTCHAR_LABEL"
+			description="XBCULTURE_FIELD_EVENTADD_DESC"
+			min= "0"
+			max= "10"
+			multiple= "true"
+			buttons= "add,remove"
+			layout="joomla.form.field.subform.repeatable-table"
+			groupByFieldset="false" >
+			<form>
+				<field name="person_id" type="allpeople" label="Event (required)" >
+					<option value="">JSELECT</option>	
+				</field>
+				<field name="role" type="text" label="Note" size="20" maxlength="50"
+				/>
+				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
+				/>
+			</form>
+		</field>
+			
+		<field name= "eventgrouplist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_EVENTCHAR_LABEL"
 			description="XBCULTURE_FIELD_EVENTADD_DESC"
@@ -119,7 +142,7 @@
 				<field name="event_id" type="events" label="Event (required)" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="char_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="group_note" type="text" label="Note" size="20" maxlength="50"
 				/>
 			</form>
 		</field>

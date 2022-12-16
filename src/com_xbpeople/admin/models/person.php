@@ -22,11 +22,13 @@ class XbpeopleModelPerson extends JModelAdmin {
     public $typeAlias = 'com_xbpeople.person';
     
     protected $xbbooksStatus;
-	protected $xbfilmsStatus;
-		
+    protected $xbfilmsStatus;
+    protected $xbeventsStatus;
+    
 	public function __construct($config = array()) {
 		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
 		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
+		$this->xbeventsStatus = XbcultureHelper::checkComponent('com_xbevents');
 		parent::__construct($config);
 	}
 	
@@ -97,6 +99,9 @@ class XbpeopleModelPerson extends JModelAdmin {
 				$data->bookeditorlist=$this->getPersonBookslist('editor');
 				$data->bookmenlist=$this->getPersonBookslist('mention');
 				$data->bookotherlist=$this->getPersonBookslist('other');
+			}
+			if ($this->xbeventsStatus) {
+			    $data->eventpersonlist=$this->getPersonEventslist('');
 			}
 		}
 		
@@ -210,6 +215,19 @@ class XbpeopleModelPerson extends JModelAdmin {
 		$query->order('a.title ASC');
 		$db->setQuery($query);
 		return $db->loadAssocList();
+	}
+	
+	public function getPersonEventslist($role) {
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('a.id as event_id, ba.role AS role, ba.role_note AS role_note');
+	    $query->from('#__xbbookperson AS ba');
+	    $query->innerjoin('#__xbbooks AS a ON ba.book_id = a.id');
+	    $query->where('ba.person_id = '.(int) $this->getItem()->id);
+	    $query->where('ba.role = "'.$role.'"');
+	    $query->order('a.title ASC');
+	    $db->setQuery($query);
+	    return $db->loadAssocList();
 	}
 	
 	public function save($data) {

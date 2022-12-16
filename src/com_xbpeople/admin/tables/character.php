@@ -115,6 +115,14 @@ class XbpeopleTableCharacter extends Table {
         	}
         }
                       
+        //json encode ext_links if set
+        if (is_array($this->ext_links)) {
+            foreach ($this->ext_links as $ky=>$lnk) {
+                if ($lnk['link_url'] == '') unset($this->ext_links[$ky]);
+            }
+            $this->ext_links = json_encode($this->ext_links);
+        }
+        
         //set metadata to defaults
         $metadata = json_decode($this->metadata,true);
         // meta.author will be created_by_alias (see above)

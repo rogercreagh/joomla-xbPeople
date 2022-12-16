@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/person.php
- * @version 0.12.0.1 11th December 2022
+ * @version 1.0.0.1 16th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -118,6 +118,9 @@ class XbpeopleTablePerson extends Table {
         
         //json encode ext_links if set
         if (is_array($this->ext_links)) {
+            foreach ($this->ext_links as $ky=>$lnk) {
+                if ($lnk['link_url'] == '') unset($this->ext_links[$ky]);
+            }
             $this->ext_links = json_encode($this->ext_links);
         }
               

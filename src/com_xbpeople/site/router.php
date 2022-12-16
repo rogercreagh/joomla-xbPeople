@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/router.php
- * @version 0.9.8.9 10th June 2022
+ * @version 1.0.0.1 16th  December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,10 +29,13 @@ class XbpeopleRouter extends JComponentRouterBase {
 			$qry->select('alias');
 			switch($segments[0])
 			{
-				case 'person':
-					$qry->from('#__xbpersons');
-					break;
-				case 'character':
+			    case 'person':
+			        $qry->from('#__xbpersons');
+			        break;
+			    case 'group':
+			        $qry->from('#__xbgroups');
+			        break;
+			    case 'character':
 					$qry->from('#__xbcharacters');
 					break;
 				case 'category':
@@ -60,10 +63,13 @@ class XbpeopleRouter extends JComponentRouterBase {
 		$qry->select('id');
 		switch($segments[0])
 		{
-			case 'people':
-				$vars['view'] = 'people';
-				break;
-			case 'characters':
+		    case 'people':
+		        $vars['view'] = 'people';
+		        break;
+		    case 'groups':
+		        $vars['view'] = 'groups';
+		        break;
+		    case 'characters':
 				$vars['view'] = 'characters';
 				break;
 			case 'categories':
@@ -73,13 +79,21 @@ class XbpeopleRouter extends JComponentRouterBase {
 			    $vars['view'] = 'tags';
 			    break;
 			case 'person':
-				$vars['view'] = 'person';
-				$qry->from('#__xbpersons');
-				$qry->where('alias = ' . $db->quote($segments[1]));
-				$db->setQuery($qry);
-				$id = $db->loadResult();
-				$vars['id'] = (int) $id;
-				break;
+			    $vars['view'] = 'person';
+			    $qry->from('#__xbpersons');
+			    $qry->where('alias = ' . $db->quote($segments[1]));
+			    $db->setQuery($qry);
+			    $id = $db->loadResult();
+			    $vars['id'] = (int) $id;
+			    break;
+			case 'group':
+			    $vars['view'] = 'group';
+			    $qry->from('#__xbgroups');
+			    $qry->where('alias = ' . $db->quote($segments[1]));
+			    $db->setQuery($qry);
+			    $id = $db->loadResult();
+			    $vars['id'] = (int) $id;
+			    break;
 			case 'character':
 			    $vars['view'] = 'character';
 			    $qry->from('#__xbcharacters');

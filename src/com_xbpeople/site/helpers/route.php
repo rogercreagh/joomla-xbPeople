@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource site/helpers/route.php
- * @version 0.9.9.0 28th June 2022
+ * @version 1.0.0.1 16th December 2022
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -167,6 +167,17 @@ class XbpeopleHelperRoute
         $items  = self::getItems();
         foreach ($items as $item) {
             if (isset($item->query['view']) && $item->query['view'] === 'people' &&
+                (empty($item->query['layout']) || $item->query['layout'] === 'default')) {
+                    return $item->id;
+                }
+        }
+        return null;
+    }
+    
+    public static function getGroupsRoute() {
+        $items  = self::getItems();
+        foreach ($items as $item) {
+            if (isset($item->query['view']) && $item->query['view'] === 'groups' &&
                 (empty($item->query['layout']) || $item->query['layout'] === 'default')) {
                     return $item->id;
                 }
