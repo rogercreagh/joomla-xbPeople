@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 0.9.10.2 14th November 2022
+ * @version 1.0.0.2 16th December 2022
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
@@ -64,6 +64,7 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform form-vertical">
+					<?php echo $this->form->renderField('ext_links'); ?>
 					<div class="row-fluid">
     					<div class="span12">
                  			<?php echo $this->form->renderField('description'); ?>

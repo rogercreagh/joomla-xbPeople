@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople config.xml v0.12.0 6th December 20222 -->
+<!-- xbPeople config.xml v1.0.0.1 17th December 20222 -->
 <config>
 <!-- GENERAL TAB -->
 	<fieldset name="general"
@@ -150,6 +150,61 @@
 			<option value="">XBCULTURE_CONFIG_NO_GROUP</option>
 		</field>
 		
+ 		<field name="groupsnote" type="note"
+			label="XBCULTURE_CONFIG_PEOPLE_SETTINGS"
+		/>	
+ 		<field name="show_gcat" type="radio"
+			label="XBCULTURE_CONFIG_SHOW_PCAT_LABEL"
+			description="XBCULTURE_CONFIG_SHOW_CATS_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_cats!:0"
+			default="2"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">XBCULTURE_CONFIG_YES_NO_LINK</option>
+			<option value="2">XBCULTURE_CONFIG_YES_LINKED</option>
+		</field>	
+		<field
+			name="rootcat_group" type="category"
+			label="XBCULTURE_CONFIG_PCAT_ROOT_LABEL"
+			description="XBCULTURE_CONFIG_CAT_ROOT_DESC"
+			extension="com_xbpeople"
+			default="" 
+			onchange="Joomla.submitbutton('config.save.component.apply');"
+			>			
+			<option value="" >XBCULTURE_CONFIG_CAT_UNSPEC</option>
+		</field>
+  		<field
+			name="def_new_groupcat" type="xbcats"
+			label="XBCULTURE_CONFIG_CAT_DEF_LABEL"
+			description="XBCULTURE_CONFIG_CAT_DEF_DESC"
+			extension="com_xbpeople"
+			parent="com_xbpeople.rootcat_group"
+			incparent="true"
+			>			
+			<option value="" >XBCULTURE_CONFIG_CAT_UNCAT</option>
+		</field>
+ 		<field name="show_gtags" type="radio"
+			label="XBCULTURE_CONFIG_SHOW_PTAG_LABEL"
+			description="XBCULTURE_CONFIG_SHOW_TAG_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_tags:1"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	
+		<field name="grouptaggroup_parent" type="tag" 
+			mode="nested" published="1"
+			label="XBCULTURE_CONFIG_PTAG_GROUP_LABEL" 
+			description="XBCULTURE_CONFIG_TAG_GROUP_DESC"
+			multiple="false"
+			showon="show_tags:1[AND]show_gtags:1"
+			default=""
+		>
+			<option value="">XBCULTURE_CONFIG_NO_GROUP</option>
+		</field>
+		
  		<field name="charsnote" type="note"
 			label="XBCULTURE_CONFIG_CHAR_SETTINGS"
 		/>	
@@ -260,13 +315,56 @@
 		</field>	
 		<field name="showcnts" type="radio"
 			label="Show counts"
-			description="Show counts for books and films per person"
+			description="Show counts for books, films, groups, and events"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
 			<option value="0" >JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+		
+  		<field name="groupslistnote" type="note"
+			label="Groups List Specific Options"
+			class="info"
+		/>	
+		<field name="show_gpiccol" type="radio"
+			label="Image Column"
+			description="Show image column by default - can override in menu options"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	 
+ 		<field name="show_gdates"
+			type="radio"
+			label="Show Dates"
+			description="Show sortable column for dates (formed, disbanded)"
+			class="btn-group btn-group-yesno btn-small"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	 
+ 		<field name="show_gsumcol" type="radio"
+			label="Summary Column"
+			description="Show summary column by default - can override in menu options"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>	 
+		<field name="showgcnts" type="radio"
+			label="Show counts"
+			description="Show counts for books, films, events, and people"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="0" >JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+			    
   		<field name="charslistnote" type="note"
 			label="Characters List Specific Options"
 			class="info"
@@ -396,6 +494,20 @@
 		<field name="show_pimage" type="list"
 	        label="Show Picture"
 	        description="Show picture of person with their name"
+			default="2"
+	    	>
+			<option value="0" >JHIDE</option>
+			<option value="1">Show to left of name</option>
+			<option value="2">Show to right of name</option>
+		</field>       
+
+  		<field name="groupnote" type="note"
+			label="Group View Options"
+			class="info"
+		/>			
+		<field name="show_gimage" type="list"
+	        label="Show Picture"
+	        description="Show image of group if supplied"
 			default="2"
 	    	>
 			<option value="0" >JHIDE</option>

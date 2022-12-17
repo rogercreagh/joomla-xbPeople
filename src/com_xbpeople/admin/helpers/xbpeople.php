@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 0.9.9.9 2nd November 2022
+ * @version 1.0.0.2 17th December 2022
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -26,15 +26,25 @@ class XbpeopleHelper extends ContentHelper {
 				$vName == 'dashboard'
 				);
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_ICONMENU_PEOPLE'),
-					'index.php?option=com_xbpeople&view=persons',
-					$vName == 'persons'
-					);
+			    Text::_('XBCULTURE_ICONMENU_PEOPLE'),
+			    'index.php?option=com_xbpeople&view=persons',
+			    $vName == 'persons'
+			    );
 			JHtmlSidebar::addEntry(
-					Text::_('XBCULTURE_ICONMENU_NEWPERSON'),
-					'index.php?option=com_xbpeople&view=person&layout=edit',
-					$vName == 'person'
-					);
+			    Text::_('XBCULTURE_ICONMENU_NEWPERSON'),
+			    'index.php?option=com_xbpeople&view=person&layout=edit',
+			    $vName == 'person'
+			    );
+			JHtmlSidebar::addEntry(
+			    Text::_('XBCULTURE_ICONMENU_GROUPS'),
+			    'index.php?option=com_xbpeople&view=groups',
+			    $vName == 'groups'
+			    );
+			JHtmlSidebar::addEntry(
+			    Text::_('XBCULTURE_ICONMENU_NEWGROUP'),
+			    'index.php?option=com_xbpeople&view=group&layout=edit',
+			    $vName == 'group'
+			    );
 			JHtmlSidebar::addEntry(
 					Text::_('XBCULTURE_ICONMENU_CHARS'),
 					'index.php?option=com_xbpeople&view=characters',

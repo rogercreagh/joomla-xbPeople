@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/person.xml v1.0.0.1 16 December 2022 -->
+<!-- xbPeople admin/models/forms/person.xml v1.0.0.2 17 December 2022 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -97,7 +97,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -116,7 +116,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -135,7 +135,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="playing" size="20" maxlength="50"
@@ -154,7 +154,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="crewrole" label="Job" size="20" maxlength="50"
@@ -173,7 +173,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="list"
@@ -196,7 +196,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -215,7 +215,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -234,7 +234,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
@@ -253,10 +253,10 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="role_note" type="otherrole" label="Job" size="20" maxlength="50"
+				<field name="role_note" type="otherrole" label="Role" hint="eg Translator/Illustrator" size="20" maxlength="50"
 				/>
 			</form>
 		</field>
@@ -272,10 +272,10 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="event_id" type="events" label="Event (required)" >
+				<field name="event_id" type="events" label="Event" required="true"  >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="role" type="text" label="Note" size="20" maxlength="50"
+				<field name="role" type="text" label="Role" size="20" maxlength="50"
 				/>
 				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
 				/>
@@ -290,11 +290,11 @@
 			>
 				<form>
 					<field
-						name="link_text" type="text"
+						name="link_text" type="text" required="true"
 						label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
 						/>
 					<field
-						name="link_url" type="url"
+						name="link_url" type="url" required="true"
 						label="XBCULTURE_FIELD_URL_LABEL"
 						size="40"
   					/>

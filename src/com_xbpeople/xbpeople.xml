@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
 	<name>xbpeople</name>
-	<creationDate>16th December 2022</creationDate>
-	<version>1.0.0.1</version>
+	<creationDate>17th December 2022</creationDate>
+	<version>1.0.0.2</version>
 	<author>Roger C-O</author>
 	<authorEmail>roger@crosborne.uk</authorEmail>
 	<authorUrl>www.crosborne.uk</authorUrl>
@@ -82,6 +82,11 @@
 				img="class:xbpeople-persons"
 				>
 					xbculture_iconmenu_people					
+			</menu>
+			<menu link="option=com_xbpeople&amp;view=groups" 
+				img="class:xbpeople-groups"
+				>
+					xbculture_iconmenu_groups					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=characters" 
 				img="class:xbpeople-characters"

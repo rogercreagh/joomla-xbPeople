@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/group.xml v1.0.0.1 16th December 2022 -->
+<!-- xbPeople admin/models/forms/group.xml v1.0.0.2 17th December 2022 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -65,7 +65,7 @@
 			label="XBCULTURE_NOTE" description="XBCULTURE_ADMIN_NOTE" />
 
 <!-- 
-		<field name= "filmcharlist"
+		<field name= "filmgrouplist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMCHAR_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
@@ -87,7 +87,7 @@
 			</form>
 		</field>
 			
-		<field name= "bookcharlist"
+		<field name= "bookgrouplist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_BOOKCHAR_LABEL"
 			description="XBCULTURE_FIELD_BOOKADD_DESC"
@@ -118,12 +118,16 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="person_id" type="allpeople" label="Event (required)" >
+				<field name="person_id" type="allpeople" label="Event" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="role" type="text" label="Note" size="20" maxlength="50"
+				<field name="role" type="text" label="Role" size="20" maxlength="50"
 				/>
-				<field name="role_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="joined" type="text" label="Joined" hint="(month/day optional)" size="20" maxlength="50"
+				/>
+				<field name="left" type="text" label="Left" hint="(month/day optional)" size="12" maxlength="20"
+				/>
+				<field name="role_note" type="text" label="Note" size="12" maxlength="20"
 				/>
 			</form>
 		</field>
@@ -139,7 +143,7 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="event_id" type="events" label="Event (required)" >
+				<field name="event_id" type="events" label="Event" required="true">
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="group_note" type="text" label="Note" size="20" maxlength="50"
@@ -155,11 +159,11 @@
 			>
 				<form>
 					<field
-						name="link_text" type="text"
+						name="link_text" type="text" required="true"
 						label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
 						/>
 					<field
-						name="link_url" type="url"
+						name="link_url" type="url"  required="true"
 						label="XBCULTURE_FIELD_URL_LABEL"
 						size="40"
   					/>

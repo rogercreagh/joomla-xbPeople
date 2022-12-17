@@ -23,10 +23,12 @@ class XbpeopleModelGroup extends JModelAdmin {
 	
 	protected $xbbooksStatus;
 	protected $xbfilmsStatus;
+	protected $xbeventsStatus;
 	
 	public function __construct($config = array()) {
 		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
 		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
+		$this->xbeventsStatus = XbcultureHelper::checkComponent('com_xbevents');
 		parent::__construct($config);
 	}
 	
@@ -89,11 +91,14 @@ class XbpeopleModelGroup extends JModelAdmin {
         }
         
         if (is_object($data)) {
-        	if ($this->xbfilmsStatus) {
-        		$data->filmgrouplist=$this->getGroupFilmslist();
-        	}
-        	if ($this->xbbooksStatus) {
-        		$data->bookgrouplist=$this->getGroupBookslist();
+//         	if ($this->xbfilmsStatus) {
+//         		$data->filmgrouplist=$this->getGroupFilmslist();
+//         	}
+//         	if ($this->xbbooksStatus) {
+//         	    $data->bookgrouplist=$this->getGroupBookslist();
+//         	}
+        	if ($this->xbeventsStatus) {
+        	    $data->bookgrouplist=$this->getGroupEventslist();
         	}
         }
         return $data;
@@ -159,7 +164,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        return true;
 	    }
 	}
-/*************************************************************************** */
+
 	public function delete(&$pks) {
 	    if (!empty($pks)) {
 	        $cnt = 0;
@@ -167,15 +172,15 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        foreach ($pks as $i=>$item) {
 	            $table->load($item);	            
 	            if (!$table->delete($item)) {
-	                $personpeople = ($cnt == 1)? Text::_('XBCULTURE_CHARACTER') : Text::_('XBCULTURE_CHARACTERS');
-	                Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
+	                $personpeople = ($cnt == 1)? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS');
+	                Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted. Error deleting the next one.');
 	                $this->setError($table->getError());
 	                return false;
 	            }
 	            $table->reset();
 	            $cnt++;
 	        }
-	        $personpeople = ($cnt == 1)? Text::_('XBCULTURE_CHARACTER') : Text::_('XBCULTURE_CHARACTERS');
+	        $personpeople = ($cnt == 1)? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS');
 	        Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
 	        return true;
 	    }
@@ -217,8 +222,20 @@ class XbpeopleModelGroup extends JModelAdmin {
 	    $query->order('a.title ASC');
 	    $db->setQuery($query);
 	    return $db->loadAssocList();
-	    //if actor_id is set we also need to get the actor name
 	}
+
+	public function getGroupPeoplelist() {
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('a.id as group_id, ba.role AS role, ba.role_note AS role_note');
+	    $query->from('#__xbeventroup AS ba');
+	    $query->innerjoin('#__xbpersons AS a ON ba.person_id = a.id');
+	    $query->where('ba.group_id = '.(int) $this->getItem()->id);
+	    $query->order('ba.listorder ASC');
+	    $db->setQuery($query);
+	    return $db->loadAssocList();
+	}
+	
 	
 	public function save($data) {
 		$input = Factory::getApplication()->input;
@@ -236,6 +253,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 // 			}
 			if ($this->xbeventsStatus) {
 			    $this->storeGroupEvents($this->getState('group.id'),$data['eventgrouplist']);
+			    $this->storeGroupPeople($this->getState('group.id'),$data['grouppersonlist']);
 			}
 			return true;
 		}
@@ -244,74 +262,76 @@ class XbpeopleModelGroup extends JModelAdmin {
 	}
 	
 	private function storeGroupFilms($group_id, $groupList) {
-		//delete existing role list
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__xbfilmgroup'));
-		$query->where('group_id = '.$group_id.' ');
-		$db->setQuery($query);
-		try {
-		    $db->execute();
-		}
-		catch (\RuntimeException $e) {
-		    throw new \Exception($e->getMessage(), 500);
-		    return false;
-		}
-		//restore the new list
-		foreach ($groupList as $ch) {
-		    if ($ch['film_id']>0) {
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__xbfilmgroup'));
-			$query->columns('group_id,film_id,actor_id,group_note');
-			$query->values('"'.$group_id.'","'.$ch['film_id'].'","'.$ch['actor_id'].'","'.$ch['group_note'].'"');
-			$db->setQuery($query);
-			try {
-			    $db->execute();
-			}
-			catch (\RuntimeException $e) {
-			    throw new \Exception($e->getMessage(), 500);
-			    return false;
-			}
-			//if actor id is set we also need to check the filmperson table
-		    //to see if that link already exists and if no add it
-		    }
-		}
+// 		//delete existing role list
+// 		$db = $this->getDbo();
+// 		$query = $db->getQuery(true);
+// 		$query->delete($db->quoteName('#__xbfilmgroup'));
+// 		$query->where('group_id = '.$group_id.' ');
+// 		$db->setQuery($query);
+// 		try {
+// 		    $db->execute();
+// 		}
+// 		catch (\RuntimeException $e) {
+// 		    throw new \Exception($e->getMessage(), 500);
+// 		    return false;
+// 		}
+// 		//restore the new list
+// 		foreach ($groupList as $ch) {
+// 		    if ($ch['film_id']>0) {
+// 			$query = $db->getQuery(true);
+// 			$query->insert($db->quoteName('#__xbfilmgroup'));
+// 			$query->columns('group_id,film_id,actor_id,group_note');
+// 			$query->values('"'.$group_id.'","'.$ch['film_id'].'","'.$ch['actor_id'].'","'.$ch['group_note'].'"');
+// 			$db->setQuery($query);
+// 			try {
+// 			    $db->execute();
+// 			}
+// 			catch (\RuntimeException $e) {
+// 			    throw new \Exception($e->getMessage(), 500);
+// 			    return false;
+// 			}
+// 			//if actor id is set we also need to check the filmperson table
+// 		    //to see if that link already exists and if no add it
+// 		    }
+// 		}
+    return false;
 	}
 	
 	private function storeGroupBooks($group_id, $groupList) {
-		//delete existing role list
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__xbbookgroup'));
-		$query->where('group_id = '.$group_id.' ');
-		$db->setQuery($query);
-		try {
-		    $db->execute();
-		}
-		catch (\RuntimeException $e) {
-		    throw new \Exception($e->getMessage(), 500);
-		    return false;
-		}
-		//restore the new list
-		foreach ($groupList as $ch) {
-			if ($ch['book_id']>0) {
-				$query = $db->getQuery(true);
-				$query->insert($db->quoteName('#__xbbookgroup'));
-				$query->columns('group_id,book_id,group_note');
-				$query->values('"'.$group_id.'","'.$ch['book_id'].'","'.$ch['group_note'].'"');
-				$db->setQuery($query);
-				try {
-				    $db->execute();
-				}
-				catch (\RuntimeException $e) {
-				    throw new \Exception($e->getMessage(), 500);
-				    return false;
-				}
-			}
-		}
+// 		//delete existing role list
+// 		$db = $this->getDbo();
+// 		$query = $db->getQuery(true);
+// 		$query->delete($db->quoteName('#__xbbookgroup'));
+// 		$query->where('group_id = '.$group_id.' ');
+// 		$db->setQuery($query);
+// 		try {
+// 		    $db->execute();
+// 		}
+// 		catch (\RuntimeException $e) {
+// 		    throw new \Exception($e->getMessage(), 500);
+// 		    return false;
+// 		}
+// 		//restore the new list
+// 		foreach ($groupList as $ch) {
+// 			if ($ch['book_id']>0) {
+// 				$query = $db->getQuery(true);
+// 				$query->insert($db->quoteName('#__xbbookgroup'));
+// 				$query->columns('group_id,book_id,group_note');
+// 				$query->values('"'.$group_id.'","'.$ch['book_id'].'","'.$ch['group_note'].'"');
+// 				$db->setQuery($query);
+// 				try {
+// 				    $db->execute();
+// 				}
+// 				catch (\RuntimeException $e) {
+// 				    throw new \Exception($e->getMessage(), 500);
+// 				    return false;
+// 				}
+// 			}
+// 		}
+    return false;
 	}
 	
-	private function storeGroupEvents($group_id, $groupList) {
+	private function storeGroupEvents($group_id, $ventgroupList) {
 	    //delete existing role list
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
@@ -326,12 +346,12 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        return false;
 	    }
 	    //restore the new list
-	    foreach ($groupList as $ch) {
+	    foreach ($eventgroupList as $grp) {
 	        if ($ch['event_id']>0) {
 	            $query = $db->getQuery(true);
 	            $query->insert($db->quoteName('#__xbeventgroup'));
 	            $query->columns('group_id,event_id,group_note');
-	            $query->values('"'.$group_id.'","'.$ch['event_id'].'","'.$ch['group_note'].'"');
+	            $query->values('"'.$group_id.'","'.$grp['event_id'].'","'.$grp['group_note'].'"');
 	            $db->setQuery($query);
 	            try {
 	                $db->execute();
@@ -343,5 +363,41 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        }
 	    }
 	}
+	
+	private function storeGroupPeople($group_id, $grouppersonList) {
+	    //delete existing people list
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->delete($db->quoteName('#__xbgroupperson'));
+	    $query->where('group_id = '.$group_id);
+	    $db->setQuery($query);
+	    try {
+	        $db->execute();
+	    }
+	    catch (\RuntimeException $e) {
+	        throw new \Exception($e->getMessage(), 500);
+	        return false;
+	    }
+	    //restore the new list
+	    $listorder=0;
+	    foreach ($grouppersonList as $pers) {
+	        if ($pers['person_id'] > 0) {
+	            $listorder ++;
+	            $query = $db->getQuery(true);
+	            $query->insert($db->quoteName('#__xbeventperson'));
+	            $query->columns('event_id,person_id,role,joined,left,role_note,listorder');
+	            $query->values('"'.$group_id.'","'.$pers['person_id'].'","'.$pers['role'].'","'.$pers['joined'].'","'.$pers['left'].'","'.$pers['role_note'].'","'.$listorder.'"');
+	            $db->setQuery($query);
+	            try {
+	                $db->execute();
+	            }
+	            catch (\RuntimeException $e) {
+	                throw new \Exception($e->getMessage(), 500);
+	                return false;
+	            }
+	        }
+	    }
+	}
+	
 	
 }
