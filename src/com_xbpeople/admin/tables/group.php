@@ -19,17 +19,17 @@ use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Table\Table;
 
-class XbpeopleTablePerson extends Table {
+class XbpeopleTableGroup extends Table {
 	
 	protected $xbbooksStatus;
 	protected $xbfilmsStatus;
 	protected $xbeventsStatus;
 	
 	function __construct(&$db) {
-        parent::__construct('#__xbpersons', 'id', $db);
+        parent::__construct('#__xbgroups', 'id', $db);
         $this->setColumnAlias('published', 'state');
         $this->_supportNullValue = true;  //write empty checkedouttime as null
-        Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.person'));
+        Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.group'));
         $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
         $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
         $this->xbeventsStatus = XbcultureHelper::checkComponent('com_xbevents');
@@ -96,8 +96,8 @@ class XbpeopleTablePerson extends Table {
     	    return false;
     	}
     	
-    	if (($this->id == 0) && (XbpeopleHelper::checkTitleExists($name,'#__xbcharacters'))) {
-    	    $this->setError(Text::_('Character "'.$title.'" already exists; if this is a different individual with the same name please append something to the name to distinguish them'));
+    	if (($this->id == 0) && (XbpeopleHelper::checkTitleExists($title,'#__xbgroups'))) {
+    	    $this->setError(Text::_('Group "'.$title.'" already exists; if this is a different group with the same name please append something to the name to distinguish them'));
     	    return false;
     	}
     	
@@ -173,7 +173,7 @@ class XbpeopleTablePerson extends Table {
         $tags_keywords = $params->get('tags_keywords');
         if (($tags_keywords) && (trim($metadata['metakey']) == '')) {
         	$tagsHelper = new TagsHelper;
-        	$tags = implode(',',$tagsHelper->getTagNames(explode(',',$tagsHelper->getTagIds($this->id,'com_xbpeople.person'))));
+        	$tags = implode(',',$tagsHelper->getTagNames(explode(',',$tagsHelper->getTagIds($this->id,'com_xbpeople.group'))));
         	$metadata['metakey'] = $tags;
         }
         $this->metadata = json_encode($metadata);

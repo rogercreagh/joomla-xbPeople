@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.0.1 16th December 2022
+ * @version 1.0.0.2 17th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -108,7 +108,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
-		$table->name = htmlspecialgroups_decode($table->name, ENT_QUOTES);
+		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 		$table->alias = ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
