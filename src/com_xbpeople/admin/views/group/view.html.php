@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/view.html.php
- * @version 1.0.0.2 17th December 2022
+ * @version 1.0.0.3 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,7 +25,7 @@ class XbpeopleViewGroup extends JViewLegacy {
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
         
-        $this->canDo = ContentHelper::getActions('com_xbpeople', 'person', $this->item->id);
+        $this->canDo = ContentHelper::getActions('com_xbpeople', 'group', $this->item->id);
         // JHelperContent::getActions('com_xbpeople', 'person', $this->item->id);
         
         $this->params      = $this->get('State')->get('params');

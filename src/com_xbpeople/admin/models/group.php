@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.0.1 16th December 2022
+ * @version 1.0.0.3 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,6 +100,7 @@ class XbpeopleModelGroup extends JModelAdmin {
         	if ($this->xbeventsStatus) {
         	    $data->bookgrouplist=$this->getGroupEventslist();
         	}
+        	$data->grouppersonlist=$this->getGroupPeoplelist();
         }
         return $data;
     }
@@ -108,7 +109,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
-		$table->name = htmlspecialgroups_decode($table->name, ENT_QUOTES);
+		$table->title = htmlspecialchars_decode($table->title, ENT_QUOTES);
 		$table->alias = ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
@@ -172,16 +173,16 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        foreach ($pks as $i=>$item) {
 	            $table->load($item);	            
 	            if (!$table->delete($item)) {
-	                $personpeople = ($cnt == 1)? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS');
-	                Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted. Error deleting the next one.');
+	                $grouppeople = ($cnt == 1)? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS');
+	                Factory::getApplication()->enqueueMessage($cnt.' '.$grouppeople.' deleted. Error deleting the next one.');
 	                $this->setError($table->getError());
 	                return false;
 	            }
 	            $table->reset();
 	            $cnt++;
 	        }
-	        $personpeople = ($cnt == 1)? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS');
-	        Factory::getApplication()->enqueueMessage($cnt.' '.$personpeople.' deleted');
+	        $grouppeople = ($cnt == 1)? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS');
+	        Factory::getApplication()->enqueueMessage($cnt.' '.$grouppeople.' deleted');
 	        return true;
 	    }
 	}
@@ -215,8 +216,8 @@ class XbpeopleModelGroup extends JModelAdmin {
     public function getGroupEventslist() {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
-	    $query->select('a.id as group_id, ba.group_note AS group_note');
-	    $query->from('#__xbeventroup AS ba');
+	    $query->select('ba.event_id as event_id, ba.group_note AS group_note');
+	    $query->from('#__xbeventgroup AS ba');
 	    $query->innerjoin('#__xbevents AS a ON ba.event_id = a.id');
 	    $query->where('ba.group_id = '.(int) $this->getItem()->id);
 	    $query->order('a.title ASC');
@@ -227,15 +228,14 @@ class XbpeopleModelGroup extends JModelAdmin {
 	public function getGroupPeoplelist() {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
-	    $query->select('a.id as group_id, ba.role AS role, ba.role_note AS role_note');
-	    $query->from('#__xbeventroup AS ba');
+	    $query->select('ba.person_id as person_id, ba.role AS role, ba.joined AS joined, ba.until AS until, ba.role_note AS role_note');
+	    $query->from('#__xbgroupperson AS ba');
 	    $query->innerjoin('#__xbpersons AS a ON ba.person_id = a.id');
 	    $query->where('ba.group_id = '.(int) $this->getItem()->id);
 	    $query->order('ba.listorder ASC');
 	    $db->setQuery($query);
 	    return $db->loadAssocList();
 	}
-	
 	
 	public function save($data) {
 		$input = Factory::getApplication()->input;
@@ -384,9 +384,9 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        if ($pers['person_id'] > 0) {
 	            $listorder ++;
 	            $query = $db->getQuery(true);
-	            $query->insert($db->quoteName('#__xbeventperson'));
-	            $query->columns('event_id,person_id,role,joined,left,role_note,listorder');
-	            $query->values('"'.$group_id.'","'.$pers['person_id'].'","'.$pers['role'].'","'.$pers['joined'].'","'.$pers['left'].'","'.$pers['role_note'].'","'.$listorder.'"');
+	            $query->insert($db->quoteName('#__xbgroupperson'));
+	            $query->columns('group_id,person_id,role,joined,until,role_note,listorder');
+	            $query->values('"'.$group_id.'","'.$pers['person_id'].'","'.$pers['role'].'","'.$pers['joined'].'","'.$pers['until'].'","'.$pers['role_note'].'","'.$listorder.'"');
 	            $db->setQuery($query);
 	            try {
 	                $db->execute();

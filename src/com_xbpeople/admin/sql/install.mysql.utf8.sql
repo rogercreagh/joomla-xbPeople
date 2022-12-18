@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `#__xbgroupperson` (
   `role` varchar(255) NOT NULL DEFAULT '',
   `role_note` varchar(255) NOT NULL DEFAULT '',
   `joined` VARCHAR(20) NOT NULL DEFAULT '',
-  `left` VARCHAR(20) NOT NULL DEFAULT '',
+  `until` VARCHAR(20) NOT NULL DEFAULT '',
   `listorder` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_event_id` (`event_id`),

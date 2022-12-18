@@ -86,7 +86,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
            			<?php echo $this->form->renderField('image'); ?>
  				</fieldset>
 					<?php if ($this->grouptaggroup_parent) : ?>
-						<h4>Person Tags</h4>
+						<h4>Group Tags</h4>
  						<?php  $this->form->setFieldAttribute('tags','label',Text::_('XBCULTURE_ALLTAGS'));
  						    $this->form->setFieldAttribute('tags','description',Text::_('XBCULTURE_ALLTAGS_DESC'));						    
  						    $this->form->setFieldAttribute('grouptaggroup','label',$this->taggroupinfo[$this->grouptaggroup]['title']);

@@ -125,7 +125,7 @@
 				/>
 				<field name="joined" type="text" label="Joined" hint="(month/day optional)" size="20" maxlength="50"
 				/>
-				<field name="left" type="text" label="Left" hint="(month/day optional)" size="12" maxlength="20"
+				<field name="until" type="text" label="Left" hint="(month/day optional)" size="12" maxlength="20"
 				/>
 				<field name="role_note" type="text" label="Note" size="12" maxlength="20"
 				/>
