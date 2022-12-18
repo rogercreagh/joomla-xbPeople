@@ -28,6 +28,16 @@
 		<field name="image" type="media"
 			label="XBCULTURE_IMAGE" description="XBCULTURE_FIELD_IMAGE_DESC" />
 			
+		<field name="year_formed" type="number" min="-2000" max="2052"
+  			hint="XBCULTURE_YEAR_HINT"
+			label="XBPEOPLE_YEAR_FORMED" description="XBPEOPLE_YEAR_FORMED_DESC"
+			class="inputbox" size="5" maxlength="4" />
+
+		<field name="year_disolved" type="number" min="-2000" max="2052"
+  			hint="XBCULTURE_YEAR_HINT"
+			label="XBPEOPLE_YEAR_DISBANDED" description="XBPEOPLE_YEAR_DISBANDED_DESC"
+			class="inputbox" size="5" maxlength="4" />
+
 		<field name="catid" type="xbcats" 
 			extension="com_xbpeople" class="chzn-custom-value"
 			parent="rootcat_group"
