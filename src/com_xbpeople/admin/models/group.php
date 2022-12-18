@@ -113,7 +113,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 		$table->alias = ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = ApplicationHelper::stringURLSafe($table->name);
+			$table->alias = ApplicationHelper::stringURLSafe($table->title);
 		}
 
 		// Set the values
