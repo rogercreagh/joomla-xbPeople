@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/helpers/xbpeople.php
- * @version 1.0.0.2 17th December 2022
+ * @version 1.0.0.4 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -70,16 +70,6 @@ class XbpeopleHelper extends ContentHelper {
 					'index.php?option=com_categories&view=categories&extension=com_xbpeople',
 					$vName == 'categories'
 					);
-// 			JHtmlSidebar::addEntry(
-// 					Text::_('XBCULTURE_ICONMENU_SUBBOOKCATS'),
-// 					'index.php?option=com_xbbooks&view=bcategories',
-// 					$vName == 'pcategories'
-// 					);
-// 			JHtmlSidebar::addEntry(
-// 					Text::_('XBCULTURE_ICONMENU_SUBFILMCATS'),
-// 					'index.php?option=com_xbfilms&view=fcategories',
-// 					$vName == 'pcategories'
-// 					);
 			JHtmlSidebar::addEntry(
 					Text::_('XBCULTURE_ICONMENU_TAGS'),
 					'index.php?option=com_xbpeople&view=tags',

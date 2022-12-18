@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 class XbpeopleControllerPersons extends JControllerAdmin {
     
-    public function getModel($name = 'Person', $prefix = 'XbfilmsModel', $config = array('ignore_request' => true)) {
+    public function getModel($name = 'Person', $prefix = 'XbpeopleModel', $config = array('ignore_request' => true)) {
         $model = parent::getModel($name, $prefix, $config);        
         return $model;
     }

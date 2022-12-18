@@ -119,8 +119,8 @@
 			
 		<field name= "grouppersonlist"
 			type= "subform"
-			label= "XBCULTURE_FIELD_EVENTCHAR_LABEL"
-			description="XBCULTURE_FIELD_EVENTADD_DESC"
+			label= "XBCULTURE_FIELD_GROUP_MEMBER_ADD"
+			description="XBCULTURE_SUBFORM_ADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -128,16 +128,16 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="person_id" type="allpeople" label="Event" required="true" >
+				<field name="person_id" type="allpeople" label="XBCULTURE_GROUP" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role" type="text" label="Role" size="20" maxlength="50"
 				/>
-				<field name="joined" type="text" label="Joined" hint="(month/day optional)" size="20" maxlength="50"
+				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="YYYY or YYYY-MM or YYYY-MM-DD" size="20" maxlength="50"
 				/>
-				<field name="until" type="text" label="Left" hint="(month/day optional)" size="12" maxlength="20"
+				<field name="until" type="text" label="XBCULTURE_LEFT" hint="YYYY or YYYY-MM or YYYY-MM-DD)" size="12" maxlength="20"
 				/>
-				<field name="role_note" type="text" label="Note" size="12" maxlength="20"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="12" maxlength="20"
 				/>
 			</form>
 		</field>

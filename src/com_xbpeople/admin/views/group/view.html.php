@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/view.html.php
- * @version 1.0.0.3 18th December 2022
+ * @version 1.0.0.4 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -65,15 +65,12 @@ class XbpeopleViewGroup extends JViewLegacy {
         $userId = $user->get('id');
         $checkedOut     = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
         
-        $isNew = ($this->item->id == 0);
-        
-        $title = Text::_( 'COM_XBPEOPLE' ).': ';
-        if ($isNew) {
-            $title .= Text::_('XBCULTURE_TITLE_NEWGROUP');
+        if ($this->item->id == 0) {
+            $title = Text::_('XBPEOPLE_TITLE_GROUP_NEW');
         } elseif ($checkedOut) {
-        	$title .= Text::_('XBCULTURE_TITLE_VIEWGROUP');
+        	$title = Text::_('XBPEOPLE_TITLE_GROUP_VIEW');
         } else {
-            $title .= Text::_('XBCULTURE_TITLE_EDITGROUP');
+            $title = Text::_('XBPEOPLE_TITLE_GROUP_EDIT');
         }
         
         ToolbarHelper::title($title, 'users');
@@ -89,7 +86,7 @@ class XbpeopleViewGroup extends JViewLegacy {
 //         	ToolbarHelper::custom('personcat.save2book', 'user', '', 'Save &amp; Books', false) ;
 //         }
 
-        if ($isNew) {
+        if ($this->item->id == 0) {
             ToolbarHelper::cancel('group.cancel','JTOOLBAR_CANCEL');
         } else {
             ToolbarHelper::cancel('group.cancel','JTOOLBAR_CLOSE');
@@ -97,9 +94,8 @@ class XbpeopleViewGroup extends JViewLegacy {
     }
     
     protected function setDocument() {
-        $isNew = ($this->item->id < 1);
         $document = Factory::getDocument();
-        $document->setTitle($isNew ? Text::_('XBCULTURE_GROUP_CREATING') :
-            Text::_('XBCULTURE_GROUP_EDITING'));
+        $document->setTitle($this->item->id == 0 ? Text::_('XBPEOPLE_TITLE_GROUP_NEW') :
+            Text::_('XBPEOPLE_TITLE_GROUP_EDIT'));
     }
 }

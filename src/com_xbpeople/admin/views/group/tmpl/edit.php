@@ -2,13 +2,14 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/tmpl/edit.php
- * @version 1.0.0.2 17h December 2022
+ * @version 1.0.0.4 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -21,6 +22,11 @@ HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search
 HTMLHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
 HTMLHelper::_('formbehavior.chosen', 'select');
 
+//set styles for quick person modal
+$document = Factory::getDocument();
+$style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
+    .' .xbqpmodal .modal-body {height:262px;} .xbqpmodal .modal-body iframe { height:232px;}' ;
+    $document->addStyleDeclaration($style);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
@@ -75,7 +81,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
         		</div>
           		<div class="row-fluid">
 					<div class="span12">
-						<fieldset class="form-horizontal">
+						<fieldset class="form-vertical">
 							<div style="max-width:1200px;"><?php echo $this->form->renderField('description'); ?></div>
 						</fieldset>
 					</div>        		
@@ -101,12 +107,24 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'members', ucfirst(Text::_('XBCULTURE_MEMBERS'))); ?>
 			<h3>Group Members</h3>
 			<fieldset class="form-vertical">
-    			<?php echo $this->form->renderField('grouppersonlist'); ?>
+				<div class="row-fluid">
+					<div class="span9">
+            			<?php echo $this->form->renderField('grouppersonlist'); ?>
+					</div>
+					<div class="span3 xbbox xbboxwht">
+             			<h4><?php echo Text::_('XBCULTURE_QUICK_P_ADD');?></h4>
+            			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_P_NOTE');?></p> 
+    					<a class="btn btn-small" data-toggle="modal" 
+    						href="index.php?option=com_xbpeople&view=group&layout=modal&tmpl=component" 
+    						data-target="#ajax-modal"><i class="icon-new">
+    						</i><?php echo Text::_('XBCULTURE_ADD_NEW_P');?></a>
+             		</div>					
+				</div>
 			</fieldset>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		<?php if($this->xbevents_ok) : ?>
     		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
-    			<h3>Group Members</h3>
+    			<h3>Group Events</h3>
     			<fieldset class="form-vertical">
         			<?php echo $this->form->renderField('eventgrouplist'); ?>
     			</fieldset>
@@ -165,3 +183,26 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbpeople');?></p>
+<script>
+//for quick person modal
+jQuery(document).ready(function(){
+    jQuery('#ajax-modal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+    jQuery('#ajax-modal').on('hidden', function () {
+     //document.location.reload(true);
+     Joomla.submitbutton('event.apply');
+    })
+});
+</script>
+<!-- quick person modal window -->
+<div class="modal fade xbqpmodal" id="ajax-modal" style="max-width:1000px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+

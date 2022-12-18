@@ -253,8 +253,8 @@ class XbpeopleModelGroup extends JModelAdmin {
 // 			}
 			if ($this->xbeventsStatus) {
 			    $this->storeGroupEvents($this->getState('group.id'),$data['eventgrouplist']);
-			    $this->storeGroupPeople($this->getState('group.id'),$data['grouppersonlist']);
 			}
+		    $this->storeGroupPeople($this->getState('group.id'),$data['grouppersonlist']);
 			return true;
 		}
 		
