@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `#__xbgroups` (
   `alias` varchar(190) NOT NULL DEFAULT '',
   `summary` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext,
-  `portrait` mediumtext NOT NULL DEFAULT '',
+  `picture` mediumtext NOT NULL DEFAULT '',
   `year_formed` smallint,
   `year_disolved` smallint,
   `ext_links` mediumtext,

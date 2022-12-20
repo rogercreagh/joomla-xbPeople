@@ -48,7 +48,7 @@ $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
                    <?php echo $this->form->renderField('id'); ?>
               </div>
          <div class="pull-right span3">
-    		<?php $src = $this->form->getValue('image');
+    		<?php $src = $this->form->getValue('picture');
     		    if($src != '') {
                     if (!file_exists(JPATH_ROOT.'/'.$src)) {
                         $src = 'media/com_xbpeople/images/nofile.jpg'; //
@@ -115,7 +115,7 @@ $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
              			<h4><?php echo Text::_('XBCULTURE_QUICK_P_ADD');?></h4>
             			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_P_NOTE');?></p> 
     					<a class="btn btn-small" data-toggle="modal" 
-    						href="index.php?option=com_xbpeople&view=group&layout=modal&tmpl=component" 
+    						href="index.php?option=com_xbpeople&view=group&layout=modalnewp&tmpl=component" 
     						data-target="#ajax-modal"><i class="icon-new">
     						</i><?php echo Text::_('XBCULTURE_ADD_NEW_P');?></a>
              		</div>					
@@ -192,7 +192,7 @@ jQuery(document).ready(function(){
     })
     jQuery('#ajax-modal').on('hidden', function () {
      //document.location.reload(true);
-     Joomla.submitbutton('event.apply');
+     Joomla.submitbutton('group.apply');
     })
 });
 </script>

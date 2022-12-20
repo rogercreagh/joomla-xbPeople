@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 1.0.0.1 17th December 2022
+ * @version 1.0.0.5 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,6 +21,12 @@ HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search
 HTMLHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
 HTMLHelper::_('formbehavior.chosen', 'select');
 
+//set styles to remove control button min width and set padding and to set modal height for preview
+$document = JFactory::getDocument();
+$style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
+    .' .xbpvmodal .modal-body {height:630px;} .xbpvmodal .modal-body iframe { height:600px;}' ;
+$document->addStyleDeclaration($style);
+        
 ?>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
@@ -35,15 +41,15 @@ HTMLHelper::_('formbehavior.chosen', 'select');
         		</div>
            	</div>
 			<div class="row-fluid form-vertical">
-               <div class="span4">
-                   <?php echo $this->form->renderField('alias'); ?> 
-               </div>
-              <div class="span4">
-                   <?php echo $this->form->renderField('summary'); ?>
-              </div>
-              <div class="span2 offset1">
-                   <?php echo $this->form->renderField('id'); ?>
-              </div>
+            	<div class="span4">
+                	<?php echo $this->form->renderField('alias'); ?> 
+            	</div>
+            	<div class="span4">
+                	<?php echo $this->form->renderField('summary'); ?>
+				</div>
+				<div class="span2 offset1">
+                	<?php echo $this->form->renderField('id'); ?>
+				</div>
           	</div>
           </div>
          <div class="pull-right span3">
@@ -104,6 +110,39 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 			</div>
 		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		
+		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'groups', Text::_('XBCULTURE_GROUPS')); ?>
+			<h3><?php Text::_('XBCULTURE_GROUPS'); ?></h3>
+    			<fieldset class="form-vertical">
+                    <div class="row-fluid">
+						<div class="span9">
+                			<?php echo $this->form->renderField('persongrouplist'); ?>
+                		</div>
+                		<div class="span3 xbbox xbboxwht">
+                 			<h4><?php echo Text::_('XBCULTURE_QUICK_G_ADD');?></h4>
+                			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_G_NOTE');?></p> 
+        					<a class="btn btn-small" data-toggle="modal" 
+        						href="index.php?option=com_xbpeople&view=person&layout=modalnewg&tmpl=component" 
+        						data-target="#ajax-qgmodal"><i class="icon-new">
+        						</i><?php echo Text::_('XBCULTURE_ADD_NEW_G');?></a>
+                 		</div>
+			        </div>
+    			</fieldset>			
+		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+		
+		<?php if($this->xbevents_ok) : ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
+    			<h3>Events</h3>
+    			<fieldset class="form-vertical">
+                    <div class="row-fluid">
+						<div class="span6">
+                			<?php echo $this->form->renderField('eventpersonlist'); ?>
+                		</div>
+			        </div>
+    			</fieldset>
+			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+    	<?php endif; ?>
+
 		<?php if($this->xbbooks_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
     			<h3>Books</h3>
@@ -121,6 +160,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
+
 		<?php if($this->xbfilms_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'flinks', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
     			<h3>Films</h3>
@@ -157,3 +197,44 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbpeople');?></p>
+<script>
+jQuery(document).ready(function(){
+//for preview modal
+    jQuery('#ajax-pvmodal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+    jQuery('#ajax-pvmodal').on('hidden', function () {
+     //document.location.reload(true);
+     //Joomla.submitbutton('group.apply');
+    })
+//for quickgroup modal
+     jQuery('#ajax-qgmodal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+    jQuery('#ajax-qgmodal').on('hidden', function () {
+     //document.location.reload(true);
+     Joomla.submitbutton('person.apply');
+    })
+    
+});
+</script>
+<!-- preview modal window -->
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<!-- quickgroup modal window -->
+<div class="modal fade xbqgmodal" id="ajax-qgmodal" style="max-width:80%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+

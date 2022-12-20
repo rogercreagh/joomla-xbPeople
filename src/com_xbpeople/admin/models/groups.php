@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/groups.php
- * @version 1.0.0.4 18th December 2022
+ * @version 1.0.0.5 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -40,7 +40,7 @@ class XbpeopleModelGroups extends JModelList {
 		$query = $db->getQuery(true);
 		
 		$query->select('a.id AS id, a.title AS title,  a.alias AS alias,
-			a.summary AS summary, a.portrait AS portrait, a.description AS description, a.ext_links AS ext_links,
+			a.summary AS summary, a.picture AS picture, a.description AS description, a.ext_links AS ext_links,
 			 a.year_formed AS year_formed, a.year_disolved AS year_disolved,
 			a.catid AS catid, a.state AS published, a.created AS created, a.created_by AS created_by,
 			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time,

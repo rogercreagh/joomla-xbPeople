@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/views/group/tmpl/qnew.php
- * @version 1.0.0.5 20th December 2022
+ * @filesource admin/views/character/tmpl/qnew.php
+ * @version 1.0.0.5 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,23 +22,11 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     method="post" name="adminForm" id="adminForm" style="margin:0;">
     <div class="row-fluid">
     	<div class="span9">
-             <?php echo $this->form->renderField('title'); ?>
+             <?php echo $this->form->renderField('name'); ?>
         </div>
 		<div class="span3">
 			<?php echo $this->form->renderField('state'); ?> 
 		</div>
-		<div class="span3">
-			<?php echo $this->form->renderField('catid'); ?> 
-		</div>
-	</div>
-    <div class="row-fluid">
-    	<div class="span6">
-			<?php echo $this->form->renderField('year_formed'); ?>
-			<?php echo $this->form->renderField('year_disolved'); ?>
-		</div>
-    	<div class="span6">
-    		<?php echo $this->form->renderField('summary'); ?>
-    	</div>
     </div>
     <?php echo $this->form->renderField('ext_links'); ?>
     <input type="hidden" name="task" value="group.edit" />

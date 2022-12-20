@@ -34,15 +34,6 @@ class XbpeopleControllerPerson extends FormController {
 		}
 	}
 	
-	public function publish() {
-		$jip =  Factory::getApplication()->input;
-		$pid =  $jip->get('cid');
-		$model = $this->getModel('person');
-		$wynik = $model->publish($pid);
-		$redirectTo =('index.php?option='.$jip->get('option').'&task=display&view=persons');
-		$this->setRedirect($redirectTo, $msg );
-	}
-	
 	public function unpublish() {
 		$jip =  Factory::getApplication()->input;
 		$pid =  $jip->get('cid');

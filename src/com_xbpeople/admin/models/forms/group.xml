@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/group.xml v1.0.0.2 17th December 2022 -->
+<!-- xbPeople admin/models/forms/group.xml v1.0.0.5 17th December 2022 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -25,7 +25,7 @@
 			class="inputbox" label="XBCULTURE_DESCRIPTION" description="XBCULTURE_FIELD_DESC_DESC"
 			filter="JComponentHelper::filterText" buttons="true" hide="article,pagebreak,readmore" />
 			
-		<field name="image" type="media"
+		<field name="picture" type="media"
 			label="XBCULTURE_IMAGE" description="XBCULTURE_FIELD_IMAGE_DESC" />
 			
 		<field name="year_formed" type="number" min="-2000" max="2052"
@@ -117,28 +117,21 @@
 		</field>
  -->
 			
-		<field name= "grouppersonlist"
-			type= "subform"
+		<field name= "grouppersonlist" type= "subform"
 			label= "XBCULTURE_FIELD_GROUP_MEMBER_ADD"
 			description="XBCULTURE_SUBFORM_ADD_DESC"
-			min= "0"
-			max= "10"
-			multiple= "true"
-			buttons= "add,remove"
+			min= "0" max= "10"
+			multiple= "true" buttons= "add,remove,move"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="person_id" type="allpeople" label="XBCULTURE_GROUP" required="true" >
+				<field name="person_id" type="allpeople" label="XBCULTURE_PERSON_U" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="role" type="text" label="Role" size="20" maxlength="50"
-				/>
-				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="YYYY or YYYY-MM or YYYY-MM-DD" size="20" maxlength="50"
-				/>
-				<field name="until" type="text" label="XBCULTURE_LEFT" hint="YYYY or YYYY-MM or YYYY-MM-DD)" size="12" maxlength="20"
-				/>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="12" maxlength="20"
-				/>
+				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
+				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="optional, YYYY min" size="20" maxlength="50" />
+				<field name="until" type="text" label="XBCULTURE_LEFT" hint="" size="12" maxlength="20" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="12" maxlength="20" />
 			</form>
 		</field>
 			

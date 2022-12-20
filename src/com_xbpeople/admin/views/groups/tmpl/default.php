@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/tmpl/default.php
- * @version 1.0.0.4 18th December 2022
+ * @version 1.0.0.5 18th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -43,7 +43,7 @@ if ($saveOrder) {
 
 $nofile = "media/com_xbpeople/images/nofile.jpg";
 
-$pelink = 'index.php?option=com_xbpeople&view=person&task=person.edit&id=';
+$gelink = 'index.php?option=com_xbpeople&view=group&task=group.edit&id=';
 $celink = 'index.php?option=com_categories&task=category.edit&id=';
 $cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
 $telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
@@ -185,16 +185,16 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     					</div>
     				</td>
 					<td> 
-						<?php if(!empty($item->portrait)) : ?>
+						<?php if(!empty($item->picture)) : ?>
 							<?php 
-    							$src = $item->portrait;
+    							$src = $item->picture;
     							if (!file_exists(JPATH_ROOT.'/'.$src)) {
     								$src = $nofile;
     							}
     							$src = Uri::root().$src;
 							?>
 							<img class="img-polaroid hasTooltip xbimgthumb" title="" 
-								data-original-title="<?php echo $item->portrait;?>"
+								data-original-title="<?php echo $item->picture;?>"
 								src="<?php echo $src; ?>" border="0" alt="" />
 						<?php endif; ?>						
 					</td>
@@ -205,7 +205,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 							    echo HTMLHelper::_('jgrid.checkedout', $i, Text::_('XBCULTURE_OPENEDBY').':,'.$couname, $item->checked_out_time, 'person.', $canCheckin); 
 							} ?>
 							
-							<a href="<?php echo $pelink.$item->id; ?>" title="<?php echo Text::_('XBCULTURE_EDIT_PERSON'); ?>">
+							<a href="<?php echo $gelink.$item->id; ?>" title="<?php echo Text::_('XBPEOPLE_EDIT_GROUP'); ?>">
 								<?php echo ' '.$item->title; ?> 
 							</a>
 							<br />
