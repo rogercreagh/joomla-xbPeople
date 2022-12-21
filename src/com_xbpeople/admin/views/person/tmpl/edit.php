@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 1.0.0.5 18th December 2022
+ * @version 1.0.0.5 21st December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,13 +21,18 @@ HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search
 HTMLHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_text_multiple' => Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
 HTMLHelper::_('formbehavior.chosen', 'select');
 
-//set styles to remove control button min width and set padding and to set modal height for preview
+//set styles to remove control button min width and set padding 
 $document = JFactory::getDocument();
-$style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
-    .' .xbpvmodal .modal-body {height:630px;} .xbpvmodal .modal-body iframe { height:600px;}' ;
+$style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}';
+//    .' ' ;
 $document->addStyleDeclaration($style);
         
 ?>
+<style type="text/css" media="screen">
+    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+    .xbqgmodalmodal .modal-body {height:270px;} 
+    .xbqgmodal .modal-body iframe { height:240px;}
+</style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
@@ -216,8 +221,7 @@ jQuery(document).ready(function(){
     jQuery('#ajax-qgmodal').on('hidden', function () {
      //document.location.reload(true);
      Joomla.submitbutton('person.apply');
-    })
-    
+    })    
 });
 </script>
 <!-- preview modal window -->

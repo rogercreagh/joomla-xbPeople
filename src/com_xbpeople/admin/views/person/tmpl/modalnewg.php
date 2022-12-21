@@ -17,11 +17,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </div>
 <div class="modal-body">
     <div style="margin:0 30px;">
-		<iframe src="index.php?option=com_xbpeople&view=group&layout=qnew&tmpl=component" title="Quick Group Form" id="newg"></iframe>
+		<iframe src="index.php?option=com_xbpeople&view=group&layout=qnew&tmpl=component" title="Quick Group Form" id="qg"></iframe>
 	</div>    
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary"  onclick="document.getElementById('newg').contentWindow.Joomla.submitbutton('group.save');" data-dismiss="modal">Save &amp; Close</button>
+    <button type="button" class="btn btn-primary"  onclick="document.getElementById('qg').contentWindow.Joomla.submitbutton('group.save');" data-dismiss="modal">Save &amp; Close</button>
 </div>
 

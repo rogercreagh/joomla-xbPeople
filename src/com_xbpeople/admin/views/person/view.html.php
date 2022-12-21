@@ -95,11 +95,11 @@ class XbpeopleViewPerson extends JViewLegacy {
         }
         ToolbarHelper::custom(); //spacer
         
-        $bar = JToolbar::getInstance( 'toolbar' );
+        $bar = Toolbar::getInstance( 'toolbar' );
         if ($this->item->id > 0) {
             $dhtml = '<a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id='.$this->item->id.'"
             	data-toggle="modal" data-target="#ajax-pvmodal"
-            	class="btn btn-small btn-primary"><i class="icon-eye" title="'.JText::_('Preview').'"></i> '.JText::_('Preview').'</a>';
+            	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.JText::_('Preview').'</a>';
             $bar->appendButton('Custom', $dhtml);
         }
     }
