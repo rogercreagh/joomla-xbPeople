@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/tmpl/default.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.0.8 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,13 +24,14 @@ $userId = $user->get('id');
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape(strtolower($this->state->get('list.direction')));
 if (!$listOrder) {
-	$listOrder='lastname';
+	$listOrder='title';
 	$listDirn = 'ascending';
 }
-$orderNames = array('firstname'=>Text::_('XBCULTURE_FIRSTNAME'),'lastname'=>Text::_('XBCULTURE_LASTNAME'),
+$orderNames = array('title'=>Text::_('XBCULTURE_TITLE'),
 		'id'=>'id','sortdate'=>Text::_('XBCULTURE_DATES'),'category_title'=>Text::_('XBCULTURE_CATEGORY'),
 		'published'=>Text::_('XBCULTURE_STATUS'),'a.ordering'=>Text::_('XBCULTURE_ORDERING'),
-    'bcnt'=>Text::_('XBCULTURE_BOOKS_U'),'fcnt'=>Text::_('XBCULTURE_FILMS_U'),'a.created'=>Text::_('XBCULTURE_DATE_ADDED')
+    'bcnt'=>Text::_('XBCULTURE_BOOKS_U'),'fcnt'=>Text::_('XBCULTURE_FILMS_U'), 'bcnt'=>Text::_('XBCULTURE_EVENTS'),
+    'a.created'=>Text::_('XBCULTURE_DATE_ADDED')
     
 );
 
@@ -63,7 +64,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 	<?php endif;?>
  	<div class="pull-right span6 xbtr xbm0">
  			<?php $fnd = $this->pagination->total;
-			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_PERSON':'XBCULTURE_PEOPLE').' '.Text::_('XBCULTURE_FOUND').', ';
+			echo $fnd .' '. Text::_(($fnd==1)?'XBCULTURE_GROUP':'XBCULTURE_GROUPS').' '.Text::_('XBCULTURE_FOUND').', ';
 			?>
             <?php echo 'sorted by '.$orderNames[$listOrder].' '.$listDirn ; ?>
 	</div>
@@ -80,11 +81,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 	<?php if ($search) {
 		echo '<p>Searched for <b>'; 
 		if (stripos($search, 'i:') === 0) {
-            echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_PERSONID');
+            echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_ID');
 		} elseif ((stripos($search, 's:') === 0) || (stripos($search, 'b:') === 0)) {
-            echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_AS_INBIOG');
+            echo trim(substr($search, 2)).'</b> '.Text::_('XBCULTURE_IN_DESC');
         } else {
-			echo trim($search).'</b> '.Text::_('XBCULTURE_AS_INNAMES');
+			echo trim($search).'</b> '.Text::_('XBCULTURE_IN_TITLE');
 		}
 		echo '</p>';
 	} ?> 
@@ -94,7 +95,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 			<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>	
-	<table class="table table-striped table-hover" id="xbpersonsList">
+	<table class="table table-striped table-hover" id="xbgroupsList">
 		<thead>
 			<tr>
 				<th class="nowrap center hidden-phone" style="width:25px;">
@@ -108,12 +109,14 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
     			</th>
     			<th class="center" style="width:80px">
-    				<?php echo Text::_('XBCULTURE_PORTRAIT') ;?>
+    				<?php echo Text::_('XBCULTURE_PICTURE') ;?>
     			</th>
     			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_LASTNAME', 'lastname', $listDirn, $listOrder); ?>					
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_DATES', 'sortdate', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_NAME', 'title', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_DATES', 'year_formed', $listDirn, $listOrder); ?>
+    			</th>
+    			<th>
+    				<?php echo Text::_('XBCULTURE_MEMBERS'); ?>
     			</th>
     			<th>
     				<?php echo Text::_('XBCULTURE_SUMMARY'); ?>
@@ -140,6 +143,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<th class="nowrap hidden-phone" style="width:45px;">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
     			</th>
+    			<th>[pv]</th>
     		</tr>
 		</thead>
 		<tfoot>
@@ -223,6 +227,25 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 								echo '&nbsp;&nbsp;<i>'.Text::_('XBCULTURE_DIED').' </i>: '.$item->year_disolved;
 							} ?>						
 						</p>							
+					</td>
+					<td>
+						<?php if ($item->pcnt) : ?>
+							<details>
+    							<summary>
+    								<?php echo $item->pcnt; ?> members listed
+    							</summary>
+    							<ul class="xbdetails"> 
+                                	<?php echo $item->memberlist; ?>
+    							</ul>
+							</details>							
+                        	<?php if (!empty($item->description)) : ?>
+								<p class="xbnote">also see description</p>
+							<?php endif; ?>
+						<?php else : ?>
+                        	<?php if (!empty($item->description)) : ?>
+								<p class="xbnote">see description</p>
+							<?php endif; ?>
+						<?php endif; ?>
 					</td>
 					<td>						
 						<p class="xb095">

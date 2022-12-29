@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/groups.php
- * @version 1.0.0.5 18th December 2022
+ * @version 1.0.0.8 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,6 +48,8 @@ class XbpeopleModelGroups extends JModelList {
 		$query->select('IF((year_formed>-9999),year_formed,year_disolved) AS sortdate');
 		
 		$query->from($db->quoteName('#__xbgroups','a'));
+		$query->join('LEFT',$db->quoteName('#__xbgroupperson', 'b') . ' ON ' . $db->quoteName('b.group_id') . ' = ' .$db->quoteName('a.id'));
+		$query->select('COUNT(DISTINCT b.person_id) AS pcnt');
 		
 // 		if ($this->xbfilmsStatus) {
 // 			$query->join('LEFT',$db->quoteName('#__xbfilmperson', 'f') . ' ON ' . $db->quoteName('f.person_id') . ' = ' .$db->quoteName('a.id'));
@@ -77,7 +79,7 @@ class XbpeopleModelGroups extends JModelList {
 				$query->where('(summary LIKE ' . $search.' OR biography LIKE '.$search.')');
 			} else {
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(lastname LIKE ' . $search.' OR firstname LIKE '.$search.')');
+				$query->where('title LIKE ' . $search);
 			}
 		}
 		
@@ -93,17 +95,17 @@ class XbpeopleModelGroups extends JModelList {
 		    $query->where('a.nationality = '.$db->quote($natfilt));
 		}
 		
-		//Filter orphans
-		$orphfilt = $this->getState('filter.orphans');
-		if ($orphfilt == '1') {
-		    if ($this->xbbooksStatus) {
-		        $query->where('b.id IS NULL');
-		    }
-		    if ($this->xbfilmsStatus) {
-		        $query->where('f.id IS NULL');
-		    }
-		    //TODO and e.id is null for events
-		}
+// 		//Filter orphans
+// 		$orphfilt = $this->getState('filter.orphans');
+// 		if ($orphfilt == '1') {
+// 		    if ($this->xbbooksStatus) {
+// 		        $query->where('b.id IS NULL');
+// 		    }
+// 		    if ($this->xbfilmsStatus) {
+// 		        $query->where('f.id IS NULL');
+// 		    }
+// 		    //TODO and e.id is null for events
+// 		}
 		
 		// Filter by category.
 		$app = Factory::getApplication();
@@ -195,6 +197,10 @@ class XbpeopleModelGroups extends JModelList {
 		
 		$db    = Factory::getDbo();
 		foreach ($items as $i=>$item) {
+		    if ($item->pcnt>0) {
+		        $item->members = XbcultureHelper::getGroupMembers($item->id);
+		        $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','comma',true,3);
+		    }
 //			$item->bookcnt = 0;
 // 			$item->blist='';
 // 			if ($item->bcnt>0) {

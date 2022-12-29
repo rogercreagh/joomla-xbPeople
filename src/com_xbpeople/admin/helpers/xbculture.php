@@ -332,7 +332,47 @@ class XbcultureHelper extends ContentHelper {
 	    return $stylestr;
 	}
 	
-/************** functions used on admin side only *********************/
+	/**
+	 * @name getGroupMembers()
+	 * @param int $groupid
+	 * @return array of objects
+	 */
+	public static function getGroupmembers(int $groupid) {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $plink = 'index.php?option=com_xbpeople&view=person';
+	    if ($isadmin) {
+	        $plink .= '&layout=edit';
+	    }
+	    $plink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.role, a.role_note AS note, a.joined AS joined, a.until AS until,
+            CONCAT(p.firstname,'.$db->quote(' '). ',p.lastname) AS name, p.id, p.state AS pstate')
+	    ->from('#__xbgroupperson AS a')
+	    ->join('LEFT','#__xbpersons AS p ON p.id=a.person_id')
+	    ->where('a.group_id = "'.$groupid.'"' );
+	    if (!$isadmin) {
+	        $query->where('p.state = 1');
+	    }
+        $query->order('a.listorder ASC');
+	    $db->setQuery($query);
+	    $persons = $db->loadObjectList();
+	    foreach ($persons as $per){
+	        $per->link = Route::_($plink . $per->id);
+	        if ($per->pstate != 1) {
+	            $per->name = '<span class="xbhlt">'.$per->name.'</span>';
+	        }
+	        if ($per->joined) {
+	            $per->note .= ' '.$per->joined.' - '. $per->until;	            
+	        } elseif ($per->until) {
+	            $per->note .= ' '.'left'.' '.$per->until;
+	        }
+	    }
+	    return $persons;
+	}
+	
+	/************** functions used on admin side only *********************/
 
 	/**
 	 * @name getExtensionInfo()
