@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 1.0.0.2 16th December 2022
+ * @version 1.0.0.6 23rd December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,6 +22,9 @@ HtmlHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_tex
 HtmlHelper::_('formbehavior.chosen', 'select');
 
 ?>
+<style type="text/css" media="screen">
+    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+</style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
@@ -131,3 +134,22 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbpeople');?></p>
+<script>
+jQuery(document).ready(function(){
+//for preview modal
+    jQuery('#ajax-pvmodal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+});
+</script>
+<!-- preview modal window -->
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+

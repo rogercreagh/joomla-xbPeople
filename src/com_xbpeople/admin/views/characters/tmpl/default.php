@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 0.10.0.1 25th November 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -49,6 +49,9 @@ $bchlink = 'index.php?option=com_xbbooks&view=characters';
 $fchlink = 'index.php?option=com_xbpeople&view=characters';
 
 ?>
+<style type="text/css" media="screen">
+    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+</style>
 <form action="index.php?option=com_xbpeople&view=characters" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
         <div id="j-sidebar-container" class="span2">
@@ -123,6 +126,11 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>					
     			</th>
     			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    			<th >
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
+    			</th>
+    			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
 					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CATS','category_title',$listDirn,$listOrder ).' &amp; ';
 					echo Text::_( 'XBCULTURE_TAGS_U' ); ?>
@@ -130,6 +138,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     			<th class="nowrap hidden-phone" style="width:45px;">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
     			</th>
+    			<th>[pv]</th>
     		</tr>
 		</thead>
 		<tfoot>
@@ -267,6 +276,11 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 						 <?php endif; ?> 
 					</td>
     			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    			<td>
+										
+    			</td>
+    			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $celink . $item->catid; ?>" 
 							title="<?php echo Text::_( 'XBCULTURE_VIEW_CATEGORY' );?>::<?php echo $item->category_title; ?>">
@@ -283,6 +297,13 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 					</td>					
 					<td align="center">
 						<?php echo $item->id; ?>
+					</td>
+					<td>
+						<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id=<?php echo $item->id; ?>"
+            				data-toggle="modal" data-target="#ajax-pvmodal"
+            				>
+            				<i class="icon-eye xbeye"></i>
+            			</a>					
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -305,3 +326,22 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbpeople');?></p>
+<script>
+jQuery(document).ready(function(){
+//for preview modal
+    jQuery('#ajax-pvmodal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+});
+</script>
+<!-- preview modal window -->
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 0.9.10.2 14th November 2022
+ * @version 1.0.0.6 23rd December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,6 +41,7 @@ class XbpeopleViewCharacter extends JViewLegacy {
         }
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
         $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
+        $this->xbevents_ok = Factory::getSession()->get('xbevents_ok');
         
         // Set the toolbar
         $this->addToolBar();
@@ -79,6 +80,15 @@ class XbpeopleViewCharacter extends JViewLegacy {
             ToolbarHelper::cancel('character.cancel','JTOOLBAR_CANCEL');
         } else {
             ToolbarHelper::cancel('character.cancel','JTOOLBAR_CLOSE');
+        }
+        ToolbarHelper::custom(); //spacer
+        
+        $bar = JToolbar::getInstance( 'toolbar' );
+        if ($this->item->id > 0) {
+            $dhtml = '<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id='.$this->item->id.'"
+            	data-toggle="modal" data-target="#ajax-pvmodal"
+            	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.JText::_('Preview').'</a>';
+            $bar->appendButton('Custom', $dhtml);
         }
     }
     

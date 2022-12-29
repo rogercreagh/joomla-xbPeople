@@ -118,6 +118,17 @@ ul.nav-tabs {
 .revcnt { background-color: #efdeef !important;  }      
 .othcnt { background-color: #efefef !important;  }    
 
+/* the preview eye button */
+.xbeye {
+	color:#fff; 
+	background-color:#62a0ea; 
+	text-align:center; 
+	padding:2px 4px 1px 4px;
+	border-radius: 4px;
+}
+.xbeye:hover {
+	background-color:#2384d3;
+}
 /* boxes with rounded corner border and gradient shading */
 .xbbox {
 	padding: 8px 7px 7px 15px;

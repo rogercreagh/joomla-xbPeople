@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 0.10.0.3 27th November 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -52,6 +52,9 @@ $fplink = 'index.php?option=com_xbpeople&view=persons';
 $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 
 ?>
+<style type="text/css" media="screen">
+    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+</style>
 <form action="index.php?option=com_xbpeople&view=persons" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
         <div id="j-sidebar-container" class="span2">
@@ -128,6 +131,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
     			</th>
     			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    			<th >
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
+    			</th>
+    			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
 					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CATS','category_title',$listDirn,$listOrder ).' &amp; ';
 						echo Text::_( 'XBCULTURE_TAGS_U' ); ?>
@@ -135,6 +143,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<th class="nowrap hidden-phone" style="width:45px;">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
     			</th>
+    			<th>[pv]</th>
     		</tr>
 		</thead>
 		<tfoot>
@@ -255,11 +264,6 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<?php if($this->xbbooks_ok) : ?>
 					<td>
 						<?php if ($item->bcnt>0) :?>
-							<?php echo $item->brolecnt.' ';
-							echo $item->brolecnt ==1 ? Text::_('XBCULTURE_ROLE') : Text::_('XBCULTURE_ROLES');?>
-							in
-							<?php echo $item->bcnt.' ';
-							echo $item->bcnt ==1 ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
     						<?php if ($item->authorcnt>0) : ?>
                               <details>
                               	<summary><span class="xbnit">
@@ -297,32 +301,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
                               </details>
     						<?php endif; ?> 
 						<?php endif; ?>
-    			
-    			<!-- 
-						<?php //if ($item->bookcnt>0) : ?> 
-							<?php //$tlist='';
-							//foreach ($item->blist as $bk) {
-								//$tlist .= $bk->title.' ('.$bk->role.')<br />';
-							//} ?>
-							<div class="hasPopover" title data-original-title="Book Roles"
-								data-content="<?php //echo $tlist; ?>">
-								<a href="<?php //echo $bplink; ?>" >
-									<span class="badge bkcnt"><?php //echo $item->bookcnt;
-										//if ($item->bcnt<>$item->bookcnt) { echo ' / '.$item->bcnt;} ?></span>
-						    	</a>
-							</div>
-						<?php //endif; ?> 
-    			 -->
 					</td>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
 					<td>
 						<?php if ($item->fcnt>0) :?>
-							<?php echo $item->frolecnt.' ';
-							echo $item->frolecnt ==1 ? Text::_('XBCULTURE_ROLE') : Text::_('XBCULTURE_ROLES');?>
-							in
-							<?php echo $item->fcnt.' ';
-							echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>
     						<?php if ($item->dircnt>0) : ?>
                               <details>
                               	<summary><span class="xbnit">
@@ -369,22 +352,12 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
                               </details>
     						<?php endif; ?> 
 						<?php endif; ?>
-						<!-- 
-    					<details>
-    						<summary><span class="xbnit">
-								<?php //echo $item->fcnt.' ';
-								    //echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>       					
-    							<?php //if ($item->frolecnt > $item->fcnt ) : ?>
-             					    <span class="xbit xbnorm"> (
-             					    	<?php //echo $item->frolecnt.' '.Text::_('XBCULTURE_ROLES');?>
-             					    )</span>
-             					<?php //endif; ?>
-    						</span></summary>
-    						<?php //echo $item->filmlist; ?>    						
-    					</details>
-    					<?php // endif; ?>
-						 -->
    					</td>
+    			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    			<td>
+										
+    			</td>
     			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 
@@ -402,6 +375,13 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					</td>					
 					<td align="center">
 						<?php echo $item->id; ?>
+					</td>
+					<td>
+						<a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id=<?php echo $item->id; ?>"
+            				data-toggle="modal" data-target="#ajax-pvmodal"
+            				>
+            				<i class="icon-eye xbeye"></i>
+            			</a>					
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -424,4 +404,22 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 </form>
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbpeople');?></p>
+<script>
+jQuery(document).ready(function(){
+//for preview modal
+    jQuery('#ajax-pvmodal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+});
+</script>
+<!-- preview modal window -->
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
 

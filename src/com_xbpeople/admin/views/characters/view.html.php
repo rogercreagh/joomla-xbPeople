@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/view.html.php
- * @version 0.9.11.2 17th November 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,6 +37,7 @@ class XbpeopleViewCharacters extends JViewLegacy {
         
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
         $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
+        $this->xbevents_ok = Factory::getSession()->get('xbevents_ok');
         
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();

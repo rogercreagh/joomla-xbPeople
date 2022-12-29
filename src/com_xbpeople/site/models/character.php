@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/character.php
- * @version 0.9.9.4 26th July 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -67,13 +67,15 @@ class XbpeopleModelCharacter extends JModelItem {
 				
 				$item->filmcnt = 0;
 				if ($this->xbfilmsStatus) {
-				    $item->filmlist = XbcultureHelper::getCharFilms($item->id,'rel_year DESC');
-				    $item->filmcnt = count($item->filmlist);
+				    $item->films = XbcultureHelper::getCharFilms($item->id,'rel_year DESC');
+				    $item->filmcnt = count($item->films);
+				    $item->filmlist = $item->filmcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,4);
 				}
 				$item->bookcnt = 0;
 				if ($this->xbbooksStatus) {
-				    $item->booklist = XbcultureHelper::getCharBooks($item->id,'pubyear ASC');
-				    $item->bookcnt = count($item->booklist);
+				    $item->books = XbcultureHelper::getCharBooks($item->id,'pubyear ASC');
+				    $item->bookcnt = count($item->books);
+				    $item->booklist = $item->bookcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,4);
 				}												
 			}
 		}

@@ -95,7 +95,7 @@ class XbpeopleViewPerson extends JViewLegacy {
         }
         ToolbarHelper::custom(); //spacer
         
-        $bar = Toolbar::getInstance( 'toolbar' );
+        $bar = JToolbar::getInstance( 'toolbar' );
         if ($this->item->id > 0) {
             $dhtml = '<a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id='.$this->item->id.'"
             	data-toggle="modal" data-target="#ajax-pvmodal"

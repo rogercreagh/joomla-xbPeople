@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/view.html.php
- * @version 0.9.6.f 11th January 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -42,6 +42,7 @@ class XbpeopleViewPersons extends JViewLegacy {
         
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
         $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
+        $this->xbevents_ok = Factory::getSession()->get('xbevents_ok');
         
         // Set the toolbar & sidebar
         $this->addToolbar();
@@ -96,6 +97,17 @@ class XbpeopleViewPersons extends JViewLegacy {
         if ($this->xbfilms_ok) {
         	ToolbarHelper::custom('persons.films', 'screen', '', 'Film People', false) ;
         }
+
+        //             $bar = Toolbar::getInstance( 'toolbar' );
+        //       if ($this->item->id > 0) {
+        //       }
+            //           $dhtml = '<button data-toggle="modal" data-target="#ajax-pvmodal" onclick="if (document.adminForm.boxchecked.value==0){alert(Joomla.JText._(JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST));}else{jQuery( '#collapseModal' ).modal('show'); return true;}
+            
+            //            	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.JText::_('Preview').'</button>';
+            //           $dhtml = '<button onclick="getValue(); "
+            //          	class="btn btn-small btn-primary btn-stack"><i class="icon-eye"></i> '.Text::_('Preview').'</button>';
+        //          $bar->appendButton('Custom', $dhtml);    <a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id='.$this->item->id.'"
+        
         
         if ($canDo->get('core.admin')) {
             ToolBarHelper::preferences('com_xbpeople');

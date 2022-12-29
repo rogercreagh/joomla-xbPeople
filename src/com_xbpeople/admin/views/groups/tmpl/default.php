@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/tmpl/default.php
- * @version 1.0.0.5 18th December 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<?php if($this->xbfilms_ok) : ?>
     			<th >
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
+    			</th>
+    			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    			<th >
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
@@ -255,6 +260,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<?php if($this->xbfilms_ok) : ?>
 					<td>
    					</td>
+    			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    			<td>
+										
+    			</td>
     			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 

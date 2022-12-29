@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/view.html.php
- * @version 1.0.0.4 18th December 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -42,6 +42,7 @@ class XbpeopleViewGroups extends JViewLegacy {
         
         $this->xbfilms_ok = Factory::getSession()->get('xbfilms_ok');
         $this->xbbooks_ok = Factory::getSession()->get('xbbooks_ok');
+        $this->xbevents_ok = Factory::getSession()->get('xbevents_ok');
         
         // Set the toolbar & sidebar
         $this->addToolbar();

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/character/tmpl/default.php
- * @version 0.10.0.4 28th November 2022
+ * @version 1.0.0.7 29th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -72,7 +72,7 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
     				echo ($item->bookcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
     			</span>
     		</p>
-    		<?php echo $this->booklist; ?>
+    		<?php echo $item->booklist; ?>
     	</div>
 	<?php endif; ?>
 	<?php if ($item->filmcnt>0) : ?>
@@ -82,7 +82,7 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
     				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->filmcnt.' '.Text::_('XBCULTURE_FILMS'); ?>
     			</span>
     		</p>
-    		<?php echo $this->filmlist; ?>
+    		<?php echo $item->filmlist; ?>
     	</div>
 	<?php endif; ?>
 </div>

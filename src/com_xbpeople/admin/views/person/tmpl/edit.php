@@ -30,7 +30,7 @@ $document->addStyleDeclaration($style);
 ?>
 <style type="text/css" media="screen">
     .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
-    .xbqgmodalmodal .modal-body {height:270px;} 
+    .xbqgmodal .modal-body {height:270px;} 
     .xbqgmodal .modal-body iframe { height:240px;}
 </style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
