@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.0.3 18th December 2022
+ * @version 1.0.0.9 30th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -216,7 +216,7 @@ class XbpeopleModelGroup extends JModelAdmin {
     public function getGroupEventslist() {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
-	    $query->select('ba.event_id as event_id, ba.group_note AS group_note');
+	    $query->select('ba.event_id as event_id, ba.role AS role, ba.role_note AS role_note');
 	    $query->from('#__xbeventgroup AS ba');
 	    $query->innerjoin('#__xbevents AS a ON ba.event_id = a.id');
 	    $query->where('ba.group_id = '.(int) $this->getItem()->id);
@@ -350,8 +350,8 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        if ($ch['event_id']>0) {
 	            $query = $db->getQuery(true);
 	            $query->insert($db->quoteName('#__xbeventgroup'));
-	            $query->columns('group_id,event_id,group_note');
-	            $query->values('"'.$group_id.'","'.$grp['event_id'].'","'.$grp['group_note'].'"');
+	            $query->columns('group_id,event_id,role,role_note');
+	            $query->values('"'.$group_id.'","'.$grp['event_id'].'","'.$grp['role'].'","'.$grp['role_note'].'"');
 	            $db->setQuery($query);
 	            try {
 	                $db->execute();

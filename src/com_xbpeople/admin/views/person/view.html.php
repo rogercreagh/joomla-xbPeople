@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 1.0.0.5 20th December 2022
+ * @version 1.0.0.9 30th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -67,13 +67,12 @@ class XbpeopleViewPerson extends JViewLegacy {
         
         $isNew = ($this->item->id == 0);
         
-        $title = Text::_( 'COM_XBPEOPLE' ).': ';
         if ($isNew) {
-            $title .= Text::_('XBCULTURE_TITLE_NEWPERSON');
+            $title = Text::_('XBPEOPLE_TITLE_PERSON_NEW');
         } elseif ($checkedOut) {
-        	$title .= Text::_('XBCULTURE_TITLE_VIEWPERSON');
+        	$title = Text::_('XBPEOPLE_TITLE_PERSON_VIEW');
         } else {
-            $title .= Text::_('XBCULTURE_TITLE_EDITPERSON');
+            $title = Text::_('XBPEOPLE_TITLE_PERSON_EDIT');
         }
         
         ToolbarHelper::title($title, 'user');
@@ -107,7 +106,7 @@ class XbpeopleViewPerson extends JViewLegacy {
     protected function setDocument() {
         $isNew = ($this->item->id < 1);
         $document = Factory::getDocument();
-        $document->setTitle($isNew ? Text::_('XBCULTURE_PERSON_CREATING') :
-            Text::_('XBCULTURE_PERSON_EDITING'));
+        $document->setTitle($isNew ? Text::_('XBPEOPLE_TITLE_PERSON_NEW') :
+            Text::_('XBPEOPLE_TITLE_PERSON_EDIT'));
     }
 }

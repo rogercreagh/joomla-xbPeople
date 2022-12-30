@@ -76,7 +76,7 @@
 
 <!-- 
  -->
-		<field name= "filmgrouplist"
+		<field name= "groupfilmlist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_GROUP_FILMS_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
