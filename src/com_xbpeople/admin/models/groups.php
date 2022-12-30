@@ -199,7 +199,7 @@ class XbpeopleModelGroups extends JModelList {
 		foreach ($items as $i=>$item) {
 		    if ($item->pcnt>0) {
 		        $item->members = XbcultureHelper::getGroupMembers($item->id);
-		        $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','comma',true,3);
+		        $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','ul',true,3);
 		    }
 //			$item->bookcnt = 0;
 // 			$item->blist='';

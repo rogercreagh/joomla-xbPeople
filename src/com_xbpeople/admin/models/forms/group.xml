@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/group.xml v1.0.0.5 17th December 2022 -->
+<!-- xbPeople admin/models/forms/group.xml v1.0.0.9 30th December 2022 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -75,47 +75,44 @@
 			label="XBCULTURE_NOTE" description="XBCULTURE_ADMIN_NOTE" />
 
 <!-- 
+ -->
 		<field name= "filmgrouplist"
 			type= "subform"
-			label= "XBCULTURE_FIELD_FILMCHAR_LABEL"
+			label= "XBCULTURE_FIELD_GROUP_FILMS_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="Film (required)" >
+				<field name="film_id" type="films" label="XBCULTURE_FILM_U" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="actor_id" type="allpeople" label="Actor (optional)" >
-					<option value="">JSELECT</option>	
-				</field>
-				<field name="char_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
 				/>
 			</form>
 		</field>
 			
-		<field name= "bookgrouplist"
+		<field name= "groupbooklist"
 			type= "subform"
-			label= "XBCULTURE_FIELD_BOOKCHAR_LABEL"
-			description="XBCULTURE_FIELD_BOOKADD_DESC"
-			min= "0"
-			max= "10"
+			label= "XBCULTURE_FIELD_GROUP_BOOKS_LABEL"
+			description="XBCULTURE_SUBFORM_ADD_DESC"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="Book (required)" >
+				<field name="book_id" type="books" label="XBCULTURE_BOOK_U" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="char_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
 				/>
 			</form>
 		</field>
- -->
 			
 		<field name= "grouppersonlist" type= "subform"
 			label= "XBCULTURE_FIELD_GROUP_MEMBER_ADD"
@@ -135,10 +132,10 @@
 			</form>
 		</field>
 			
-		<field name= "eventgrouplist"
+		<field name= "groupeventlist"
 			type= "subform"
-			label= "XBCULTURE_FIELD_EVENTCHAR_LABEL"
-			description="XBCULTURE_FIELD_EVENTADD_DESC"
+			label= "XBCULTURE_FIELD_GROUP_EVENTS_LABEL"
+			description="XBCULTURE_SUBFORM_ADD_DESC"
 			min= "0"
 			max= "10"
 			multiple= "true"
@@ -146,10 +143,11 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="event_id" type="events" label="Event" required="true">
+				<field name="event_id" type="events" label="XBCULTURE_EVENT" required="true">
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="group_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
 				/>
 			</form>
 		</field>

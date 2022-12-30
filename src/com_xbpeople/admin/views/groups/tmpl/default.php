@@ -222,9 +222,9 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 						</p>
 						<p>
 						<?php 
-							if($item->year_formed > 0) { echo '<i>'.Text::_('XBCULTURE_BORN').' </i>: '.$item->year_formed;} 
+							if($item->year_formed > 0) { echo '<i>'.Text::_('XBCULTURE_FORMED').' </i>: '.$item->year_formed;} 
 							if($item->year_disolved > 0) { 
-								echo '&nbsp;&nbsp;<i>'.Text::_('XBCULTURE_DIED').' </i>: '.$item->year_disolved;
+								echo '&nbsp;&nbsp;<i>'.Text::_('XBCULTURE_DISBANDED').' </i>: '.$item->year_disolved;
 							} ?>						
 						</p>							
 					</td>

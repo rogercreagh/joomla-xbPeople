@@ -126,7 +126,7 @@ $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
     		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
     			<h3>Group Events</h3>
     			<fieldset class="form-vertical">
-        			<?php echo $this->form->renderField('eventgrouplist'); ?>
+        			<?php echo $this->form->renderField('groupeventlist'); ?>
     			</fieldset>
     		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
@@ -134,16 +134,7 @@ $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
     			<h3>Books</h3>
     			<fieldset class="form-vertical">
-                    <div class="row-fluid">
-						<div class="span6">
-                			<?php //echo $this->form->renderField('bookauthorlist'); ?>
-                			<?php //echo $this->form->renderField('bookeditorlist'); ?>
-						</div>
-                      	<div class="span6">
-            				<?php //echo $this->form->renderField('bookmenlist'); ?>
-            				<?php //echo $this->form->renderField('bookotherlist'); ?>
-				        </div>
-			        </div>
+        			<?php echo $this->form->renderField('groupbooklist'); ?>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
@@ -151,17 +142,7 @@ $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'flinks', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
     			<h3>Films</h3>
     			<fieldset class="form-vertical">
-                    <div class="row-fluid">
-						<div class="span6">
-            				<?php //echo $this->form->renderField('filmdirectorlist'); ?>
-            				<?php //echo $this->form->renderField('filmproducerlist'); ?>
-           					<?php //echo $this->form->renderField('filmcrewlist'); ?>
-						</div>
-                      	<div class="span6">
-           					<?php //echo $this->form->renderField('filmactorlist'); ?>
-           					<?php //echo $this->form->renderField('filmappearslist'); ?>
-				        </div>
-			        </div>
+        			<?php echo $this->form->renderField('groupfilmlist'); ?>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
        	<?php endif; ?>

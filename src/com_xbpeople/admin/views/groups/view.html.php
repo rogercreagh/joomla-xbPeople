@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/view.html.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.0.9 30th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -62,7 +62,7 @@ class XbpeopleViewGroups extends JViewLegacy {
         
         $bar = Toolbar::getInstance('toolbar');
         
-        ToolBarHelper::title(JText::_('COM_XBPEOPLE').': '.JText::_('XBCULTURE_TITLE_PEOPLEMANAGER'), 'users' );
+        ToolBarHelper::title(Text::_('XBPEOPLE_TITLE_GROUPS_ADMIN'), 'users' );
         
         if ($canDo->get('core.create') > 0) {
             ToolBarHelper::addNew('group.add');
@@ -87,7 +87,7 @@ class XbpeopleViewGroups extends JViewLegacy {
         {
         	// we use a standard Joomla layout to get the html for the batch button
         	$layout = new FileLayout('joomla.toolbar.batch');
-        	$batchButtonHtml = $layout->render(array('title' => JText::_('JTOOLBAR_BATCH')));
+        	$batchButtonHtml = $layout->render(array('title' => Text::_('JTOOLBAR_BATCH')));
         	$bar->appendButton('Custom', $batchButtonHtml, 'batch');
         }
         ToolbarHelper::custom(); //spacer
@@ -100,7 +100,7 @@ class XbpeopleViewGroups extends JViewLegacy {
     protected function setDocument()
     {
         $document = Factory::getDocument();
-        $document->setTitle(Text::_('XBPEOPLE_ADMIN_GROUPS'));
+        $document->setTitle(Text::_('XBPEOPLE_TITLE_GROUPS_ADMIN'));
     }
     
 }

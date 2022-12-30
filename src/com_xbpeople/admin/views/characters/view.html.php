@@ -56,7 +56,7 @@ class XbpeopleViewCharacters extends JViewLegacy {
     	$canDo =  ContentHelper::getActions('com_xbpeople', 'component');
     	// XbpeopleHelper::getActions();
                 
-        ToolbarHelper::title(Text::_('COM_XBPEOPLE').': '.Text::_('XBCULTURE_TITLE_CHARMANAGER'), 'users' );
+        ToolbarHelper::title(Text::_('XBPEOPLE_TITLE_CHARS_ADMIN'), 'users' );
         
         if ($canDo->get('core.create') > 0) {
             ToolbarHelper::addNew('character.add');
@@ -102,7 +102,7 @@ class XbpeopleViewCharacters extends JViewLegacy {
     protected function setDocument()
     {
         $document = Factory::getDocument();
-        $document->setTitle(Text::_('XBPEOPLE_ADMIN_CHARS'));
+        $document->setTitle(Text::_('XBPEOPLE_TITLE_CHARS_ADMIN'));
     }
     
 }
