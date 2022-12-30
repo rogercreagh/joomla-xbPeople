@@ -98,7 +98,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 //         	    $data->bookgrouplist=$this->getGroupBookslist();
 //         	}
         	if ($this->xbeventsStatus) {
-        	    $data->bookgrouplist=$this->getGroupEventslist();
+        	    $data->groupeventlist=$this->getGroupEventslist();
         	}
         	$data->grouppersonlist=$this->getGroupPeoplelist();
         }
@@ -252,7 +252,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 // 			    $this->storeGroupBooks($this->getState('group.id'),$data['bookgrouplist']);
 // 			}
 			if ($this->xbeventsStatus) {
-			    $this->storeGroupEvents($this->getState('group.id'),$data['eventgrouplist']);
+			    $this->storeGroupEvents($this->getState('group.id'),$data['groupeventlist']);
 			}
 		    $this->storeGroupPeople($this->getState('group.id'),$data['grouppersonlist']);
 			return true;
@@ -331,7 +331,7 @@ class XbpeopleModelGroup extends JModelAdmin {
     return false;
 	}
 	
-	private function storeGroupEvents($group_id, $ventgroupList) {
+	private function storeGroupEvents($group_id, $groupList) {
 	    //delete existing role list
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
@@ -346,8 +346,8 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        return false;
 	    }
 	    //restore the new list
-	    foreach ($eventgroupList as $grp) {
-	        if ($ch['event_id']>0) {
+	    foreach ($groupList as $grp) {
+	        if ($grp['event_id']>0) {
 	            $query = $db->getQuery(true);
 	            $query->insert($db->quoteName('#__xbeventgroup'));
 	            $query->columns('group_id,event_id,role,role_note');

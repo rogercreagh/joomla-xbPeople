@@ -132,18 +132,16 @@
 			</form>
 		</field>
 			
-		<field name= "groupeventlist"
-			type= "subform"
+		<field name= "groupeventlist" type= "subform"
 			label= "XBCULTURE_FIELD_GROUP_EVENTS_LABEL"
 			description="XBCULTURE_SUBFORM_ADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="event_id" type="events" label="XBCULTURE_EVENT" required="true">
+				<field name="event_id" type="events" label="XBCULTURE_EVENT">
 					<option value="">JSELECT</option>	
 				</field>
 				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.10.0.5 30th November 2022
+ * @version 0.10.0.9 30th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -363,13 +363,40 @@ class XbcultureHelper extends ContentHelper {
 	        if ($per->pstate != 1) {
 	            $per->name = '<span class="xbhlt">'.$per->name.'</span>';
 	        }
-	        if ($per->joined) {
-	            $per->note .= ' '.$per->joined.' - '. $per->until;	            
-	        } elseif ($per->until) {
-	            $per->note .= ' '.'left'.' '.$per->until;
+	        $dates = $per->joined.' - '.$per->until;
+	        if (strlen(trim($dates))>3) {
+	            $per->note .= ' <i>['.$dates.']</i> ';
 	        }
 	    }
 	    return $persons;
+	}
+	
+	public static function getGroupEvents(int $groupid) {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $elink = 'index.php?option=com_xbevents&view=event';
+	    if ($isadmin) {
+	       $elink .= '&layout=edit';
+	    }
+	    $elink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    $query->select('a.role AS role, a.role_note AS note, e.title, e.state as estate, e.id AS id')
+	    ->from('#__xbeventgroup AS a')
+	    ->join('LEFT','#__xbevents AS e ON e.id=a.event_id')
+	    ->where('a.group_id = "'.$groupid.'"' );
+	    if (!$isadmin) {
+	        $query->where('e.state = 1');
+	    }
+        $query->order('a.listorder ASC');
+	    $db->setQuery($query);
+	    $events = $db->loadObjectList();	    
+	    foreach ($events as $evnt){
+	        $evnt->link = Route::_($elink . $evnt->id);
+	        if ($evnt->estate != 1) {
+	            $evnt->title = '<span class="xbhlt">'.$evnt->title.'</span>';
+	        }
+	    }
+	    return $events;
 	}
 	
 	/************** functions used on admin side only *********************/

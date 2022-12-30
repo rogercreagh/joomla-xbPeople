@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/groups.php
- * @version 1.0.0.8 29th December 2022
+ * @version 1.0.0.9 30th December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -45,11 +45,17 @@ class XbpeopleModelGroups extends JModelList {
 			a.catid AS catid, a.state AS published, a.created AS created, a.created_by AS created_by,
 			a.created_by_alias AS created_by_alias, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time,
             a.metadata AS metadata, a.ordering AS ordering, a.params AS params, a.note AS note');
-		$query->select('IF((year_formed>-9999),year_formed,year_disolved) AS sortdate');
-		
+		$query->select('IF((year_formed>-9999),year_formed,year_disolved) AS sortdate');		
 		$query->from($db->quoteName('#__xbgroups','a'));
-		$query->join('LEFT',$db->quoteName('#__xbgroupperson', 'b') . ' ON ' . $db->quoteName('b.group_id') . ' = ' .$db->quoteName('a.id'));
-		$query->select('COUNT(DISTINCT b.person_id) AS pcnt');
+		
+		$query->select('(SELECT COUNT(DISTINCT(gp.person_id)) FROM #__xbgroupperson AS gp WHERE gp.group_id = a.id) AS pcnt');
+//		$query->join('LEFT',$db->quoteName('#__xbgroupperson', 'b') . ' ON ' . $db->quoteName('b.group_id') . ' = ' .$db->quoteName('a.id'));
+//		$query->select('COUNT(DISTINCT b.person_id) AS pcnt');
+
+		if ($this->xbeventsStatus) {
+		    $query->select('(SELECT COUNT(DISTINCT(eg.event_id)) FROM #__xbeventgroup AS eg WHERE eg.group_id = a.id) AS ecnt');
+		}
+		
 		
 // 		if ($this->xbfilmsStatus) {
 // 			$query->join('LEFT',$db->quoteName('#__xbfilmperson', 'f') . ' ON ' . $db->quoteName('f.person_id') . ' = ' .$db->quoteName('a.id'));
@@ -96,6 +102,7 @@ class XbpeopleModelGroups extends JModelList {
 		}
 		
 // 		//Filter orphans
+// do this as sum of ecnt, fcnt, bcnt to show number of refs>0
 // 		$orphfilt = $this->getState('filter.orphans');
 // 		if ($orphfilt == '1') {
 // 		    if ($this->xbbooksStatus) {
@@ -201,6 +208,9 @@ class XbpeopleModelGroups extends JModelList {
 		        $item->members = XbcultureHelper::getGroupMembers($item->id);
 		        $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','ul',true,3);
 		    }
+		    $item->events = XbcultureHelper::getGroupEvents($item->id);
+		    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+		    
 //			$item->bookcnt = 0;
 // 			$item->blist='';
 // 			if ($item->bcnt>0) {

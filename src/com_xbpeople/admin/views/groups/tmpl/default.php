@@ -285,9 +285,18 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
    					</td>
     			<?php endif; ?>
     			<?php if($this->xbevents_ok) : ?>
-    			<td>
-										
-    			</td>
+        			<td>
+    					<?php if ($item->ecnt>0) : ?>
+							<details>
+    							<summary>
+    								<?php echo $item->ecnt; ?> events listed
+    							</summary>
+    							<ul class="xbdetails"> 
+                                	<?php echo $item->eventlist; ?>
+    							</ul>
+							</details>							
+    					<?php endif; ?>					
+        			</td>
     			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 

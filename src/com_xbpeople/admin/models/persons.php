@@ -17,6 +17,7 @@ class XbpeopleModelPersons extends JModelList {
     
 	protected $xbbooksStatus;
 	protected $xbfilmsStatus;
+	protected $xbeventsStatus;
 	
 	public function __construct($config = array()) {
 		
@@ -31,6 +32,7 @@ class XbpeopleModelPersons extends JModelList {
 		}
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
+		$this->xbeventsStatus = Factory::getSession()->get('xbevents_ok',false);
 		parent::__construct($config);
 	}
 
@@ -57,10 +59,17 @@ class XbpeopleModelPersons extends JModelList {
 		if ($this->xbbooksStatus) {
 			$query->join('LEFT',$db->quoteName('#__xbbookperson', 'b') . ' ON ' . $db->quoteName('b.person_id') . ' = ' .$db->quoteName('a.id'));
 			$query->select('COUNT(DISTINCT b.book_id) AS bcnt');
-        //TODO add eventpersons
 		} else {
 			$query->select('0 AS bcnt');
 		}
+		if ($this->xbeventsStatus) {
+		    $query->join('LEFT',$db->quoteName('#__xbeventperson', 'e') . ' ON ' . $db->quoteName('e.person_id') . ' = ' .$db->quoteName('a.id'));
+		    $query->select('COUNT(DISTINCT e.event_id) AS ecnt');
+		} else {
+		    $query->select('0 AS ecnt');
+		}
+		$query->join('LEFT',$db->quoteName('#__xbgroupperson', 'g') . ' ON ' . $db->quoteName('g.person_id') . ' = ' .$db->quoteName('a.id'));
+		$query->select('COUNT(DISTINCT g.group_id) AS gcnt');
 		
 		$query->select('c.title AS category_title')
 		->join('LEFT', '#__categories AS c ON c.id = a.catid');
@@ -228,6 +237,9 @@ class XbpeopleModelPersons extends JModelList {
     			$item->crewlist = $item->crewcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'crew','ul',true,4);
     			$item->castlist = $item->castcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'actor','ul',true,4);
     			$item->applist = $item->appcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'appearsin','ul',true,4);
+			    
+			}
+			if ($item->ecnt > 0) {
 			    
 			}
 			
