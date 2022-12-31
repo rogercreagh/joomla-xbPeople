@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.10.0.9 31st December 2022
+ * @version 1.0.0.10 31st December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -104,6 +104,7 @@ class XbcultureHelper extends ContentHelper {
                 if ($linked) {
                     $name = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
                 }
+                if (!isset($item->role)) $item->role='';
                $trole = (array_key_exists($item->role, $roletitles)) ? $roletitles[$item->role] : $item->role;
     	       switch ($rowfmt) {
     	           case 0: // role name
