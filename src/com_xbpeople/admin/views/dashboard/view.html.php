@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/view.html.php
- * @version 0.9.9.8 25th October 2022
+ * @version 1.0.0.10 31st December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -39,17 +39,21 @@ class XbpeopleViewDashboard extends JViewLegacy
 		$this->pcatStates = $this->get('PcatStates');
 		$this->perStates = $this->get('PerStates');
 		$this->charStates = $this->get('CharStates');
+		$this->grpStates = $this->get('GroupStates');
 		$this->totPeople = XbcultureHelper::getItemCnt('#__xbpersons');
 		$this->totChars = XbcultureHelper::getItemCnt('#__xbcharacters');
+		$this->totGroups = XbcultureHelper::getItemCnt('#__xbgroups');
 		
 		$this->bookPeople=($this->xbbooks_ok) ? $this->get('BookPeople') : 'n/a';
+		$this->eventPeople=($this->xbevents_ok) ? $this->get('EventPeople') : 'n/a';
 		$this->filmPeople=($this->xbfilms_ok) ? $this->get('FilmPeople') : 'n/a';
 		$this->bookChars=($this->xbbooks_ok) ? $this->get('BookChars') : 'n/a';
+		$this->eventChars=($this->xbevents_ok) ? $this->get('EventChars') : 'n/a';
 		$this->filmChars=($this->xbfilms_ok) ? $this->get('FilmChars') : 'n/a';
-		
-		$this->orphanpeep = $this->get('OrphanPeople');
-		$this->orphanchars = $this->get('OrphanChars');
-		
+		$this->bookGroups=($this->xbbooks_ok) ? $this->get('BookGroups') : 'n/a';
+		$this->filmGroups=($this->xbfilms_ok) ? $this->get('FilmGroups') : 'n/a';
+		$this->eventGroups=($this->xbevents_ok) ? $this->get('EventGroups') : 'n/a';
+				
 		$this->people = $this->get('RoleCnts');
 		
 		$this->cats = $this->get('Cats');
@@ -66,10 +70,12 @@ class XbpeopleViewDashboard extends JViewLegacy
 		$this->show_cat = $params->get('show_cats',1);
 		$this->show_pcat = $params->get('show_pcat',1);
 		$this->show_ccat = $params->get('show_ccat',1);
+		$this->show_gcat = $params->get('show_gcat',1);
 		
 		$this->show_tags = $params->get('show_tags',1);
 		$this->show_ptags = $params->get('show_ptags',1);
 		$this->show_ctags = $params->get('show_ctags',1);
+		$this->show_gtags = $params->get('show_gtags',1);
 		
 		$this->show_search = $params->get('search_bar');
 		
@@ -87,20 +93,37 @@ class XbpeopleViewDashboard extends JViewLegacy
         }
         
         $clink='index.php?option=com_categories&view=categories&task=category.edit&extension=com_xbpeople&id=';
-        $this->pcatlist = '<ul style="list-style-type: none;">';
-        foreach ($this->pcats as $key=>$value) {
-            if ($value['level']==1) {
-                $this->pcatlist .= '<li>';
-            } else {
-                $this->pcatlist .= str_repeat('-&nbsp;', $value['level']-1);
-            }
-            $lbl = $value['published']==1 ? 'label-success' : '';
-            $this->pcatlist .='<a class="label label-success" href="'.$clink.$value['id'].'">'.$value['title'].'</a>&nbsp;(<i>'.$value['percnt'].':'.$value['chrcnt'].'</i>) ';
-            if ($value['level']==1) {
-                $this->pcatlist .= '</li>';
-            }
-        }
-        $this->pcatlist .= '</ul>';
+//         $this->pcatlist = '<ul style="list-style-type: none;">';
+//         foreach ($this->pcats as $key=>$value) {
+//             $this->pcatlist .= '<li>';
+//             if ($value['level']>1) {
+//                 $this->pcatlist .= '&boxur;'.str_repeat('&boxh;', $value['level']-1).'&nbsp;';                
+//             }
+//             $lbl = $value['published']==1 ? 'label-success' : '';
+//             $this->pcatlist .= '<a class="label '.$lbl.'" href="'.$clink.$value['id'].'">'.$value['title'].'</a>';
+//             $this->pcatlist .= '&nbsp;<span class="badge percnt">'.$value['percnt'].'</span> ';
+//             $this->pcatlist .= '<span class="badge grpcnt">'.$value['grpcnt'].'</span> ';
+//             $this->pcatlist .= '<span class="badge chcnt">'.$value['chrcnt'].'</span>';
+//             $this->pcatlist .= '</li>';
+//         }
+//         $this->pcatlist .= '</ul>';
+        
+//         $this->pcatlist = '';
+//         foreach ($this->pcats as $key=>$value) {
+//             $this->pcatlist .= '<div class="pull-left" style="mix-width:170px;">';
+//             if ($value['level']>1) {
+//                 $this->pcatlist .= '&boxur;'.str_repeat('&boxh;', $value['level']-1).'&nbsp;';
+//             }
+//             $lbl = $value['published']==1 ? 'label-success' : '';
+//             $this->pcatlist .= '<a class="label '.$lbl.'" href="'.$clink.$value['id'].'">'.$value['title'].'</a>';
+//             $this->pcatlist .= '</div>';
+//             $this->pcatlist .= '<div class="pull-left">';
+//             $this->pcatlist .= '<span class="badge percnt">'.$value['percnt'].'</span> ';
+//             $this->pcatlist .= '<span class="badge grpcnt">'.$value['grpcnt'].'</span> ';
+//             $this->pcatlist .= '<span class="badge chcnt">'.$value['chrcnt'].'</span>';
+//             $this->pcatlist .= '</div>';
+//             $this->pcatlist .= '<div class="clearfix"></div>';
+//         }
         
 //         $tlink='index.php?option=com_xbfilms&view=tag&id=';
 //         $this->taglist = '<ul class="inline">';

@@ -101,7 +101,7 @@ ul.nav-tabs {
 /* end of joomla system overrides */
 
 
-.bkcnt, .flmcnt, .percnt, .revcnt, .chcnt {
+.bkcnt, .flmcnt, .percnt, .revcnt, .chcnt, .evtcnt, .grpcnt {
     border: solid 1px #31708f;
     color: #31708f !important;
 }
@@ -113,6 +113,8 @@ ul.nav-tabs {
 
 .bkcnt { background-color: #deefef !important;  }           
 .flmcnt { background-color: #efdfdf !important;  }           
+.evtcnt { background-color: #faf7bf!important;  }           
+.grpcnt { background-color: #faf7bf !important;  }           
 .percnt { background-color: #deefde !important;  }      
 .chcnt { background-color: #e0e0ff !important;   }         
 .revcnt { background-color: #efdeef !important;  }      
