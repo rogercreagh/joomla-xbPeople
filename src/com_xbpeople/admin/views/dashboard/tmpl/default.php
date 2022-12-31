@@ -328,11 +328,17 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 									<a class="label <?php echo ($value['published']==1) ? 'label-success' : ''; ?>" 
 										href="<?php echo $clink.$value['id']; ?>"><?php echo $value['title']; ?></a>
             					</td><td>
-            						<span class="badge percnt"><?php echo $value['percnt']; ?></span>
+            						<?php if($value['percnt']>0) : ?>
+            							<span class="badge percnt"><?php echo $value['percnt']; ?></span>
+            						<?php endif; ?>
             					</td><td>
+            						<?php if($value['grpcnt']>0) : ?>
             						<span class="badge grpcnt"><?php echo $value['grpcnt']; ?></span>
+            						<?php endif; ?>
             					</td><td>
+            						<?php if($value['chrcnt']>0) : ?>
             						<span class="badge chcnt"><?php echo $value['chrcnt']; ?></span>
+            						<?php endif; ?>
             					</td></tr>
             				<?php endforeach; ?>        
         				</table>
