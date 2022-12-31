@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 0.10.0.9 30th December 2022
+ * @version 0.10.0.9 31st December 2022
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -104,28 +104,31 @@ class XbcultureHelper extends ContentHelper {
                 if ($linked) {
                     $name = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
                 }
+               $trole = (array_key_exists($item->role, $roletitles)) ? $roletitles[$item->role] : $item->role;
     	       switch ($rowfmt) {
-    	           case 0: // (role).name
-    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$roletitles[$item->role].'</span> ';
+    	           case 0: // role name
+    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$trole.'</span> ';
     	               $list .= $name;
     	               break;
-    	           case 1: //(role).name.(note)
-    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$roletitles[$item->role].'</span> ';
+    	           case 1: //role name.(note)
+    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$trole.'</span> ';
     	               $list .= $name;
-    	               $list .= (empty($item->note)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xbnote">'.$item->note.'</span>';
     	               break;
-    	           case 2: //name.(role)
+    	           case 2: //name.role
     	               $list .= $name;
-    	               $list .= (empty($role)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               $list .= (empty($role)) ? '' : ' <span class="xblistrolesecond">'.$trole.'</span>';
     	               break;
     	           case 3: //name.(role).(note)
     	               $list .= $name;
-    	               $list .= (empty($role)) ? '' : '<span class="xblistrolesecond">'.$roletitles[$item->role].'</span> ';
-    	               $list .= (empty($item->note)) ? '' : ' <span class="xblistnote">'.$item->note.'</span>';
+    	               if (empty($role)) {
+           	               $list .= '<span class="xblistrolesecond">'.$trole.'</span> ';   	                   
+    	               }
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xbnote">'.$item->note.'</span>';
     	               break;
     	           case 4: //name.(note)
     	               $list .= $name;
-    	               $list .= (empty($item->note)) ? '' : ' <span class="xbnit">('.$item->note.')</span>';
+    	               $list .= (empty($item->note)) ? '' : ' <span class="xbnote">'.$item->note.'</span>';
     	               break;
     	           case 5: //name only
     	               $list .= $name;
@@ -371,6 +374,12 @@ class XbcultureHelper extends ContentHelper {
 	    return $persons;
 	}
 	
+	/**
+	 * @name getGroupEvents()
+	 * get an array of event objects for a group
+	 * @param int $groupid
+	 * @return array of objects
+	 */
 	public static function getGroupEvents(int $groupid) {
 	    $isadmin = Factory::getApplication()->isClient('administrator');
 	    $elink = 'index.php?option=com_xbevents&view=event';
