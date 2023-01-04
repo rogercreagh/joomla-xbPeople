@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.0.10 31st December 2022
+ * @version 1.0.1.2 4th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -215,9 +215,11 @@ class XbcultureHelper extends ContentHelper {
 	
 	/***
 	 * @name checkComponent()
-	 * @desc test whether a component is installed and enabled. Sets a session variable to save a subsequent db call
+	 * @desc test whether a component is installed and enabled. 
+	 * NB This sets the seesion variable if component installed to 1 if enabled or 0 if disabled.
+	 * Test sess variable==1 if wanting to use component
 	 * @param  $name - component name as stored in the extensions table (eg com_xbfilms)
-	 * @return boolean|number - true= installed and enabled, 0= installed not enabled, false = not installed
+	 * @return boolean|number - true= installed and enabled, 0= installed not enabled, null = not installed
 	 */
 	public static function checkComponent($name) {
 		$sname=substr($name,4).'_ok';
@@ -225,7 +227,11 @@ class XbcultureHelper extends ContentHelper {
 		$db = Factory::getDBO();
 		$db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote($name));
 		$res = $db->loadResult();
-		$sess->set($sname,$res);
+		if (is_null($res)) { 
+		    $sess->clear($sname);
+		} else {
+		    $sess->set($sname,$res);		    
+		}
 		return $res;
 	}
 

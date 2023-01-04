@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 0.12.0 6th December 2022
+ * @version 1.0.1.1 1st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -254,6 +254,9 @@ class XbpeopleModelPerson extends JModelAdmin {
 				$this->storePersonBooks($this->getState('person.id'),'mention', $data['bookmenlist']);
 				$this->storePersonBooks($this->getState('person.id'),'other', $data['bookotherlist']);				
 			}
+			if ($this->xbeventsStatus) {
+			    $this->storePersonEvents($this->getState('person.id'), $data['eventpersonlist']);
+			}
 			return true;
 		}
 		
@@ -326,6 +329,39 @@ class XbpeopleModelPerson extends JModelAdmin {
 				}
 			}
 		}
+	}
+	
+	private function storePersonEvents($person_id, $personList) {
+	    //delete existing role list
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->delete($db->quoteName('#__xbeventperson'));
+	    $query->where('person_id = '.$person_id);
+	    $db->setQuery($query);
+	    try {
+	        $db->execute();
+	    }
+	    catch (\RuntimeException $e) {
+	        throw new \Exception($e->getMessage(), 500);
+	        return false;
+	    }
+	    //restore the new list
+	    foreach ($personList as $per) {
+	        if ($per['event_id']>0) {
+	            $query = $db->getQuery(true);
+	            $query->insert($db->quoteName('#__xbeventperson'));
+	            $query->columns('person_id,event_id,role, role_note');
+	            $query->values($db->quote($person_id).','.$db->quote($per['event_id']).','.$db->quote($per['role']).','.$db->quote($per['role_note']));
+	            $db->setQuery($query);
+	            try {
+	                $db->execute();
+	            }
+	            catch (\RuntimeException $e) {
+	                throw new \Exception($e->getMessage(), 500);
+	                return false;
+	            }
+	        }
+	    }
 	}
 	
 }
