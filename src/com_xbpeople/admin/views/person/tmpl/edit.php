@@ -9,6 +9,7 @@
  ******/
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -22,9 +23,8 @@ HTMLHelper::_('formbehavior.chosen', '#jform_tags', null, array('placeholder_tex
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 //set styles to remove control button min width and set padding 
-$document = JFactory::getDocument();
+$document = Factory::getDocument();
 $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}';
-//    .' ' ;
 $document->addStyleDeclaration($style);
         
 ?>
