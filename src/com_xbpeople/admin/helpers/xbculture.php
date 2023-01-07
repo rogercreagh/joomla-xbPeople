@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.1.2 4th January 2023
+ * @version 1.0.2.0 7th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -396,7 +396,7 @@ class XbcultureHelper extends ContentHelper {
 	    $elink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
-	    $query->select('a.role AS role, a.role_note AS note, e.title, e.state as estate, e.id AS id')
+	    $query->select('a.role AS role, a.role_note AS note, e.title, e.state as estate, e.id AS eventid')
 	    ->from('#__xbeventgroup AS a')
 	    ->join('LEFT','#__xbevents AS e ON e.id=a.event_id')
 	    ->where('a.group_id = "'.$groupid.'"' );
@@ -414,6 +414,75 @@ class XbcultureHelper extends ContentHelper {
 	    }
 	    return $events;
 	}
+	
+	/**
+	 * @name getGroupBooks()
+	 * get an array of book objects for a group
+	 * @param int $groupid
+	 * @return array of objects
+	 */
+	public static function getGroupBooks(int $groupid) {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $blink = 'index.php?option=com_xbbooks&view=book';
+	    if ($isadmin) {
+	        $blink .= '&layout=edit';
+	    }
+	    $blink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    $query->select('a.role AS role, a.role_note AS note, b.title, b.state as bstate, b.id AS bookid')
+	    ->from('#__xbbookgroup AS a')
+	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
+	    ->where('a.group_id = "'.$groupid.'"' );
+	    if (!$isadmin) {
+	        $query->where('b.state = 1');
+	    }
+	    $query->order('a.listorder ASC');
+	    $db->setQuery($query);
+	    $books = $db->loadObjectList();
+	    foreach ($books as $book){
+	        $book->link = Route::_($blink . $book->id);
+	        if ($book->bstate != 1) {
+	            $book->title = '<span class="xbhlt">'.$book->title.'</span>';
+	        }
+	    }
+	    return $books;
+	}
+
+	/**
+	 * @name getGroupBooks()
+	 * get an array of book objects for a group
+	 * @param int $groupid
+	 * @return array of objects
+	 */
+	public static function getGroupFilms(int $groupid) {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $flink = 'index.php?option=com_xbfilms&view=film';
+	    if ($isadmin) {
+	        $flink .= '&layout=edit';
+	    }
+	    $flink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    $query->select('a.role AS role, a.role_note AS note, b.title, b.state as bstate, b.id AS filmid')
+	    ->from('#__xbfilmgroup AS a')
+	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
+	    ->where('a.group_id = "'.$groupid.'"' );
+	    if (!$isadmin) {
+	        $query->where('b.state = 1');
+	    }
+	    $query->order('a.listorder ASC');
+	    $db->setQuery($query);
+	    $films = $db->loadObjectList();
+	    foreach ($films as $film){
+	        $film->link = Route::_($flink . $film->id);
+	        if ($film->bstate != 1) {
+	            $film->title = '<span class="xbhlt">'.$film->title.'</span>';
+	        }
+	    }
+	    return $films;
+	}
+	
 	
 	/************** functions used on admin side only *********************/
 
