@@ -279,11 +279,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 							<details>
     							<summary>
     								<?php echo $item->bcnt.' ';
-                                        echo ($item->bcnt==1)?Text ::_('XBCULTURE_EVENT') : Text::_('XBCULTURE_EVENTS');
+                                        echo ($item->bcnt==1)?Text ::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');
                                         echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
     							</summary>
     							<ul class="xbdetails"> 
-                                	<?php echo $item->eventlist; ?>
+                                	<?php echo $item->booklist; ?>
     							</ul>
 							</details>							
     					<?php endif; ?>					

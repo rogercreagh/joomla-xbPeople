@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.0.9 30th December 2022
+ * @version 1.0.2.2 8th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -66,9 +66,9 @@ class XbpeopleModelGroup extends JModelAdmin {
         }
         
         $params = ComponentHelper::getParams('com_xbpeople');
-        $image_path = $params->get('image_path','');
+        $image_path = $params->get('portrait_path','');
         if ($image_path != '') {
-        	$form->setFieldAttribute('image','directory',$image_path);
+        	$form->setFieldAttribute('picture','directory',$image_path);
         }
         
         return $form;
@@ -91,12 +91,12 @@ class XbpeopleModelGroup extends JModelAdmin {
         }
         
         if (is_object($data)) {
-//         	if ($this->xbfilmsStatus) {
-//         		$data->filmgrouplist=$this->getGroupFilmslist();
-//         	}
-//         	if ($this->xbbooksStatus) {
-//         	    $data->bookgrouplist=$this->getGroupBookslist();
-//         	}
+        	if ($this->xbfilmsStatus) {
+        	    $data->groupfilmlist=$this->getGroupFilmslist();
+        	}
+        	if ($this->xbbooksStatus) {
+        	    $data->groupbooklist=$this->getGroupBookslist();
+        	}
         	if ($this->xbeventsStatus) {
         	    $data->groupeventlist=$this->getGroupEventslist();
         	}
@@ -186,33 +186,31 @@ class XbpeopleModelGroup extends JModelAdmin {
 	        return true;
 	    }
 	}
-/* 
+
 	public function getGroupFilmslist() {
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('a.id as film_id, ba.actor_id AS actor_id, ba.group_note AS group_note');
+		$query->select('ba.film_id as film_id, ba.role AS role, ba.role_note AS role_note');
 		$query->from('#__xbfilmgroup AS ba');
 		$query->innerjoin('#__xbfilms AS a ON ba.film_id = a.id');
 		$query->where('ba.group_id = '.(int) $this->getItem()->id);
-		$query->order('a.title ASC');
+		$query->order('ba.listorder ASC');
 		$db->setQuery($query);
 		return $db->loadAssocList();
-		//if actor_id is set we also need to get the actor name
 	}
 	
 	public function getGroupBookslist() {
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('a.id as book_id, ba.group_note AS group_note');
+		$query->select('ba.book_id as book_id, ba.role AS role, ba.role_note AS role_note');
 		$query->from('#__xbbookgroup AS ba');
 		$query->innerjoin('#__xbbooks AS a ON ba.book_id = a.id');
 		$query->where('ba.group_id = '.(int) $this->getItem()->id);
-		$query->order('a.title ASC');
+		$query->order('ba.listorder ASC');
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
 	
- */
     public function getGroupEventslist() {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
@@ -245,12 +243,12 @@ class XbpeopleModelGroup extends JModelAdmin {
 		}
 		
 		if (parent::save($data)) {
-// 			if ($this->xbfilmsStatus) {
-// 				$this->storeGroupFilms($this->getState('group.id'),$data['filmgrouplist']);
-// 			}
-// 			if ($this->xbbooksStatus) {
-// 			    $this->storeGroupBooks($this->getState('group.id'),$data['bookgrouplist']);
-// 			}
+			if ($this->xbfilmsStatus) {
+				$this->storeGroupFilms($this->getState('group.id'),$data['groupfilmlist']);
+			}
+			if ($this->xbbooksStatus) {
+			    $this->storeGroupBooks($this->getState('group.id'),$data['groupbooklist']);
+			}
 			if ($this->xbeventsStatus) {
 			    $this->storeGroupEvents($this->getState('group.id'),$data['groupeventlist']);
 			}
@@ -262,73 +260,69 @@ class XbpeopleModelGroup extends JModelAdmin {
 	}
 	
 	private function storeGroupFilms($group_id, $groupList) {
-// 		//delete existing role list
-// 		$db = $this->getDbo();
-// 		$query = $db->getQuery(true);
-// 		$query->delete($db->quoteName('#__xbfilmgroup'));
-// 		$query->where('group_id = '.$group_id.' ');
-// 		$db->setQuery($query);
-// 		try {
-// 		    $db->execute();
-// 		}
-// 		catch (\RuntimeException $e) {
-// 		    throw new \Exception($e->getMessage(), 500);
-// 		    return false;
-// 		}
-// 		//restore the new list
-// 		foreach ($groupList as $ch) {
-// 		    if ($ch['film_id']>0) {
-// 			$query = $db->getQuery(true);
-// 			$query->insert($db->quoteName('#__xbfilmgroup'));
-// 			$query->columns('group_id,film_id,actor_id,group_note');
-// 			$query->values('"'.$group_id.'","'.$ch['film_id'].'","'.$ch['actor_id'].'","'.$ch['group_note'].'"');
-// 			$db->setQuery($query);
-// 			try {
-// 			    $db->execute();
-// 			}
-// 			catch (\RuntimeException $e) {
-// 			    throw new \Exception($e->getMessage(), 500);
-// 			    return false;
-// 			}
-// 			//if actor id is set we also need to check the filmperson table
-// 		    //to see if that link already exists and if no add it
-// 		    }
-// 		}
-    return false;
+		//delete existing role list
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->delete($db->quoteName('#__xbfilmgroup'));
+		$query->where('group_id = '.$group_id.' ');
+		$db->setQuery($query);
+		try {
+		    $db->execute();
+		}
+		catch (\RuntimeException $e) {
+		    throw new \Exception($e->getMessage(), 500);
+		    return false;
+		}
+		//restore the new list
+		foreach ($groupList as $ch) {
+		    if ($ch['film_id']>0) {
+    			$query = $db->getQuery(true);
+    			$query->insert($db->quoteName('#__xbfilmgroup'));
+    			$query->columns('group_id,film_id,role,role_note');
+    			$query->values('"'.$group_id.'","'.$ch['film_id'].'","'.$ch['role'].'","'.$ch['role_note'].'"');
+    			$db->setQuery($query);
+    			try {
+    			    $db->execute();
+    			}
+    			catch (\RuntimeException $e) {
+    			    throw new \Exception($e->getMessage(), 500);
+    			    return false;
+    			}
+		    }
+		}
 	}
 	
 	private function storeGroupBooks($group_id, $groupList) {
-// 		//delete existing role list
-// 		$db = $this->getDbo();
-// 		$query = $db->getQuery(true);
-// 		$query->delete($db->quoteName('#__xbbookgroup'));
-// 		$query->where('group_id = '.$group_id.' ');
-// 		$db->setQuery($query);
-// 		try {
-// 		    $db->execute();
-// 		}
-// 		catch (\RuntimeException $e) {
-// 		    throw new \Exception($e->getMessage(), 500);
-// 		    return false;
-// 		}
-// 		//restore the new list
-// 		foreach ($groupList as $ch) {
-// 			if ($ch['book_id']>0) {
-// 				$query = $db->getQuery(true);
-// 				$query->insert($db->quoteName('#__xbbookgroup'));
-// 				$query->columns('group_id,book_id,group_note');
-// 				$query->values('"'.$group_id.'","'.$ch['book_id'].'","'.$ch['group_note'].'"');
-// 				$db->setQuery($query);
-// 				try {
-// 				    $db->execute();
-// 				}
-// 				catch (\RuntimeException $e) {
-// 				    throw new \Exception($e->getMessage(), 500);
-// 				    return false;
-// 				}
-// 			}
-// 		}
-    return false;
+		//delete existing role list
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->delete($db->quoteName('#__xbbookgroup'));
+		$query->where('group_id = '.$group_id.' ');
+		$db->setQuery($query);
+		try {
+		    $db->execute();
+		}
+		catch (\RuntimeException $e) {
+		    throw new \Exception($e->getMessage(), 500);
+		    return false;
+		}
+		//restore the new list
+		foreach ($groupList as $ch) {
+			if ($ch['book_id']>0) {
+				$query = $db->getQuery(true);
+				$query->insert($db->quoteName('#__xbbookgroup'));
+				$query->columns('group_id,book_id,role,role_note');
+				$query->values('"'.$group_id.'","'.$ch['book_id'].'","'.$ch['role'].'","'.$ch['role_note'].'"');
+				$db->setQuery($query);
+				try {
+				    $db->execute();
+				}
+				catch (\RuntimeException $e) {
+				    throw new \Exception($e->getMessage(), 500);
+				    return false;
+				}
+			}
+		}
 	}
 	
 	private function storeGroupEvents($group_id, $groupList) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/filter_persons.xml v0.10.0.0 22nd November 20222 -->
+<!-- xbPeople admin/models/forms/filter_persons.xml v1.0.2.2 8th January 2023 -->
 <form>
 	<fields name="filter"  addfieldpath="administrator/components/com_xbpeople/models/fields">
 		<field
@@ -24,7 +24,8 @@
 			default="0"
 		>
 			<option value="0" onchange="this.form.submit();">XBCULTURE_ALL</option>
-			<option value="1" onchange="this.form.submit();">Orphans Only</option>
+			<option value="1" onchange="this.form.submit();">XBCULTURE_ORPHANS</option>
+			<option value="2" onchange="this.form.submit();">XBCULTURE_NOT_ORPHANS</option>
 		</field>
 		<field name="nationality" type="natlist"
 			label="XBCULTURE_NATIONALITY"
@@ -40,7 +41,7 @@
 			label="JOPTION_FILTER_CATEGORY"
 			extension="com_xbpeople"
 			itemtable="#__xbpersons"
-			multiple="true"
+			multiple="true" class="multipleCats"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>

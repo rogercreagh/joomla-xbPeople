@@ -1037,6 +1037,84 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
+	 * @name getPersonEvents()
+	 * @desc for given person returns array of events
+	 * @param int $personid
+	 * @param string $role
+	 * @return array of objects with eventname eventlink role role_note
+	 */
+	public static function getPersonEvents(int $personid, $role='') {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $elink = 'index.php?option=com_xbevents&view=event';
+	    if ($isadmin) {
+	        $elink .= '&layout=edit';
+	    }
+	    $elink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.role, a.role_note AS note, b.title AS name, b.id, b.state AS bstate')
+	    ->from('#__xbeventperson AS a')
+	    ->join('LEFT','#__xbevents AS b ON b.id=a.event_id')
+	    ->where('a.person_id = "'.$personid.'"' );
+	    if (!$isadmin) {
+	        $query->where('b.state = 1');
+	    }
+	    if (!empty($role)) {
+	        $query->where('a.role = "'.$role.'"');
+	    }
+	    $query->order('b.title');
+	    $db->setQuery($query);
+	    $events = $db->loadObjectList();
+	    foreach ($events as $event){
+	        $event->link = Route::_($elink . $event->id);
+	        if ($event->bstate != 1) {
+	            $event->name = '<span class="xbhlt">'.$event->name.'</span>';
+	        }
+	    }
+	    return $events;
+	}
+	
+	/**
+	 * @name getPersonGroups()
+	 * @desc for given person returns array of groups
+	 * @param int $personid
+	 * @param string $role
+	 * @return array of objects with groupname grouplink role role_note
+	 */
+	public static function getPersonGroups(int $personid, $role='') {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $glink = 'index.php?option=com_xbpeople&view=group';
+	    if ($isadmin) {
+	        $glink .= '&layout=edit';
+	    }
+	    $glink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.role, a.role_note AS note, a.joined AS joined, b.title AS name, b.id, b.state AS bstate')
+	    ->from('#__xbgroupperson AS a')
+	    ->join('LEFT','#__xbgroups AS b ON b.id=a.group_id')
+	    ->where('a.person_id = "'.$personid.'"' );
+	    if (!$isadmin) {
+	        $query->where('b.state = 1');
+	    }
+	    if (!empty($role)) {
+	        $query->where('a.role = "'.$role.'"');
+	    }
+	    $query->order(array('a.joined',b.title));
+	    $db->setQuery($query);
+	    $groups = $db->loadObjectList();
+	    foreach ($groups as $group){
+	        $group->link = Route::_($glink . $group->id);
+	        if ($group->bstate != 1) {
+	            $group->name = '<span class="xbhlt">'.$group->name.'</span>';
+	        }
+	    }
+	    return $groups;
+	}
+	
+/**
 	 * @name getCharBooks()
 	 * @desc for given person returns and array of books and roles
 	 * @param int $charid
@@ -1073,8 +1151,46 @@ class XbcultureHelper extends ContentHelper {
 	}
 	
 	/**
+	 * @name getCharEvents()
+	 * @desc for given person returns and array of events
+	 * @param int $charid
+	 * @param boolean $order - field to order list by (role first if specified)
+	 * @return array
+	 */
+	public static function getCharEvents(int $charid, $order='title ASC') {
+	    $isadmin = Factory::getApplication()->isClient('administrator');
+	    $elink = 'index.php?option=com_xbevent&view=event';
+	    if ($isadmin) {
+	        $elink .= '&layout=edit';
+	    }
+	    $elink .= '&id=';
+	    $db = Factory::getDBO();
+	    $query = $db->getQuery(true);
+	    
+	    $query->select('a.char_note AS note,a.actor_id AS actorid, f.title AS name, f.id, f.state AS fstate')
+	    ->from('#__xbeventcharacter AS a')
+	    ->join('LEFT','#__xbevents AS f ON f.id=a.event_id')
+	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
+	    ->select('CONCAT(p.firstname,'.$db->quote(' '). ',p.lastname) AS role, p.id')
+	    ->where('a.char_id = "'.$charid.'"' );
+	    if (!$isadmin) {
+	        $query->where('f.state = 1');
+	    }
+	    $query->order('f.'.$order);
+	    $db->setQuery($query);
+	    $events = $db->loadObjectList();
+	    foreach ($events as $event){
+	        $event->link = Route::_($elink . $event->id);
+	        if ($event->fstate != 1) {
+	            $event->name = '<span class="xbhlt">'.$event->name.'</span>';
+	        }
+	    }
+	    return $events;
+	}
+	
+	/**
 	 * @name getCharFilms()
-	 * @desc for given person returns and array of films
+	 * @desc for given person returns an array of films
 	 * @param int $charid
 	 * @param boolean $order - field to order list by (role first if specified)
 	 * @return array
@@ -1092,6 +1208,8 @@ class XbcultureHelper extends ContentHelper {
 	    $query->select('a.char_note AS note, f.title AS name, f.rel_year, f.id, f.state AS fstate')
 	    ->from('#__xbfilmcharacter AS a')
 	    ->join('LEFT','#__xbfilms AS f ON f.id=a.film_id')
+	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
+	    ->select('CONCAT(p.firstname,'.$db->quote(' '). ',p.lastname) AS role, p.id')
 	    ->where('a.char_id = "'.$charid.'"' );
 	    if (!$isadmin) {
 	        $query->where('f.state = 1');

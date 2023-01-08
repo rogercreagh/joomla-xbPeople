@@ -23,6 +23,7 @@ class XbpeopleTablePerson extends Table {
 	
 	protected $xbbooksStatus;
 	protected $xbfilmsStatus;
+	protected $xbeventsStatus;
 	
 	function __construct(&$db) {
         parent::__construct('#__xbpersons', 'id', $db);
@@ -31,6 +32,7 @@ class XbpeopleTablePerson extends Table {
         Tags::createObserver($this, array('typeAlias' => 'com_xbpeople.person'));
         $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
         $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
+        $this->xbeventsStatus = XbcultureHelper::checkComponent('com_xbevents');
 	}
     
     public function delete($pk=null) {
@@ -50,6 +52,18 @@ class XbpeopleTablePerson extends Table {
         if ($this->xbbooksStatus) {
             $query = $db->getQuery(true);
             $query->delete()->from('#__xbbookperson')->where('person_id = '. $pk);
+            $this->_db->setQuery($query);
+            try {
+                $this->_db->execute();
+            }
+            catch (\RuntimeException $e) {
+                throw new \Exception($e->getMessage(), 500);
+                return false;
+            }
+        }
+        if ($this->xbeventsStatus) {
+            $query = $db->getQuery(true);
+            $query->delete()->from('#__xbeventgroup')->where('group_id = '. $pk);
             $this->_db->setQuery($query);
             try {
                 $this->_db->execute();

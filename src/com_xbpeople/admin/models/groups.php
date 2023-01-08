@@ -19,11 +19,11 @@ class XbpeopleModelGroups extends JModelList {
 		
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'id', 'a,id', 'title', 'a.title',
+				'id', 'a,id', 'title', 'a.title',
 			    'published', 'a.state', 'ordering', 'a.ordering',
-					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
+				'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
 			    'created', 'a.created','sortdate',
-			     'bcnt','fcnt' , 'b.id','f.id');
+			    'bcnt','fcnt','ecnt','pcnt');
 		}
 		parent::__construct($config);
 	}
@@ -195,7 +195,7 @@ class XbpeopleModelGroups extends JModelList {
 		        $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','ul',true,3);
 		    }
 		    if ($item->bcnt > 0) {
-		        $item->Books = XbcultureHelper::getGroupBooks($item->id);
+		        $item->books = XbcultureHelper::getGroupBooks($item->id);
 		        $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);
 		    }
 		    if ($item->fcnt > 0) {

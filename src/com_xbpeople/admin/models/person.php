@@ -221,8 +221,8 @@ class XbpeopleModelPerson extends JModelAdmin {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
 	    $query->select('a.id as event_id, ba.role AS role, ba.role_note AS role_note');
-	    $query->from('#__xbbookperson AS ba');
-	    $query->innerjoin('#__xbbooks AS a ON ba.book_id = a.id');
+	    $query->from('#__xbeventperson AS ba');
+	    $query->innerjoin('#__xbevents AS a ON ba.event_id = a.id');
 	    $query->where('ba.person_id = '.(int) $this->getItem()->id);
 	    $query->where('ba.role = "'.$role.'"');
 	    $query->order('a.title ASC');

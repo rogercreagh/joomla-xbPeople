@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 0.10.0.3 27th November 2022
+ * @version 1.0.2.2 8th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,31 +14,24 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Helper\TagsHelper;
 
 class XbpeopleModelCharacters extends JModelList {
-
-	protected $xbbooksStatus;
-	protected $xbfilmsStatus;
 	
 	public function __construct($config = array()) {
         
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
-            	'id', 'a.id',
-                'name', 'a.name',
+            	'id', 'a.id', 'name', 'a.name',
                 'ordering','a.ordering',
                 'category_title', 'c.title',
                 'catid', 'a.catid', 'category_id',
                 'created', 'a.created',
-                'published','a.state', 'b.id','f.id', 'fcnt', 'bcnt');
+                'published','a.state', 'fcnt', 'bcnt','ecnt');
         }
-        $this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
-        $this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
         
         parent::__construct($config);
     }
     
     protected function getListQuery() {
-        //TODO need to also get roles list with film titles
-        // Initialize variables.
+        $sess = Factory::getSession();
         $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         
@@ -51,20 +44,22 @@ class XbpeopleModelCharacters extends JModelList {
 
             ->from($db->quoteName('#__xbcharacters','a'));
         
-            if ($this->xbfilmsStatus) {
-            	$query->join('LEFT',$db->quoteName('#__xbfilmcharacter', 'f') . ' ON ' . $db->quoteName('f.char_id') . ' = ' .$db->quoteName('a.id'));
-            	$query->select('COUNT(DISTINCT f.film_id) AS fcnt');
+            if ($sess->get('xbbooks_ok',false)==1) {
+                $query->select('(SELECT COUNT(DISTINCT(bc.book_id)) FROM #__xbbookcharacter AS bc WHERE bc.char_id = a.id) AS bcnt');
             } else {
-            	$query->select('0 AS fcnt');
+                $query->select('0 AS bcnt');
             }
-            if ($this->xbbooksStatus) {
-            	$query->join('LEFT',$db->quoteName('#__xbbookcharacter', 'b') . ' ON ' . $db->quoteName('b.char_id') . ' = ' .$db->quoteName('a.id'));
-            	$query->select('COUNT(DISTINCT b.book_id) AS bcnt');
+            if ($sess->get('xbfilms_ok',false)==1) {
+                $query->select('(SELECT COUNT(DISTINCT(fc.film_id)) FROM #__xbfilmcharacter AS fc WHERE fc.char_id = a.id) AS fcnt');
             } else {
-            	$query->select('0 AS bcnt');
+                $query->select('0 AS fcnt');
             }
-            
-            
+            if ($sess->get('xbevents_ok',false)==1) {
+                $query->select('(SELECT COUNT(DISTINCT(ec.event_id)) FROM #__xbeventcharacter AS ec WHERE ec.char_id = a.id) AS ecnt');
+            } else {
+                $query->select('0 AS ecnt');
+            }
+                        
         $query->select('c.title AS category_title')
             ->join('LEFT', '#__categories AS c ON c.id = a.catid');
             
@@ -92,13 +87,11 @@ class XbpeopleModelCharacters extends JModelList {
         //Filter orphans
         $orphfilt = $this->getState('filter.orphans');
         if ($orphfilt == '1') {
-            if ($this->xbbooksStatus) {
-                $query->where('b.id IS NULL');
-            }
-            if ($this->xbfilmsStatus) {
-                $query->where('f.id IS NULL'); 
-            }
-            //TODO and e.id is null for events
+            $query->select('0');
+            $query->having('(bcnt + ecnt + fcnt) = 0');
+        } elseif ($orphfilt == '2') {
+            $query->select('0');
+            $query->having('(bcnt + ecnt + fcnt) > 0');
         }
         
         // Filter by category.
@@ -116,15 +109,6 @@ class XbpeopleModelCharacters extends JModelList {
             $query->where($db->quoteName('a.catid') . ' IN ('.$categoryId.')');
         }
         
-//         //        $subcats = $this->getState('filter.subcats');
-//         if (is_numeric($categoryId)) {
-//             if ($subcats) {
-//                 //                $query->where('a.catid IN ('.(int)$categoryId.','.self::getSubCategoriesList($categoryId).')');
-//             } else {
-//                 $query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
-//             }
-//         }
-
         //filter by tags
         $tagId = $app->getUserStateFromRequest('tagid', 'tagid','');
         $app->setUserState('tagid', '');
@@ -197,22 +181,19 @@ class XbpeopleModelCharacters extends JModelList {
         $tagsHelper = new TagsHelper;
         
         foreach ($items as $i=>$item) {
-        	$item->bookcnt = 0;
-        	$item->booklist='';
-        	if ($item->bcnt>0) {
-        	    $item->books = XbcultureHelper::getCharBooks($item->id);
-        		$item->bookcnt = count($item->books);
-        		$item->booklist = $item->bookcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,4);
-        	} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
-        	       	
-        	$item->filmcnt = 0;
-        	$item->filmlist='';
-        	if ($item->fcnt>0) {
-        	    $item->films = XbcultureHelper::getCharFilms($item->id);
-        	    $item->filmcnt = count($item->films);
-        	    $item->filmlist = $item->bookcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,4);
-        	} //bcnt is the number of books, bookcnt is the number of roles (maybe 2 roles in a book)
-        	        	
+            if ($item->bcnt > 0) {
+                $item->books = XbcultureHelper::getCharBooks($item->id);
+                $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);
+            }
+            if ($item->ecnt > 0) {
+                $item->events = XbcultureHelper::getCharEvents($item->id);
+                $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+            }
+            if ($item->fcnt > 0) {
+                $item->films = XbcultureHelper::getCharFilms($item->id);
+                $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true, 3);
+            }
+                    	        	
         	$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
         } //end foreach item
 	    return $items;

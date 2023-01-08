@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 0.10.0.3 27th November 2022
+ * @version 1.0.2.2 8th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,30 +14,25 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Helper\TagsHelper;
 
 class XbpeopleModelPersons extends JModelList {
-    
-	protected $xbbooksStatus;
-	protected $xbfilmsStatus;
-	protected $xbeventsStatus;
-	
+    	
 	public function __construct($config = array()) {
 		
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'id', 'a,id', 'firstname', 'lastname',
+				'id', 'a,id', 'firstname', 'lastname',
 			    'nationality', 'a.nationality',
 			    'published', 'a.state', 'ordering', 'a.ordering',
-					'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
+				'category_title', 'c.title', 'catid', 'a.catid', 'category_id',
 			    'created', 'a.created',
-			    'sortdate', 'bcnt','fcnt' , 'b.id','f.id');
+			    'sortdate', 'bcnt','fcnt','ecnt','gcnt');
 		}
-		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
-		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
-		$this->xbeventsStatus = Factory::getSession()->get('xbevents_ok',false);
+
 		parent::__construct($config);
 	}
 
 	protected function getListQuery() {
-		$db    = Factory::getDbo();
+	    $sess = Factory::getSession();
+	    $db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		
 		$query->select('a.id AS id, a.firstname AS firstname, a.lastname AS lastname, a.alias AS alias,
@@ -50,26 +45,22 @@ class XbpeopleModelPersons extends JModelList {
 		
 		$query->from($db->quoteName('#__xbpersons','a'));
 		
-		if ($this->xbfilmsStatus) {
-			$query->join('LEFT',$db->quoteName('#__xbfilmperson', 'f') . ' ON ' . $db->quoteName('f.person_id') . ' = ' .$db->quoteName('a.id'));
-			$query->select('COUNT(DISTINCT f.film_id) AS fcnt');
+		if ($sess->get('xbfilms_ok',false)==1) {
+		    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp WHERE fp.person_id = a.id) AS fcnt');
 		} else {
 			$query->select('0 AS fcnt');
 		}
-		if ($this->xbbooksStatus) {
-			$query->join('LEFT',$db->quoteName('#__xbbookperson', 'b') . ' ON ' . $db->quoteName('b.person_id') . ' = ' .$db->quoteName('a.id'));
-			$query->select('COUNT(DISTINCT b.book_id) AS bcnt');
+		if ($sess->get('xbbooks_ok',false)==1) {
+		    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp WHERE bp.person_id = a.id) AS bcnt');
 		} else {
 			$query->select('0 AS bcnt');
 		}
-		if ($this->xbeventsStatus) {
-		    $query->join('LEFT',$db->quoteName('#__xbeventperson', 'e') . ' ON ' . $db->quoteName('e.person_id') . ' = ' .$db->quoteName('a.id'));
-		    $query->select('COUNT(DISTINCT e.event_id) AS ecnt');
+		if ($sess->get('xbevents_ok',false)==1) {
+		    $query->select('(SELECT COUNT(DISTINCT(ec.event_id)) FROM #__xbeventperson AS ec WHERE ec.person_id = a.id) AS ecnt');
 		} else {
 		    $query->select('0 AS ecnt');
 		}
-		$query->join('LEFT',$db->quoteName('#__xbgroupperson', 'g') . ' ON ' . $db->quoteName('g.person_id') . ' = ' .$db->quoteName('a.id'));
-		$query->select('COUNT(DISTINCT g.group_id) AS gcnt');
+		$query->select('(SELECT COUNT(DISTINCT(gp.group_id)) FROM #__xbgroupperson AS gp WHERE gp.person_id = a.id) AS gcnt');
 		
 		$query->select('c.title AS category_title')
 		->join('LEFT', '#__categories AS c ON c.id = a.catid');
@@ -104,13 +95,11 @@ class XbpeopleModelPersons extends JModelList {
 		//Filter orphans
 		$orphfilt = $this->getState('filter.orphans');
 		if ($orphfilt == '1') {
-		    if ($this->xbbooksStatus) {
-		        $query->where('b.id IS NULL');
-		    }
-		    if ($this->xbfilmsStatus) {
-		        $query->where('f.id IS NULL');
-		    }
-		    //TODO and e.id is null for events
+		    $query->select('0');
+		    $query->having('(bcnt + ecnt + fcnt) = 0');
+		} elseif ($orphfilt == '2') {
+		    $query->select('0');
+		    $query->having('(bcnt + ecnt + fcnt) > 0');
 		}
 		
 		// Filter by category.
@@ -240,7 +229,12 @@ class XbpeopleModelPersons extends JModelList {
 			    
 			}
 			if ($item->ecnt > 0) {
-			    
+			    $item->events = XbcultureHelper::getPersonEvents($item->id);
+			    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+			}
+			if ($item->gcnt>0) {
+			    $item->groups = XbcultureHelper::getPersonGroups($item->id);
+			    $item->grouplist = XbcultureHelper::makeLinkedNameList($item->groups,'','ul',true,3);
 			}
 			
 			$item->ext_links = json_decode($item->ext_links);

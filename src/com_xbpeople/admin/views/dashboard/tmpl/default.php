@@ -311,17 +311,17 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 						</div>
 					</div>
                  </div>
-                 <table style="width:100%"><tr>
-                 	<td><h3 class="xbsubtitle">Counts per category</h3></td>
-                 	<td style="width:65px;"><span class="badge percnt">people</span></td>
-                 	<td style="width:65px;"><span class="badge grpcnt">groups</span></td>
-                 	<td style="width:65px;"><span class="badge chcnt">chars</span></td>
+                  <table style="width:100%"><tr>
+                 	<td style="width:65%;"><h3 class="xbsubtitle"><?php echo Text::_('XBCULTURE_COUNTS_CATEGORY'); ?></h3></td>
+                 	<td><span class="badge percnt"><?php echo Text::_('XBCULTURE_PEOPLE'); ?></span></td>
+                 	<td><span class="badge grpcnt"><?php echo lcfirst(Text::_('XBCULTURE_GROUPS')); ?></span></td>
+                 	<td><span class="badge chcnt"><?php echo lcfirst(Text::_('XBCULTURE_CHARS')); ?></span></td>
                  </tr></table>
                  <div class="row-striped">
-					<div class="row-fluid">
+					<div style=" margin-left:30px;">
  						<table style="width:100%; margin-left:30px;">
         					<?php foreach ($this->pcats as $key=>$value) : ?>
- 								<tr><td>
+ 								<tr><td style="width:67%;">
                 					<?php if ($value['level']>1) {
                                         echo '&boxur;'.str_repeat('&boxh;', $value['level']-1).'&nbsp;';
                                     } ?>

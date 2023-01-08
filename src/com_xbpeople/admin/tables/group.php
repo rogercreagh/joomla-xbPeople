@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/tables/group.php
- * @version 1.0.0.3 17th December 2022
+ * @version 1.0.2.2 8th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,28 +38,28 @@ class XbpeopleTableGroup extends Table {
     public function delete($pk=null) {
         $db = $this->getDbo();
         if ($this->xbfilmsStatus) {
-//             $query = $db->getQuery(true);
-//         	$query->delete()->from('#__xbfilmgroup')->where('person_id = '. $pk);
-//         	$this->_db->setQuery($query);
-//         	try {
-//         	    $this->_db->execute();
-//         	}
-//         	catch (\RuntimeException $e) {
-//         	    throw new \Exception($e->getMessage(), 500);
-//         	    return false;
-//         	}
+            $query = $db->getQuery(true);
+        	$query->delete()->from('#__xbfilmgroup')->where('group_id = '. $pk);
+        	$this->_db->setQuery($query);
+        	try {
+        	    $this->_db->execute();
+        	}
+        	catch (\RuntimeException $e) {
+        	    throw new \Exception($e->getMessage(), 500);
+        	    return false;
+        	}
         }
         if ($this->xbbooksStatus) {
-//             $query = $db->getQuery(true);
-//             $query->delete()->from('#__xbbookgroup')->where('person_id = '. $pk);
-//             $this->_db->setQuery($query);
-//             try {
-//                 $this->_db->execute();
-//             }
-//             catch (\RuntimeException $e) {
-//                 throw new \Exception($e->getMessage(), 500);
-//                 return false;
-//             }
+            $query = $db->getQuery(true);
+            $query->delete()->from('#__xbbookgroup')->where('group_id = '. $pk);
+            $this->_db->setQuery($query);
+            try {
+                $this->_db->execute();
+            }
+            catch (\RuntimeException $e) {
+                throw new \Exception($e->getMessage(), 500);
+                return false;
+            }
         }
         if ($this->xbeventsStatus) {
             $query = $db->getQuery(true);
