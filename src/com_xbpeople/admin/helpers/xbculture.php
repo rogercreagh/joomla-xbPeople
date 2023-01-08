@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.2.0 7th January 2023
+ * @version 1.0.2.1 8th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -396,7 +396,7 @@ class XbcultureHelper extends ContentHelper {
 	    $elink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
-	    $query->select('a.role AS role, a.role_note AS note, e.title, e.state as estate, e.id AS eventid')
+	    $query->select('a.role AS role, a.role_note AS note, e.title, e.state as estate, e.id AS id')
 	    ->from('#__xbeventgroup AS a')
 	    ->join('LEFT','#__xbevents AS e ON e.id=a.event_id')
 	    ->where('a.group_id = "'.$groupid.'"' );
@@ -430,7 +430,7 @@ class XbcultureHelper extends ContentHelper {
 	    $blink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
-	    $query->select('a.role AS role, a.role_note AS note, b.title, b.state as bstate, b.id AS bookid')
+	    $query->select('a.role AS role, a.role_note AS note, b.title, b.state as bstate, b.id AS id')
 	    ->from('#__xbbookgroup AS a')
 	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
 	    ->where('a.group_id = "'.$groupid.'"' );
@@ -450,7 +450,7 @@ class XbcultureHelper extends ContentHelper {
 	}
 
 	/**
-	 * @name getGroupBooks()
+	 * @name getGroupFilms()
 	 * get an array of book objects for a group
 	 * @param int $groupid
 	 * @return array of objects
@@ -464,7 +464,7 @@ class XbcultureHelper extends ContentHelper {
 	    $flink .= '&id=';
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
-	    $query->select('a.role AS role, a.role_note AS note, b.title, b.state as bstate, b.id AS filmid')
+	    $query->select('a.role AS role, a.role_note AS note, b.title, b.state as bstate, b.id AS id')
 	    ->from('#__xbfilmgroup AS a')
 	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
 	    ->where('a.group_id = "'.$groupid.'"' );

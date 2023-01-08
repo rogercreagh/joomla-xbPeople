@@ -26,7 +26,8 @@
 			default="0"
 		>
 			<option value="0" onchange="this.form.submit();">XBCULTURE_ALL</option>
-			<option value="1" onchange="this.form.submit();">Orphans Only</option>
+			<option value="1" onchange="this.form.submit();">XBCULTURE_ORPHANS</option>
+			<option value="2" onchange="this.form.submit();">XBCULTURE_NOT_ORPHANS</option>
 		</field>
 		<field
 			name="category_id" type="xbitemcats"
@@ -34,7 +35,7 @@
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_xbpeople"
 			itemtable="#__xbgroups"
-			multiple="true"
+			multiple="true" class="multipleCats"
 			onchange="this.form.submit();"
 			>
 		</field>

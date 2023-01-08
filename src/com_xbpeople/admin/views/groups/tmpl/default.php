@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/tmpl/default.php
- * @version 1.0.0.8 29th December 2022
+ * @version 1.0.2.1 8th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,7 +16,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
+HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('XBCULTURE_SELECT_TAGS')));
+HTMLHelper::_('formbehavior.chosen', '.multipleCats', null, array('placeholder_text_multiple' => Text::_('XBCULTURE_SELECT_CATS')));
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 $user = Factory::getUser();
@@ -45,11 +46,7 @@ if ($saveOrder) {
 $nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $gelink = 'index.php?option=com_xbpeople&view=group&task=group.edit&id=';
-$celink = 'index.php?option=com_categories&task=category.edit&id=';
 $cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
-$telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
-$bplink = 'index.php?option=com_xbbooks&view=persons';
-$fplink = 'index.php?option=com_xbpeople&view=persons';
 $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 
 ?>
@@ -277,19 +274,45 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 						<?php endif; ?>
                     </td>
     			<?php if($this->xbbooks_ok) : ?>
-					<td>
-					</td>
+        			<td>
+    					<?php if ($item->bcnt>0) : ?>
+							<details>
+    							<summary>
+    								<?php echo $item->bcnt.' ';
+                                        echo ($item->bcnt==1)?Text ::_('XBCULTURE_EVENT') : Text::_('XBCULTURE_EVENTS');
+                                        echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
+    							</summary>
+    							<ul class="xbdetails"> 
+                                	<?php echo $item->eventlist; ?>
+    							</ul>
+							</details>							
+    					<?php endif; ?>					
+        			</td>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
-					<td>
-   					</td>
+        			<td>
+    					<?php if ($item->fcnt>0) : ?>
+							<details>
+    							<summary>
+    								<?php echo $item->fcnt.' ';
+                                        echo ($item->fcnt==1)?Text ::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');
+                                        echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
+    							</summary>
+    							<ul class="xbdetails"> 
+                                	<?php echo $item->filmlist; ?>
+    							</ul>
+							</details>							
+    					<?php endif; ?>					
+        			</td>
     			<?php endif; ?>
     			<?php if($this->xbevents_ok) : ?>
         			<td>
     					<?php if ($item->ecnt>0) : ?>
 							<details>
     							<summary>
-    								<?php echo $item->ecnt; ?> events listed
+    								<?php echo $item->ecnt.' ';
+                                        echo ($item->ecnt==1)?Text ::_('XBCULTURE_EVENT') : Text::_('XBCULTURE_EVENTS');
+                                        echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
     							</summary>
     							<ul class="xbdetails"> 
                                 	<?php echo $item->eventlist; ?>
@@ -314,6 +337,8 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					</td>					
 					<td align="center">
 						<?php echo $item->id; ?>
+					</td>
+					<td>
 					</td>
 				</tr>
 			<?php endforeach; ?>
