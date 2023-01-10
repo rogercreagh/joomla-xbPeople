@@ -29,9 +29,9 @@ class JFormFieldOtherrole extends JFormFieldCombo {
 			$query  = $db->getQuery(true);
 			
 			$query->select('DISTINCT role_note AS text, role_note AS value')
-			->from('#__xbbookperson')
-			->where("role = 'other'")
-			->order('text');
+			->from($db->qn('#__xbbookperson'))
+			->where($db->qn('role').' = '.$db->q('other'))
+			->order($db->qn('text'));
 			
 			// Get the options.
 			$db->setQuery($query);
