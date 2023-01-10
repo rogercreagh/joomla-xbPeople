@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/character/tmpl/default.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.2.3 9th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -123,33 +123,35 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 	<?php endif; ?>			
 </div>
 
-<div class="row-fluid">
-	<div class="span12 xbbox xbboxgrey">
-		<div class="row-fluid">
-			<div class="span2">
-				<?php if (($item->prev>0) || ($item->next>0)) : ?>
-				<span class="xbpop xbcultpop xbinfo fas fa-info-circle" data-trigger="hover" title 
-					data-original-title="Prev-Next Info" data-content="<?php echo JText::_('XBCULTURE_INFO_PREVNEXT'); ?>" >
-				</span>&nbsp;
-				<?php endif; ?>
-				<?php if($item->prev > 0) : ?>
-					<a href="index.php?option=com_xbpeople&view=character&id=<?php echo $item->prev ?>" class="btn btn-small">
-						<?php echo Text::_('XBCULTURE_PREV'); ?></a>
-			    <?php endif; ?>
-			</div>
-			<div class="span8"><center>
-				<a href="index.php?option=com_xbpeople&view=characters" class="btn btn-small">
-					<?php echo Text::_('XBCULTURE_CHAR_LIST'); ?></a></center>
-			</div>
-			<div class="span2">
-			<?php if($item->next > 0) : ?>
-				<a href="index.php?option=com_xbpeople&view=character&id=<?php echo $item->next ?>" class="btn btn-small pull-right">
-					<?php echo Text::_('XBCULTURE_NEXT'); ?></a>
-		    <?php endif; ?>
-			</div>
-	      </div>
-      </div>
-</div>
-<div class="clearfix"></div>
-<p><?php echo XbcultureHelper::credit('xbPeople');?></p>
-</div>
+<?php if($this->tmpl != 'component') : ?>
+    <div class="row-fluid">
+    	<div class="span12 xbbox xbboxgrey">
+    		<div class="row-fluid">
+    			<div class="span2">
+    				<?php if (($item->prev>0) || ($item->next>0)) : ?>
+    				<span class="xbpop xbcultpop xbinfo fas fa-info-circle" data-trigger="hover" title 
+    					data-original-title="Prev-Next Info" data-content="<?php echo JText::_('XBCULTURE_INFO_PREVNEXT'); ?>" >
+    				</span>&nbsp;
+    				<?php endif; ?>
+    				<?php if($item->prev > 0) : ?>
+    					<a href="index.php?option=com_xbpeople&view=character&id=<?php echo $item->prev ?>" class="btn btn-small">
+    						<?php echo Text::_('XBCULTURE_PREV'); ?></a>
+    			    <?php endif; ?>
+    			</div>
+    			<div class="span8"><center>
+    				<a href="index.php?option=com_xbpeople&view=characters" class="btn btn-small">
+    					<?php echo Text::_('XBCULTURE_CHAR_LIST'); ?></a></center>
+    			</div>
+    			<div class="span2">
+    			<?php if($item->next > 0) : ?>
+    				<a href="index.php?option=com_xbpeople&view=character&id=<?php echo $item->next ?>" class="btn btn-small pull-right">
+    					<?php echo Text::_('XBCULTURE_NEXT'); ?></a>
+    		    <?php endif; ?>
+    			</div>
+    	      </div>
+          </div>
+    </div>
+    <div class="clearfix"></div>
+    <p><?php echo XbcultureHelper::credit('xbPeople');?></p>
+    </div>
+<?php endif; ?>

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/tmpl/edit.php
- * @version 1.0.0.4 18th December 2022
+ * @version 1.0.2.3 9th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,10 +24,14 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 
 //set styles for quick person modal
 $document = Factory::getDocument();
-$style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
-    .' .xbqpmodal .modal-body {height:262px;} .xbqpmodal .modal-body iframe { height:232px;}' ;
-    $document->addStyleDeclaration($style);
+$style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}';
+$document->addStyleDeclaration($style);
 ?>
+<style type="text/css" media="screen">
+    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+    .xbqpmodal .modal-body {height:330px;} 
+    .xbqpmodal .modal-body iframe { height:300px;}
+</style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
@@ -165,8 +169,8 @@ $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}'
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbpeople');?></p>
 <script>
-//for quick person modal
 jQuery(document).ready(function(){
+//for quick person modal
     jQuery('#ajax-modal').on('show', function () {
         // Load view vith AJAX
         jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
@@ -174,6 +178,15 @@ jQuery(document).ready(function(){
     jQuery('#ajax-modal').on('hidden', function () {
      //document.location.reload(true);
      Joomla.submitbutton('group.apply');
+    })
+//for preview modal
+    jQuery('#ajax-pvmodal').on('show', function () {
+        // Load view vith AJAX
+        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+    })
+    jQuery('#ajax-pvmodal').on('hidden', function () {
+     //document.location.reload(true);
+     //Joomla.submitbutton('group.apply');
     })
 });
 </script>

@@ -50,6 +50,7 @@ Factory::getLanguage()->load('com_xbculture', JPATH_ADMINISTRATOR);
 Factory::getSession()->set('xbpeople_ok',true);
 //detect related components and set session flag
 XbcultureHelper::checkComponent('com_xbbooks');
+XbcultureHelper::checkComponent('com_xbevents');
 XbcultureHelper::checkComponent('com_xbfilms');
 
 // Get an instance of the controller 

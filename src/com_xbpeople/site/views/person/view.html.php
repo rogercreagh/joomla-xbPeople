@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/view.html.php
- * @version 0.9.9.3 25th July 2022
+ * @version 1.0.2.3 9th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -91,21 +91,23 @@ class XbpeopleViewPerson extends JViewLegacy {
 		}
 		
 		$app = Factory::getApplication();
-		$srt = $app->getUserState('people.sortorder');
-		if (!empty($srt)) {
-			$i = array_search($this->item->id, $srt);
-			if ($i<count($srt)-1) {
-				$this->item->next = $srt[$i+1];
-			} else { $this->item->next = 0; }
-			if ($i>0) {
-				$this->item->prev = $srt[$i-1];
-			} else { $this->item->prev = 0; }
-			
-		} else {
-			$this->item->prev = 0;
-			$this->item->next = 0;
+		$this->tmpl = $app->input->getCmd('tmpl');
+		if ($this->tmpl != 'component') {
+		    $srt = $app->getUserState('people.sortorder');
+    		if (!empty($srt)) {
+    			$i = array_search($this->item->id, $srt);
+    			if ($i<count($srt)-1) {
+    				$this->item->next = $srt[$i+1];
+    			} else { $this->item->next = 0; }
+    			if ($i>0) {
+    				$this->item->prev = $srt[$i-1];
+    			} else { $this->item->prev = 0; }
+    			
+    		} else {
+    			$this->item->prev = 0;
+    			$this->item->next = 0;
+    		}
 		}
-		
 		$tagsHelper = new TagsHelper;
 		$this->item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $this->item->id);
 

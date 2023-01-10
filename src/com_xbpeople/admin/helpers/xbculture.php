@@ -1102,7 +1102,7 @@ class XbcultureHelper extends ContentHelper {
 	    if (!empty($role)) {
 	        $query->where('a.role = "'.$role.'"');
 	    }
-	    $query->order(array('a.joined',b.title));
+	    $query->order(array('a.joined','b.title'));
 	    $db->setQuery($query);
 	    $groups = $db->loadObjectList();
 	    foreach ($groups as $group){

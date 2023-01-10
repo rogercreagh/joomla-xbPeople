@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.2.3 9th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -299,9 +299,7 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 						<?php echo $item->id; ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id=<?php echo $item->id; ?>"
-            				data-toggle="modal" data-target="#ajax-pvmodal"
-            				>
+						<a href="" data-toggle="modal" data-target="#ajax-pvmodal" onclick="window.pvid= <?php echo $item->id; ?>;">
             				<i class="icon-eye xbeye"></i>
             			</a>					
 					</td>
@@ -331,12 +329,12 @@ jQuery(document).ready(function(){
 //for preview modal
     jQuery('#ajax-pvmodal').on('show', function () {
         // Load view vith AJAX
-        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+        jQuery(this).find('.modal-content').load('index.php?option=com_xbpeople&view=characters&layout=modalpv&tmpl=component');
     })
 });
 </script>
 <!-- preview modal window -->
-<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:1100px;">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->

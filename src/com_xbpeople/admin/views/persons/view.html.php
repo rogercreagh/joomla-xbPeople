@@ -91,23 +91,13 @@ class XbpeopleViewPersons extends JViewLegacy {
         	$bar->appendButton('Custom', $batchButtonHtml, 'batch');
         }
         ToolbarHelper::custom(); //spacer
+        
         if ($this->xbbooks_ok) {
         	ToolbarHelper::custom('persons.books', 'stack', '', 'Book People', false) ;
         }
         if ($this->xbfilms_ok) {
         	ToolbarHelper::custom('persons.films', 'screen', '', 'Film People', false) ;
         }
-
-        //             $bar = Toolbar::getInstance( 'toolbar' );
-        //       if ($this->item->id > 0) {
-        //       }
-            //           $dhtml = '<button data-toggle="modal" data-target="#ajax-pvmodal" onclick="if (document.adminForm.boxchecked.value==0){alert(Joomla.JText._(JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST));}else{jQuery( '#collapseModal' ).modal('show'); return true;}
-            
-            //            	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.JText::_('Preview').'</button>';
-            //           $dhtml = '<button onclick="getValue(); "
-            //          	class="btn btn-small btn-primary btn-stack"><i class="icon-eye"></i> '.Text::_('Preview').'</button>';
-        //          $bar->appendButton('Custom', $dhtml);    <a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id='.$this->item->id.'"
-        
         
         if ($canDo->get('core.admin')) {
             ToolBarHelper::preferences('com_xbpeople');

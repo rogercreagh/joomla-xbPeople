@@ -9,6 +9,8 @@
  ******/
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 class XbpeopleControllerPersons extends JControllerAdmin {
     
     public function getModel($name = 'Person', $prefix = 'XbpeopleModel', $config = array('ignore_request' => true)) {
@@ -23,5 +25,5 @@ class XbpeopleControllerPersons extends JControllerAdmin {
     function films() {
     	$this->setRedirect('index.php?option=com_xbfilms&view=persons');
     }
-    
+        
 }

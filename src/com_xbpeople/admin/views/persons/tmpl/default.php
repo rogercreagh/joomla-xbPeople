@@ -44,11 +44,7 @@ if ($saveOrder) {
 $nofile = "media/com_xbpeople/images/nofile.jpg";
 
 $pelink = 'index.php?option=com_xbpeople&view=person&task=person.edit&id=';
-$celink = 'index.php?option=com_categories&task=category.edit&id=';
 $cvlink = 'index.php?option=com_xbpeople&view=pcategory&id=';
-$telink = 'index.php?option=com_tags&view=tag&task=tag.edit&id=';
-$bplink = 'index.php?option=com_xbbooks&view=persons';
-$fplink = 'index.php?option=com_xbpeople&view=persons';
 $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 
 ?>
@@ -377,9 +373,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 						<?php echo $item->id; ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id=<?php echo $item->id; ?>"
-            				data-toggle="modal" data-target="#ajax-pvmodal"
-            				>
+						<a href="" data-toggle="modal" data-target="#ajax-pvmodal" onclick="window.pvid= <?php echo $item->id; ?>;">
             				<i class="icon-eye xbeye"></i>
             			</a>					
 					</td>
@@ -409,12 +403,12 @@ jQuery(document).ready(function(){
 //for preview modal
     jQuery('#ajax-pvmodal').on('show', function () {
         // Load view vith AJAX
-        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+       jQuery(this).find('.modal-content').load('index.php?option=com_xbpeople&view=persons&layout=modalpv&tmpl=component');
     })
 });
 </script>
 <!-- preview modal window -->
-<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:1100px">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->
