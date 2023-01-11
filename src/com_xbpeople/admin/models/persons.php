@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 1.0.2.2 8th January 2023
+ * @version 1.0.2.4 11th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,12 +200,12 @@ class XbpeopleModelPersons extends JModelList {
 			    $broles = array_column($item->books,'role');
 			    $item->authorcnt = count(array_keys($broles, 'author'));
 			    $item->editorcnt = count(array_keys($broles, 'editor'));
-			    $item->othercnt = count(array_keys($broles, 'other'));
 			    $item->mentioncnt = count(array_keys($broles, 'mention'));
+			    $item->othercnt = $item->brolecnt - $item->authorcnt - $item->editorcnt - $item->mentioncnt;
 			    
 			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,4);
 			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,4);
-			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,4);
+			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,3);
 			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,4);
 			} //bcnt is the number of books, brolecnt is the number of roles (there may be 2 roles in a book)
 			

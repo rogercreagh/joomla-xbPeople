@@ -286,6 +286,9 @@ ul.nav-tabs {
 .xbwid100 {
 	width:100px;
 }
+.xbwid160 {
+	width:160px;
+}
 /* add spacing in toolbar to group buttons */
 #toolbar-publish,  #toolbar-batch {
 	margin-left:25px;

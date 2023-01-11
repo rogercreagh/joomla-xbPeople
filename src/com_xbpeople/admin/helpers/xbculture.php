@@ -92,7 +92,13 @@ class XbcultureHelper extends ContentHelper {
 	    }
         $p = 0;
     	foreach ($items as $item) {
-	        if (($role=='') || ($role == $item->role)) {
+    	    $doit = false;
+    	    if (($role == 'other') && (strpos(' author mention editor',$item->role) === false)) {
+    	        $doit=true; 
+    	    } elseif (($role=='') || ($role == $item->role)) {
+    	        $doit = true;
+    	    }
+    	    if ($doit) {
     	        $p ++;
     	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
     	        $name = '<span class="xblistname">'.$name.'</span>';
@@ -196,7 +202,7 @@ class XbcultureHelper extends ContentHelper {
 		$db->setQuery($query);
 		$cnt=-1;
 		try {
-			$cnt = $db->loadResult();
+		  $cnt = $db->loadResult();
 		} catch (Exception $e) {
 			$dberr = $e->getMessage();
 			Factory::getApplication()->enqueueMessage($dberr.'<br />Query: '.$query, 'error');
@@ -224,7 +230,7 @@ class XbcultureHelper extends ContentHelper {
 	public static function checkComponent($name) {
 		$sname=substr($name,4).'_ok';
 		$sess= Factory::getSession();
-		$db = Factory::getDBO();
+		$db = Factory::getDbo();
 		$db->setQuery('SELECT enabled FROM #__extensions WHERE element = '.$db->quote($name));
 		$res = $db->loadResult();
 		if (is_null($res)) { 

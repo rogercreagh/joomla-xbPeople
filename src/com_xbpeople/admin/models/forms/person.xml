@@ -291,8 +291,11 @@
 				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
 					<option value="">JSELECT</option>	
 				</field>
-				<field name="role_note" type="otherrole" label="Role Note" hint="eg Translator/Illustrator" size="20" maxlength="50"
-				/>
+				<field name="role" type="otherrolelist" label="Existing roles" maxlength="50" class="xbwid160" >
+					<option value=""></option>
+				</field>
+				<field name="newrole" type="text" label="Create New Role" size="20" maxlength="50" showon="role:"/>
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50" />
 			</form>
 		</field>
 						
