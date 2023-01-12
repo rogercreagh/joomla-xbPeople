@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 1.0.2.5 12th January 2023
+ * @version 1.0.2.6 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -43,6 +43,8 @@ class XbpeopleModelPerson extends JModelItem {
 				a.nationality AS nationality, a.ext_links AS ext_links, 
 				a.state AS published, a.catid AS catid, a.params AS params, a.metadata AS metadata  ');
 			$query->from('#__xbpersons AS a');
+			
+			$query->select('(SELECT COUNT(DISTINCT(gp.group_id)) FROM #__xbgroupperson AS gp JOIN #__xbpersons AS p ON gp.person_id = p.id  WHERE gp.group_id = a.id AND p.state=1) AS gcnt');
 			
 			if ($sess->get('xbbooks_ok',false)==1) {
 			    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp JOIN #__xbfilms AS f ON fp.film_id = f.id WHERE fp.person_id = a.id AND f.state=1) AS fcnt');
@@ -91,6 +93,10 @@ class XbpeopleModelPerson extends JModelItem {
 					$item->ext_links_list .= '</ul>';
 				}
 				
+				if ($item->gcnt > 0) {
+				    $item->groups = XbcultureHelper::getPersonGroups($item->id);
+				    $item->grouplist = XbcultureHelper::makeLinkedNameList($item->groups,'','ul',true, 3);
+				}
 				if ($item->bcnt > 0) {
 				    $item->books = XbcultureHelper::getPersonBooks($item->id);
 				    $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);

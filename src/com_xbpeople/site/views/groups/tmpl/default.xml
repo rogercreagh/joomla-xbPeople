@@ -7,7 +7,7 @@
 	<fields name="params" addfieldpath="administrator/components/com_xbpeople/models/fields">
 <!-- Basic options. -->
 		<fieldset name="basic" label="Options">
-			<field name="show_cpiccol" type="radio"
+			<field name="show_gpiccol" type="radio"
 				label="Image Column"
 				description="Show image column by default - can override in menu options"
 				class="btn-group btn-group-yesno btn-small"

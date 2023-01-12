@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 1.0.2.4 11th January 2023
+ * @version 1.0.2.6 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -103,6 +103,8 @@ class XbpeopleModelPerson extends JModelAdmin {
 			if ($this->xbeventsStatus) {
 			    $data->eventpersonlist=$this->getPersonEventslist('');
 			}
+			$data->persongrouplist=$this->getPersonGroupslist('');
+			
 		}
 		
 		return $data;
@@ -228,7 +230,20 @@ class XbpeopleModelPerson extends JModelAdmin {
 	    $query->from('#__xbeventperson AS ba');
 	    $query->innerjoin('#__xbevents AS a ON ba.event_id = a.id');
 	    $query->where('ba.person_id = '.(int) $this->getItem()->id);
-	    $query->where('ba.role = "'.$role.'"');
+//	    $query->where('ba.role = "'.$role.'"');
+	    $query->order('a.title ASC');
+	    $db->setQuery($query);
+	    return $db->loadAssocList();
+	}
+	
+	public function getPersonGroupslist($role) {
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('a.id as group_id, ba.role AS role, ba.role_note AS role_note, ba.joined AS joined, ba.until AS until');
+	    $query->from('#__xbgroupperson AS ba');
+	    $query->innerjoin('#__xbgroups AS a ON ba.group_id = a.id');
+	    $query->where('ba.person_id = '.(int) $this->getItem()->id);
+//	    $query->where('ba.role = "'.$role.'"');
 	    $query->order('a.title ASC');
 	    $db->setQuery($query);
 	    return $db->loadAssocList();
@@ -261,6 +276,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 			if ($this->xbeventsStatus) {
 			    $this->storePersonEvents($this->getState('person.id'), $data['eventpersonlist']);
 			}
+			$this->storePersonGroups($this->getState('person.id'), $data['persongrouplist']);
 			return true;
 		}
 		
@@ -454,5 +470,38 @@ class XbpeopleModelPerson extends JModelAdmin {
 	        }
 	    }
 	}
+	private function storePersonGroups($person_id, $groupList) {
+	    //delete existing role list
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->delete($db->quoteName('#__xbgroupperson'));
+	    $query->where('person_id = '.$person_id);
+	    $db->setQuery($query);
+	    try {
+	        $db->execute();
+	    }
+	    catch (\RuntimeException $e) {
+	        throw new \Exception($e->getMessage(), 500);
+	        return false;
+	    }
+	    //restore the new list
+	    foreach ($groupList as $grp) {
+	        if ($grp['group_id']>0) {
+	            $query = $db->getQuery(true);
+	            $query->insert($db->quoteName('#__xbgroupperson'));
+	            $query->columns('person_id,group_id,role, role_note, joined, until');
+	            $query->values($db->quote($person_id).','.$db->quote($grp['group_id']).','.$db->quote($grp['role']).','.$db->quote($grp['role_note']).','.$db->quote($grp['joined']).','.$db->quote($grp['until']));
+	            $db->setQuery($query);
+	            try {
+	                $db->execute();
+	            }
+	            catch (\RuntimeException $e) {
+	                throw new \Exception($e->getMessage(), 500);
+	                return false;
+	            }
+	        }
+	    }
+	}
+	
 	
 }

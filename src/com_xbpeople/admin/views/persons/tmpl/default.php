@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.2.6 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -113,6 +113,9 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_LASTNAME', 'lastname', $listDirn, $listOrder); ?>					
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_DATES', 'sortdate', $listDirn, $listOrder); ?>
+    			</th>
+    			<th>
+     				<?php echo Text::_('XBCULTURE_GROUPS') ;?>
     			</th>
     			<th>
     				<?php echo Text::_('XBCULTURE_SUMMARY'); ?>
@@ -227,6 +230,17 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
                         		echo '<br /><i>'.Text::_('XBCULTURE_NATIONALITY').' </i>: '.$item->nationality;
                         	} ?>						
 						</p>							
+					</td>
+					<td>
+						<?php if($item->gcnt>0) :?>
+                          <details>
+                          	<summary><span class="xbnit">
+ 								<?php echo Text::_('XBCULTURE_MEMBER_OF').' '.$item->gcnt.' ';
+ 								echo ($item->gcnt==1)? lcfirst(Text ::_('XBCULTURE_GROUP')) : lcfirst(Text::_('XBCULTURE_GROUPS'));   ?>
+                            </span></summary>
+ 							<?php echo $item->grouplist; ?>
+                          </details>
+						<?php endif; ?>
 					</td>
 					<td>						
 						<p class="xb095">

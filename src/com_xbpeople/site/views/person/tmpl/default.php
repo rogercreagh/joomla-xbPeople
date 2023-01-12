@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/tmpl/default.php
- * @version 1.0.2.5 12th January 2023
+ * @version 1.0.2.6 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -79,10 +79,9 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 		<?php endif; ?>
 	</div>
 </div>
-<?php if (trim($item->summary) != '') : ?>
     <div class="row-fluid">
-    	<div class="span2"></div>
-    	<div class="span8">
+<?php if (trim($item->summary) != '') : ?>
+    	<div class="span6">
 			<div class="xbbox xbboxwht">
 				<div class="pull-left">
 					<span class="xbnit"><?php echo Text::_('XBCULTURE_SUMMARY'); ?>  : </span>
@@ -90,9 +89,18 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 				<div><?php echo $item->summary; ?></div> 
 			</div>
 		</div>
-		<div class="span2"></div>
-	</div>
 <?php  endif;?>
+<?php  if ($item->gcnt>0) : ?>
+    	<div class="span6">
+			<div class="xbbox xbboxwht">
+					<p class="xbnit"><?php echo ucfirst(Text::_('XBCULTURE_MEMBER_OF')).' '.$item->gcnt.' ';
+ 						echo ($item->gcnt==1)? lcfirst(Text ::_('XBCULTURE_GROUP')) : lcfirst(Text::_('XBCULTURE_GROUPS'));   ?>
+					</p>
+				<?php echo $item->grouplist; ?> 
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
 <div class="row-fluid">
 	<?php if (($item->bcnt + $item->ecnt + $item->fcnt)>0) {
 	    $cols = 0;
@@ -107,7 +115,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     		<p><b><?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?></b>
     			<span class="xbnit">
     				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bcnt.' ';
-    				echo ($item->bookcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
+    				echo ($item->bcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
     			</span>
     		</p>
     		<?php echo $item->booklist; ?>
