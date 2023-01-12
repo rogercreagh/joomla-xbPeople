@@ -205,7 +205,7 @@ class XbpeopleModelPersons extends JModelList {
 			    
 			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,4);
 			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,4);
-			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,3);
+			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,3);
 			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,4);
 			} //bcnt is the number of books, brolecnt is the number of roles (there may be 2 roles in a book)
 			

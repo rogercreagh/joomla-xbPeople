@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/xbpeople.php
- * @version 0.12.0 6th December 2022
+ * @version 1.0.2.5 11th January 2023
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
@@ -20,7 +20,7 @@ HTMLHelper::_('bootstrap.framework');
 $document->addScript('media/com_xbpeople/js/xbculture.js');
 
 // Require helper files
-JLoader::register('XbbooksHelper', JPATH_COMPONENT . '/helpers/xbpeople.php');
+JLoader::register('XbpeopleHelper', JPATH_COMPONENT . '/helpers/xbpeople.php');
 JLoader::register('XbcultureHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbculture.php');
 
 $params = ComponentHelper::getParams('com_xbpeople');
@@ -47,11 +47,19 @@ $document->addStyleSheet($cssFile);
 
 Factory::getLanguage()->load('com_xbculture', JPATH_ADMINISTRATOR);
 
-Factory::getSession()->set('xbpeople_ok',true);
+$sess = Factory::getSession();
+$sess->set('xbpeople_ok',true);
 //detect related components and set session flag
-XbcultureHelper::checkComponent('com_xbbooks');
-XbcultureHelper::checkComponent('com_xbevents');
-XbcultureHelper::checkComponent('com_xbfilms');
+if (!$sess->has('xbfilms_ok')) {
+    XbcultureHelper::checkComponent('com_xbfilms');
+}
+if (!$sess->has('xbevents_ok')) {
+    XbcultureHelper::checkComponent('com_xbevents');
+}
+if (!$sess->has('xbbooks_ok')) {
+    XbcultureHelper::checkComponent('com_xbbooks');
+}
+
 
 // Get an instance of the controller 
 $controller = BaseController::getInstance('Xbpeople');

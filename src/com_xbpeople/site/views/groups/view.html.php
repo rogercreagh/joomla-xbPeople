@@ -1,7 +1,7 @@
 <?php 
 /*******
  * @package xbPeople
- * @filesource site/views/people/view.html.php
+ * @filesource site/views/groups/view.html.php
  * @version 1.0.2.5 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -10,19 +10,17 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-class XbpeopleViewPeople extends JViewLegacy {
+class XbpeopleViewGroups extends JViewLegacy {
 	
 	public function display($tpl = null) {
-//	    HTMLHelper::_('bootstrap.framework');
-	    $document = Factory::getDocument();
-//	    $document->addScript('media/com_xbpeople/js/xbculture.js');
+		$this->items 		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->params      = $this->state->get('params');
-	    $this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->filterForm = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
 		$this->searchTitle = $this->state->get('filter.search');
 		
 		$this->header = array();
@@ -36,27 +34,26 @@ class XbpeopleViewPeople extends JViewLegacy {
 		$this->header['text'] = $this->params->get('list_headtext','','text');
 		
 		$show_cats = $this->params->get('show_cats','1','int');
-		$this->showcat = ($show_cats) ? $this->params->get('show_pcat','1','int') : 0;
+		$this->showcat = ($show_cats) ? $this->params->get('show_ccat','1','int') : 0;
 		
 		$show_tags = $this->params->get('show_tags','1','int');
-		$this->showtags = ($show_tags) ? $this->params->get('show_ptags','1','int') : 0;
+		$this->showtags = ($show_tags) ? $this->params->get('show_ctags','1','int') : 0;
 		
 		$this->show_ctcol = $this->showcat + $this->showtags;
 		
 		$this->search_bar = $this->params->get('search_bar','','int');
-		$this->hide_tag = (!$this->showtags || (!empty($this->params->get('menu_tag','')))) ? true : false;
 		$this->hide_cat = (!$this->showcat || ($this->params->get('menu_category_id',0)>0)) ? true : false;
-		$this->hide_prole = $this->params->get('menu_prole',0)>0 ? true : false;
+		$this->hide_tag = (!$this->showtags || (!empty($this->params->get('menu_tag','')))) ? true : false;
 		
-		$this->show_pic = $this->params->get('show_ppiccol','1','int');
-		$this->show_pdates = $this->params->get('show_pdates','1');
-		$this->show_sum = $this->params->get('show_psumcol','1','int');
-
+		$this->show_pic = $this->params->get('show_cpiccol','1','int');
+		$this->show_sum = $this->params->get('show_csumcol','1','int');
+		$this->show_gdates = $this->params->get('show_gdates','1');
+		
 		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
 		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		$this->xbeventsStatus = Factory::getSession()->get('xbevents_ok',false);
 		
-		$this->showcnts = $this->params->get('showcnts',1);
+		$this->showccnts = $this->params->get('showccnts',1);
 		
 		if (count($errors = $this->get('Errors'))) {
 			Factory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');
@@ -65,7 +62,7 @@ class XbpeopleViewPeople extends JViewLegacy {
 		
 		//set metadata
 		$document=$this->document;
-		$document->setMetaData('title', JText::_('XBCULTURE_PEOPLE_CATALOGUE').': '.$document->title);
+		$document->setMetaData('title', Text::_('XBCULTURE_GROUPS').': '.$document->title);
 		$metadesc = $this->params->get('menu-meta_description');
 		if (!empty($metadesc)) { $document->setDescription($metadesc); }
 		$metakey = $this->params->get('menu-meta_keywords');

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.2.1 8th January 2023
+ * @version 1.0.2.5 11th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -70,7 +70,7 @@ class XbcultureHelper extends ContentHelper {
 	 * @param array $items required - array of details to turn into list
 	 * NB each item must contain $item->name, and may contain ->link ->role ->note
 	 * @param string $role default '' - filter by role type
-	 * @param string $sep default comma - separtor between list elements (eg comma | br | li | [string]
+	 * @param string $sep default comma - separtor between list elements (eg comma | br | ul | ol | [string]
 	 * NB comma = ', ' if only 2 items then comma = ' &amp; '. li will be '[li]item[/li]' 
 	 * NB [string] can be html eg '[p]/' where the / tells it to close the tag at end of row
 	 * @param boolean $linked default true - if true link names to detail view 
@@ -82,7 +82,7 @@ class XbcultureHelper extends ContentHelper {
 	    $list = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
 	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'),
-	        'author'=>Text::_('XBCULTURE_AUTHOR'), 'editor'=>Text::_('XBCULTURE_EDITOR'), 'mention'=>'', 'other'=>''
+	        'author'=>Text::_('XBCULTURE_AUTHOR'), 'editor'=>Text::_('XBCULTURE_EDITOR'), 'mention'=>''
 	    );
 	    $cnt = count($items);
 	    if ($sep == 'ul') {
@@ -93,10 +93,14 @@ class XbcultureHelper extends ContentHelper {
         $p = 0;
     	foreach ($items as $item) {
     	    $doit = false;
-    	    if (($role == 'other') && (strpos(' author mention editor',$item->role) === false)) {
-    	        $doit=true; 
-    	    } elseif (($role=='') || ($role == $item->role)) {
-    	        $doit = true;
+    	    if ($role == 'other') {
+    	        if (strpos(' author mention editor',$item->role) === false) {
+    	            $doit=true;
+    	        }
+    	    } else {
+    	        if (($role=='') || ($role == $item->role)) {
+    	            $doit = true;
+    	        }
     	    }
     	    if ($doit) {
     	        $p ++;
@@ -111,24 +115,25 @@ class XbcultureHelper extends ContentHelper {
                     $name = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
                 }
                 if (!isset($item->role)) $item->role='';
+                $dorole = ((empty($role)) || ($role=='other'));
                $trole = (array_key_exists($item->role, $roletitles)) ? $roletitles[$item->role] : $item->role;
     	       switch ($rowfmt) {
     	           case 0: // role name
-    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$trole.'</span> ';
+    	               $list .= ($dorole) ? '' : '<span class="xblistrolefirst">'.$trole.'</span> ';
     	               $list .= $name;
     	               break;
     	           case 1: //role name.(note)
-    	               $list .= (empty($role)) ? '' : '<span class="xblistrolefirst">'.$trole.'</span> ';
+    	               $list .= ($dorole) ? '' : '<span class="xblistrolefirst">'.$trole.'</span> ';
     	               $list .= $name;
     	               $list .= (empty($item->note)) ? '' : ' <span class="xbnote">'.$item->note.'</span>';
     	               break;
     	           case 2: //name.role
     	               $list .= $name;
-    	               $list .= (empty($role)) ? '' : ' <span class="xblistrolesecond">'.$trole.'</span>';
+    	               $list .= ($dorole) ? '' : ' <span class="xblistrolesecond">'.$trole.'</span>';
     	               break;
     	           case 3: //name.(role).(note)
     	               $list .= $name;
-    	               if (empty($role)) {
+    	               if ($dorole) {
            	               $list .= '<span class="xblistrolesecond">'.$trole.'</span> ';   	                   
     	               }
     	               $list .= (empty($item->note)) ? '' : ' <span class="xbnote">'.$item->note.'</span>';

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/xbpeople.php
- * @version 0.12.0 6th December 2022
+ * @version 1.0.2.5 11th January 2023
  * @since 0.1.0 8th February 2021
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
@@ -16,8 +16,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\MVC\Controller\BaseController;
 
+$app = Factory::getApplication();
 if (!Factory::getUser()->authorise('core.manage', 'com_xbpeople')) {
-    Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'),'warning');
+    $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'),'warning');
     return false;
 }
 
@@ -46,9 +47,18 @@ $document->addStyleSheet($cssFile);
 JLoader::register('XbpeopleHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbpeople.php');
 JLoader::register('XbcultureHelper', JPATH_ADMINISTRATOR . '/components/com_xbpeople/helpers/xbculture.php');
 
-XbcultureHelper::checkComponent('com_xbfilms');
-XbcultureHelper::checkComponent('com_xbbooks');			
-XbcultureHelper::checkComponent('com_xbevents');
+$sess = Factory::getSession();
+$sess->set('xbpeople_ok',true);
+//if there is no session variable for films/books/events check them.
+if (!$sess->has('xbfilms_ok')) {
+    XbcultureHelper::checkComponent('com_xbfilms');
+}
+if (!$sess->has('xbevents_ok')) {
+    XbcultureHelper::checkComponent('com_xbevents');
+}
+if (!$sess->has('xbbooks_ok')) {
+    XbcultureHelper::checkComponent('com_xbbooks');
+}
 
 $controller = BaseController::getInstance('xbpeople');
 
