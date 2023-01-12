@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 0.10.0.4 28th November 2022
+ * @version 1.0.2.5 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,9 +16,6 @@ use Joomla\CMS\Helper\TagsHelper;
 
 class XbpeopleModelPeople extends JModelList {
 
-    protected $xbfilmsStatus;
-    protected $xbbooksStatus;
-    
 	public function __construct($config = array()) {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array ( 'firstname', 'lastname',
@@ -26,8 +23,6 @@ class XbpeopleModelPeople extends JModelList {
 					'category_title', 'c.title',
 					'sortdate','fcnt','bcnt' );
 		}
-		$this->xbfilmsStatus = Factory::getSession()->get('xbfilms_ok',false);
-		$this->xbbooksStatus = Factory::getSession()->get('xbbooks_ok',false);
 		parent::__construct($config);
 	}
 
@@ -56,7 +51,8 @@ class XbpeopleModelPeople extends JModelList {
 	}
 	
 	protected function getListQuery() {
-		$searchbar = (int)$this->getState('params',0)['search_bar'];
+	    $sess = Factory::getSession();
+	    $searchbar = (int)$this->getState('params',0)['search_bar'];
 		
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -70,8 +66,21 @@ class XbpeopleModelPeople extends JModelList {
 //            ->select('(GROUP_CONCAT(p.person_id SEPARATOR '.$db->quote(',') .')) AS personlist');
  		$query->from($db->quoteName('#__xbpersons','a'));
  		
- 		if ($this->xbfilmsStatus) $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp WHERE fp.person_id = a.id) AS fcnt');
- 		if ($this->xbbooksStatus) $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp WHERE bp.person_id = a.id) AS bcnt');
+ 		if ($sess->get('xbbooks_ok',false)==1) {
+ 		    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp JOIN #__xbfilms AS f ON fp.film_id = f.id WHERE fp.person_id = a.id AND f.state=1) AS fcnt');
+ 		} else {
+ 		    $query->select('0 AS fcnt');
+ 		}
+ 		if ($sess->get('xbevents_ok',false)==1) {
+ 		    $query->select('(SELECT COUNT(DISTINCT(ep.event_id)) FROM #__xbeventperson AS ep JOIN #__xbevents AS e ON ep.event_id = e.id WHERE ep.person_id = a.id AND e.state=1) AS ecnt');
+ 		} else {
+ 		    $query->select('0 AS fcnt');
+ 		}
+ 		if ($sess->get('xbfilms_ok',false)==1) {
+ 		    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp JOIN #__xbbooks AS b ON bp.book_id = b.id WHERE bp.person_id = a.id AND b.state=1) AS bcnt');
+ 		} else {
+ 		    $query->select('0 AS bcnt');
+ 		}
  		
  		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
         $query->select('c.title AS category_title');
@@ -243,13 +252,18 @@ class XbpeopleModelPeople extends JModelList {
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 	
-			$item->books = XbcultureHelper::getPersonBooks($item->id);
-			$item->brolecnt = count($item->books);
-			$item->booklist = $item->brolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,3);
-			
-			$item->films = XbcultureHelper::getPersonFilms($item->id);
-			$item->frolecnt = count($item->films);
-			$item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
+			if ($item->bcnt>0) {
+			    $item->books = XbcultureHelper::getPersonBooks($item->id);
+			    $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,2);
+			}
+			if ($item->ecnt>0) {
+			    $item->events = XbcultureHelper::getPersonEvents($item->id);
+			    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true,2);
+			}
+			if ($item->fcnt>0) {
+			    $item->films = XbcultureHelper::getPersonFilms($item->id);
+			    $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,2);
+			}
 			
 		} //end foreach item
 		return $items;

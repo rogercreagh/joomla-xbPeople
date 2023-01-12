@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbBooks site/views/characters/tmpl/default.xml v0.9.11.2 17th November 2022 -->
+<!-- xbBooks site/views/groups/tmpl/default.xml v1.0.2.5 12th January 2023 -->
 <metadata>
-	<layout title="Characters">
+	<layout title="Groups">
 		<message>Displays a list (table) of groups. Option to restrict to single category and filter by tags.</message>
 	</layout>
 	<fields name="params" addfieldpath="administrator/components/com_xbpeople/models/fields">
@@ -17,7 +17,7 @@
 				<option value="1">Show</option>
 			</field>	
 	 
-	 		<field name="show_csumcol" type="radio"
+	 		<field name="show_gsumcol" type="radio"
 				label="Summary Column"
 				description="Show summary column by default - can override in menu options"
 				class="btn-group btn-group-yesno btn-small"
@@ -27,7 +27,7 @@
 				<option value="1">Show</option>
 			</field>	
 			
-			<field name="showccnts" type="radio"
+			<field name="showgcnts" type="radio"
 				label="Show counts"
 				description="Show counts for books and films per person"
 				class="btn-group btn-group-yesno"
@@ -37,7 +37,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_ccat" type="list"
+			<field name="show_gcat" type="list"
 		        class="btn-group btn-group-yesno"
 		        label="Show Category"
 		        description="Category will remain hidden if the global Show Category option is No (on General Tab)"
@@ -47,7 +47,7 @@
 					<option value="1">Yes - not linked</option>
 					<option value="2">Yes - linked</option>
 			</field>
-			<field name="show_ctags" type="radio"
+			<field name="show_gtags" type="radio"
 		        class="btn-group btn-group-yesno"
 		        label="Show Tags"
 		        description="If both Category and Tag are hidden the the column will be hidden"

@@ -66,20 +66,20 @@ class XbpeopleModelGroups extends JModelList {
  		$query->from($db->quoteName('#__xbgroups','a'));
  		
  		
- 		$query->select('(SELECT COUNT(DISTINCT(gp.person_id)) FROM #__xbgroupperson AS gp WHERE gp.group_id = a.id) AS pcnt');
+ 		$query->select('(SELECT COUNT(DISTINCT(gp.person_id)) FROM #__xbgroupperson AS gp JOIN #__xbpersons AS p ON gp.person_id = p.id  WHERE gp.group_id = a.id AND p.state=1) AS pcnt');
  		
  		if ($sess->get('xbbooks_ok',false)==1) {
- 		    $query->select('(SELECT COUNT(DISTINCT(bg.book_id)) FROM #__xbbookgroup AS bg WHERE bg.group_id = a.id) AS bcnt');
+ 		    $query->select('(SELECT COUNT(DISTINCT(bg.book_id)) FROM #__xbbookgroup AS bg JOIN #__xbbooks AS b ON bg.book_id = b.id WHERE bg.group_id = a.id AND b.state=1) AS bcnt');
  		} else {
  		    $query->select('0 AS bcnt');
  		}
  		if ($sess->get('xbfilms_ok',false)==1) {
- 		    $query->select('(SELECT COUNT(DISTINCT(fg.film_id)) FROM #__xbfilmgroup AS fg WHERE fg.group_id = a.id) AS fcnt');
+ 		    $query->select('(SELECT COUNT(DISTINCT(fg.film_id)) FROM #__xbfilmgroup AS fg JOIN #__xbfilms AS f ON fg.film_id = f.id WHERE fg.group_id = a.id AND f.state=1) AS fcnt');
  		} else {
  		    $query->select('0 AS fcnt');
  		}
  		if ($sess->get('xbevents_ok',false)==1) {
- 		    $query->select('(SELECT COUNT(DISTINCT(eg.event_id)) FROM #__xbeventgroup AS eg WHERE eg.group_id = a.id) AS ecnt');
+ 		    $query->select('(SELECT COUNT(DISTINCT(eg.event_id)) FROM #__xbeventgroup AS eg JOIN #__xbevents AS e ON eg.event_id = e.id WHERE eg.group_id = a.id AND e.state=1) AS ecnt');
  		} else {
  		    $query->select('0 AS ecnt');
  		}
@@ -209,7 +209,7 @@ class XbpeopleModelGroups extends JModelList {
 		for ($i = 0; $i < count($items); $i++) {
 		    $grps[$i] = $items[$i]->id;
 		}
-		$app->setUserState('people.sortorder', $grps);
+		$app->setUserState('groups.sortorder', $grps);
 		
 	    $db    = Factory::getDbo();
 		foreach ($items as $i=>$item) {
@@ -217,19 +217,19 @@ class XbpeopleModelGroups extends JModelList {
 	
 			if ($item->bcnt>0) {
 			    $item->books = XbcultureHelper::getGroupBooks($item->id);
-    			$item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,5);
+    			$item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,2);
 			}
 			if ($item->ecnt>0) {
 			    $item->events = XbcultureHelper::getGroupEvents($item->id);
-			    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true,5);
+			    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true,2);
 			}
 			if ($item->fcnt>0) {
 			    $item->films = XbcultureHelper::getGroupFilms($item->id);
-			    $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,5);
+			    $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,2);
 			}
 			if ($item->pcnt>0) {
-			    $item->members = XbcultureHelper::getGroupmembers($item->id);
-			    $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','ul',true,5);
+			    $item->members = XbcultureHelper::getGroupMembers($item->id);
+			    $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','ul',true,2);
 			}
 			
 			

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/tmpl/default.php
- * @version 1.0.2.3 9th January 2023
+ * @version 1.0.2.5 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -94,25 +94,44 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 	</div>
 <?php  endif;?>
 <div class="row-fluid">
-	<?php if ($item->bookcnt>0) : ?>
-    	<div class="span<?php echo $item->filmcnt>0 ? '6' : '12'; ?>">
+	<?php if (($item->bcnt + $item->ecnt + $item->fcnt)>0) {
+	    $cols = 0;
+    	if ($item->bcnt>0) $cols++;
+    	if ($item->ecnt>0) $cols++;
+    	if ($item->fcnt>0) $cols++;
+    	$cols = intdiv(12, $cols);
+	}
+	?>
+	<?php if ($item->bcnt>0) : ?>
+    	<div class="span<?php echo $cols; ?>">
     		<p><b><?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?></b>
     			<span class="xbnit">
-    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bookcnt.' ';
+    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bcnt.' ';
     				echo ($item->bookcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
     			</span>
     		</p>
-    		<?php echo $this->booklist; ?>
+    		<?php echo $item->booklist; ?>
     	</div>
 	<?php endif; ?>
-	<?php if ($item->filmcnt>0) : ?>
-    	<div class="span<?php echo $item->bookcnt>0 ? '6' : '12'; ?>">
-    		<p><b><?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?></b>
+	<?php if ($item->ecnt>0) : ?>
+    	<div class="span<?php echo $cols; ?>">
+    		<p><b><?php echo ucfirst(Text::_('XBCULTURE_EVENTS')); ?></b>
     			<span class="xbnit">
-    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->filmcnt.' '.Text::_('XBCULTURE_FILMS'); ?>
+    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->ecnt.' ';
+    				echo ($item->bookcnt == 1) ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
     			</span>
     		</p>
-    		<?php echo $this->filmlist; ?>
+    		<?php echo $item->eventlist; ?>
+    	</div>
+	<?php endif; ?>
+	<?php if ($item->fcnt>0) : ?>
+    	<div class="span<?php echo $cols; ?>">
+    		<p><b><?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?></b>
+    			<span class="xbnit">
+    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->fcnt.' '.Text::_('XBCULTURE_FILMS'); ?>
+    			</span>
+    		</p>
+    		<?php echo $item->filmlist; ?>
     	</div>
 	<?php endif; ?>
 </div>

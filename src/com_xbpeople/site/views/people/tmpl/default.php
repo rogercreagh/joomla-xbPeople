@@ -205,11 +205,6 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
             						<summary><span class="xbnit">
         								<?php echo $item->bcnt.' ';
         								    echo $item->bcnt ==1 ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>       					
-            							<?php if ($item->brolecnt > $item->bcnt ) : ?>
-                     					    <span class="xbit xbnorm"> (
-                     					    	<?php echo $item->brolecnt.' '.Text::_('XBCULTURE_ROLES');?>
-                     					    )</span>
-                     					<?php endif; ?>
             						</span></summary>
             						<?php echo $item->booklist; ?>    						
             					</details>
@@ -236,11 +231,6 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
             						<summary><span class="xbnit">
         								<?php echo $item->fcnt.' ';
         								    echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>       					
-            							<?php if ($item->frolecnt > $item->fcnt ) : ?>
-                     					    <span class="xbit xbnorm"> (
-                     					    	<?php echo $item->frolecnt.' '.Text::_('XBCULTURE_ROLES');?>
-                     					    )</span>
-                     					<?php endif; ?>
             						</span></summary>
             						<?php echo $item->filmlist; ?>    						
             					</details>

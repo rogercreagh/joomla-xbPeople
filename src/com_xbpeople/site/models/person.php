@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 0.9.9.4 26th July 2022
+ * @version 1.0.2.5 12th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,12 +14,7 @@ use Joomla\Registry\Registry;
 
 class XbpeopleModelPerson extends JModelItem {
 	
-    protected $xbfilmsStatus;
-    protected $xbbooksStatus;
-    
 	public function __construct($config = array()) {
-		$this->xbfilmsStatus = XbcultureHelper::checkComponent('com_xbfilms');
-		$this->xbbooksStatus = XbcultureHelper::checkComponent('com_xbbooks');
 		parent::__construct($config);
 	}
 	
@@ -37,7 +32,8 @@ class XbpeopleModelPerson extends JModelItem {
 	}
 	
 	public function getItem($id = null) {
-		
+	    $sess = Factory::getSession();
+	    
 		if (!isset($this->item) || !is_null($id)) {
 			$id    = is_null($id) ? $this->getState('person.id') : $id;
 			$db = $this->getDbo();
@@ -47,6 +43,23 @@ class XbpeopleModelPerson extends JModelItem {
 				a.nationality AS nationality, a.ext_links AS ext_links, 
 				a.state AS published, a.catid AS catid, a.params AS params, a.metadata AS metadata  ');
 			$query->from('#__xbpersons AS a');
+			
+			if ($sess->get('xbbooks_ok',false)==1) {
+			    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp JOIN #__xbfilms AS f ON fp.film_id = f.id WHERE fp.person_id = a.id AND f.state=1) AS fcnt');
+			} else {
+			    $query->select('0 AS fcnt');
+			}
+			if ($sess->get('xbevents_ok',false)==1) {
+			    $query->select('(SELECT COUNT(DISTINCT(ep.event_id)) FROM #__xbeventperson AS ep JOIN #__xbevents AS e ON ep.event_id = e.id WHERE ep.person_id = a.id AND e.state=1) AS ecnt');
+			} else {
+			    $query->select('0 AS fcnt');
+			}
+			if ($sess->get('xbfilms_ok',false)==1) {
+			    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp JOIN #__xbbooks AS b ON bp.book_id = b.id WHERE bp.person_id = a.id AND b.state=1) AS bcnt');
+			} else {
+			    $query->select('0 AS bcnt');
+			}
+			
 			$query->select('c.title AS category_title');
 			$query->leftJoin('#__categories AS c ON c.id = a.catid');
 			$query->where('a.id = '.$id);
@@ -78,16 +91,19 @@ class XbpeopleModelPerson extends JModelItem {
 					$item->ext_links_list .= '</ul>';
 				}
 				
-				$item->filmcnt = 0;
-				if ($this->xbfilmsStatus) {
-				    $item->filmlist = XbcultureHelper::getPersonFilmRoles($item->id,'','rel_year DESC',2);
-				    $item->filmcnt = count($item->filmlist);
+				if ($item->bcnt > 0) {
+				    $item->books = XbcultureHelper::getPersonBooks($item->id);
+				    $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);
 				}
-				$item->bookcnt = 0;
-				if ($this->xbbooksStatus) {
-				    $item->booklist = XbcultureHelper::getPersonBookRoles($item->id,'','pubyear ASC',2);
-				    $item->bookcnt = count($item->booklist);
+				if ($item->fcnt > 0) {
+				    $item->films = XbcultureHelper::getPersonFilms($item->id);
+				    $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true, 3);
 				}
+				if ($item->ecnt > 0) {
+				    $item->events = XbcultureHelper::getPersonEvents($item->id);
+				    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+				}
+				
 			}
 		}
 		return $this->item;

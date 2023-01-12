@@ -358,7 +358,7 @@ class XbcultureHelper extends ContentHelper {
 	 * @param int $groupid
 	 * @return array of objects
 	 */
-	public static function getGroupmembers(int $groupid) {
+	public static function getGroupMembers(int $groupid) {
 	    $isadmin = Factory::getApplication()->isClient('administrator');
 	    $plink = 'index.php?option=com_xbpeople&view=person';
 	    if ($isadmin) {
