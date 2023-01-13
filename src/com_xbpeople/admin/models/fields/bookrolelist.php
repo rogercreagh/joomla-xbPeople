@@ -1,8 +1,8 @@
 <?php
 /*******
  * @package xbPeople
- * @filesource admin/models/fields/otherrole.php
- * @version 0.9.6.f 11th January 2022
+ * @filesource admin/models/fields/bookrolelist.php
+ * @version 1.0.2.6 13th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,24 +13,24 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Factory;
 
-FormHelper::loadFieldClass('combo');
+FormHelper::loadFieldClass('list');
 
-class JFormFieldOtherrole extends JFormFieldCombo {
+class JFormFieldBookrolelist extends JFormFieldList {
 	
-	protected $type = 'Otherrole';
+	protected $type = 'Bookrolelist';
 	
 	public function getOptions() {
 		
 		$options = parent::getOptions();
 		
-		if (XbcultureHelper::checkComponent('com_xbfilms')) {
+		if (Factory::getSession()->get('xbbooks_ok',false)==1) {
 					
 			$db = Factory::getDbo();
 			$query  = $db->getQuery(true);
 			
-			$query->select('DISTINCT role_note AS text, role_note AS value')
+			$query->select('DISTINCT role AS text, role AS value')
 			->from($db->qn('#__xbbookperson'))
-			->where($db->qn('role').' = '.$db->q('other'))
+			->where($db->qn('role')." NOT IN ('author','editor','mention')")
 			->order($db->qn('text'));
 			
 			// Get the options.

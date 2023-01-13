@@ -90,12 +90,13 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 					<?php echo HTMLHelper::_('searchtools.sort','Firstname','firstname',$listDirn,$listOrder).' '.
 							HTMLHelper::_('searchtools.sort','Lastname','lastname',$listDirn,$listOrder);    						
 						?>
-				</th>					
-				<?php if($this->show_pdates) : ?>
-					<th>
+					<?php if($this->show_pdates) : ?>
 						<?php echo HTMLHelper::_('searchtools.sort','Dates','sortdate',$listDirn,$listOrder); ?>
-					</th>
-                <?php endif; ?>
+                	<?php endif; ?>
+				</th>					
+				<th>
+					<?php echo Text::_('XBCULTURE_GROUPS');?>
+				</th>
 				<?php if($this->show_sum) : ?>
 				<th>
 					<?php echo Text::_('XBCULTURE_SUMMARY');?>
@@ -104,17 +105,17 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
                 <?php if ($this->showcnts) : ?>
     				<?php if($this->xbbooksStatus) : ?>
         				<th>
-        					<?php echo HtmlHelper::_('searchtools.sort','Books','bcnt',$listDirn,$listOrder ); ?>
+        					<?php echo HtmlHelper::_('searchtools.sort','XBCULTURE_BOOKS_U','bcnt',$listDirn,$listOrder ); ?>
         				</th>
                    <?php endif; ?>
     				<?php if($this->xbeventsStatus) : ?>
         				<th>
-        					<?php echo HtmlHelper::_('searchtools.sort','Events','ecnt',$listDirn,$listOrder ); ?>
+        					<?php echo HtmlHelper::_('searchtools.sort','XBCULTURE_EVENTS','ecnt',$listDirn,$listOrder ); ?>
         				</th>
                    <?php endif; ?>
     				<?php if($this->xbfilmsStatus) : ?>
         				<th>
-        					<?php echo HtmlHelper::_('searchtools.sort','Films','fcnt',$listDirn,$listOrder ); ?>
+        					<?php echo HtmlHelper::_('searchtools.sort','XBCULTURE_FILMS_U','fcnt',$listDirn,$listOrder ); ?>
         				</th>
                    <?php endif; ?>
                 <?php endif; ?>
@@ -156,20 +157,29 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 							<b><?php echo $this->escape($item->firstname).' '.$this->escape($item->lastname); ?></b>
 						</a>
 					</p>
+    				<?php if($this->show_pdates) : ?>
+    					<p class="xb095">
+    					<?php if ($item->year_born > 0) {						
+    							echo '<span class="xbnit">'.Text::_('XBCULTURE_BORN_U').'</span>: '.$item->year_born.'<br />'; 
+    						}
+    						if ($item->year_died > 0) {						
+    							echo '<span class="xbnit">'.Text::_('XBCULTURE_DIED_U').'</span>: '.$item->year_died; 
+    						}              
+    					?>					
+    					</p>
+    				<?php endif; ?>
 				</td>
-				<?php if($this->show_pdates) : ?>
-					<td>
-					<p class="xb095">
-					<?php if ($item->year_born > 0) {						
-							echo '<span class="xbnit">'.Text::_('XBCULTURE_BORN_U').'</span>: '.$item->year_born.'<br />'; 
-						}
-						if ($item->year_died > 0) {						
-							echo '<span class="xbnit">'.Text::_('XBCULTURE_DIED_U').'</span>: '.$item->year_died; 
-						}              
-					?>					
-					</p>
-					</td>
-				<?php endif; ?>
+				<td>
+					<?php if ($item->gcnt>0) : ?>
+    					<details>
+    						<summary><span class="xbnit">
+								<?php echo $item->gcnt.' ';
+								    echo $item->gcnt ==1 ? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS'); ?>       					
+    						</span></summary>
+    						<?php echo $item->grouplist; ?>    						
+    					</details>
+					<?php endif; ?>
+				</td>
 				<?php if($this->show_sum) : ?>
 				<td>
 					<p class="xb095">
