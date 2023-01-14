@@ -68,21 +68,41 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMCHAR_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="Film" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="film_id" type="films" label="XBCULTURE_FILM_U" >
+					<option value=""></option>	
 				</field>
-				<field name="actor_id" type="allpeople" label="Actor" >
-					<option value="">JSELECT</option>	
+				<field name="actor_id" type="allpeople" label="XBCULTURE_ACTOR" >
+					<option value=""></option>	
 				</field>
-				<field name="char_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="char_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
+			</form>
+		</field>
+			
+		<field name= "eventcharlist"
+			type= "subform"
+			label= "XBCULTURE_EVENT"
+			description="XBCULTURE_FIELD_EVENTADD_DESC"
+			min="0" max="10"
+			multiple= "true" buttons= "add,remove"
+			layout="joomla.form.field.subform.repeatable-table"
+			groupByFieldset="false" >
+			<form>
+				<field name="event_id" type="events" label="XBCULTURE_EVENT"  >
+					<option value=""></option>	
+				</field>
+				<field name="actor_id" type="allpeople" label="XBCULTURE_ACTOR" >
+					<option value=""></option>	
+				</field>
+				<field name="char_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -90,37 +110,18 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_BOOKCHAR_LABEL"
 			description="XBCULTURE_FIELD_BOOKADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="Book" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="book_id" type="books" label="XBCULTURE_BOOK_U" >
+					<option value=""></option>	
 				</field>
-				<field name="char_note" type="text" label="Note" size="20" maxlength="50"
+				<field name="char_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"
 				/>
-			</form>
-		</field>
-			
-		<field name= "eventcharlist"
-			type= "subform"
-			label= "XBCULTURE_FIELD_EVENTCHAR_LABEL"
-			description="XBCULTURE_FIELD_EVENTADD_DESC"
-			min= "0"
-			max= "10"
-			multiple= "true"
-			buttons= "add,remove"
-			layout="joomla.form.field.subform.repeatable-table"
-			groupByFieldset="false" >
-			<form>
-				<field name="event_id" type="events" label="Event" required="true" >
-					<option value="">JSELECT</option>	
-				</field>
-				<field name="char_note" type="text" label="Note" size="20" maxlength="50"
-				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			

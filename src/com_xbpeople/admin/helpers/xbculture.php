@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.2.5 11th January 2023
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -497,6 +497,31 @@ class XbcultureHelper extends ContentHelper {
 	
 	/************** functions used on admin side only *********************/
 
+	/**
+	 * @name deleteFromTable()
+	 * @desc deletes items from specified table according to specified condition
+	 * @param string $table - the table name
+	 * @param string $condition - the text to be in the query WHERE clause
+	 * @throws \Exception
+	 * @return boolean
+	 */
+	public static function deleteFromTable(string $table, string $condition) {
+	    $db = Factory::getDbo();
+	    //delete existing role list
+	    $query = $db->getQuery(true);
+	    $query->delete($db->quoteName($table));
+	    $query->where($condition);
+	    $db->setQuery($query);
+	    try {
+	        $db->execute();
+	    }
+	    catch (\RuntimeException $e) {
+	        throw new \Exception($e->getMessage(), 500);
+	        return false;
+	    }
+	    return true;
+	}
+	
 	/**
 	 * @name getExtensionInfo()
 	 * @param string $element 'mod_...' or 'com_...' for component or module, for plugin the plugin=string from the xml plus the folder (type of plugin))

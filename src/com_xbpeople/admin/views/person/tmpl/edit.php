@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 1.0.0.5 21st December 2022
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,6 +16,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 
+HtmlHelper::_('behavior.tabState');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
@@ -30,8 +31,8 @@ $document->addStyleDeclaration($style);
 ?>
 <style type="text/css" media="screen">
     .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
-    .xbqgmodal .modal-body {height:270px;} 
-    .xbqgmodal .modal-body iframe { height:240px;}
+    .xbqgmodal .modal-body {height:340px;} 
+    .xbqgmodal .modal-body iframe { height:310px;}
 </style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
@@ -120,10 +121,10 @@ $document->addStyleDeclaration($style);
 			<h3><?php Text::_('XBCULTURE_GROUPS'); ?></h3>
     			<fieldset class="form-vertical">
                     <div class="row-fluid">
-						<div class="span9">
+						<div class="span12">
                 			<?php echo $this->form->renderField('persongrouplist'); ?>
                 		</div>
-                		<div class="span3 xbbox xbboxwht">
+                		<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
                  			<h4><?php echo Text::_('XBCULTURE_QUICK_G_ADD');?></h4>
                 			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_G_NOTE');?></p> 
         					<a class="btn btn-small" data-toggle="modal" 
@@ -135,19 +136,6 @@ $document->addStyleDeclaration($style);
     			</fieldset>			
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		
-		<?php if($this->xbevents_ok) : ?>
-			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
-    			<h3>Events</h3>
-    			<fieldset class="form-vertical">
-                    <div class="row-fluid">
-						<div class="span6">
-                			<?php echo $this->form->renderField('eventpersonlist'); ?>
-                		</div>
-			        </div>
-    			</fieldset>
-			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
-    	<?php endif; ?>
-
 		<?php if($this->xbbooks_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
     			<h3>Books</h3>
@@ -159,8 +147,21 @@ $document->addStyleDeclaration($style);
 						</div>
                       	<div class="span6">
             				<?php echo $this->form->renderField('bookmenlist'); ?>
-            				<?php echo $this->form->renderField('bookotherlist'); ?>
 				        </div>
+			        </div>
+            		<?php echo $this->form->renderField('bookotherlist'); ?>
+    			</fieldset>
+			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+    	<?php endif; ?>
+
+		<?php if($this->xbevents_ok) : ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
+    			<h3>Events</h3>
+    			<fieldset class="form-vertical">
+                    <div class="row-fluid">
+						<div class="span12">
+                			<?php echo $this->form->renderField('eventpersonlist'); ?>
+                		</div>
 			        </div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
@@ -225,7 +226,7 @@ jQuery(document).ready(function(){
 });
 </script>
 <!-- preview modal window -->
-<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:1200px">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->
@@ -233,7 +234,7 @@ jQuery(document).ready(function(){
     </div>
 </div>
 <!-- quickgroup modal window -->
-<div class="modal fade xbqgmodal" id="ajax-qgmodal" style="max-width:80%">
+<div class="modal fade xbqgmodal" id="ajax-qgmodal" style="max-width:1100px">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->

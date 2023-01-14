@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 1.0.0.6 23rd December 2022
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,6 +15,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 
+HtmlHelper::_('behavior.tabState');
 HtmlHelper::_('behavior.formvalidator');
 HtmlHelper::_('behavior.keepalive');
 HtmlHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
@@ -99,6 +100,18 @@ HtmlHelper::_('formbehavior.chosen', 'select');
                     <div class="row-fluid">
 						<div class="span8">
 		               		<?php echo $this->form->renderField('bookcharlist'); ?>
+				        </div>
+			        </div>
+    			</fieldset>
+			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+    	<?php endif; ?>
+		<?php if($this->xbevents_ok) : ?>
+			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', Text::_('XBCULTURE_EVENTS')); ?>
+    			<h3>Books</h3>
+    			<fieldset class="form-vertical">
+                    <div class="row-fluid">
+						<div class="span8">
+		               		<?php echo $this->form->renderField('eventcharlist'); ?>
 				        </div>
 			        </div>
     			</fieldset>

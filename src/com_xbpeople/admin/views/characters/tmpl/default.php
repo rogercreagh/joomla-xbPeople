@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 1.0.2.3 9th January 2023
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -117,19 +117,19 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     				<?php echo Text::_('XBCULTURE_SUMMARY'); ?>
     			</th>
     			<?php if($this->xbbooks_ok) : ?>
-    			<th>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>					
-    			</th>
+        			<th>
+    					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>					
+        			</th>
+        			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+        			<th>
+    					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
+        			</th>
     			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
-    			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>					
-    			</th>
-    			<?php endif; ?>
-    			<?php if($this->xbevents_ok) : ?>
-    			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
-    			</th>
+        			<th >
+    					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>					
+        			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
 					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CATS','category_title',$listDirn,$listOrder ).' &amp; ';
@@ -238,49 +238,49 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
 							</p>
 						<?php endif; ?>
                     </td>
-    			<?php if($this->xbbooks_ok) : ?>
-					<td>
-						<?php if (($item->bcnt==1) || ($item->bcnt==2)) : ?> 
-                            <ul class="xbdetails">
-								<?php echo $item->booklist; ?>
-							</ul>
-						<?php elseif ($item->bcnt>2) : ?> 
-						    <details>
-						    <summary><span class="xbnit">
-						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->bcnt.' ';
-						    echo Text::_('XBCULTURE_BOOKS');   ?>
-                            </span></summary>
-                            <ul class="xbdetails">
-								<?php echo $item->booklist; ?>
-							</ul>
-                          </details>
-						<?php endif; ?> 
-					</td>
-    			<?php endif; ?>
-    			<?php if($this->xbfilms_ok) : ?>
-					<td>
-						<?php if (($item->fcnt==1) || ($item->fcnt==2)) : ?> 
-                            <ul class="xbdetails">
-								<?php echo $item->filmlist; ?>
-							</ul>
-						<?php elseif ($item->fcnt>2) : ?> 
-						    <details>
-						    <summary><span class="xbnit">
-						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->fcnt.' ';
-						    echo Text::_(($item->fcnt==1)?'XBCULTURE_FILM':'XBCULTURE_FILMS');   ?>
-                            </span></summary>
-                            <ul class="xbdetails">
-								<?php echo $item->filmlist; ?>
-							</ul>
-                          </details>
-						 <?php endif; ?> 
-					</td>
-    			<?php endif; ?>
-    			<?php if($this->xbevents_ok) : ?>
-    			<td>
-										
-    			</td>
-    			<?php endif; ?>
+        			<?php if($this->xbbooks_ok) : ?>
+    					<td>
+    						<?php if (($item->bcnt==1) || ($item->bcnt==2)) : ?> 
+                                <ul class="xbdetails">
+    								<?php echo $item->booklist; ?>
+    							</ul>
+    						<?php elseif ($item->bcnt>2) : ?> 
+    						    <details>
+    						    <summary><span class="xbnit">
+    						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->bcnt.' ';
+    						    echo Text::_('XBCULTURE_BOOKS');   ?>
+                                </span></summary>
+                                <ul class="xbdetails">
+    								<?php echo $item->booklist; ?>
+    							</ul>
+                              </details>
+    						<?php endif; ?> 
+    					</td>
+        			<?php endif; ?>
+        			<?php if($this->xbevents_ok) : ?>
+        			<td>
+    										
+        			</td>
+        			<?php endif; ?>
+        			<?php if($this->xbfilms_ok) : ?>
+    					<td>
+    						<?php if (($item->fcnt==1) || ($item->fcnt==2)) : ?> 
+                                <ul class="xbdetails">
+    								<?php echo $item->filmlist; ?>
+    							</ul>
+    						<?php elseif ($item->fcnt>2) : ?> 
+    						    <details>
+    						    <summary><span class="xbnit">
+    						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->fcnt.' ';
+    						    echo Text::_(($item->fcnt==1)?'XBCULTURE_FILM':'XBCULTURE_FILMS');   ?>
+                                </span></summary>
+                                <ul class="xbdetails">
+    								<?php echo $item->filmlist; ?>
+    							</ul>
+                              </details>
+    						 <?php endif; ?> 
+    					</td>
+        			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $celink . $item->catid; ?>" 
 							title="<?php echo Text::_( 'XBCULTURE_VIEW_CATEGORY' );?>::<?php echo $item->category_title; ?>">

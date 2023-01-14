@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.2.2 8th January 2023
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -194,7 +194,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 		$query->from('#__xbfilmgroup AS ba');
 		$query->innerjoin('#__xbfilms AS a ON ba.film_id = a.id');
 		$query->where('ba.group_id = '.(int) $this->getItem()->id);
-		$query->order('ba.listorder ASC');
+		$query->order('a.title ASC');
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
@@ -206,7 +206,7 @@ class XbpeopleModelGroup extends JModelAdmin {
 		$query->from('#__xbbookgroup AS ba');
 		$query->innerjoin('#__xbbooks AS a ON ba.book_id = a.id');
 		$query->where('ba.group_id = '.(int) $this->getItem()->id);
-		$query->order('ba.listorder ASC');
+		$query->order('a.title ASC');
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
@@ -260,138 +260,114 @@ class XbpeopleModelGroup extends JModelAdmin {
 	}
 	
 	private function storeGroupFilms($group_id, $groupList) {
-		//delete existing role list
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__xbfilmgroup'));
-		$query->where('group_id = '.$group_id.' ');
-		$db->setQuery($query);
-		try {
-		    $db->execute();
-		}
-		catch (\RuntimeException $e) {
-		    throw new \Exception($e->getMessage(), 500);
-		    return false;
-		}
-		//restore the new list
-		foreach ($groupList as $ch) {
-		    if ($ch['film_id']>0) {
-    			$query = $db->getQuery(true);
-    			$query->insert($db->quoteName('#__xbfilmgroup'));
-    			$query->columns('group_id,film_id,role,role_note');
-    			$query->values('"'.$group_id.'","'.$ch['film_id'].'","'.$ch['role'].'","'.$ch['role_note'].'"');
-    			$db->setQuery($query);
-    			try {
-    			    $db->execute();
-    			}
-    			catch (\RuntimeException $e) {
-    			    throw new \Exception($e->getMessage(), 500);
-    			    return false;
-    			}
-		    }
+		//delete existing role list
+		$where = $db->qn('group_id').' = '.$db->q($group_id);
+		if (XbcultureHelper::deleteFromTable('#__xbfilmgroup', $where)) {		    
+    		//restore the new list
+		    foreach ($groupList as $item) {
+		        if ($item['film_id']>0) {
+    		        $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
+    		        $query = $db->getQuery(true);
+        			$query->insert($db->quoteName('#__xbfilmgroup'));
+        			$query->columns('group_id,film_id,actor_id,char_note,listorder');
+        			$query->values($db->q($group_id).','.$db->q($item['film_id']).
+        			    ','.$db->q($item['actor_id']).','.$db->q($item['char_note']).','.$db->q($listorder));
+        			$db->setQuery($query);
+        			try {
+        			    $db->execute();
+        			}
+        			catch (\RuntimeException $e) {
+        			    throw new \Exception($e->getMessage(), 500);
+        			    return false;
+        			}
+    		    }
+    		}
 		}
 	}
 	
 	private function storeGroupBooks($group_id, $groupList) {
-		//delete existing role list
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__xbbookgroup'));
-		$query->where('group_id = '.$group_id.' ');
-		$db->setQuery($query);
-		try {
-		    $db->execute();
-		}
-		catch (\RuntimeException $e) {
-		    throw new \Exception($e->getMessage(), 500);
-		    return false;
-		}
-		//restore the new list
-		foreach ($groupList as $ch) {
-			if ($ch['book_id']>0) {
-				$query = $db->getQuery(true);
-				$query->insert($db->quoteName('#__xbbookgroup'));
-				$query->columns('group_id,book_id,role,role_note');
-				$query->values('"'.$group_id.'","'.$ch['book_id'].'","'.$ch['role'].'","'.$ch['role_note'].'"');
-				$db->setQuery($query);
-				try {
-				    $db->execute();
-				}
-				catch (\RuntimeException $e) {
-				    throw new \Exception($e->getMessage(), 500);
-				    return false;
-				}
-			}
+		//delete existing role list
+		$where = $db->qn('group_id').' = '.$db->q($group_id);
+		if (XbcultureHelper::deleteFromTable('#__xbbookgroup', $where)) {
+		    //restore the new list
+    		foreach ($groupList as $item) {
+    		    if ($item['book_id']>0) {
+    		        $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
+    		        $query = $db->getQuery(true);
+    				$query->insert($db->quoteName('#__xbbookgroup'));
+    				$query->columns('group_id,book_id,char_note,listorder');
+    				$query->values($db->q($group_id).','.$db->q($item['book_id']).
+    				    ','.$db->q($item['char_note']).','.$db->q($listorder));
+    				$db->setQuery($query);
+    				try {
+    				    $db->execute();
+    				}
+    				catch (\RuntimeException $e) {
+    				    throw new \Exception($e->getMessage(), 500);
+    				    return false;
+    				}
+    			}
+    		}
 		}
 	}
 	
 	private function storeGroupEvents($group_id, $groupList) {
-	    //delete existing role list
 	    $db = $this->getDbo();
-	    $query = $db->getQuery(true);
-	    $query->delete($db->quoteName('#__xbeventgroup'));
-	    $query->where('group_id = '.$group_id.' ');
-	    $db->setQuery($query);
-	    try {
-	        $db->execute();
-	    }
-	    catch (\RuntimeException $e) {
-	        throw new \Exception($e->getMessage(), 500);
-	        return false;
-	    }
-	    //restore the new list
-	    foreach ($groupList as $grp) {
-	        if ($grp['event_id']>0) {
-	            $query = $db->getQuery(true);
-	            $query->insert($db->quoteName('#__xbeventgroup'));
-	            $query->columns('group_id,event_id,role,role_note');
-	            $query->values('"'.$group_id.'","'.$grp['event_id'].'","'.$grp['role'].'","'.$grp['role_note'].'"');
-	            $db->setQuery($query);
-	            try {
-	                $db->execute();
-	            }
-	            catch (\RuntimeException $e) {
-	                throw new \Exception($e->getMessage(), 500);
-	                return false;
+	    //delete existing role list
+	    $where = $db->qn('group_id').' = '.$db->q($group_id);
+	    if (XbcultureHelper::deleteFromTable('#__xbeventgroup', $where)) {
+	        //restore the new list
+	        foreach ($groupList as $item) {
+	            if ($item['event_id']>0) {
+	                $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
+	                $query = $db->getQuery(true);
+    	            $query->insert($db->quoteName('#__xbeventgroup'));
+    	            $query->columns('group_id,event_id,actor_id,char_note,listorder');
+    	            $query->values($db->q($group_id).','.$db->q($item['event_id']).
+    	                ','.$db->q($item['actor_id']).','.$db->q($item['char_note']).','.$db->q($listorder));
+    	            $db->setQuery($query);
+    	            try {
+    	                $db->execute();
+    	            }
+    	            catch (\RuntimeException $e) {
+    	                throw new \Exception($e->getMessage(), 500);
+    	                return false;
+    	            }
 	            }
 	        }
 	    }
 	}
 	
 	private function storeGroupPeople($group_id, $grouppersonList) {
-	    //delete existing people list
 	    $db = $this->getDbo();
-	    $query = $db->getQuery(true);
-	    $query->delete($db->quoteName('#__xbgroupperson'));
-	    $query->where('group_id = '.$group_id);
-	    $db->setQuery($query);
-	    try {
-	        $db->execute();
-	    }
-	    catch (\RuntimeException $e) {
-	        throw new \Exception($e->getMessage(), 500);
-	        return false;
-	    }
-	    //restore the new list
-	    $listorder=0;
-	    foreach ($grouppersonList as $pers) {
-	        if ($pers['person_id'] > 0) {
-	            $listorder ++;
-	            $query = $db->getQuery(true);
-	            $query->insert($db->quoteName('#__xbgroupperson'));
-	            $query->columns('group_id,person_id,role,joined,until,role_note,listorder');
-	            $query->values('"'.$group_id.'","'.$pers['person_id'].'","'.$pers['role'].'","'.$pers['joined'].'","'.$pers['until'].'","'.$pers['role_note'].'","'.$listorder.'"');
-	            $db->setQuery($query);
-	            try {
-	                $db->execute();
-	            }
-	            catch (\RuntimeException $e) {
-	                throw new \Exception($e->getMessage(), 500);
-	                return false;
-	            }
-	        }
+	    //delete existing people list
+	    $where = $db->qn('group_id').' = '.$db->q($group_id);
+	    if (XbcultureHelper::deleteFromTable('#__xbgroupperson', $where)) {
+	        //restore the new list
+    	    $listorder=0;
+    	    foreach ($grouppersonList as $item) {
+    	        if ($item['person_id'] > 0) {
+    	            $listorder ++;
+    	            $query = $db->getQuery(true);
+    	            $query->insert($db->quoteName('#__xbgroupperson'));
+    	            $query->columns('group_id,person_id,role,role_note,joined,until,listorder');
+    	            $query->values($db->q($group_id).','.$db->q($item['person_id']).
+    	                ','.$db->q($item['role']).','.$db->q($item['role_note']).
+    	                ','.$db->q($item['joined']).','.$db->q($item['until']).
+    	                ','.$db->q($listorder));
+    	            $db->setQuery($query);
+    	            try {
+    	                $db->execute();
+    	            }
+    	            catch (\RuntimeException $e) {
+    	                throw new \Exception($e->getMessage(), 500);
+    	                return false;
+    	            }
+    	        }
+    	    }
 	    }
 	}
-	
 	
 }

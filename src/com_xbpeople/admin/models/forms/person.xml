@@ -132,8 +132,7 @@
 				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
-			
-			
+						
 		<field name= "filmdirectorlist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMDIRECTOR_LABEL"
@@ -144,6 +143,14 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" 
 			>
+			<form>
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+					<option value=""></option>	
+				</field>
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="50" maxlength="100"
+				/>
+				<field name="oldorder" type="hidden"  />
+			</form>
 		</field>
 			
 		<field name= "filmproducerlist"

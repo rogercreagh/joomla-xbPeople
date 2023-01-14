@@ -90,8 +90,8 @@
 					<option value=""></option>	
 				</field>
 				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
-				/>
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -109,8 +109,26 @@
 					<option value=""></option>	
 				</field>
 				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"
-				/>
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
+				<field name="oldorder" type="hidden"  />
+			</form>
+		</field>
+			
+		<field name= "groupeventlist" type= "subform"
+			label= "XBCULTURE_FIELD_GROUP_EVENTS_LABEL"
+			description="XBCULTURE_SUBFORM_ADD_DESC"
+			min= "0" max= "10"
+			multiple= "true"
+			buttons= "add,remove"
+			layout="joomla.form.field.subform.repeatable-table"
+			groupByFieldset="false" >
+			<form>
+				<field name="event_id" type="events" label="XBCULTURE_EVENT">
+					<option value=""></option>	
+				</field>
+				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -132,24 +150,6 @@
 				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="optional or..." size="15" maxlength="20" />
 				<field name="until" type="text" label="XBCULTURE_LEFT" hint="...Y|Y-M|Y-M-D" size="15" maxlength="20" />
 				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
-			</form>
-		</field>
-			
-		<field name= "groupeventlist" type= "subform"
-			label= "XBCULTURE_FIELD_GROUP_EVENTS_LABEL"
-			description="XBCULTURE_SUBFORM_ADD_DESC"
-			min= "0" max= "10"
-			multiple= "true"
-			buttons= "add,remove"
-			layout="joomla.form.field.subform.repeatable-table"
-			groupByFieldset="false" >
-			<form>
-				<field name="event_id" type="events" label="XBCULTURE_EVENT">
-					<option value=""></option>	
-				</field>
-				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"
-				/>
 			</form>
 		</field>
 			

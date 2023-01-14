@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 1.0.2.7 14th January 2023
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -223,7 +223,7 @@ class XbpeopleModelPerson extends JModelAdmin {
 		return $db->loadAssocList();
 	}
 	
-	public function getPersonEventslist($role) {
+	public function getPersonEventslist() {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
 	    $query->select('a.id as event_id, ba.role AS role, ba.role_note AS role_note, ba.listorder AS oldorder');
@@ -231,12 +231,12 @@ class XbpeopleModelPerson extends JModelAdmin {
 	    $query->innerjoin('#__xbevents AS a ON ba.event_id = a.id');
 	    $query->where('ba.person_id = '.(int) $this->getItem()->id);
 //	    $query->where('ba.role = "'.$role.'"');
-	    $query->order('a.title ASC');
+	    $query->order('a.start_datetime DESC');
 	    $db->setQuery($query);
 	    return $db->loadAssocList();
 	}
 	
-	public function getPersonGroupslist($role) {
+	public function getPersonGroupslist() {
 	    $db = $this->getDbo();
 	    $query = $db->getQuery(true);
 	    $query->select('a.id as group_id, ba.role AS role, ba.role_note AS role_note, ba.joined AS joined, ba.until AS until, ba.listorder AS oldorder');
@@ -288,19 +288,8 @@ class XbpeopleModelPerson extends JModelAdmin {
 		//delete existing role list
 		$db = $this->getDbo();
 		$where = $db->qn('person_id').' = '.$db->q($person_id).' AND '.$db->qn('role').' = '.$db->q($role);
-		if ($this->deleteFromTable('#__xbbookperson', $where)) {
+		if (XbcultureHelper::deleteFromTable('#__xbbookperson', $where)) {
 		    
-// 		$query = $db->getQuery(true);
-// 		$query->delete($db->quoteName('#__xbfilmperson'));
-// 		$query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
-// 		$db->setQuery($query);
-// 		try {
-// 		    $db->execute();
-// 		}
-// 		catch (\RuntimeException $e) {
-// 		    throw new \Exception($e->getMessage(), 500);
-// 		    return false;
-// 		}
     		//restore the new list
     		foreach ($personList as $item) {
     		    if ($item['film_id']>0) {
@@ -328,19 +317,8 @@ class XbpeopleModelPerson extends JModelAdmin {
 	    //delete existing role list
 	    $db = $this->getDbo();
 	    $where = $db->qn('person_id').' = '.$db->q($person_id).' AND '.$db->qn('role').' = '.$db->q($role);
-	    if ($this->deleteFromTable('#__xbbookperson', $where)) {
+	    if (XbcultureHelper::deleteFromTable('#__xbbookperson', $where)) {
 	        
-// 	    $query = $db->getQuery(true);
-// 	    $query->delete($db->quoteName('#__xbbookperson'));
-// 	    $query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
-// 	    $db->setQuery($query);
-// 	    try {
-// 	        $db->execute();
-// 	    }
-// 	    catch (\RuntimeException $e) {
-// 	        throw new \Exception($e->getMessage(), 500);
-// 	        return false;
-// 	    }
 	    //restore the new list
     	    foreach ($bookList as $bk) {
     	        if ($bk['book_id']>0) {
@@ -364,148 +342,15 @@ class XbpeopleModelPerson extends JModelAdmin {
     	            }
     	        }
     	    }
-	    }
-	    
-
-// 		//delete existing role list
-// 		$db = Factory::getDbo();
-// 		if ($role != 'other') {
-// 		    //we are dealing with a single role so we need to delete any that no longer appear in booklist
-// 		    //get the old list from db
-// 		    $query = $db->getQuery(true);
-// 		    $query->select('book_id')->from($db->quoteName('#__xbbookperson'));
-// 		    $query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
-// 		    $db->setQuery($query);
-// 		    $old = $db->loadColumn();
-// 		    $save = array_column($bookList,'book_id');
-// 		    $del = array_diff($old,$save);
-// 		    if (!empty($del)) {
-//                 $dellist = implode(',', $del);
-//         		$query = $db->getQuery(true);
-//         		$query->delete($db->qn('#__xbbookperson'));
-//         		$query->where('person_id = '.$person_id.' AND role = "'.$role.'" AND book_id IN ('.$dellist.')');
-//         		$db->setQuery($query);
-//         		try {
-//         		    $db->execute();
-//         		}
-//         		catch (\RuntimeException $e) {
-//         		    throw new \Exception($e->getMessage(), 500);
-//         		    return false;
-//         		}		        
-// 		    }
-// 		    foreach ($bookList as $bk) {
-// 		        if ($bk['role'] == $role) {
-// 		            if (array_search($bk['book_id'],$old) !== false) {
-// 		                //update
-// 		                $query = $db->getQuery(true);
-// 		                $query->update($db->qn('#__xbbookperson'))
-// 		                ->set($db->qn('role_note').' = '.$db->q($bk['role_note']))
-// 		                ->where('person_id = '.$person_id.' AND role = '.$db->q($role).' AND book_id = '.$db->q($bk['book_id']));;
-// 		                $db->setQuery($query);
-// 		                try {
-// 		                    $db->execute();
-// 		                }
-// 		                catch (\RuntimeException $e) {
-// 		                    throw new \Exception($e->getMessage(), 500);
-// 		                    return false;
-// 		                }
-// 		            } else {
-// 		                //create new
-// 		                $query = $db->getQuery(true);
-// 		                $query->insert($db->quoteName('#__xbbookperson'));
-// 		                $query->columns('person_id,book_id,role, role_note','listorder');
-// 		                $query->values($db->quote($person_id).','.$db->quote($bk['book_id']).','.$db->quote($role).','.$db->quote($bk['role_note']).',11');
-// 		                $db->setQuery($query);
-// 		                try {
-// 		                    $db->execute();
-// 		                }
-// 		                catch (\RuntimeException $e) {
-// 		                    throw new \Exception($e->getMessage(), 500);
-// 		                    return false;
-// 		                }
-// 		            }
-// 		        }
-// 		    }
-// 		} else {
-// 		    //for other roles we need to do the delete for each book as well as update/new
-// 		    foreach ($bookList as $bk) {
-// 		        $query = $db->getQuery(true);
-// 		        $query->select('book_id')->from($db->quoteName('#__xbbookperson'));
-// 		        $query->where('person_id = '.$person_id.' AND role = "'.$bk['role'].'"');
-// 		        $db->setQuery($query);
-// 		        $old = $db->loadColumn();
-// 		        if (array_search($bk['book_id'], $old)!==false) {
-// 		            $query = $db->getQuery(true);
-// 		            $query->select('book_id')->from($db->quoteName('#__xbbookperson'));
-// 		            $query->where('person_id = '.$person_id.' AND role = '.$db->q($bk['role']).' AND book_id = '.$db->q($bk['book_id']));
-// 		            $db->setQuery($query);
-// 		            if ($db->loadResult()) {
-// 		                //its an update
-// 		                $query = $db->getQuery(true);
-// 		                $query->update($db->qn('#__xbbookperson'))
-// 		                ->set($db->qn('role_note').' = '.$db->q($bk['role_note']))
-// 		                ->where('person_id = '.$person_id.' AND role = '.$db->q($bk['role']).' AND book_id = '.$db->q($bk['book_id']));;
-// 		                $db->setQuery($query);
-// 		                try {
-// 		                    $db->execute();
-// 		                }
-// 		                catch (\RuntimeException $e) {
-// 		                    throw new \Exception($e->getMessage(), 500);
-// 		                    return false;
-// 		                }
-// 		            } else {
-// 		                //its a delete
-// 		                $query = $db->getQuery(true);
-// 		                $query->delete($db->qn('#__xbbookperson'));
-// 		                $query->where('person_id = '.$person_id.' AND role = "'.$bk['role'].'" AND book_id IN ('.$dellist.')');
-// 		                $db->setQuery($query);
-// 		                try {
-// 		                    $db->execute();
-// 		                }
-// 		                catch (\RuntimeException $e) {
-// 		                    throw new \Exception($e->getMessage(), 500);
-// 		                    return false;
-// 		                }
-// 		            }
-// 		        } else {
-// 		            // its new one
-// 		            $role = ($bk['role']=='') ? $bk['newrole'] : $bk['role'];
-// 		            if ($role !='') {
-// 		                $query = $db->getQuery(true);
-//     		            $query->insert($db->quoteName('#__xbbookperson'));
-//     		            $query->columns('person_id,book_id,role, role_note, listorder');
-//     		            $query->values($db->quote($person_id).','.$db->quote($bk['book_id']).','.$db->quote($role).','.$db->quote($bk['role_note']).','.$db->q('11'));
-//     		            $db->setQuery($query);
-//     		            try {
-//     		                $db->execute();
-//     		            }
-//     		            catch (\RuntimeException $e) {
-//     		                throw new \Exception($e->getMessage(), 500);
-//     		                return false;
-//     		            }
-// 		            }
-// 		        } //else
-// 		    } //foreach
-// 		} //else
+	    }	    
 	}
 	
 	private function storePersonEvents($person_id, $eventList) {
         $db = Factory::getDbo();
+        //delete existing role list
         $where = $db->qn('person_id').' = '.$db->q($person_id);
-        if ($this->deleteFromTable('#__xbgroupperson', $where)) {
+        if (XbcultureHelper::deleteFromTable('#__xbgroupperson', $where)) {
             
-            //delete existing role list
-//         $query = $db->getQuery(true);
-//         $query->delete($db->quoteName('#__xbeventperson'));
-//         $query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
-//         $db->setQuery($query);
-//         try {
-//             $db->execute();
-//         }
-//         catch (\RuntimeException $e) {
-//             throw new \Exception($e->getMessage(), 500);
-//             return false;
-//         }
         //restore the new list
             foreach ($eventList as $item) {
                 if ($item['event_id']>0) {
@@ -513,7 +358,8 @@ class XbpeopleModelPerson extends JModelAdmin {
                     $query = $db->getQuery(true);
                     $query->insert($db->quoteName('#__xbeventperson'));
                     $query->columns('person_id,event_id,role,role_note,listorder');
-                    $query->values($db->q($person_id).','.$db->q($item['book_id']).','.$db->q($item['role']).','.$db->q($item['role_note']).','.$db->q($listorder));
+                    $query->values($db->q($person_id).','.$db->q($item['book_id']).
+                        ','.$db->q($item['role']).','.$db->q($item['role_note']).','.$db->q($listorder));
                     $db->setQuery($query);
                     try {
                         $db->execute();
@@ -531,20 +377,8 @@ class XbpeopleModelPerson extends JModelAdmin {
 	    $db = Factory::getDbo();
 	    //delete existing role list
 	    $where = $db->qn('person_id').' = '.$db->q($person_id);
-	    if ($this->deleteFromTable('#__xbgroupperson', $where)) {
-	    
-// 	    $query = $db->getQuery(true);
-// 	    $query->delete($db->quoteName('#__xbgroupperson'));
-// 	    $query->where('person_id = '.$person_id.' AND role = "'.$role.'"');
-// 	    $db->setQuery($query);
-// 	    try {
-// 	        $db->execute();
-// 	    }
-// 	    catch (\RuntimeException $e) {
-// 	        throw new \Exception($e->getMessage(), 500);
-// 	        return false;
-// 	    }
-	    //restore the new list
+	    if (XbcultureHelper::deleteFromTable('#__xbgroupperson', $where)) {	    
+    	    //restore the new list
     	    foreach ($groupList as $item) {
     	        if ($item['group_id']>0) {
     	            $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
@@ -563,89 +397,6 @@ class XbpeopleModelPerson extends JModelAdmin {
     	        }
     	    }
 	    }
-	    
-//	    foreach ($groupList as $grp) {
-//	        $query = $db->getQuery(true);
-// 	        $query->select('group_id')->from($db->quoteName('#__xbgroupperson'));
-// 	        $query->where('person_id = '.$person_id.' AND role = "'.$grp['role'].'"');
-// 	        $db->setQuery($query);
-// 	        $old = $db->loadColumn();
-// 	        if (array_search($grp['group_id'], $old)!==false) {
-// 	            $query = $db->getQuery(true);
-// 	            $query->select('group_id')->from($db->quoteName('#__xbgroupperson'));
-// 	            $query->where('person_id = '.$person_id.' AND role = '.$db->q($grp['role']).' AND group_id = '.$db->q($grp['group_id']));
-// 	            $db->setQuery($query);
-// 	            if ($db->loadResult()) {
-// 	                //its an update
-// 	                $query = $db->getQuery(true);
-// 	                $query->update($db->qn('#__xbgroupperson'))
-// 	                ->set($db->qn('role_note').' = '.$db->q($grp['role_note']))
-// 	                ->where('person_id = '.$person_id.' AND role = '.$db->q($grp['role']).' AND group_id = '.$db->q($grp['group_id']));;
-// 	                $db->setQuery($query);
-// 	                try {
-// 	                    $db->execute();
-// 	                }
-// 	                catch (\RuntimeException $e) {
-// 	                    throw new \Exception($e->getMessage(), 500);
-// 	                    return false;
-// 	                }
-// 	            } else {
-// 	                //its a delete
-// 	                $query = $db->getQuery(true);
-// 	                $query->delete($db->qn('#__xbgroupperson'));
-// 	                $query->where('person_id = '.$person_id.' AND role = "'.$grp['role'].'" AND group_id IN ('.$dellist.')');
-// 	                $db->setQuery($query);
-// 	                try {
-// 	                    $db->execute();
-// 	                }
-// 	                catch (\RuntimeException $e) {
-// 	                    throw new \Exception($e->getMessage(), 500);
-// 	                    return false;
-// 	                }
-// 	            }
-// 	        } else {
-// 	            // its new one
-// 	            $role = ($grp['role']=='') ? $grp['newrole'] : $grp['role'];
-// 	            if ($role !='') {
-//     	            $query = $db->getQuery(true);
-//     	            $query->insert($db->quoteName('#__xbgroupperson'));
-//     	            $query->columns('person_id,group_id,role, role_note, listorder');
-//     	            $query->values($db->quote($person_id).','.$db->quote($grp['group_id']).','.$db->quote($role).','.$db->quote($grp['role_note']).','.$db->q('11'));
-//     	            $db->setQuery($query);
-//     	            try {
-//     	                $db->execute();
-//     	            }
-//     	            catch (\RuntimeException $e) {
-//     	                throw new \Exception($e->getMessage(), 500);
-//     	                return false;
-//     	            }	                
-// 	            }
-// 	        }
-//	    }
 	}
-	
-/**
- * 
- * @param string $table
- * @param string $condition
- * @throws \Exception
- * @return boolean
- */
-	public function deleteFromTable(string $table, string $condition) {
-	    $db = Factory::getDbo();
-	    //delete existing role list
-	    $query = $db->getQuery(true);
-	    $query->delete($db->quoteName($table));
-	    $query->where($condition);
-	    $db->setQuery($query);
-	    try {
-	        $db->execute();
-	    }
-	    catch (\RuntimeException $e) {
-	        throw new \Exception($e->getMessage(), 500);
-	        return false;
-	    }
-	    return true;
-	}
-	
+		
 }

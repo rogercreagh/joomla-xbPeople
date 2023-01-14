@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/character.php
- * @version 0.12.0 6th December 2022
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -182,28 +182,41 @@ class XbpeopleModelCharacter extends JModelAdmin {
 	}
 
 	public function getCharacterFilmslist() {
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('a.id as film_id, ba.actor_id AS actor_id, ba.char_note AS char_note,ba.listorder AS oldorder');
+	    $query->from('#__xbfilmcharacter AS ba');
+	    $query->innerjoin('#__xbfilms AS a ON ba.film_id = a.id');
+	    $query->where('ba.char_id = '.(int) $this->getItem()->id);
+	    $query->order('a.rel_year DESC');
+	    $db->setQuery($query);
+	    return $db->loadAssocList();
+	    //if actor_id is set we also need to get the actor name
+	}
+	
+	public function getCharacterEventslist() {
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('a.id as film_id, ba.actor_id AS actor_id, ba.char_note AS char_note');
-		$query->from('#__xbfilmcharacter AS ba');
-		$query->innerjoin('#__xbfilms AS a ON ba.film_id = a.id');
+		$query->select('a.id as book_id, ba.actor_id AS actor_id, ba.char_note AS char_noteba.listorder AS oldorder');
+		$query->from('#__xbeventcharacter AS ba');
+		$query->innerjoin('#__xbevents AS a ON ba.evemt_id = a.id');
 		$query->where('ba.char_id = '.(int) $this->getItem()->id);
 		$query->order('a.title ASC');
 		$db->setQuery($query);
 		return $db->loadAssocList();
-		//if actor_id is set we also need to get the actor name
 	}
 	
 	public function getCharacterBookslist() {
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('a.id as book_id, ba.char_note AS char_note');
-		$query->from('#__xbbookcharacter AS ba');
-		$query->innerjoin('#__xbbooks AS a ON ba.book_id = a.id');
-		$query->where('ba.char_id = '.(int) $this->getItem()->id);
-		$query->order('a.title ASC');
-		$db->setQuery($query);
-		return $db->loadAssocList();
+	    $db = $this->getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('a.id as book_id, ba.char_note AS char_note,ba.listorder AS oldorder');
+	    $query->from('#__xbbookcharacter AS ba');
+	    $query->innerjoin('#__xbbooks AS a ON ba.book_id = a.id');
+	    $query->where('ba.char_id = '.(int) $this->getItem()->id);
+	    $query->order('a.title ASC');
+	    $db->setQuery($query);
+	    return $db->loadAssocList();
+	    //if actor_id is set we also need to get the actor name
 	}
 	
 	public function save($data) {

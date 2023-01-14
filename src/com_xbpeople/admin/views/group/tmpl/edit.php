@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/tmpl/edit.php
- * @version 1.0.2.3 9th January 2023
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,6 +16,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 
+HtmlHelper::_('behavior.tabState');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
@@ -29,29 +30,31 @@ $document->addStyleDeclaration($style);
 ?>
 <style type="text/css" media="screen">
     .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
-    .xbqpmodal .modal-body {height:330px;} 
-    .xbqpmodal .modal-body iframe { height:300px;}
+    .xbqpmodal .modal-body {height:340px;} 
+    .xbqpmodal .modal-body iframe { height:310px;}
 </style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
     	<div class="span9">
      		<div class="row-fluid form-horizontal">
-        		<div class="pull-left" >
+       			<div class="span10" >
              		<?php echo $this->form->renderField('title'); ?>
         		</div>
+                 <div class="span2">
+                   <?php echo $this->form->renderField('id'); ?>
+                </div>
 			</div>
 			<div class="row-fluid form-vertical">
-               <div class="span4">
+                <div class="span4">
                    <?php echo $this->form->renderField('alias'); ?> 
-              </div>
-              <div class="span4">
+                </div>
+                <div class="span6">
                    <?php echo $this->form->renderField('summary'); ?>
-              </div>
-              <div class="span2 offset1">
-                   <?php echo $this->form->renderField('id'); ?>
-              </div>
-         <div class="pull-right span3">
+                </div>
+            </div>
+         </div>
+         <div class="span3">
     		<?php $src = $this->form->getValue('picture');
     		    if($src != '') {
                     if (!file_exists(JPATH_ROOT.'/'.$src)) {
@@ -112,10 +115,11 @@ $document->addStyleDeclaration($style);
 			<h3>Group Members</h3>
 			<fieldset class="form-vertical">
 				<div class="row-fluid">
-					<div class="span9">
+					<div class="span12">
             			<?php echo $this->form->renderField('grouppersonlist'); ?>
 					</div>
-					<div class="span3 xbbox xbboxwht">
+				</div>
+					<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
              			<h4><?php echo Text::_('XBCULTURE_QUICK_P_ADD');?></h4>
             			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_P_NOTE');?></p> 
     					<a class="btn btn-small" data-toggle="modal" 
@@ -123,7 +127,6 @@ $document->addStyleDeclaration($style);
     						data-target="#ajax-modal"><i class="icon-new">
     						</i><?php echo Text::_('XBCULTURE_ADD_NEW_P');?></a>
              		</div>					
-				</div>
 			</fieldset>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		<?php if($this->xbevents_ok) : ?>
@@ -191,7 +194,7 @@ jQuery(document).ready(function(){
 });
 </script>
 <!-- quick person modal window -->
-<div class="modal fade xbqpmodal" id="ajax-modal" style="max-width:1000px;">
+<div class="modal fade xbqpmodal" id="ajax-modal" style="max-width:1100px;">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->

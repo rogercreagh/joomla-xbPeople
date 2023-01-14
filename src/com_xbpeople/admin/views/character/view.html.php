@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 1.0.0.6 23rd December 2022
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ContentHelper;
@@ -83,7 +84,7 @@ class XbpeopleViewCharacter extends JViewLegacy {
         }
         ToolbarHelper::custom(); //spacer
         
-        $bar = JToolbar::getInstance( 'toolbar' );
+        $bar = Toolbar::getInstance( 'toolbar' );
         if ($this->item->id > 0) {
             $dhtml = '<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id='.$this->item->id.'"
             	data-toggle="modal" data-target="#ajax-pvmodal"

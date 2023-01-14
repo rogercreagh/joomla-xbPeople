@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/tmpl/qnew.php
- * @version 1.0.0.5 20th December 2022
+ * @version 1.0.2.8 14th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 
 ?>
 <div class="xbml20 xbmr20">
-<form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=qnew&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_xbpeople&view=group&layout=qnew&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm" style="margin:0;">
     <div class="row-fluid">
     	<div class="span9">
