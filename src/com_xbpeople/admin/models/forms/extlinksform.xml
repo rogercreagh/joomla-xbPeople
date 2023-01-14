@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- xbPeople admin/models/forms/extlinksform.xml v1.0.2.7 14th January 2023 -->
+<form>
+	<fieldset>
+			<field
+				name="link_text" type="text" required="true"
+				label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="50"
+				/>
+			<field
+				name="link_url" type="url" required="true"
+				label="XBCULTURE_URL"
+				size="40" maxlength="190"
+					/>
+			<field
+				name="link_desc" type="text"
+				label="XBCULTURE_DESCRIPTION" size="40" maxlength="190"
+				/>
+	</fieldset>
+</form>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/person.xml v1.0.2.6 13th January 2023 -->
+<!-- xbPeople admin/models/forms/person.xml v1.0.2.7 14th January 2023 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -89,21 +89,24 @@
 		<field name= "persongrouplist" type= "subform"
 			label= "XBCULTURE_FIELD_PERSON_GROUP_ADD"
 			description="XBCULTURE_SUBFORM_ADD_DESC"
-			min= "0" max= "10"
+			min="0" max="10"
 			multiple= "true" buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="group_id" type="allgroups" label="XBCULTURE_GROUP" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="group_id" type="allgroups" label="XBCULTURE_GROUP" >
+					<option value=""></option>	
 				</field>
-				<field name="role" type="grouprolelist" label="Existing roles" maxlength="50" class="xbwid160" >
+				<field name="role" type="grouprolelist" label="XBCULTURE_EXISTING_ROLES" maxlength="50"  >
 					<option value=""></option>
 				</field>
-				<field name="newrole" type="text" label="Create New Role" size="20" maxlength="50" showon="role:"/>
-				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="YYYY min" size="20" maxlength="50" />
-				<field name="until" type="text" label="XBCULTURE_LEFT" hint="YYYY min" size="12" maxlength="20" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="12" maxlength="20" />
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE"  hint="leave existing blank" 
+					size="20" maxlength="50" 
+					showon="role:"/>
+				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="optional or..." size="15" maxlength="50" />
+				<field name="until" type="text" label="XBCULTURE_LEFT" hint="...Y|Y-M|Y-M-D" size="15" maxlength="20" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -111,19 +114,22 @@
 			type= "subform"
 			label= "XBCULTURE_EVENT"
 			description="XBCULTURE_FIELD_EVENTADD_DESC"
-			min= "0" max= "10"
+			min="0" max="10"
 			multiple= "true" buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="event_id" type="events" label="XBCULTURE_EVENT" required="true"  >
-					<option value="">JSELECT</option>	
+				<field name="event_id" type="events" label="XBCULTURE_EVENT"  >
+					<option value=""></option>	
 				</field>
-				<field name="role" type="eventrolelist" label="Existing roles" maxlength="50" class="xbwid160" >
+				<field name="role" type="eventrolelist" label="XBCULTURE_EXISTING_ROLES"  >
 					<option value=""></option>
 				</field>
-				<field name="newrole" type="text" label="Create New Role" size="20" maxlength="50" showon="role:"/>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50" />
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE" hint="leave existing blank"
+					 size="20" maxlength="50" 
+					 showon="role:"/>
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -132,37 +138,30 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMDIRECTOR_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
-			groupByFieldset="false" >
-			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
-					<option value="">JSELECT</option>	
-				</field>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
-				/>
-			</form>
+			groupByFieldset="false" 
+			>
 		</field>
 			
 		<field name= "filmproducerlist"
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMPRODUCER_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="50" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 
@@ -170,18 +169,18 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMACTOR_LABEL"
 			description="XBCULTURE_FIELD_FILMADD_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role_note" type="text" label="playing" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_CHARACTER_U" size="20" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 						
@@ -189,18 +188,18 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_FILMCREW_LABEL"
 			description="XBCULTURE_FIELD_FILMCREW_DESC"
-			min= "0"
-			max= "10"
+			min= "0" max= "10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role_note" type="crewrole" label="Job" size="20" maxlength="50"
+				<field name="role_note" type="crewrole" label="Job" size="20" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 						
@@ -215,15 +214,16 @@
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="film_id" type="films" label="XBCULTURE_FIELD_ADDFILM_LABEL" >
+					<option value=""></option>	
 				</field>
 				<field name="role_note" type="list"
-						label="Type" size="20" maxlength="50" >
+						label="Appearance Type" size="20" maxlength="50" >
 					<option value="cameo">Cameo role</option>	
 					<option value="self">Appears as themself</option>	
 					<option value="subect">Main Subject</option>	
 				</field>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 						
@@ -231,18 +231,18 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_BOOKAUTHOR_LABEL"
 			description="XBCULTURE_FIELD_BOOKADD_DESC"
-			min= "0"
-			max= "10"
+			min="0" max="10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="50" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -250,18 +250,18 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_BOOKEDITOR_LABEL"
 			description="XBCULTURE_FIELD_BOOKADD_DESC"
-			min= "0"
-			max= "10"
+			min="0" max="10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="50" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 			
@@ -269,18 +269,18 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_BOOKMEN_LABEL"
 			description="XBCULTURE_FIELD_BOOKADD_DESC"
-			min= "0"
-			max= "10"
+			min="0" max="10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="50" maxlength="100"
 				/>
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 		
@@ -288,20 +288,23 @@
 			type= "subform"
 			label= "XBCULTURE_FIELD_BOOKOTHER_LABEL"
 			description="XBCULTURE_FIELD_BOOKOTHER_DESC"
-			min= "0" max= "10"
+			min="0" max="10"
 			multiple= "true"
 			buttons= "add,remove"
 			layout="joomla.form.field.subform.repeatable-table"
 			groupByFieldset="false" >
 			<form>
-				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" required="true" >
-					<option value="">JSELECT</option>	
+				<field name="book_id" type="books" label="XBCULTURE_FIELD_ADDBOOK_LABEL" >
+					<option value=""></option>	
 				</field>
-				<field name="role" type="bookrolelist" label="Existing roles" maxlength="50" class="xbwid160" >
+				<field name="role" type="bookrolelist" label="XBCULTURE_EXISTING_ROLES" >
 					<option value=""></option>
 				</field>
-				<field name="newrole" type="text" label="Create New Role" size="20" maxlength="50" showon="role:"/>
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50" />
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE"  hint="leave existing blank"
+					size="20" maxlength="50" 
+					showon="role:"/>
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
+				<field name="oldorder" type="hidden"  />
 			</form>
 		</field>
 						
@@ -310,23 +313,9 @@
 			min="0" max="10" multiple="true"
 			buttons= "add,remove,move"
 			layout="joomla.form.field.subform.repeatable-table"
+			formsource="administrator/components/com_xbpeople/models/forms/extlinksform.xml"
 			>
-				<form>
-					<field
-						name="link_text" type="text" required="true"
-						label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
-						/>
-					<field
-						name="link_url" type="url" required="true"
-						label="XBCULTURE_FIELD_URL_LABEL"
-						size="40"
-  					/>
-					<field
-						name="link_desc" type="text"
-						label="Description" size="40" maxlength="190"
-						/>
-				</form>
-			</field>
+		</field>
 
 		<field name="created" type="calendar"
 			label="XBCULTURE_FIELD_CREATED_LABEL" description="XBCULTURE_FIELD_CREATED_DESC"

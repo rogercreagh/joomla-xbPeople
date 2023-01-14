@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/group.xml v1.0.0.9 30th December 2022 -->
+<!-- xbPeople admin/models/forms/group.xml v1.0.2.7 14th January 2023 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -87,7 +87,7 @@
 			groupByFieldset="false" >
 			<form>
 				<field name="film_id" type="films" label="XBCULTURE_FILM_U" >
-					<option value="">JSELECT</option>	
+					<option value=""></option>	
 				</field>
 				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
 				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
@@ -106,10 +106,10 @@
 			groupByFieldset="false" >
 			<form>
 				<field name="book_id" type="books" label="XBCULTURE_BOOK_U" >
-					<option value="">JSELECT</option>	
+					<option value=""></option>	
 				</field>
 				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"
 				/>
 			</form>
 		</field>
@@ -123,12 +123,15 @@
 			groupByFieldset="false" >
 			<form>
 				<field name="person_id" type="allpeople" label="XBCULTURE_PERSON_U" >
-					<option value="">JSELECT</option>	
+					<option value=""></option>	
 				</field>
-				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
-				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="optional, YYYY min" size="20" maxlength="50" />
-				<field name="until" type="text" label="XBCULTURE_LEFT" hint="" size="12" maxlength="20" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="12" maxlength="20" />
+				<field name="role" type="grouprolelist" label="XBCULTURE_EXISTING_ROLES" maxlength="50" >
+					<option value=""></option>
+				</field>
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE" size="20" maxlength="50" showon="role:"/>
+				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="optional or..." size="15" maxlength="20" />
+				<field name="until" type="text" label="XBCULTURE_LEFT" hint="...Y|Y-M|Y-M-D" size="15" maxlength="20" />
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
 			</form>
 		</field>
 			
@@ -142,10 +145,10 @@
 			groupByFieldset="false" >
 			<form>
 				<field name="event_id" type="events" label="XBCULTURE_EVENT">
-					<option value="">JSELECT</option>	
+					<option value=""></option>	
 				</field>
 				<field name="role" type="text" label="XBCULTURE_ROLE_U" size="20" maxlength="50" />
-				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="50"
+				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100"
 				/>
 			</form>
 		</field>
@@ -155,23 +158,9 @@
 			min="0" max="10" multiple="true"
 			buttons= "add,remove,move"
 			layout="joomla.form.field.subform.repeatable-table"
+			formsource="administrator/components/com_xbpeople/models/forms/extlinksform.xml"
 			>
-				<form>
-					<field
-						name="link_text" type="text" required="true"
-						label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
-						/>
-					<field
-						name="link_url" type="url"  required="true"
-						label="XBCULTURE_FIELD_URL_LABEL"
-						size="40"
-  					/>
-					<field
-						name="link_desc" type="text"
-						label="Description" size="40" maxlength="190"
-						/>
-				</form>
-			</field>
+		</field>
 
 		<field name="created" type="calendar"
 			label="XBCULTURE_FIELD_CREATED_LABEL" description="XBCULTURE_FIELD_CREATED_DESC"

@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 1.0.2.6 12th January 2023
+ * @version 1.0.2.6 13th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,8 +29,8 @@ if (!$listOrder) {
 }
 $orderNames = array('firstname'=>Text::_('XBCULTURE_FIRSTNAME'),'lastname'=>Text::_('XBCULTURE_LASTNAME'),
 		'id'=>'id','sortdate'=>Text::_('XBCULTURE_DATES'),'category_title'=>Text::_('XBCULTURE_CATEGORY'),
-		'published'=>Text::_('XBCULTURE_STATUS'),'a.ordering'=>Text::_('XBCULTURE_ORDERING'),
-    'bcnt'=>Text::_('XBCULTURE_BOOKS_U'),'fcnt'=>Text::_('XBCULTURE_FILMS_U'),'a.created'=>Text::_('XBCULTURE_DATE_ADDED')
+		'published'=>Text::_('XBCULTURE_STATUS'),'ordering'=>Text::_('XBCULTURE_ORDERING'),
+    'bcnt'=>Text::_('XBCULTURE_BOOKS_U'),'fcnt'=>Text::_('XBCULTURE_FILMS_U'),'created'=>Text::_('XBCULTURE_DATE_ADDED')
     
 );
 
@@ -100,10 +100,10 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', 
 					    $listDirn, $listOrder, null, 'asc', 'XBCULTURE_HEADING_ORDERING', 'icon-menu-2'); ?>
 				</th>
-    			<th class="hidden-phone" style="width:25px;">
+    			<th class="hidden-phone" style="width:20px;">
     				<?php echo HTMLHelper::_('grid.checkall'); ?>
     			</th>
-    			<th class="nowrap center" style="width:55px">
+    			<th class="nowrap center" style="width:50px">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
     			</th>
     			<th class="center" style="width:80px">
@@ -117,7 +117,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<th>
      				<?php echo Text::_('XBCULTURE_GROUPS') ;?>
     			</th>
-    			<th>
+    			<th class="hidden-tablet hidden-phone" >
     				<?php echo Text::_('XBCULTURE_SUMMARY'); ?>
     			</th>
     			<?php if($this->xbbooks_ok) : ?>
@@ -139,7 +139,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort','XBCULTURE_CATS','category_title',$listDirn,$listOrder ).' &amp; ';
 						echo Text::_( 'XBCULTURE_TAGS_U' ); ?>
 				</th>   			
-    			<th class="nowrap hidden-phone" style="width:45px;">
+    			<th class="nowrap hidden-phone">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
     			</th>
     			<th>[pv]</th>
@@ -242,7 +242,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
                           </details>
 						<?php endif; ?>
 					</td>
-					<td>						
+					<td><div style="max-width:250px;">						
 						<p class="xb095">
 							<?php if (!empty($item->summary)) : ?>
 								<?php echo $item->summary; ?>
@@ -270,7 +270,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 	                            echo $item->ext_links_list.'</span>'; ?>
 	                    	</p>
 						<?php endif; ?>
-                    </td>
+                    </div></td>
     			<?php if($this->xbbooks_ok) : ?>
 					<td>
 						<?php if ($item->bcnt>0) :?>
@@ -365,9 +365,17 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
    					</td>
     			<?php endif; ?>
     			<?php if($this->xbevents_ok) : ?>
-    			<td>
-										
-    			</td>
+    				<td>
+						<?php if($item->ecnt>0) :?>
+                          <details>
+                          	<summary><span class="xbnit">
+ 								<?php echo $item->ecnt.' ';
+ 								echo ($item->ecnt==1)? lcfirst(Text ::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS'));   ?>
+                            </span></summary>
+ 							<?php echo $item->eventlist; ?>
+                          </details>
+						<?php endif; ?>
+    				</td>
     			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 

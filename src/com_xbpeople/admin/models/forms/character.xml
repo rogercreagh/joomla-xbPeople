@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- xbPeople admin/models/forms/character.xml v1.0.0.2 17th December 2022 -->
+<!-- xbPeople admin/models/forms/character.xml v1.0.2.7 14th January 2023 -->
 <form>
 	<fieldset>
 		<field name="id" default="0" 
@@ -129,23 +129,9 @@
 			min="0" max="10" multiple="true"
 			buttons= "add,remove,move"
 			layout="joomla.form.field.subform.repeatable-table"
+			formsource="administrator/components/com_xbpeople/models/forms/extlinksform.xml"
 			>
-				<form>
-					<field
-						name="link_text" type="text" required="true"
-						label="XBCULTURE_FIELD_LINKTEXT_LABEL" size="20" maxlength="25"
-						/>
-					<field
-						name="link_url" type="url" required="true"
-						label="XBCULTURE_FIELD_URL_LABEL"
-						size="40"
-  					/>
-					<field
-						name="link_desc" type="text"
-						label="Description" size="40" maxlength="190"
-						/>
-				</form>
-			</field>
+		</field>
 
 		<field name="created" type="calendar"
 			label="XBCULTURE_FIELD_CREATED_LABEL" description="XBCULTURE_FIELD_CREATED_DESC"
