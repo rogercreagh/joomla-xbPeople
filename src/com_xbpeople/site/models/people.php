@@ -248,9 +248,7 @@ class XbpeopleModelPeople extends JModelList {
 			$peep[$i] = $items[$i]->id;
 		}
 		$app->setUserState('people.sortorder', $peep);
-		$showcnts = $this->getState('params')['showcnts'];
 		
-	    $db    = Factory::getDbo();
 		foreach ($items as $i=>$item) {
 			$item->tags = $tagsHelper->getItemTags('com_xbpeople.person' , $item->id);
 	

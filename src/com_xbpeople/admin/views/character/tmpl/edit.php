@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.2.9 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,35 +29,33 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
-    	<div class="span9">
-      		<div class="row-fluid form-vertical">
-        		<div class="pull-left" >
-             		<?php echo $this->form->renderField('name'); ?>
+    	<div class="span10">
+          	<div class="row-fluid form-vertical">
+        		<div class="span11">
+        			<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
         		</div>
-			</div>
+        		<div class="span1"><?php echo $this->form->renderField('id'); ?></div>
+        	</div>
 			<div class="row-fluid form-vertical">
-               <div class="span4">
-                   <?php echo $this->form->renderField('alias'); ?> 
-              </div>
-              <div class="span4">
-                   <?php echo $this->form->renderField('summary'); ?>
-              </div>
-              <div class="span2 offset1">
-                   <?php echo $this->form->renderField('id'); ?>
-              </div>
+              	<div class="span4">
+					<?php echo $this->form->renderField('summary'); ?>
+              	</div>
+              	<div class="span8">
+    				<div class="xbmw1200 xbcentre">
+    					<?php echo $this->form->renderField('ext_links'); ?>
+    				</div>
+              	</div>
           </div>
       </div>
-       <div class="pull-right span3">
-    		<?php $src = $this->form->getValue('image'); 
-    		if($src != '') {
-    		    if (!file_exists(JPATH_ROOT.'/'.$src)) {
-    		        $src = 'media/com_xbpeople/images/nofile.jpg'; //
-    		    } ?>
-				<div class="control-group">
-					<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-    				src="<?php echo Uri::root().$src;?>" />
-				</div>
-		<?php } ?>
+       <div class="span2">
+    		<?php if($this->form->getValue('image')) : ?>
+    			<div class="control-group">
+    				<img class="img-polaroid hidden-phone" style="max-width:100%;" 
+        				src="<?php echo Uri::root() . $this->form->getValue('image');?>" />
+    			</div>
+    		<?php else : ?>
+    			<div class="xbbox xbboxwht xbnit xbtc"><?php echo Text::_('XBCULTURE_NO_PICTURE'); ?></div>
+    		<?php endif; ?>
         </div>  
     </div>
     <div class="row-fluid">
@@ -68,37 +66,34 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 		<div class="row-fluid">
 			<div class="span9">
 				<fieldset class="adminform form-vertical">
-					<?php echo $this->form->renderField('ext_links'); ?>
-					<div class="row-fluid">
-    					<div class="span12">
-                 			<?php echo $this->form->renderField('description'); ?>
-    					</div>
-					</div>
-				</fieldset>
+ 					<div class="xbmw1000 xbcentre">
+                     	<?php echo $this->form->renderField('description'); ?>
+        			</div>
+    			</fieldset>
 			</div>
-			<div class="span3">
- 				<fieldset class="form-vertical">
+    		<div class="span3">
+    			<fieldset class="form-vertical">
            			<?php echo $this->form->renderField('image'); ?>
- 				</fieldset>
-					<?php if ($this->chartaggroup_parent) : ?>
-				        <h4>Character Tags</h4>
- 						<?php  $this->form->setFieldAttribute('tags','label',Text::_('XBCULTURE_ALLTAGS'));
- 						    $this->form->setFieldAttribute('tags','description',Text::_('XBCULTURE_ALLTAGS_DESC'));						    
- 						    $this->form->setFieldAttribute('chartaggroup','label',$this->taggroupinfo[$this->chartaggroup_parent]['title']);
- 						    $this->form->setFieldAttribute('chartaggroup','description',$this->taggroupinfo[$this->chartaggroup_parent]['description']);
- 						    echo $this->form->renderField('chartaggroup'); 
-						endif; ?>
- 				<h4><?php echo Text::_('XBCULTURE_STATUS_CATS_TAGS'); ?></h4> 				
-				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-			</div>
-		</div>
+    			</fieldset>
+    				<?php if ($this->chartaggroup_parent) : ?>
+    			        <h4>Character Tags</h4>
+    					<?php  $this->form->setFieldAttribute('tags','label',Text::_('XBCULTURE_ALLTAGS'));
+    					    $this->form->setFieldAttribute('tags','description',Text::_('XBCULTURE_ALLTAGS_DESC'));						    
+    					    $this->form->setFieldAttribute('chartaggroup','label',$this->taggroupinfo[$this->chartaggroup_parent]['title']);
+    					    $this->form->setFieldAttribute('chartaggroup','description',$this->taggroupinfo[$this->chartaggroup_parent]['description']);
+    					    echo $this->form->renderField('chartaggroup'); 
+    					endif; ?>
+    			<h4><?php echo Text::_('XBCULTURE_STATUS_CATS_TAGS'); ?></h4> 				
+    			<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+    		</div>
+    	</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		<?php if($this->xbbooks_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
-    			<h3>Books</h3>
+    			<h3><?php echo Text::_('XBCULTURE_BOOKS_U'); ?></h3>
     			<fieldset class="form-vertical">
                     <div class="row-fluid">
-						<div class="span8">
+						<div class="xbmw1100 xbcentre">
 		               		<?php echo $this->form->renderField('bookcharlist'); ?>
 				        </div>
 			        </div>
@@ -107,10 +102,10 @@ HtmlHelper::_('formbehavior.chosen', 'select');
     	<?php endif; ?>
 		<?php if($this->xbevents_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', Text::_('XBCULTURE_EVENTS')); ?>
-    			<h3>Books</h3>
+    			<h3><?php echo Text::_('XBCULTURE_EVENTS'); ?></h3>
     			<fieldset class="form-vertical">
                     <div class="row-fluid">
-						<div class="span8">
+						<div class="xbmw1100 xbcentre">
 		               		<?php echo $this->form->renderField('eventcharlist'); ?>
 				        </div>
 			        </div>
@@ -119,10 +114,10 @@ HtmlHelper::_('formbehavior.chosen', 'select');
     	<?php endif; ?>
 		<?php if($this->xbfilms_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'flinks', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
-    			<h3>Films</h3>
+    			<h3><?php echo Text::_('XBCULTURE_FILMS_U'); ?></h3>
     			<fieldset class="form-vertical">
                     <div class="row-fluid">
-						<div class="span8">
+						<div class="xbmw1100 xbcentre">
                        		<?php echo $this->form->renderField('filmcharlist'); ?>
 				        </div>
 			        </div>

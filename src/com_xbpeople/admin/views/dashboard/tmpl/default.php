@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/dashboard/tmpl/default.php
- * @version 1.0.0.10 31st December 2022
+ * @version 1.0.2.9 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -93,7 +93,7 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 	<h3><?php echo Text::_( 'XBCULTURE_SUMMARY' ); ?></h3>
 	<div class="row-fluid">
 		<div class="span5">
-			<div class="xbbox xbboxgrn">
+			<div class="xbbox perbox">
 				<div class="row-fluid"><div class="span12">
 				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>
 					<span class="pull-right">
@@ -103,10 +103,13 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 				</h2>
 				<p class="pull-right">
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INBOOKS'); ?>: </span>
-					<span class="badge <?php echo ($this->xbbooks_ok) ? 'badge-info' : ''?>"><?php echo $this->bookPeople;?></span>
+					<span class="badge <?php echo ($this->xbbooks_ok) ? 'bkcnt' : ''?>"><?php echo $this->bookPeople;?></span>
+					&nbsp;&nbsp;
+					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INEVENTS'); ?>: </span>
+					<span class="badge <?php echo ($this->xbevents_ok) ? 'evtcnt' : ''?>"><?php echo $this->eventPeople;?></span>
 					&nbsp;&nbsp;
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INFILMS'); ?></span>
-					<span class="badge <?php echo ($this->xbfilms_ok) ? 'badge-info' : ''?>"><?php echo $this->filmPeople;?></span>	
+					<span class="badge <?php echo ($this->xbfilms_ok) ? 'flmcnt' : ''?>"><?php echo $this->filmPeople;?></span>	
 				</p>
 				</div></div>
 				<div class="row-striped">
@@ -132,7 +135,7 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 					</div>
 				</div>
 			</div>
-			<div class="xbbox xbboxcyan">
+			<div class="xbbox chbox">
 				<div class="row-fluid"><div class="span12">
 				<h2 class="xbtitle"><?php echo ucfirst(Text::_('XBCULTURE_CHARACTERS')); ?>
 					<span class="pull-right">
@@ -142,10 +145,13 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 				</h2>
 				<p class="pull-right">
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INBOOKS'); ?>: </span>
-					<span class="badge <?php echo ($this->xbbooks_ok) ? 'badge-info' : ''?>"><?php echo $this->bookChars;?></span>
+					<span class="badge <?php echo ($this->xbbooks_ok) ? 'bkcnt' : ''?>"><?php echo $this->bookChars;?></span>
+					&nbsp;&nbsp;
+					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INEVENTS'); ?>: </span>
+					<span class="badge <?php echo ($this->xbbooks_ok) ? 'evtcnt' : ''?>"><?php echo $this->eventPeople;?></span>
 					&nbsp;&nbsp;
 					<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INFILMS'); ?></span>
-					<span class="badge <?php echo ($this->xbfilms_ok) ? 'badge-info' : ''?>"><?php echo $this->filmChars;?></span>	
+					<span class="badge <?php echo ($this->xbfilms_ok) ? 'flmcnt' : ''?>"><?php echo $this->filmChars;?></span>	
 				</p>
 				</div></div>
 				<div class="row-striped">
@@ -171,7 +177,7 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 					</div>
 				</div>
 			</div>
-     			<div class="xbbox xbboxgrey">
+     			<div class="xbbox tagbox">
     				<div class="row-fluid"><div class="span12">
     					<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_NUM_ITEMS_TAGGED'); ?>
     						<span class="pull-right">
@@ -188,21 +194,21 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
     						<div class="span8"><?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>:
     						</div>
     						<div class="span4">
-    							<span class="flmcnt badge  pull-right"><?php echo $this->tags['peeptagged']; ?></span>
+    							<span class="percnt badge  pull-right"><?php echo $this->tags['peeptagged']; ?></span>
     						</div>
     					</div>
     					<div class="row-fluid">
     						<div class="span8"><?php echo Text::_('XBCULTURE_GROUPS'); ?>:
     						</div>
     						<div class="span4">
-    							<span class="revcnt badge  pull-right"><?php echo $this->tags['groupstagged']; ?></span>
+    							<span class="grpcnt badge  pull-right"><?php echo $this->tags['groupstagged']; ?></span>
     						</div>
     					</div>
     					<div class="row-fluid">
     						<div class="span8"><?php echo Text::_('XBCULTURE_CHARACTERS_U'); ?>:
     						</div>
     						<div class="span4">
-    							<span class="percnt badge  pull-right"><?php echo $this->tags['charstagged']; ?></span>
+    							<span class="chcnt badge  pull-right"><?php echo $this->tags['charstagged']; ?></span>
     						</div>
     					</div>
     				</div>
@@ -213,28 +219,28 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
     						<div class="span8"><?php echo Text::_('XBCULTURE_PEOPLE_U'); ?>:
     						</div>
     						<div class="span4">
-    							<span class="flmcnt badge  pull-right"><?php echo $this->tags['tagspeep']; ?></span>
+    							<span class="percnt badge  pull-right"><?php echo $this->tags['tagspeep']; ?></span>
     						</div>
     					</div>
     					<div class="row-fluid">
     						<div class="span8"><?php echo Text::_('XBCULTURE_GROUPS'); ?>:
     						</div>
     						<div class="span4">
-    							<span class="revcnt badge  pull-right"><?php echo $this->tags['tagsgroups']; ?></span>
+    							<span class="grpcnt badge  pull-right"><?php echo $this->tags['tagsgroups']; ?></span>
     						</div>
     					</div>
     					<div class="row-fluid">
     						<div class="span8"><?php echo Text::_('XBCULTURE_CHARACTERS_U'); ?>:
     						</div>
     						<div class="span4">
-    							<span class="percnt badge  pull-right"><?php echo $this->tags['tagschars']; ?></span>
+    							<span class="chcnt badge  pull-right"><?php echo $this->tags['tagschars']; ?></span>
     						</div>
     					</div>
     				</div>
     			</div>
 		</div>
 		<div class="span5">
-			<div class="xbbox xbboxmag">
+			<div class="xbbox grpbox">
 				<div class="row-fluid"><div class="span12">
 				<h2 class="xbtitle"><?php echo Text::_('XBCULTURE_GROUPS'); ?>
 					<span class="pull-right">
@@ -245,17 +251,17 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 				<p class="pull-right">
 					<?php if ($this->xbbooks_ok) : ?>
 						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INBOOKS'); ?>: </span>
-						<span class="badge badge-info"><?php echo $this->bookGroups;?></span>
+						<span class="badge percnt"><?php echo $this->bookGroups;?></span>
 						&nbsp;&nbsp;
 					<?php endif; ?>
 					<?php if ($this->xbevents_ok) : ?>
 						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INEVENTS'); ?>: </span>
-						<span class="badge badge-info"><?php echo $this->eventGroups;?></span>
+						<span class="badge evtcnt"><?php echo $this->eventGroups;?></span>
 						&nbsp;&nbsp;
 					<?php endif; ?>
 					<?php if ($this->xbfilms_ok) : ?>
 						<span class="xbnit xbmr10 xb09"><?php echo Text::_('XBCULTURE_INFILMS'); ?></span>
-						<span class="badge badge-info"><?php echo $this->filmGroups;?></span>	
+						<span class="badge flmcnt"><?php echo $this->filmGroups;?></span>	
 					<?php endif; ?>
 				</p>
 				</div></div>
@@ -283,9 +289,9 @@ $clink='index.php?option=com_categories&view=categories&task=category.edit&exten
 				</div>
 			</div>
 
-			<div class="xbbox xbboxyell">
+			<div class="xbbox catbox">
  				<h2 class="xbtitle">
-					<span class="badge badge-info pull-right" style="border: blue solid 1px;">
+					<span class="badge badge-success pull-right">
 						<?php echo $this->pcatStates['total']; ?></span> 
 					<?php echo Text::_('XBCULTURE_CATEGORIES_U'); ?>
 				</h2>

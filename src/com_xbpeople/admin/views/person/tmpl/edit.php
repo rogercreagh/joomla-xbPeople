@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.2.9 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,7 +37,7 @@ $document->addStyleDeclaration($style);
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
-    	<div class="span9">
+    	<div class="span10">
     		<div class="row-fluid form-vertical">
         		<div class="pull-left" >
              		<?php echo $this->form->renderField('firstname'); ?>
@@ -45,30 +45,33 @@ $document->addStyleDeclaration($style);
         		<div class="pull-left xbml15">
             		<?php echo $this->form->renderField('lastname'); ?>
         		</div>
+            	<div class="pull-left xbml15">
+                	<?php echo $this->form->renderField('alias'); ?> 
+            	</div>
+				<div class="pull-right">
+                	<?php echo $this->form->renderField('id'); ?>
+				</div>
            	</div>
 			<div class="row-fluid form-vertical">
             	<div class="span4">
-                	<?php echo $this->form->renderField('alias'); ?> 
-            	</div>
-            	<div class="span4">
                 	<?php echo $this->form->renderField('summary'); ?>
 				</div>
-				<div class="span2 offset1">
-                	<?php echo $this->form->renderField('id'); ?>
-				</div>
-          	</div>
-          </div>
-         <div class="pull-right span3">
-    		<?php $src = $this->form->getValue('portrait');
-    		    if($src != '') {
-                    if (!file_exists(JPATH_ROOT.'/'.$src)) {
-                        $src = 'media/com_xbpeople/images/nofile.jpg'; //
-                    } ?>
-					<div class="control-group">
-    					<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-        				src="<?php echo Uri::root().$src;?>" />
-    				</div>
-    		<?php } ?>
+              	<div class="span8">
+        			<div class="xbmw1200 xbcentre">
+        				<?php echo $this->form->renderField('ext_links'); ?>
+        			</div>
+              	</div>
+         	</div>
+        </div>
+        <div class="span2">
+    		<?php if($this->form->getValue('portrait')) : ?>
+    			<div class="control-group">
+    				<img class="img-polaroid hidden-phone" style="max-width:100%;" 
+        				src="<?php echo Uri::root() . $this->form->getValue('portrait');?>" />
+    			</div>
+    		<?php else : ?>
+    			<div class="xbbox xbboxwht xbnit xbtc"><?php echo Text::_('XBCULTURE_NO_PICTURE'); ?></div>
+    		<?php endif; ?>
         </div>
     </div>
     
@@ -80,21 +83,24 @@ $document->addStyleDeclaration($style);
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid">
-					<div class="span4">
-						<fieldset class="form-vertical">
+					<fieldset class="form-vertical">
+						<div class="span4">
     	     				<?php echo $this->form->renderField('year_born'); ?>
+    	     			</div>
+						<div class="span4">
         	 				<?php echo $this->form->renderField('year_died'); ?>
+        	 			</div>
+						<div class="span4">
          					<?php echo $this->form->renderField('nationality'); ?>
-						</fieldset>
-					</div>
-					<div class="span8">
- 							<?php echo $this->form->renderField('ext_links'); ?>					
-   					</div>
+         				</div>
+					</fieldset>
         		</div>
           		<div class="row-fluid">
 					<div class="span12">
 						<fieldset class="form-horizontal">
-							<div style="max-width:1200px;"><?php echo $this->form->renderField('biography'); ?></div>
+							<div class="xbmw1000 xbcentre">
+								<?php echo $this->form->renderField('biography'); ?>
+							</div>
 						</fieldset>
 					</div>        		
         		</div>		
@@ -120,19 +126,17 @@ $document->addStyleDeclaration($style);
 		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'groups', Text::_('XBCULTURE_GROUPS')); ?>
 			<h3><?php Text::_('XBCULTURE_GROUPS'); ?></h3>
     			<fieldset class="form-vertical">
-                    <div class="row-fluid">
-						<div class="span12">
-                			<?php echo $this->form->renderField('persongrouplist'); ?>
-                		</div>
-                		<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
-                 			<h4><?php echo Text::_('XBCULTURE_QUICK_G_ADD');?></h4>
-                			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_G_NOTE');?></p> 
-        					<a class="btn btn-small" data-toggle="modal" 
-        						href="index.php?option=com_xbpeople&view=person&layout=modalnewg&tmpl=component" 
-        						data-target="#ajax-qgmodal"><i class="icon-new">
-        						</i><?php echo Text::_('XBCULTURE_ADD_NEW_G');?></a>
-                 		</div>
-			        </div>
+					<div class="xbmw1400 xbcentre">
+        				<?php echo $this->form->renderField('persongrouplist'); ?>
+        			</div>
+            		<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
+             			<h4><?php echo Text::_('XBCULTURE_QUICK_G_ADD');?></h4>
+            			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_G_NOTE');?></p> 
+    					<a class="btn btn-small" data-toggle="modal" 
+    						href="index.php?option=com_xbpeople&view=person&layout=modalnewg&tmpl=component" 
+    						data-target="#ajax-qgmodal"><i class="icon-new">
+    						</i><?php echo Text::_('XBCULTURE_ADD_NEW_G');?></a>
+             		</div>
     			</fieldset>			
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		
@@ -149,7 +153,9 @@ $document->addStyleDeclaration($style);
             				<?php echo $this->form->renderField('bookmenlist'); ?>
 				        </div>
 			        </div>
-            		<?php echo $this->form->renderField('bookotherlist'); ?>
+			        <div class="xbmw1400 xbcentre">
+            			<?php echo $this->form->renderField('bookotherlist'); ?>
+            		</div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
@@ -160,7 +166,9 @@ $document->addStyleDeclaration($style);
     			<fieldset class="form-vertical">
                     <div class="row-fluid">
 						<div class="span12">
-                			<?php echo $this->form->renderField('eventpersonlist'); ?>
+							<div class="xbmw1100 xbcentre">
+                				<?php echo $this->form->renderField('eventpersonlist'); ?>
+                			</div>
                 		</div>
 			        </div>
     			</fieldset>

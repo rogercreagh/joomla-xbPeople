@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/tmpl/edit.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.2.9 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,120 +36,121 @@ $document->addStyleDeclaration($style);
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
     method="post" name="adminForm" id="adminForm">
     <div class="row-fluid">
-    	<div class="span9">
-     		<div class="row-fluid form-horizontal">
-       			<div class="span10" >
-             		<?php echo $this->form->renderField('title'); ?>
+    	<div class="span10">
+     		<div class="row-fluid">
+       			<div class="span11 form-vertical" >
+        			<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
         		</div>
-                 <div class="span2">
+                 <div class="span1 form-vertical">
                    <?php echo $this->form->renderField('id'); ?>
                 </div>
 			</div>
-			<div class="row-fluid form-vertical">
+    		<div class="row-fluid form-vertical">
                 <div class="span4">
-                   <?php echo $this->form->renderField('alias'); ?> 
-                </div>
-                <div class="span6">
                    <?php echo $this->form->renderField('summary'); ?>
                 </div>
-            </div>
-         </div>
-         <div class="span3">
-    		<?php $src = $this->form->getValue('picture');
-    		    if($src != '') {
-                    if (!file_exists(JPATH_ROOT.'/'.$src)) {
-                        $src = 'media/com_xbpeople/images/nofile.jpg'; //
-                    } ?>
-					<div class="control-group">
-    					<img class="img-polaroid hidden-phone" style="max-height:200px;min-width:24px;" 
-        				src="<?php echo Uri::root().$src;?>" />
-    				</div>
-    		<?php } ?>
+              	<div class="span8">
+        			<div class="xbmw1200 xbcentre">
+        				<?php echo $this->form->renderField('ext_links'); ?>
+        			</div>
+              	</div>
+         	</div>
+        </div>
+        <div class="span2">
+    		<?php if($this->form->getValue('picture')) : ?>
+    			<div class="control-group">
+    				<img class="img-polaroid hidden-phone" style="max-width:100%;" 
+        				src="<?php echo Uri::root() . $this->form->getValue('picture');?>" />
+    			</div>
+    		<?php else : ?>
+    			<div class="xbbox xbboxwht xbnit xbtc"><?php echo Text::_('XBCULTURE_NO_PICTURE'); ?></div>
+    		<?php endif; ?>
         </div>
     </div>
     
     <div class="row-fluid">
-      <div class="span12">
-		<?php echo HtmlHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+      	<div class="span12">
+			<?php echo HtmlHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('XBCULTURE_GENERAL')); ?>
-		<div class="row-fluid">
-			<div class="span9">
-				<div class="row-fluid">
-					<div class="span4">
-						<fieldset class="form-vertical">
-    	     				<?php echo $this->form->renderField('year_formed'); ?>
-        	 				<?php echo $this->form->renderField('year_disolved'); ?>
-						</fieldset>
-					</div>
-					<div class="span8">
- 						<?php echo $this->form->renderField('ext_links'); ?>					
-   					</div>
-        		</div>
-          		<div class="row-fluid">
-					<div class="span12">
-						<fieldset class="form-vertical">
-							<div style="max-width:1200px;"><?php echo $this->form->renderField('description'); ?></div>
-						</fieldset>
-					</div>        		
-        		</div>		
+    		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('XBCULTURE_GENERAL')); ?>
+    		<div class="row-fluid">
+    			<div class="span9">
+    				<div class="row-fluid">
+    					<fieldset class="form-vertical">
+    						<div class="span6">
+        	     				<?php echo $this->form->renderField('year_formed'); ?>
+        	     			</div>
+        	     			<div class="span6">
+            	 				<?php echo $this->form->renderField('year_disolved'); ?>
+        	     			</div>
+    					</fieldset>
+    				</div>
+    				<fieldset class="form-vertical">
+     					<div class="xbmw1000 xbcentre">
+                         	<?php echo $this->form->renderField('description'); ?>
+            			</div>
+    				</fieldset>
+    			</div>
+    			<div class="span3">
+     				<fieldset class="form-vertical">
+               			<?php echo $this->form->renderField('picture'); ?>
+     				</fieldset>
+    					<?php if ($this->grouptaggroup_parent) : ?>
+    						<h4>Group Tags</h4>
+     						<?php  $this->form->setFieldAttribute('tags','label',Text::_('XBCULTURE_ALLTAGS'));
+     						    $this->form->setFieldAttribute('tags','description',Text::_('XBCULTURE_ALLTAGS_DESC'));						    
+     						    $this->form->setFieldAttribute('grouptaggroup','label',$this->taggroupinfo[$this->grouptaggroup]['title']);
+     						    $this->form->setFieldAttribute('grouptaggroup','description',$this->taggroupinfo[$this->grouptaggroup]['description']);
+     						    echo $this->form->renderField('grouptaggroup'); 
+    						endif; ?>
+     				<h4><?php echo Text::_('XBCULTURE_STATUS_CATS_TAGS'); ?></h4> 				
+    				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+    			</div>
 			</div>
-			<div class="span3">
- 				<fieldset class="form-vertical">
-           			<?php echo $this->form->renderField('image'); ?>
- 				</fieldset>
-					<?php if ($this->grouptaggroup_parent) : ?>
-						<h4>Group Tags</h4>
- 						<?php  $this->form->setFieldAttribute('tags','label',Text::_('XBCULTURE_ALLTAGS'));
- 						    $this->form->setFieldAttribute('tags','description',Text::_('XBCULTURE_ALLTAGS_DESC'));						    
- 						    $this->form->setFieldAttribute('grouptaggroup','label',$this->taggroupinfo[$this->grouptaggroup]['title']);
- 						    $this->form->setFieldAttribute('grouptaggroup','description',$this->taggroupinfo[$this->grouptaggroup]['description']);
- 						    echo $this->form->renderField('grouptaggroup'); 
-						endif; ?>
- 				<h4><?php echo Text::_('XBCULTURE_STATUS_CATS_TAGS'); ?></h4> 				
-				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-			</div>
-		</div>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
 		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'members', ucfirst(Text::_('XBCULTURE_MEMBERS'))); ?>
 			<h3>Group Members</h3>
 			<fieldset class="form-vertical">
-				<div class="row-fluid">
-					<div class="span12">
-            			<?php echo $this->form->renderField('grouppersonlist'); ?>
-					</div>
+				<div class="xbmw1400 xbcentre">
+            		<?php echo $this->form->renderField('grouppersonlist'); ?>
 				</div>
-					<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
-             			<h4><?php echo Text::_('XBCULTURE_QUICK_P_ADD');?></h4>
-            			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_P_NOTE');?></p> 
-    					<a class="btn btn-small" data-toggle="modal" 
-    						href="index.php?option=com_xbpeople&view=group&layout=modalnewp&tmpl=component" 
-    						data-target="#ajax-modal"><i class="icon-new">
-    						</i><?php echo Text::_('XBCULTURE_ADD_NEW_P');?></a>
-             		</div>					
+				<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
+         			<h4><?php echo Text::_('XBCULTURE_QUICK_P_ADD');?></h4>
+        			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_P_NOTE');?></p> 
+					<a class="btn btn-small" data-toggle="modal" 
+						href="index.php?option=com_xbpeople&view=group&layout=modalnewp&tmpl=component" 
+						data-target="#ajax-modal"><i class="icon-new">
+						</i><?php echo Text::_('XBCULTURE_ADD_NEW_P');?></a>
+         		</div>					
 			</fieldset>
 		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
-		<?php if($this->xbevents_ok) : ?>
-    		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
-    			<h3>Group Events</h3>
-    			<fieldset class="form-vertical">
-        			<?php echo $this->form->renderField('groupeventlist'); ?>
-    			</fieldset>
-    		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
-    	<?php endif; ?>
 		<?php if($this->xbbooks_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'blinks', ucfirst(Text::_('XBCULTURE_BOOKS'))); ?>
     			<h3>Books</h3>
     			<fieldset class="form-vertical">
-        			<?php echo $this->form->renderField('groupbooklist'); ?>
+    				<div class="xbmw1100 xbcentre">
+        				<?php echo $this->form->renderField('groupbooklist'); ?>
+        			</div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
+    	<?php endif; ?>
+		<?php if($this->xbevents_ok) : ?>
+    		<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'elinks', ucfirst(Text::_('XBCULTURE_EVENTS'))); ?>
+    			<h3>Group Events</h3>
+    			<fieldset class="form-vertical">
+    				<div class="xbmw1100 xbcentre">
+        				<?php echo $this->form->renderField('groupeventlist'); ?>
+        			</div>
+    			</fieldset>
+    		<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
     	<?php endif; ?>
 		<?php if($this->xbfilms_ok) : ?>
 			<?php echo HtmlHelper::_('bootstrap.addTab', 'myTab', 'flinks', ucfirst(Text::_('XBCULTURE_FILMS'))); ?>
     			<h3>Films</h3>
     			<fieldset class="form-vertical">
-        			<?php echo $this->form->renderField('groupfilmlist'); ?>
+    				<div class="xbmw1100 xbcentre">
+        				<?php echo $this->form->renderField('groupfilmlist'); ?>
+        			</div>
     			</fieldset>
 			<?php echo HtmlHelper::_('bootstrap.endTab'); ?>
        	<?php endif; ?>

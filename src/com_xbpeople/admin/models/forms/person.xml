@@ -100,7 +100,7 @@
 				<field name="role" type="grouprolelist" label="XBCULTURE_EXISTING_ROLES" maxlength="50"  >
 					<option value=""></option>
 				</field>
-				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE"  hint="leave existing blank" 
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE"  hint="XBCULTURE_LEAVE_EXIST_BLANK" 
 					size="20" maxlength="50" 
 					showon="role:"/>
 				<field name="joined" type="text" label="XBCULTURE_JOINED" hint="optional or..." size="15" maxlength="50" />
@@ -125,7 +125,7 @@
 				<field name="role" type="eventrolelist" label="XBCULTURE_EXISTING_ROLES"  >
 					<option value=""></option>
 				</field>
-				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE" hint="leave existing blank"
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE" hint="XBCULTURE_LEAVE_EXIST_BLANK"
 					 size="20" maxlength="50" 
 					 showon="role:"/>
 				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />
@@ -307,7 +307,7 @@
 				<field name="role" type="bookrolelist" label="XBCULTURE_EXISTING_ROLES" >
 					<option value=""></option>
 				</field>
-				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE"  hint="leave existing blank"
+				<field name="newrole" type="text" label="XBCULTURE_CREATE_NEW_ROLE"  hint="XBCULTURE_LEAVE_EXIST_BLANK"
 					size="20" maxlength="50" 
 					showon="role:"/>
 				<field name="role_note" type="text" label="XBCULTURE_NOTE" size="20" maxlength="100" />

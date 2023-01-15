@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/tmpl/default.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.2.9 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -240,15 +240,11 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
                     </td>
         			<?php if($this->xbbooks_ok) : ?>
     					<td>
-    						<?php if (($item->bcnt==1) || ($item->bcnt==2)) : ?> 
-                                <ul class="xbdetails">
-    								<?php echo $item->booklist; ?>
-    							</ul>
-    						<?php elseif ($item->bcnt>2) : ?> 
+    						<?php if ($item->bcnt>0) : ?> 
     						    <details>
     						    <summary><span class="xbnit">
     						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->bcnt.' ';
-    						    echo Text::_('XBCULTURE_BOOKS');   ?>
+    						    echo ($item->bcnt==1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
                                 </span></summary>
                                 <ul class="xbdetails">
     								<?php echo $item->booklist; ?>
@@ -258,27 +254,33 @@ $fchlink = 'index.php?option=com_xbpeople&view=characters';
     					</td>
         			<?php endif; ?>
         			<?php if($this->xbevents_ok) : ?>
-        			<td>
-    										
-        			</td>
+        				<td>
+    						<?php if ($item->ecnt>0) : ?> 
+    						    <details>
+    						    <summary><span class="xbnit">
+    						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->ecnt.' ';
+    						    echo ($item->bcnt==1) ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS'));   ?>
+                                </span></summary>
+                                <ul class="xbdetails">
+    								<?php echo $item->eventlist; ?>
+    							</ul>
+                              </details>
+    						<?php endif; ?> 
+        				</td>
         			<?php endif; ?>
         			<?php if($this->xbfilms_ok) : ?>
     					<td>
-    						<?php if (($item->fcnt==1) || ($item->fcnt==2)) : ?> 
-                                <ul class="xbdetails">
-    								<?php echo $item->filmlist; ?>
-    							</ul>
-    						<?php elseif ($item->fcnt>2) : ?> 
+    						<?php if ($item->fcnt>0) : ?> 
     						    <details>
     						    <summary><span class="xbnit">
     						    <?php echo Text::_('XBCULTURE_APPEARS_IN').' '.$item->fcnt.' ';
-    						    echo Text::_(($item->fcnt==1)?'XBCULTURE_FILM':'XBCULTURE_FILMS');   ?>
+    						    echo ($item->bcnt==1) ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
                                 </span></summary>
                                 <ul class="xbdetails">
     								<?php echo $item->filmlist; ?>
     							</ul>
                               </details>
-    						 <?php endif; ?> 
+    						<?php endif; ?> 
     					</td>
         			<?php endif; ?>
 					<td>
