@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.2.10 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -316,7 +316,12 @@ class XbpeopleModelPerson extends JModelAdmin {
 	private function storePersonBooks($person_id, $role, $bookList) {
 	    //delete existing role list
 	    $db = $this->getDbo();
-	    $where = $db->qn('person_id').' = '.$db->q($person_id).' AND '.$db->qn('role').' = '.$db->q($role);
+	    $where = $db->qn('person_id').' = '.$db->q($person_id);
+	    if ($role == 'other') {
+	        $where .= ' AND '.$db->qn('role').' NOT IN ('.$db->q('author').','.$db->q('editor').','.$db->q('mention').')';
+	    } else {
+	        $where .= ' AND '.$db->qn('role').' = '.$db->q($role);
+	    }
 	    if (XbcultureHelper::deleteFromTable('#__xbbookperson', $where)) {
 	        
 	    //restore the new list
@@ -382,10 +387,11 @@ class XbpeopleModelPerson extends JModelAdmin {
     	    foreach ($groupList as $item) {
     	        if ($item['group_id']>0) {
     	            $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
+    	            $thisrole = ($item['role']=='') ? $item['newrole'] : $item['role'];
     	            $query = $db->getQuery(true);
     	            $query->insert($db->quoteName('#__xbgroupperson'));
     	            $query->columns('person_id,group_id,role,role_note,listorder');
-    	            $query->values($db->q($person_id).','.$db->q($item['group_id']).','.$db->q($item['role']).','.$db->q($item['role_note']).','.$db->q($listorder));
+    	            $query->values($db->q($person_id).','.$db->q($item['group_id']).','.$db->q($thisrole).','.$db->q($item['role_note']).','.$db->q($listorder));
     	            $db->setQuery($query);
     	            try {
     	                $db->execute();

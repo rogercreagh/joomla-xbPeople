@@ -196,17 +196,16 @@ class XbpeopleModelPersons extends JModelList {
 			$item->blist='';
 			if ($item->bcnt>0) {
 			    $item->books = XbcultureHelper::getPersonBooks($item->id);
-			    $item->brolecnt = count($item->books);
 			    $broles = array_column($item->books,'role');
 			    $item->authorcnt = count(array_keys($broles, 'author'));
 			    $item->editorcnt = count(array_keys($broles, 'editor'));
 			    $item->mentioncnt = count(array_keys($broles, 'mention'));
-			    $item->othercnt = $item->brolecnt - $item->authorcnt - $item->editorcnt - $item->mentioncnt;
+			    $item->othercnt = count($item->books) - $item->authorcnt - $item->editorcnt - $item->mentioncnt;
 			    
 			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,4);
 			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,4);
-			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,3);
 			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,4);
+			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,3);
 			} //bcnt is the number of books, brolecnt is the number of roles (there may be 2 roles in a book)
 			
 			if ($item->fcnt>0) {

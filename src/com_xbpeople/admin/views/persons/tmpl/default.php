@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 1.0.2.6 13th January 2023
+ * @version 1.0.2.10 135th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,7 +16,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
+HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('XBCULTURE_SELECT_TAGS')));
+HTMLHelper::_('formbehavior.chosen', '.multipleCats', null, array('placeholder_text_multiple' => Text::_('XBCULTURE_SELECT_CATS')));
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 $user = Factory::getUser();
@@ -111,9 +112,10 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			</th>
     			<th >
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FIRSTNAME', 'firstname', $listDirn, $listOrder); ?>
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_LASTNAME', 'lastname', $listDirn, $listOrder); ?>					
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_DATES', 'sortdate', $listDirn, $listOrder); ?>
-    			</th>
+					<?php echo ' '.HTMLHelper::_('searchtools.sort', 'XBCULTURE_LASTNAME', 'lastname', $listDirn, $listOrder); ?>					
+					<?php echo ' '.HTMLHelper::_('searchtools.sort', 'XBCULTURE_DATES', 'sortdate', $listDirn, $listOrder); ?>
+					<?php echo ' '.Text::_('XBCULTURE_NATIONALITY'); ?>
+				</th>
     			<th>
      				<?php echo Text::_('XBCULTURE_GROUPS') ;?>
     			</th>

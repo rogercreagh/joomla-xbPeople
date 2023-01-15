@@ -48,7 +48,7 @@ class XbpeopleControllerDashboard extends JControllerAdmin {
     	}
     }
     
-    function live() {
+    function events() {
         $xbevents_ok = XbcultureHelper::checkComponent('com_xbevents');
         //$xbevents_ok = Factory::getSession()->get('xbevents_ok',false);
         if ($xbevents_ok == true) {

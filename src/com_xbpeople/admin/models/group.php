@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.2.10 15th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -270,9 +270,9 @@ class XbpeopleModelGroup extends JModelAdmin {
     		        $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
     		        $query = $db->getQuery(true);
         			$query->insert($db->quoteName('#__xbfilmgroup'));
-        			$query->columns('group_id,film_id,actor_id,char_note,listorder');
+        			$query->columns('group_id,film_id,role,role_note,listorder');
         			$query->values($db->q($group_id).','.$db->q($item['film_id']).
-        			    ','.$db->q($item['actor_id']).','.$db->q($item['char_note']).','.$db->q($listorder));
+        			    ','.$db->q($item['role']).','.$db->q($item['role_note']).','.$db->q($listorder));
         			$db->setQuery($query);
         			try {
         			    $db->execute();
@@ -350,11 +350,12 @@ class XbpeopleModelGroup extends JModelAdmin {
     	    foreach ($grouppersonList as $item) {
     	        if ($item['person_id'] > 0) {
     	            $listorder ++;
+    	            $thisrole = ($item['role']=='') ? $item['newrole'] : $item['role'];
     	            $query = $db->getQuery(true);
     	            $query->insert($db->quoteName('#__xbgroupperson'));
     	            $query->columns('group_id,person_id,role,role_note,joined,until,listorder');
     	            $query->values($db->q($group_id).','.$db->q($item['person_id']).
-    	                ','.$db->q($item['role']).','.$db->q($item['role_note']).
+    	                ','.$db->q($thisrole).','.$db->q($item['role_note']).
     	                ','.$db->q($item['joined']).','.$db->q($item['until']).
     	                ','.$db->q($listorder));
     	            $db->setQuery($query);

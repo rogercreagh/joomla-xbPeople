@@ -83,15 +83,15 @@ class XbpeopleModelDashboard extends JModelList {
     }
     
     public function getBookGroups() {
-//         if ($this->xbbooks_ok) {
-//             //$db = $this->getDbo();
-//             $db = Factory::getDbo();
-//             $query = $db->getQuery(true);
-//             $query->select('COUNT(DISTINCT group_id)')
-//             ->from('#__xbbookgroup');
-//             $db->setQuery($query);
-//             return $db->loadResult();
-//         }
+        if ($this->xbbooks_ok) {
+            //$db = $this->getDbo();
+            $db = Factory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select('COUNT(DISTINCT group_id)')
+            ->from('#__xbbookgroup');
+            $db->setQuery($query);
+            return $db->loadResult();
+        }
         return '';
     }
     
@@ -109,15 +109,15 @@ class XbpeopleModelDashboard extends JModelList {
     }
     
     public function getFilmGroups() {
-//         if ($this->xbfilms_ok) {
-//             //$db = $this->getDbo();
-//             $db = Factory::getDbo();
-//             $query = $db->getQuery(true);
-//             $query->select('COUNT(DISTINCT group_id)')
-//             ->from('#__xbfilmperson');
-//             $db->setQuery($query);
-//             return $db->loadResult();
-//         }
+        if ($this->xbfilms_ok) {
+            //$db = $this->getDbo();
+            $db = Factory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select('COUNT(DISTINCT group_id)')
+            ->from('#__xbfilmgroup');
+            $db->setQuery($query);
+            return $db->loadResult();
+        }
         return '';
     }
     
@@ -198,33 +198,6 @@ class XbpeopleModelDashboard extends JModelList {
         $result['tagsgroups'] = XbcultureHelper::getTagtypeTagCnt('com_xbpeople.group','');
         $result['tagschars']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.character','');
         return $result;
-        
-//         $result = array('bookper' => 0, 'filmper' =>0, 'eventper' => 0, 'allper' => 0, 
-//     	    'bookchar' => 0, 'filmchar' => 0, 'eventchar' => 0, 'allchar' => 0,
-//     	    'bookpertags' => 0, 'bookchartags' => 0, 'allbook' => 0,
-//     	    'filmpertags' => 0, 'filmchartags' => 0, 'allfilm' => 0,);
-    	
-//     	if ($this->xbbooks_ok) {
-//         	$result['bookper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','book');
-//         	$result['bookchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','book');
-//         	$result['bookpertags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.person','book');
-//         	$result['bookchartags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.character','book');    	    
-//     	}
-//     	if ($this->xbevents_ok) {
-//     	    $result['eventper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','book');
-//     	    $result['eventchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','book');
-//     	    $result['bookpertags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.person','book');
-//     	    $result['bookchartags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.character','book');
-//     	}
-//     	if ($this->xbfilms_ok) {
-//         	$result['filmper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','film');
-//         	$result['filmchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','film');
-//         	$result['filmpertags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.person','film');
-//         	$result['filmchartags']= XbcultureHelper::getTagtypeTagCnt('com_xbpeople.character','film');    	    
-//     	}
-//     	$result['allper'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.person','');
-//     	$result['allchar'] = XbcultureHelper::getTagtypeItemCnt('com_xbpeople.character','');
-//     	return $result;
     }
     
     

@@ -157,7 +157,7 @@ class XbpeopleViewDashboard extends JViewLegacy
         
         ToolbarHelper::custom('dashboard.books', 'stack', '', 'xbBooks', false) ;
         ToolbarHelper::custom('dashboard.films', 'screen', '', 'xbFilms', false) ;
-        ToolbarHelper::custom('dashboard.live', 'music', '', 'xbEvents', false) ;
+        ToolbarHelper::custom('dashboard.events', 'eye', '', 'xbEvents', false) ;
         if ($canDo->get('core.admin')) {
             ToolbarHelper::preferences('com_xbpeople');
         }

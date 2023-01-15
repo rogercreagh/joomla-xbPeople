@@ -129,8 +129,8 @@ unpublished : yellow
 .perbox { background-image: linear-gradient(#ffffff,#e0ffe0); }
 .chcnt { background-color: #ffd0ff !important;   }         
 .chbox { background-image: linear-gradient(#ffffff,#ffd0ff); }
-.revcnt { background-color: #ffc0c0 !important;  }      
-.revbox { background-image: linear-gradient(#ffffff,#ffc0c0); }
+.revcnt { background-color: #ffd0d0 !important;  }      
+.revbox { background-image: linear-gradient(#ffffff,#ffd0d0); }
 .othcnt { background-color: #efefef !important;  }    
 .othcnt { background-color: #a0ffd0 !important;  }    
 .catbox { background-image: linear-gradient(#ffffff,#a0ffd0); }
