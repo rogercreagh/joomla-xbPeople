@@ -97,13 +97,18 @@ ul.nav-tabs {
 	background-color:aliceblue;
 }
 
-
 /* end of joomla system overrides */
 
-
-.bkcnt, .flmcnt, .percnt, .revcnt, .chcnt, .evtcnt, .grpcnt {
-    border: solid 1px #31708f;
-    color: #31708f !important;
+/* colours for items 
+books : blues, events cyan: , films greens : , reviews - red,
+people : lightgreen , midgreen groups : , chars : magenta ,
+categories : darkgreens, tags : darkblues 
+unpublished : yellow
+*/
+/* for badges/labels with light background */
+.bkcnt, .evtcnt, .flmcnt, .revcnt, .percnt, .chcnt, .grpcnt {
+    border: solid 1px #777777;
+    color: #555555 !important;
 }
 
 .badge-yellow, .label-yellow {
@@ -111,13 +116,20 @@ ul.nav-tabs {
 	color: #5f5f5f !important;
 }
 
-.bkcnt { background-color: #deefef !important;  }           
-.flmcnt { background-color: #efdfdf !important;  }           
-.evtcnt { background-color: #faf7bf!important;  }           
-.grpcnt { background-color: #faf7bf !important;  }           
-.percnt { background-color: #deefde !important;  }      
-.chcnt { background-color: #e0e0ff !important;   }         
-.revcnt { background-color: #efdeef !important;  }      
+.bkcnt { background-color: #d0e0ff !important;  }   
+.bkbox { background-image: linear-gradient(#ffffff,#d0e0ff); }        
+.flmcnt { background-color: #d0ffd0 !important; }     
+.flmbox { background-image: linear-gradient(#ffffff,#d0ffd0); }      
+.evtcnt { background-color: #d0ffff !important;  }   
+.evtbox { background-image: linear-gradient(#ffffff,#d0ffff); }        
+.grpcnt { background-color: #c0ffc0 !important;  }           
+.grpbox { background-image: linear-gradient(#ffffff,#c0ffc0); }
+.percnt { background-color: #e0ffe0 !important;  }      
+.perbox { background-image: linear-gradient(#ffffff,#e0ffe0); }
+.chcnt { background-color: #ffd0ff !important;   }         
+.chbox { background-image: linear-gradient(#ffffff,#ffd0ff); }
+.revcnt { background-color: #ffc0c0 !important;  }      
+.revbox { background-image: linear-gradient(#ffffff,#ffc0c0); }
 .othcnt { background-color: #efefef !important;  }    
 
 /* the preview eye button */
@@ -136,6 +148,7 @@ ul.nav-tabs {
 	padding: 8px 7px 7px 15px;
 	margin: 0 0 8px;
 	list-style: none;
+	border: solid 1px #777777;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -147,43 +160,36 @@ ul.nav-tabs {
 }
 
 .xbboxwht {
-	background-color: #fefefe;
-	border: solid 1px #ccc;
+	background-color: #f0f0f0;
 }
 
 .xbboxyell {
 	background-image: linear-gradient(#ffffff,#efefde);
-	border: solid 1px #cc8;
 }
 
 .xbboxgrn {
 	background-image: linear-gradient(#ffffff,#deefde);
-	border: solid 1px #8a8;
 }
 
 .xbboxcyan {
 	background-image: linear-gradient(#ffffff,#deefef);
-	border: solid 1px #8aa;
 }
 .xbboxblue {
 	background-image: linear-gradient(#ffffff,#e0e0ff);
-	border: solid 1px #8aa;
 }
 
 .xbboxmag {
 	background-image: linear-gradient(#ffffff,#efdeef);
-	border: solid 1px #a8a;
 }
 
 .xbboxred {
 	background-image: linear-gradient(#ffffff,#ff7f7f);
-	border: solid 1px #b88;
 }
 
 .xbboxgrey {
 	background-image: linear-gradient(#ffffff,#efefef);
-	border: solid 1px #ccc;
 }
+
 
 .xbratingrow {
 	border-top: 1px solid #ddd;
@@ -208,8 +214,13 @@ ul.nav-tabs {
 	font-weight:300;
 	margin-left:10px;
 }
+
+/* centre div */
+.xbcentre { margin:auto; }
+/* text alignment */
 .xbtc {text-align:center;}
 .xbtr {text-align:right;}
+/* font attributes */
 .xb15 { font-size:1.5em; }
 .xb12 { font-size:1.2em; }
 .xb11 { font-size:1.1em; }
@@ -220,6 +231,7 @@ ul.nav-tabs {
 .xb08 { font-size:0.8em; }
 .xbnorm, .xbnit { font-weight: normal; }
 .xbbold { font-weight: bold; }
+/* margins */
 .xbm0 { margin:0 !important; } /*flagged important as we want to override any template margins*/
 .xbml10 { margin-left:10px; }
 .xbml15 { margin-left:15px; }
@@ -236,8 +248,15 @@ ul.nav-tabs {
 .xbmh200 {max-height:200px; }
 .xbmh300 {max-height:300px; }
 .xbmh400 {max-height:400px; }
+/* padding */
 .xbpr10 {padding-right:10px;}
 .xbpt17 {padding-top:17px;}
+/* maxwidth for divs */
+.xbmw1000 { max-width:1000px; }
+.xbmw1100 { max-width:1000px; }
+.xbmw1200 { max-width:1000px; }
+.xbmw1300 { max-width:1000px; }
+
 .xbyscroll { overflow-y:scroll;}
 
 .xbhlt {

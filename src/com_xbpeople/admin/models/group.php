@@ -297,9 +297,9 @@ class XbpeopleModelGroup extends JModelAdmin {
     		        $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
     		        $query = $db->getQuery(true);
     				$query->insert($db->quoteName('#__xbbookgroup'));
-    				$query->columns('group_id,book_id,char_note,listorder');
+    				$query->columns('group_id,book_id,role_note,listorder');
     				$query->values($db->q($group_id).','.$db->q($item['book_id']).
-    				    ','.$db->q($item['char_note']).','.$db->q($listorder));
+    				    ','.$db->q($item['role_note']).','.$db->q($listorder));
     				$db->setQuery($query);
     				try {
     				    $db->execute();
