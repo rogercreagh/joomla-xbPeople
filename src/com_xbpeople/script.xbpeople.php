@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource script.xbpeople.php
- * @version 1.0.0.1 16th December 2022
+ * @version 1.0.2.10 16th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html 
@@ -117,6 +117,38 @@ class com_xbpeopleInstallerScript
     	$message .= '<br />For ChangeLog see <a href="http://crosborne.co.uk/xbpeople/changelog" target="_blank">
             www.crosborne.co.uk/xbpeople/changelog</a></p>';
     	Factory::getApplication()->enqueueMessage($message,'Message');
+    	$delfiles = '';
+    	$delfiles .= '/models/fields/rating.php,/models/fields/otherrole.php,/models/fields/otherrolelist.php';
+    	$delfiles = explode(',',$delfiles);
+    	$cnt = 0; $dcnt=0;
+    	$ecnt = 0;
+    	$message = 'Deleting Redundant Files in '.JPATH_ADMINISTRATOR.'/components/com_xbpeople/ <br />';
+    	foreach ($delfiles as $f) {
+    	    $name = JPATH_ADMINISTRATOR.'/components/com_xbpeople'.$f;
+    	    if (file_exists($name)) {
+    	        if (is_dir($name)) {
+    	            if ($this->rrmdir($name)) {
+    	                $dcnt ++;
+    	                $message .= 'RMDIR '.$f.'<br />';
+    	            }
+    	        } else {
+    	            if (unlink($name)) {
+    	                $message .= 'DEL '.$f.'<br />';
+    	                $cnt ++;
+    	            } else {
+    	                $message .= 'DELETE FAILED: '.$f.'<br />';
+    	                $ecnt ++;
+    	            }
+    	        }
+    	    } else {
+    	        //        	    $message .= 'FILE NOT FOUND: '.$f.'<br />';
+    	    }
+    	}
+    	if (($cnt+$ecnt+$dcnt)>0) {
+    	    $message .= $cnt.' files, '.$dcnt.' folders cleared';
+    	    $mtype = ($ecnt>0) ? 'Warning' : 'Message';
+    	    Factory::getApplication()->enqueueMessage($message, $mtype);
+    	}
     }
     
     function postflight($type, $parent) {
@@ -282,5 +314,25 @@ class com_xbpeopleInstallerScript
         }
         return true;
     }
+
+    protected function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir."/".$object) == "dir") {
+                        $this->rrmdir($dir."/".$object);
+                    } else {
+                        unlink($dir."/".$object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dir);
+            return true;
+        }
+        return false;
+    }
+    
 }
 
