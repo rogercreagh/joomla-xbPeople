@@ -133,7 +133,7 @@ unpublished : yellow
 .revbox { background-image: linear-gradient(#ffffff,#ffd0d0); }
 .othcnt { background-color: #efefef !important;  }    
 .othcnt { background-color: #a0ffd0 !important;  }    
-.catbox { background-image: linear-gradient(#ffffff,#a0ffd0); }
+.catbox { background-image: linear-gradient(#ffffff,#a0ffe0); }
 .tagcnt { background-color: #c0c0ff !important;  }    
 .tagbox { background-image: linear-gradient(#ffffff,#c0c0ff); }
 

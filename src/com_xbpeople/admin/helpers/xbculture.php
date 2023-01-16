@@ -79,6 +79,7 @@ class XbcultureHelper extends ContentHelper {
 	 * @return string
 	 */
 	public static function makeLinkedNameList($items, $role='', $sep='comma', $linked=true, $rowfmt = 0) {
+	    $linked = (int)$linked; // for compatibility,, we can now use $linked=1 for full link or $linked=2 for preview link (requires view to have preview facility)
 	    $list = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
 	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'),
@@ -111,8 +112,10 @@ class XbcultureHelper extends ContentHelper {
     	        } elseif ($sep[-1] == '/') {
     	           $list .= trim($sep,'/');
     	        }
-                if ($linked) {
+                if ($linked == 1) {
                     $name = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
+                } elseif ($linked == 2) {
+                    $name = '<a href="" data-toggle="modal" data-target="#ajax-pvmodal" onclick="window.pvid= <?php echo $item->id; ?>;">'.$name.' <i class="icon-eye xbeye"></i></a>';
                 }
                 if (!isset($item->role)) $item->role='';
                 $dorole = ((empty($role)) || ($role=='other'));

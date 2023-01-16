@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/characters.php
- * @version 0.9.9.9 8th November 2022
+ * @version 1.0.3.0 16th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -76,9 +76,10 @@ class XbpeopleModelCharacters extends JModelList {
                 $query->select('0 AS ecnt');
             }
             
-            if ($this->xbfilmsStatus) $query->select('(SELECT COUNT(DISTINCT(fc.film_id)) FROM #__xbfilmcharacter AS fc WHERE fc.char_id = a.id) AS fcnt');
-            if ($this->xbbooksStatus) $query->select('(SELECT COUNT(DISTINCT(bc.book_id)) FROM #__xbbookcharacter AS bc WHERE bc.char_id = a.id) AS bcnt');
-            	
+            if ($sess->get('xbbooks_ok',false)==1) $query->select('(SELECT COUNT(DISTINCT(bc.book_id)) FROM #__xbbookcharacter AS bc WHERE bc.char_id = a.id) AS bcnt');
+            if ($sess->get('xbevents_ok',false)==1) $query->select('(SELECT COUNT(DISTINCT(ec.event_id)) FROM #__xbeventcharacter AS ec WHERE ec.char_id = a.id) AS ecnt');
+            if ($sess->get('xbfilms_ok',false)==1) $query->select('(SELECT COUNT(DISTINCT(fc.film_id)) FROM #__xbfilmcharacter AS fc WHERE fc.char_id = a.id) AS fcnt');
+            
             $query->select('c.title AS category_title');
             $query->join('LEFT', '#__categories AS c ON c.id = a.catid');
             
@@ -121,17 +122,6 @@ class XbpeopleModelCharacters extends JModelList {
                 $categoryId = implode(',', $categoryId);
                 $query->where($db->quoteName('a.catid') . ' IN ('.$categoryId.')');
             }
-            //           if ($this->getState('catid')>0) { $categoryId = $this->getState('catid'); }
-//             if ($categoryId > 0) {
-//             	if ($dosubcats) {
-//             		$catlist = $categoryId;
-//             		$subcatlist = XbcultureHelper::getChildCats($categoryId,'com_xbpeople');
-//             		if ($subcatlist) { $catlist .= ','.implode(',',$subcatlist);}
-//             		$query->where('a.catid IN ('.$catlist.')');
-//             	} else {
-//             		$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
-//             	}
-//             }
             
             //filter by tag
             $tagfilt = $this->getState('tagId');

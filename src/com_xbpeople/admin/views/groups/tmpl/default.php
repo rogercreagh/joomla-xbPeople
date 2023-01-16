@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/groups/tmpl/default.php
- * @version 1.0.2.3 9th January 2023
+ * @version 1.0.3.0 16th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,14 +126,14 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>
     			</th>
     			<?php endif; ?>
-    			<?php if($this->xbfilms_ok) : ?>
-    			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
-    			</th>
-    			<?php endif; ?>
     			<?php if($this->xbevents_ok) : ?>
     			<th >
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
+    			</th>
+    			<?php endif; ?>
+    			<?php if($this->xbfilms_ok) : ?>
+    			<th >
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
@@ -276,54 +276,54 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 	                    	</p>
 						<?php endif; ?>
                     </td>
-    			<?php if($this->xbbooks_ok) : ?>
-        			<td>
-    					<?php if ($item->bcnt>0) : ?>
-							<details>
-    							<summary>
-    								<?php echo $item->bcnt.' ';
-                                        echo ($item->bcnt==1)?Text ::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');
-                                        echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
-    							</summary>
-    							<ul class="xbdetails"> 
-                                	<?php echo $item->booklist; ?>
-    							</ul>
-							</details>							
-    					<?php endif; ?>					
-        			</td>
-    			<?php endif; ?>
-    			<?php if($this->xbfilms_ok) : ?>
-        			<td>
-    					<?php if ($item->fcnt>0) : ?>
-							<details>
-    							<summary>
-    								<?php echo $item->fcnt.' ';
-                                        echo ($item->fcnt==1)?Text ::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');
-                                        echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
-    							</summary>
-    							<ul class="xbdetails"> 
-                                	<?php echo $item->filmlist; ?>
-    							</ul>
-							</details>							
-    					<?php endif; ?>					
-        			</td>
-    			<?php endif; ?>
-    			<?php if($this->xbevents_ok) : ?>
-        			<td>
-    					<?php if ($item->ecnt>0) : ?>
-							<details>
-    							<summary>
-    								<?php echo $item->ecnt.' ';
-                                        echo ($item->ecnt==1)?Text ::_('XBCULTURE_EVENT') : Text::_('XBCULTURE_EVENTS');
-                                        echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
-    							</summary>
-    							<ul class="xbdetails"> 
-                                	<?php echo $item->eventlist; ?>
-    							</ul>
-							</details>							
-    					<?php endif; ?>					
-        			</td>
-    			<?php endif; ?>
+        			<?php if($this->xbbooks_ok) : ?>
+            			<td>
+        					<?php if ($item->bcnt>0) : ?>
+    							<details>
+        							<summary>
+        								<?php echo $item->bcnt.' ';
+                                            echo ($item->bcnt==1)?Text ::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');
+                                            echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
+        							</summary>
+        							<ul class="xbdetails"> 
+                                    	<?php echo $item->booklist; ?>
+        							</ul>
+    							</details>							
+        					<?php endif; ?>					
+            			</td>
+        			<?php endif; ?>
+        			<?php if($this->xbevents_ok) : ?>
+            			<td>
+        					<?php if ($item->ecnt>0) : ?>
+    							<details>
+        							<summary>
+        								<?php echo $item->ecnt.' ';
+                                            echo ($item->ecnt==1)?Text ::_('XBCULTURE_EVENT') : Text::_('XBCULTURE_EVENTS');
+                                            echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
+        							</summary>
+        							<ul class="xbdetails"> 
+                                    	<?php echo $item->eventlist; ?>
+        							</ul>
+    							</details>							
+        					<?php endif; ?>					
+            			</td>
+        			<?php endif; ?>
+        			<?php if($this->xbfilms_ok) : ?>
+            			<td>
+        					<?php if ($item->fcnt>0) : ?>
+    							<details>
+        							<summary>
+        								<?php echo $item->fcnt.' ';
+                                            echo ($item->fcnt==1)?Text ::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');
+                                            echo ' '.Text::_('XBCULTURE_LISTED'); ?>    								
+        							</summary>
+        							<ul class="xbdetails"> 
+                                    	<?php echo $item->filmlist; ?>
+        							</ul>
+    							</details>							
+        					<?php endif; ?>					
+            			</td>
+        			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 
 							title="<?php echo Text::_( 'XBCULTURE_VIEW_CATEGORY' );?>::<?php echo $item->category_title; ?>">

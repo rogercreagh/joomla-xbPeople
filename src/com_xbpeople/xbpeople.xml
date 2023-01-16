@@ -74,34 +74,31 @@
 		<menu img="class:xbpeople" link="option=com_xbpeople">xbPeople</menu>
 		<submenu>
 			<menu link="option=com_xbpeople"
-				img="class:xbpeople-dashboard"
 				>
 					xbculture_iconmenu_dashboard
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=persons" 
-				img="class:xbpeople-persons"
 				>
 					xbculture_iconmenu_people					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=groups" 
-				img="class:xbpeople-groups"
 				>
 					xbculture_iconmenu_groups					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=characters" 
-				img="class:xbpeople-characters"
 				>
 					xbculture_iconmenu_characters
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=pcategories" 
-				img="class:xbpeople-categories"
 				>
 					xbculture_iconmenu_categories					
 			</menu>
 			<menu link="option=com_xbpeople&amp;view=tags" 
-				img="class:xbpeople-tags"
 				>
 					xbculture_iconmenu_tags					
+			</menu>
+			<menu link="option=com_config&amp;view=component&amp;component=com_xbbooks"
+					>xbculture_iconmenu_options				
 			</menu>
 		</submenu>
 	</administration>

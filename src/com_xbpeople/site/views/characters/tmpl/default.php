@@ -98,6 +98,11 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
         					<?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?>
         				</th>
                    <?php endif; ?>
+    				<?php if($this->xbeventsStatus) : ?>
+        				<th>
+        					<?php echo Text::_('XBCULTURE_EVENTS'); ?>
+        				</th>
+                   <?php endif; ?>
     				<?php if($this->xbfilmsStatus) : ?>
         				<th>
         					<?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?>
@@ -174,6 +179,19 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
         						<summary><span class="xbnit">
     								<?php echo $item->bcnt.' ';
     								    echo $item->bcnt ==1 ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
+        						</span></summary>
+        						<?php echo $item->booklist; ?>    						
+        					</details>
+        					<?php endif; ?>
+        				</td>
+        			<?php endif; ?>
+    				<?php if ($this->xbeventsStatus) : ?>
+        				<td>
+    						<?php if ($item->ecnt>0) :?>
+        					<details>
+        						<summary><span class="xbnit">
+    								<?php echo $item->ecnt.' ';
+    								    echo $item->ecnt ==1 ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
         						</span></summary>
         						<?php echo $item->booklist; ?>    						
         					</details>
