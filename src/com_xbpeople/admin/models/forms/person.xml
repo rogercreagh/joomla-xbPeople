@@ -293,8 +293,8 @@
 		
 		<field name= "bookotherlist"
 			type= "subform"
-			label= "XBCULTURE_FIELD_BOOKOTHER_LABEL"
-			description="XBCULTURE_FIELD_BOOKOTHER_DESC"
+			label= "XBCULTURE_OTHER_ROLES"
+			description="XBCULTURE_OTHER_ROLES_DESC"
 			min="0" max="10"
 			multiple= "true"
 			buttons= "add,remove"

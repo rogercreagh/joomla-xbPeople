@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 1.0.2.10 135th January 2023
+ * @version 1.0.3.0 18th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,14 +127,14 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_BOOKS_U', 'bcnt', $listDirn, $listOrder); ?>
     			</th>
     			<?php endif; ?>
-    			<?php if($this->xbfilms_ok) : ?>
-    			<th >
-					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
-    			</th>
-    			<?php endif; ?>
     			<?php if($this->xbevents_ok) : ?>
     			<th >
 					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_EVENTS', 'ecnt', $listDirn, $listOrder); ?>					
+    			</th>
+    			<?php endif; ?>
+    			<?php if($this->xbfilms_ok) : ?>
+    			<th >
+					<?php echo HTMLHelper::_('searchtools.sort', 'XBCULTURE_FILMS_U', 'fcnt', $listDirn, $listOrder); ?>
     			</th>
     			<?php endif; ?>
     			<th class="hidden-tablet hidden-phone" style="width:15%;">
@@ -315,6 +315,19 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 						<?php endif; ?>
 					</td>
     			<?php endif; ?>
+    			<?php if($this->xbevents_ok) : ?>
+    				<td>
+						<?php if($item->ecnt>0) :?>
+                          <details>
+                          	<summary><span class="xbnit">
+ 								<?php echo $item->ecnt.' ';
+ 								echo ($item->ecnt==1)? lcfirst(Text ::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS'));   ?>
+                            </span></summary>
+ 							<?php echo $item->eventlist; ?>
+                          </details>
+						<?php endif; ?>
+    				</td>
+    			<?php endif; ?>
     			<?php if($this->xbfilms_ok) : ?>
 					<td>
 						<?php if ($item->fcnt>0) :?>
@@ -365,19 +378,6 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     						<?php endif; ?> 
 						<?php endif; ?>
    					</td>
-    			<?php endif; ?>
-    			<?php if($this->xbevents_ok) : ?>
-    				<td>
-						<?php if($item->ecnt>0) :?>
-                          <details>
-                          	<summary><span class="xbnit">
- 								<?php echo $item->ecnt.' ';
- 								echo ($item->ecnt==1)? lcfirst(Text ::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS'));   ?>
-                            </span></summary>
- 							<?php echo $item->eventlist; ?>
-                          </details>
-						<?php endif; ?>
-    				</td>
     			<?php endif; ?>
 					<td>
 						<p><a  class="label label-success" href="<?php echo $cvlink . $item->catid; ?>" 

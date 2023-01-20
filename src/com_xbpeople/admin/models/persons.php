@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 1.0.2.6 12th January 2023
+ * @version 1.0.3.0 18th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -92,16 +92,33 @@ class XbpeopleModelPersons extends JModelList {
 		    $query->where('a.nationality = '.$db->quote($natfilt));
 		}
 		
-		//Filter orphans
-		$orphfilt = $this->getState('filter.orphans');
-		if ($orphfilt == '1') {
-		    $query->select('0');
-		    $query->having('(bcnt + ecnt + fcnt) = 0');
-		} elseif ($orphfilt == '2') {
-		    $query->select('0');
-		    $query->having('(bcnt + ecnt + fcnt) > 0');
+		//Filter type
+		$typefilt = $this->getState('filter.type');
+		switch ($typefilt) {
+		    case 1:
+		        $query->having('bcnt > 0');
+		        break;
+		    case 2:
+		        $query->having('ecnt > 0');
+		        break;
+		    case 3:
+		        $query->having('fcnt > 0');
+		        break;
+		    case 4:
+		        $query->having('gcnt > 0');
+		        break;
+		    case 5:
+    		    $query->having('(bcnt + ecnt + fcnt + gcnt) = 0');
+		        break;
+		    case 6:
+    		    $query->having('(bcnt + ecnt + fcnt + gcnt) > 0');
+		        break;
+		        
+		    default:
+		        ;
+		    break;
 		}
-		
+
 		// Filter by category.
 		$app = Factory::getApplication();
 		$categoryId = $app->getUserStateFromRequest('catid', 'catid','');

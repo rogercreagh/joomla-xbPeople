@@ -18,14 +18,19 @@
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 		<field
-			name="orphans" type="radio"
-			label="Orphans" description="Find those not assigned to book or film"
+			name="type" type="list"
+			label="Filter by assignment" description="Filter by people appearing in books, events, films, groups or not assigned to anything (orphans)"
   			class="btn-group btn-small radiotop"
 			default="0"
+			onchange="this.form.submit();"
 		>
-			<option value="0" onchange="this.form.submit();">XBCULTURE_ALL</option>
-			<option value="1" onchange="this.form.submit();">XBCULTURE_ORPHANS</option>
-			<option value="2" onchange="this.form.submit();">XBCULTURE_NOT_ORPHANS</option>
+			<option value="0" >XBCULTURE_ALL</option>
+			<option value="1" >XBCULTURE_BOOKS_U</option>
+			<option value="2" >XBCULTURE_EVENTS</option>
+			<option value="3" >XBCULTURE_FILMS_U</option>
+			<option value="4" >XBCULTURE_GROUPS</option>
+			<option value="5" >XBCULTURE_ORPHANS</option>
+			<option value="6" >XBCULTURE_NOT_ORPHANS</option>
 		</field>
 		<field name="nationality" type="natlist"
 			label="XBCULTURE_NATIONALITY"
