@@ -355,21 +355,27 @@ unpublished : yellow
 	list-style:none;
 	margin-left:10px;
 }
-.xblistrolefirst {
+.xbprename, .xblistrolefirst {
 	display:inline-block;
 	min-width: 60px;
+	font-style: italic;
 }
-.xblistrolesecond {
-	padding-left:10px
+.xbprename:after, .xblistrolefirst:after {
+	content:': ';
+}
+.xbpostname, .xblistrolesecond {
+	padding-left:10px;
+	font-style:italic;
+	font-size:0.95em;
 }
 li :not(a) .xblistname {
 	font-weight:bold;
 }
-.xblistnote:before {
+.xbbracket:before {
 	content:' (';
 }
-.xblistnote:after {
-	content:')';
+.xbbracket:after {
+	content:') ';
 }
 .xbrow0 > td {
 	background-color: #f9f9f9;
