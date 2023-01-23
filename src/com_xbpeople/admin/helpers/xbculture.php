@@ -208,7 +208,7 @@ class XbcultureHelper extends ContentHelper {
 	 * @param string $pvtargid default='pvmodal' - the id of the modal window to be used
 	 * @return array containing ullist and commalist
 	 */
-	public static function makeItemLists($items, $role='', $rowfmt = 't', $linkfmt = 0, $pvtargid = 'pvmodal') {
+	public static function makeItemLists($items, $role='', $rowfmt = 't', $linkfmt = 0, $pvtargid = 'pvmodal') {// $modal= array('target'=>'pvmodal','opt'=>'com_xbbooks', 'view'=>'default') ) { //
 	    $ullist = '<ul class="xblist">';
 	    $commalist = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
@@ -235,6 +235,7 @@ class XbcultureHelper extends ContentHelper {
     	        $name = '<span class="xblistname">'.$name.'</span>';
                 $ullist .= '<li>';
                 $modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" onclick="window.pvid=';
+                //$modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$modal['target'].'onclick="window.modlink='.$modal['opt'].'&view='.$modal['view'].'&layout=default&tmpl=component&id=';
                 switch ($linkfmt) {
                     case 1: //name to item
                         $link = '<a href="'.$item->link.'">'.$name.'</a>';
@@ -243,14 +244,14 @@ class XbcultureHelper extends ContentHelper {
                         $link = $modref.$item->id.'" >'.$name.'</a>';
                         break;
                     case 3: // eye to modal
-                        $link = '<span style="font-weight:bold;color:#555;">'.$name.'</span>&nbsp;'. $modref.$item->id.' " ><i class="far fa-eye"></i></a>';
+                        $link = '<span style="font-weight:bold;color:#555;">'.$name.'</span>&nbsp;'. $modref.$item->id.';" ><i class="far fa-eye"></i></a>';
                         break;
                     case 4: //name to item, eye to modal
                         $link = '<a href="'.$item->link.'"">'.$name.'</a>&nbsp;';
-                        $link .= $modref. $item->id.' " ><i class="far fa-eye"></i></a>';
+                        $link .= $modref. $item->id.';" ><i class="far fa-eye"></i></a>';
                         break;
                     case 5: //name and eye to modal
-                        $link = $modref. $item->id.' " >'.$name.'&nbsp;<i class="far fa-eye"></i></a>';
+                        $link = $modref. $item->id.';" >'.$name.'&nbsp;<i class="far fa-eye"></i></a>';
                         break;
                     default:
                     break;
