@@ -202,13 +202,13 @@ class XbcultureHelper extends ContentHelper {
 	 * @desc takes array of items with name/title, link, role, and note for each and returns a string list of the items
 	 * @param array $items required - array of details to turn into list
 	 * NB each item must contain $item->name, and may contain ->link ->role ->note
-	 * @param string $role default '' - filter by role type
-	 * @param string $rowfmt default 't' - t=title, r=role, n=note thre chars will define order of items eg rt=role-title trn=title-role-note
-	 * NB if filtering by role then role not shown so 2=0, 3=1
-	 * @param int $linked default 1 - 0: no link, 1 = linked to item, 2 linked to modal only with icon, 3 = linked to item on text and modal on eyecon
+	 * @param string $role default='' - filter by role type
+	 * @param string $rowfmt default='t' - t=title, r=role, n=note thre chars will define order of items eg rt=role-title trn=title-role-note
+	 * @param int $linked default=1 - 0=no link, 1=text to item, 2=text to modal, 3=eye to modal, 4=text to item eye to modal, 5=text & eye to modal 
+	 * @param string $pvtargid default='pvmodal' - the id of the modal window to be used
 	 * @return array containing ullist and commalist
 	 */
-	public static function makeItemLists($items, $role='', $rowfmt = 't', $linkfmt = 0) {
+	public static function makeItemLists($items, $role='', $rowfmt = 't', $linkfmt = 0, $pvtargid = 'pvmodal') {
 	    $ullist = '<ul class="xblist">';
 	    $commalist = '';
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
@@ -234,21 +234,29 @@ class XbcultureHelper extends ContentHelper {
     	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
     	        $name = '<span class="xblistname">'.$name.'</span>';
                 $ullist .= '<li>';
+                $modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" onclick="window.pvid=';
                 switch ($linkfmt) {
-                    case 1:
-                        $link = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
+                    case 1: //name to item
+                        $link = '<a href="'.$item->link.'">'.$name.'</a>';
                     break;
-                    case 2:
-                        $link = $name.'&nbsp;<a href="" data-toggle="modal" data-target="#ajax-pvmodal" onclick="window.pvid='. $item->id.' " ><i class="icon-eye xbeye xb09"></i></a>';
+                    case 2: //name to modal
+                        $link = $modref.$item->id.'" >'.$name.'</a>';
                         break;
-                    case 3:
-                        $link = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>&nbsp;';
-                        $link .= '<a href="" data-toggle="modal" data-target="#ajax-pvmodal" onclick="window.pvid='. $item->id.' " ><i class="icon-eye xbeye xb09"></i></a>';
-                        break;                       
+                    case 3: // eye to modal
+                        $link = '<span style="font-weight:bold;color:#555;">'.$name.'</span>&nbsp;'. $modref.$item->id.' " ><i class="far fa-eye"></i></a>';
+                        break;
+                    case 4: //name to item, eye to modal
+                        $link = '<a href="'.$item->link.'"">'.$name.'</a>&nbsp;';
+                        $link .= $modref. $item->id.' " ><i class="far fa-eye"></i></a>';
+                        break;
+                    case 5: //name and eye to modal
+                        $link = $modref. $item->id.' " >'.$name.'&nbsp;<i class="far fa-eye"></i></a>';
+                        break;
                     default:
                     break;
                 }
                 if (!isset($item->role)) $item->role='';
+                // if we have a value for role we will not show role here unless it is 'other'
                 $dorole = ((empty($role)) || ($role=='other'));
                 $trole = (array_key_exists($item->role, $roletitles)) ? $roletitles[$item->role] : $item->role;
                 switch ($rowfmt) {
@@ -266,33 +274,44 @@ class XbcultureHelper extends ContentHelper {
     	               break;
     	           case 'tr': //title role
     	               $listitem .= $link;
-    	               if ($item->role == 'other') {
-    	                   $listitem .= (empty($item->note)) ? '' : ' <span class="xbpostname">'.$item->note.'</span>';
-    	               } else {
-    	                   $listitem .= (empty($item->role)) ? '' : ' <span class="xbpostname">'.$item->role.'</span>';
+    	               if ($dorole) {
+        	               if ($item->role == 'other') {
+        	                   $listitem .= (empty($item->note)) ? '' : ' <span class="xbpostname">'.$item->note.'</span>';
+        	               } else {
+        	                   $listitem .= ' <span class="xbpostname">'.$trole.'</span>';
+        	               }   	                   
     	               }
     	               break;
     	           case 'trn': // title role (note)
     	               $listitem .= $link;
-    	               if ($item->role == 'other') {
-    	                   $listitem .= (empty($item->note)) ? '' : ' <span class="xbpostname">'.$item->note.'</span>';
-    	               } else {
-    	                   $listitem .= (empty($item->role)) ? '' : ' <span class="xbpostname">'.$item->role.'</span>';
+    	               if ($dorole) {
+         	               if ($item->role == 'other') {
+        	                   $listitem .= (empty($item->note)) ? '' : ' <span class="xbpostname">'.$item->note.'</span>';
+        	               } else {
+        	                   $listitem .= ' <span class="xbpostname">'.$trole.'</span>';
+        	               }
+    	               }
+    	               if ($item->role != 'other') {
     	                   $listitem .= (empty($item->note)) ? '' : ' <span class="xbpostname xbbracket">'.$item->note.'</span>';
     	               }
+    	               break;
     	           case 'rt': //role: title
-    	               if ($item->role == 'other') {
-    	                   $listitem .= ' <span class="xbprename">'.$item->note.'</span>';
-    	               } else {
-    	                   $listitem .= (empty($item->role)) ? '' : ' <span class="xbprename">'.$item->role.'</span>';
+    	               if ($dorole) {
+        	               if ($item->role == 'other') {
+        	                   $listitem .= ' <span class="xbprename">'.$item->note.'</span>';
+        	               } else {
+        	                   $listitem .= ' <span class="xbprename">'.$trole.'</span>';
+        	               }    	                   
     	               }
     	               $listitem .= $link;
     	               break;
     	           case 'rtn': // role: title (note)
-    	               if ($item->role == 'other') {
-    	                   $listitem .= (empty($item->note)) ? '' : '<span class="xbprename">'.$item->note.'</span>';
-    	               } else {
-    	                   $listitem .= (empty($item->role)) ? '' : ' <span class="xbprename">'.$item->role.'</span>';
+    	               if ($dorole) {
+        	               if ($item->role == 'other') {
+        	                   $listitem .= (empty($item->note)) ? '' : '<span class="xbprename">'.$item->note.'</span>';
+        	               } else {
+        	                   $listitem .= ' <span class="xbprename">'.$trole.'</span>';
+        	               }    	                   
     	               }
     	               $listitem .= $link;
     	               if ($item->role != 'other') {
@@ -301,9 +320,18 @@ class XbcultureHelper extends ContentHelper {
     	               break;
     	           case 'rnt': //role note: title 
     	               $listitem .= '<span class="xbprename">';
-    	               $listitem .= (empty($item->role)) ? '' : $item->role.' ';
-    	               $listitem .= (empty($item->note)) ? '' : $item->note;
-    	               $listitem .= '</span>'.$link;
+    	               if ($dorole) {
+    	                   if ($item->role == 'other') {
+    	                       $listitem .= (empty($item->note)) ? '' : $item->note;
+    	                   } else {
+    	                       $listitem .= $trole;
+    	                   }
+    	               }
+    	               if ($item->role != 'other') {
+        	               $listitem .= (empty($item->note)) ? '' : $item->note;
+    	               }
+    	               $listitem .= '</span>';
+    	               $listitem .= $link;
     	               break;
     	           default:
     	               break;
