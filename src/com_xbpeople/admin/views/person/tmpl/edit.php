@@ -129,7 +129,7 @@ $document->addStyleDeclaration($style);
 					<div class="xbmw1400 xbcentre">
         				<?php echo $this->form->renderField('persongrouplist'); ?>
         			</div>
-            		<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
+            		<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;" >
              			<h4><?php echo Text::_('XBCULTURE_QUICK_G_ADD');?></h4>
             			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_G_NOTE');?></p> 
     					<a class="btn btn-small" data-toggle="modal" 
