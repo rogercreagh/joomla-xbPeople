@@ -118,7 +118,7 @@ class com_xbpeopleInstallerScript
             www.crosborne.co.uk/xbpeople/changelog</a></p>';
     	Factory::getApplication()->enqueueMessage($message,'Message');
     	$delfiles = '';
-    	$delfiles .= '/models/fields/rating.php,/models/fields/otherrole.php,/models/fields/otherrolelist.php';
+    	$delfiles .= '/models/fields/otherrole.php,/models/fields/otherrolelist.php';
     	$delfiles = explode(',',$delfiles);
     	$cnt = 0; $dcnt=0;
     	$ecnt = 0;
