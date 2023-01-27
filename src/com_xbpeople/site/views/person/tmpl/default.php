@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/tmpl/default.php
- * @version 1.0.2.6 12th January 2023
+ * @version 1.0.3.1 27th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,7 +126,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     		<p><b><?php echo ucfirst(Text::_('XBCULTURE_EVENTS')); ?></b>
     			<span class="xbnit">
     				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->ecnt.' ';
-    				echo ($item->bookcnt == 1) ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
+    				echo ($item->ecnt == 1) ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
     			</span>
     		</p>
     		<?php echo $item->eventlist; ?>
