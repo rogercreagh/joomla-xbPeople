@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.2.8 14th January 2023
+ * @version 1.0.3.1 28th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -230,6 +230,7 @@ class XbcultureHelper extends ContentHelper {
     	    }
     	    if ($doit) {
     	        $listitem = '';
+    	        $link = '';
     	        $p ++;
     	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
     	        $name = '<span class="xblistname">'.$name.'</span>';
@@ -237,6 +238,8 @@ class XbcultureHelper extends ContentHelper {
                 $modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" onclick="window.pvid=';
                 //$modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$modal['target'].'onclick="window.modlink='.$modal['opt'].'&view='.$modal['view'].'&layout=default&tmpl=component&id=';
                 switch ($linkfmt) {
+                    case 0: //no link
+                        $link = $name;
                     case 1: //name to item
                         $link = '<a href="'.$item->link.'">'.$name.'</a>';
                     break;
@@ -244,14 +247,16 @@ class XbcultureHelper extends ContentHelper {
                         $link = $modref.$item->id.'" >'.$name.'</a>';
                         break;
                     case 3: // eye to modal
-                        $link = '<span style="font-weight:bold;color:#555;">'.$name.'</span>&nbsp;'. $modref.$item->id.';" ><i class="far fa-eye"></i></a>';
+                        $link = '<b>'.$name.'</b>';
+                        $link .= '&nbsp;'. $modref.$item->id.';" ><i class="far fa-eye"></i></a>';
                         break;
                     case 4: //name to item, eye to modal
-                        $link = '<a href="'.$item->link.'"">'.$name.'</a>&nbsp;';
-                        $link .= $modref. $item->id.';" ><i class="far fa-eye"></i></a>';
+                        $link = '<a href="'.$item->link.'"">'.$name.'</a>';
+                        $link .= '&nbsp;'.$modref. $item->id.';" ><i class="far fa-eye"></i></a>';
                         break;
                     case 5: //name and eye to modal
                         $link = $modref. $item->id.';" >'.$name.'&nbsp;<i class="far fa-eye"></i></a>';
+                        // $link = $modref. $item->id.';" >'.$name.'</a>';
                         break;
                     default:
                     break;
@@ -267,7 +272,7 @@ class XbcultureHelper extends ContentHelper {
     	               break;   	               
     	           case 'tn': //title note
     	               $listitem .= $link;
-    	               $listitem .= (empty($item->note)) ? '' : ' <span xbpostname>'.$item->note.'</span>';
+    	               $listitem .= (empty($item->note)) ? '' : ' <span class="xbpostname xbbracket">'.$item->note.'</span>';
     	               break;
     	           case 'nt': //note: title
     	               $listitem .= (empty($item->note)) ? '' : '<span class="xbprename">'.$item->note.'</span>';
@@ -337,6 +342,9 @@ class XbcultureHelper extends ContentHelper {
     	           default:
     	               break;
     	       }
+//    	       if ($rowfmt > 2) {
+//    	           $listitem .= $modref. $item->id.';" >&nbsp;<i class="far fa-eye"></i></a> ';
+//    	       }
     	       $ullist .= $listitem.'</li>';
     	       $commalist .= $listitem;
     	       if ($p == 1) {
