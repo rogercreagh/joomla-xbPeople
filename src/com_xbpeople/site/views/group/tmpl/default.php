@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/group/tmpl/default.php
- * @version 1.0.2.3 9th January 2023
+ * @version 1.0.3.2 28th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -28,6 +28,12 @@ $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 
 ?>
+<style type="text/css" media="screen">
+	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
+    <?php if($this->tmpl == 'component') : ?>
+        .fa-eye {visibility:hidden;}
+    <?php endif; ?>
+</style>
 <div class="xbculture">
 <div class="xbbox xbboxgrn">
 	<div class="row-fluid">

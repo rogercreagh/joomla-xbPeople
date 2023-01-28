@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.1 28th January 2023
+ * @version 1.0.3.2 28th January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -235,7 +235,7 @@ class XbcultureHelper extends ContentHelper {
     	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
     	        $name = '<span class="xblistname">'.$name.'</span>';
                 $ullist .= '<li>';
-                $modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" onclick="window.pvid=';
+                $modref = '<a href="" class="xbpv" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" onclick="window.pvid=';
                 //$modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$modal['target'].'onclick="window.modlink='.$modal['opt'].'&view='.$modal['view'].'&layout=default&tmpl=component&id=';
                 switch ($linkfmt) {
                     case 0: //no link
