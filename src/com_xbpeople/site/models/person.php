@@ -54,7 +54,7 @@ class XbpeopleModelPerson extends JModelItem {
 			if ($sess->get('xbevents_ok',false)==1) {
 			    $query->select('(SELECT COUNT(DISTINCT(ep.event_id)) FROM #__xbeventperson AS ep JOIN #__xbevents AS e ON ep.event_id = e.id WHERE ep.person_id = a.id AND e.state=1) AS ecnt');
 			} else {
-			    $query->select('0 AS fcnt');
+			    $query->select('0 AS ecnt');
 			}
 			if ($sess->get('xbfilms_ok',false)==1) {
 			    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp JOIN #__xbbooks AS b ON bp.book_id = b.id WHERE bp.person_id = a.id AND b.state=1) AS bcnt');
@@ -95,19 +95,19 @@ class XbpeopleModelPerson extends JModelItem {
 				
 				if ($item->gcnt > 0) {
 				    $item->groups = XbcultureHelper::getPersonGroups($item->id);
-				    $item->grouplist = XbcultureHelper::makeLinkedNameList($item->groups,'','ul',true, 3);
+				    $item->grouplist = XbcultureHelper::makeItemLists($item->groups,'','trn', 3,'gpvmodal');
 				}
 				if ($item->bcnt > 0) {
 				    $item->books = XbcultureHelper::getPersonBooks($item->id);
-				    $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);
+				    $item->booklist = XbcultureHelper::makeItemLists($item->books,'','trn',4,'bpvmodal');
 				}
 				if ($item->fcnt > 0) {
 				    $item->films = XbcultureHelper::getPersonFilms($item->id);
-				    $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true, 3);
+				    $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','trn', 4,'fpvmodal');
 				}
 				if ($item->ecnt > 0) {
 				    $item->events = XbcultureHelper::getPersonEvents($item->id);
-				    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+				    $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','trn', 4,'epvmodal');
 				}
 				
 			}
