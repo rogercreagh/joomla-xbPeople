@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/characters/view.html.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -87,10 +87,13 @@ class XbpeopleViewCharacters extends JViewLegacy {
         }
         ToolbarHelper::custom(); //spacer
         if ($this->xbbooks_ok) {
-        	ToolbarHelper::custom('characters.books', 'stack', '', 'Book Characters', false) ;
+        	ToolbarHelper::custom('characters.books', 'stack', '', 'Book Chars.', false) ;
+        }
+        if ($this->xbevents_ok) {
+            ToolbarHelper::custom('characters.events', 'picture', '', 'Event Chars.', false) ;
         }
         if ($this->xbfilms_ok) {
-        	ToolbarHelper::custom('characters.films', 'screen', '', 'Film Characters', false) ;
+        	ToolbarHelper::custom('characters.films', 'screen', '', 'Film Chars.', false) ;
         }       
         
         if ($canDo->get('core.admin')) {

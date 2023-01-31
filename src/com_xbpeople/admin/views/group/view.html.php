@@ -103,6 +103,18 @@ class XbpeopleViewGroup extends JViewLegacy {
             $bar->appendButton('Custom', $dhtml);
         }
 
+        ToolbarHelper::custom(); //spacer
+        
+        if ($this->xbbooks_ok) {
+            ToolbarHelper::custom('groups.books', 'stack', '', 'Book Groups', false) ;
+        }
+        if ($this->xbevents_ok) {
+            ToolbarHelper::custom('groups.events', 'picture', '', 'Event Groups', false) ;
+        }
+        if ($this->xbfilms_ok) {
+            ToolbarHelper::custom('groups.films', 'screen', '', 'Film Groups', false) ;
+        }
+        
         ToolbarHelper::help( '', false,'https://crosborne.uk/xbpeople/doc?tmpl=component#groupedit' );
     }
     

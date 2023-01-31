@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/character/tmpl/edit.php
- * @version 1.0.2.9 15th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,7 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 
 ?>
 <style type="text/css" media="screen">
+	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
     .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
 </style>
 <form action="<?php echo Route::_('index.php?option=com_xbpeople&layout=edit&id=' . (int) $this->item->id); ?>"
@@ -145,19 +146,26 @@ HtmlHelper::_('formbehavior.chosen', 'select');
 <script>
 jQuery(document).ready(function(){
 //for preview modal
-    jQuery('#ajax-pvmodal').on('show', function () {
+    jQuery('#ajax-cpvmodal').on('show', function () {
         // Load view vith AJAX
-        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=character&layout=default&tmpl=component&id='+window.pvid);
     })
+    jQuery('#ajax-cpvmodal').on('hidden', function () {
+     document.location.reload(true);
+    })
+});
 });
 </script>
 <!-- preview modal window -->
-<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:80%">
+<div class="modal fade xbpvmodal" id="ajax-cpvmodal" style="max-width:1000px">
     <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Character</h4>
+        </div>
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->
         </div>
     </div>
 </div>
-
-

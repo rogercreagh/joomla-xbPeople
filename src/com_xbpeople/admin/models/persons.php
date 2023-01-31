@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 1.0.3.0 18th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2021
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2023
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
@@ -219,10 +219,10 @@ class XbpeopleModelPersons extends JModelList {
 			    $item->mentioncnt = count(array_keys($broles, 'mention'));
 			    $item->othercnt = count($item->books) - $item->authorcnt - $item->editorcnt - $item->mentioncnt;
 			    
-			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'author','ul',true,4);
-			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'editor','ul',true,4);
-			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'mention','ul',true,4);
-			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'other','ul',true,3);
+			    $item->authorlist = $item->authorcnt==0 ? '' : XbcultureHelper::makeItemLists($item->books,'author','t',4,'bpvmodal');
+			    $item->editorlist = $item->editorcnt==0 ? '' : XbcultureHelper::makeItemLists($item->books,'editor','t',4,'bpvmodal');
+			    $item->mentionlist = $item->mentioncnt==0 ? '' : XbcultureHelper::makeItemLists($item->books,'mention','tn',4,'bpvmodal');
+			    $item->otherlist = $item->othercnt==0 ? '' : XbcultureHelper::makeItemLists($item->books,'other','rt',4,'bpvmodal');
 			} //bcnt is the number of books, brolecnt is the number of roles (there may be 2 roles in a book)
 			
 			if ($item->fcnt>0) {
@@ -237,20 +237,20 @@ class XbpeopleModelPersons extends JModelList {
     			$item->appcnt = count(array_keys($froles, 'appearsin'));
     			$item->castcnt = count(array_keys($froles, 'actor'));
     			
-    			$item->dirlist = $item->dircnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'director','ul',true,4);
-    			$item->prodlist = $item->prodcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'producer','ul',true,4);
-    			$item->crewlist = $item->crewcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'crew','ul',true,4);
-    			$item->castlist = $item->castcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'actor','ul',true,4);
-    			$item->applist = $item->appcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'appearsin','ul',true,4);
+    			$item->dirlist = $item->dircnt==0 ? '' : XbcultureHelper::makeItemLists($item->films,'director','t',4,'fpvmodal');
+    			$item->prodlist = $item->prodcnt==0 ? '' : XbcultureHelper::makeItemLists($item->films,'producer','t',4,'fpvmodal');
+    			$item->crewlist = $item->crewcnt==0 ? '' : XbcultureHelper::makeItemLists($item->films,'crew','t',4,'fpvmodal');
+    			$item->castlist = $item->castcnt==0 ? '' : XbcultureHelper::makeItemLists($item->films,'actor','tn',4,'fpvmodal');
+    			$item->applist = $item->appcnt==0 ? '' : XbcultureHelper::makeItemLists($item->films,'appearsin','rt',4,'fpvmodal');
 			    
 			}
 			if ($item->ecnt > 0) {
 			    $item->events = XbcultureHelper::getPersonEvents($item->id);
-			    $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+			    $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','tr',4,'epvmodal');
 			}
 			if ($item->gcnt>0) {
 			    $item->groups = XbcultureHelper::getPersonGroups($item->id);
-			    $item->grouplist = XbcultureHelper::makeLinkedNameList($item->groups,'','ul',true,3);
+			    $item->grouplist = XbcultureHelper::makeItemLists($item->groups,'','tr',4,'gpvmodal');
 			}
 			
 			$item->ext_links = json_decode($item->ext_links);

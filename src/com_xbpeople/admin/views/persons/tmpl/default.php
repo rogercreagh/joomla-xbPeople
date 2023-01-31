@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/tmpl/default.php
- * @version 1.0.3.0 18th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -50,7 +50,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 
 ?>
 <style type="text/css" media="screen">
-    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
 </style>
 <form action="index.php?option=com_xbpeople&view=persons" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -144,7 +144,6 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
     			<th class="nowrap hidden-phone">
 					<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
     			</th>
-    			<th>[pv]</th>
     		</tr>
 		</thead>
 		<tfoot>
@@ -218,7 +217,11 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 							<a href="<?php echo $pelink.$item->id; ?>" title="<?php echo Text::_('XBCULTURE_EDIT_PERSON'); ?>">
 								<?php echo ($item->firstname=='')? '... ' : $item->firstname; ?>
 								<?php echo ' '.$item->lastname; ?> 
-							</a>
+							</a>&nbsp;
+    						<a href="" data-toggle="modal"  class="xbpv" data-target="#ajax-ppvmodal"  onclick="window.pvid= <?php echo $item->id; ?>;">
+                				<i class="far fa-eye"></i>
+                			</a>					
+							
 							<br />
 							<span class="xb08 xbnorm"><i><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></i></span>
 						</p>
@@ -240,7 +243,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
  								<?php echo Text::_('XBCULTURE_MEMBER_OF').' '.$item->gcnt.' ';
  								echo ($item->gcnt==1)? lcfirst(Text ::_('XBCULTURE_GROUP')) : lcfirst(Text::_('XBCULTURE_GROUPS'));   ?>
                             </span></summary>
- 							<?php echo $item->grouplist; ?>
+ 							<?php echo $item->grouplist['ullist']; ?>
                           </details>
 						<?php endif; ?>
 					</td>
@@ -282,7 +285,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_AUTHOR_OF').' '.$item->authorcnt.' ';
      								echo ($item->authorcnt==1)?Text ::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
                                 </span></summary>
-     							<?php echo $item->authorlist; ?>
+     							<?php echo $item->authorlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->editorcnt>0) : ?>
@@ -291,7 +294,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_EDITOR_OF').' '.$item->editorcnt.' ';
      								echo ($item->editorcnt==1)? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
                                 </span></summary>
-    							<?php echo $item->editorlist; ?>
+    							<?php echo $item->editorlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->othercnt>0) : ?>
@@ -300,7 +303,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_OTHER_ROLE_ON').' '.$item->othercnt.' ';
      								echo ($item->othercnt==1)? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
                                 </span></summary>
-    							<?php echo $item->otherlist; ?>
+    							<?php echo $item->otherlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->mentioncnt>0) : ?>
@@ -309,7 +312,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_MENTION_IN').' '.$item->mentioncnt.' ';
      								echo ($item->mentioncnt==1)? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS');   ?>
                                 </span></summary>
-    							<?php echo $item->mentionlist; ?>
+    							<?php echo $item->mentionlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
 						<?php endif; ?>
@@ -323,7 +326,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
  								<?php echo $item->ecnt.' ';
  								echo ($item->ecnt==1)? lcfirst(Text ::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS'));   ?>
                             </span></summary>
- 							<?php echo $item->eventlist; ?>
+ 							<?php echo $item->eventlist['ullist']; ?>
                           </details>
 						<?php endif; ?>
     				</td>
@@ -337,7 +340,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_DIRECTOR_OF').' '.$item->dircnt.' ';
                                     echo ($item->dircnt==1)?Text ::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
                                 </span></summary>
-     							<?php echo $item->dirlist; ?>
+     							<?php echo $item->dirlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->prodcnt>0) : ?>
@@ -346,7 +349,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_PRODUCER_OF').' '.$item->prodcnt.' ';
                                     echo ($item->prodcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
                                 </span></summary>
-    							<?php echo $item->prodlist; ?>
+    							<?php echo $item->prodlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->crewcnt>0) : ?>
@@ -355,7 +358,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_CREW_ON').' '.$item->crewcnt.' ';
      								echo ($item->crewcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
                                 </span></summary>
-    							<?php echo $item->crewlist; ?>
+    							<?php echo $item->crewlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->castcnt>0) : ?>
@@ -364,7 +367,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_ACTOR_IN').' '.$item->castcnt.' ';
      								echo ($item->castcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
                                 </span></summary>
-    							<?php echo $item->castlist; ?>
+    							<?php echo $item->castlist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
     						<?php if ($item->appcnt>0) : ?>
@@ -373,7 +376,7 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
      								<?php echo Text::_('XBCULTURE_SUBJECT_CAMEO').' '.$item->appcnt.' ';
      								echo ($item->appcnt==1)? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS');   ?>
                                 </span></summary>
-    							<?php echo $item->applist; ?>
+    							<?php echo $item->applist['ullist']; ?>
                               </details>
     						<?php endif; ?> 
 						<?php endif; ?>
@@ -405,16 +408,6 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-        <?php // load the modal for displaying the batch options
-            echo HTMLHelper::_(
-            'bootstrap.renderModal',
-            'collapseModal',
-            array(
-                'title' => Text::_('XBCULTURE_BATCH_TITLE'),
-                'footer' => $this->loadTemplate('batch_footer')
-            ),
-            $this->loadTemplate('batch_body')
-        ); ?>
 	<?php endif; ?>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
@@ -425,19 +418,90 @@ $tvlink = 'index.php?option=com_xbpeople&view=tag&id=';
 <script>
 jQuery(document).ready(function(){
 //for preview modal
-    jQuery('#ajax-pvmodal').on('show', function () {
+    jQuery('#ajax-ppvmodal').on('show', function () {
         // Load view vith AJAX
-       jQuery(this).find('.modal-content').load('index.php?option=com_xbpeople&view=persons&layout=modalpv&tmpl=component');
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=person&layout=default&tmpl=component&id='+window.pvid);
     })
+    jQuery('#ajax-gpvmodal').on('show', function () {
+        // Load view vith AJAX
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=group&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-bpvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbbooks&view=book&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-epvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbevents&view=event&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-fpvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbfilms&view=film&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-ppvmodal,#ajax-gpvmodal,#ajax-bpvmodal,#ajax-epvmodal,#ajax-fpvmodal').on('hidden', function () {
+       document.location.reload(true);
+    })    
 });
 </script>
-<!-- preview modal window -->
-<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:1100px">
+<!-- preview modal windows -->
+<div class="modal fade xbpvmodal" id="ajax-ppvmodal" style="max-width:1000px">
     <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Person</h4>
+        </div>
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->
         </div>
     </div>
 </div>
-
+<div class="modal fade xbpvmodal" id="ajax-gpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Group</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-bpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Book</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-epvmodal" style="max-width:900px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Event</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-fpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Film</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
 

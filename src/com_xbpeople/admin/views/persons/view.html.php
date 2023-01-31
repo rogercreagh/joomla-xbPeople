@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/persons/view.html.php
- * @version 1.0.0.9 30th December 2022
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -95,8 +95,11 @@ class XbpeopleViewPersons extends JViewLegacy {
         if ($this->xbbooks_ok) {
         	ToolbarHelper::custom('persons.books', 'stack', '', 'Book People', false) ;
         }
+        if ($this->xbevents_ok) {
+            ToolbarHelper::custom('persons.events', 'picture', '', 'Event People', false) ;
+        }
         if ($this->xbfilms_ok) {
-        	ToolbarHelper::custom('persons.films', 'screen', '', 'Film People', false) ;
+            ToolbarHelper::custom('persons.films', 'screen', '', 'Film People', false) ;
         }
         
         if ($canDo->get('core.admin')) {

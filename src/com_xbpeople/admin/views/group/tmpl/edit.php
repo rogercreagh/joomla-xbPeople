@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/group/tmpl/edit.php
- * @version 1.0.2.9 15th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -220,8 +220,7 @@ jQuery(document).ready(function(){
              <h4 class="modal-title" style="margin:5px;">Quick New Person Form</h4>
         </div>
         <div class="modal-content">
-            <!-- Ajax content will be loaded here -->
-        </div>
+         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary"  onclick="document.getElementById('newp').contentWindow.Joomla.submitbutton('person.save');" data-dismiss="modal">Save &amp; Close</button>

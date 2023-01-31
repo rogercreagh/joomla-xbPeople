@@ -86,11 +86,16 @@ class XbpeopleViewCharacter extends JViewLegacy {
         
         $bar = Toolbar::getInstance( 'toolbar' );
         if ($this->item->id > 0) {
-            $dhtml = '<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id='.$this->item->id.'"
-            	data-toggle="modal" data-target="#ajax-pvmodal"
-            	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.JText::_('Preview').'</a>';
+            $dhtml = '<a href=""
+             	data-toggle="modal" data-target="#ajax-cpvmodal"  onclick="window.pvid='.$this->item->id.';"
+             	class="btn btn-small btn-primary"><i class="far fa-eye"></i> '.Text::_('Preview').'</a>';
             $bar->appendButton('Custom', $dhtml);
         }
+//         $dhtml = '<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id='.$this->item->id.'"
+//             	data-toggle="modal" data-target="#ajax-pvmodal"
+//             	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.JText::_('Preview').'</a>';
+//             $bar->appendButton('Custom', $dhtml);
+//         }
     }
     
     protected function setDocument() {

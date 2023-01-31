@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/view.html.php
- * @version 1.0.0.9 30th December 2022
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -97,11 +97,16 @@ class XbpeopleViewPerson extends JViewLegacy {
         
         $bar = Toolbar::getInstance( 'toolbar' );
         if ($this->item->id > 0) {
-            $dhtml = '<a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id='.$this->item->id.'"
-            	data-toggle="modal" data-target="#ajax-pvmodal"
-            	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.Text::_('Preview').'</a>';
+            $dhtml = '<a href=""
+             	data-toggle="modal" data-target="#ajax-ppvmodal"  onclick="window.pvid='.$this->item->id.';"
+             	class="btn btn-small btn-primary"><i class="far fa-eye"></i> '.Text::_('Preview').'</a>';
             $bar->appendButton('Custom', $dhtml);
         }
+//         $dhtml = '<a href="index.php?option=com_xbpeople&view=person&layout=modalpv&tmpl=component&id='.$this->item->id.'"
+//             	data-toggle="modal" data-target="#ajax-pvmodal"
+//             	class="btn btn-small btn-primary"><i class="icon-eye"></i> '.Text::_('Preview').'</a>';
+//             $bar->appendButton('Custom', $dhtml);
+//         }
         ToolbarHelper::help( '', false,'https://crosborne.uk/xbpeople/doc?tmpl=component#personedit' );
     }
     

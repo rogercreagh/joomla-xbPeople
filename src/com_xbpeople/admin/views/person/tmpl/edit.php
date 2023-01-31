@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/views/person/tmpl/edit.php
- * @version 1.0.2.9 15th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,6 +30,7 @@ $document->addStyleDeclaration($style);
         
 ?>
 <style type="text/css" media="screen">
+	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
     .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
     .xbqgmodal .modal-body {height:340px;} 
     .xbqgmodal .modal-body iframe { height:310px;}
@@ -214,13 +215,12 @@ $document->addStyleDeclaration($style);
 <script>
 jQuery(document).ready(function(){
 //for preview modal
-    jQuery('#ajax-pvmodal').on('show', function () {
+    jQuery('#ajax-ppvmodal').on('show', function () {
         // Load view vith AJAX
-        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=person&layout=default&tmpl=component&id='+window.pvid);
     })
-    jQuery('#ajax-pvmodal').on('hidden', function () {
-     //document.location.reload(true);
-     //Joomla.submitbutton('group.apply');
+    jQuery('#ajax-ppvmodal').on('hidden', function () {
+     document.location.reload(true);
     })
 //for quickgroup modal
      jQuery('#ajax-qgmodal').on('show', function () {
@@ -234,13 +234,26 @@ jQuery(document).ready(function(){
 });
 </script>
 <!-- preview modal window -->
-<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:1200px">
+<div class="modal fade xbpvmodal" id="ajax-ppvmodal" style="max-width:1000px">
     <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Person</h4>
+        </div>
         <div class="modal-content">
             <!-- Ajax content will be loaded here -->
         </div>
     </div>
 </div>
+<!-- 
+<div class="modal fade xbpvmodal" id="ajax-pvmodal" style="max-width:1200px">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+ -->
 <!-- quickgroup modal window -->
 <div class="modal fade xbqgmodal" id="ajax-qgmodal" style="max-width:1100px">
     <div class="modal-dialog">

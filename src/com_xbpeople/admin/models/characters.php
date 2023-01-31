@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/characters.php
- * @version 1.0.2.2 8th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -183,15 +183,15 @@ class XbpeopleModelCharacters extends JModelList {
         foreach ($items as $i=>$item) {
             if ($item->bcnt > 0) {
                 $item->books = XbcultureHelper::getCharBooks($item->id);
-                $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);
+                $item->booklist = XbcultureHelper::makeItemLists($item->books,'','t',4, 'bpvmodal');
             }
             if ($item->ecnt > 0) {
                 $item->events = XbcultureHelper::getCharEvents($item->id);
-                $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+                $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','t',4, 'epvmodal');
             }
             if ($item->fcnt > 0) {
                 $item->films = XbcultureHelper::getCharFilms($item->id);
-                $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true, 3);
+                $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','t',4, 'fpvmodal');
             }
                     	        	
         	$item->tags = $tagsHelper->getItemTags('com_xbpeople.character' , $item->id);
