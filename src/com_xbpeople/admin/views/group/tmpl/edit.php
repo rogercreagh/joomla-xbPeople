@@ -27,9 +27,11 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 $document = Factory::getDocument();
 $style = '.controls .btn-group > .btn  {min-width: unset;padding:3px 12px 4px;}';
 $document->addStyleDeclaration($style);
+	
+//     .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
 ?>
 <style type="text/css" media="screen">
-    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
     .xbqpmodal .modal-body {height:340px;} 
     .xbqpmodal .modal-body iframe { height:310px;}
 </style>
@@ -114,12 +116,16 @@ $document->addStyleDeclaration($style);
 				<div class="xbmw1400 xbcentre">
             		<?php echo $this->form->renderField('grouppersonlist'); ?>
 				</div>
-				<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;>
+				<div class="xbbox xbboxwht" style="margin:0 auto 30px; width:350px;" >
          			<h4><?php echo Text::_('XBCULTURE_QUICK_P_ADD');?></h4>
         			<p class="xbnote"><?php echo Text::_('XBCULTURE_QUICK_P_NOTE');?></p> 
 					<a class="btn btn-small" data-toggle="modal" 
 						href="index.php?option=com_xbpeople&view=group&layout=modalnewp&tmpl=component" 
-						data-target="#ajax-modal"><i class="icon-new">
+						data-target="#ajax-modal">
+        			<!-- 
+        			 <a href="" data-toggle="modal" class="btn btn-small" data-target="#ajax-qnpmodal" >
+        			 -->
+						<i class="icon-new">
 						</i><?php echo Text::_('XBCULTURE_ADD_NEW_P');?></a>
          		</div>					
 			</fieldset>
@@ -184,17 +190,46 @@ jQuery(document).ready(function(){
      Joomla.submitbutton('group.apply');
     })
 //for preview modal
-    jQuery('#ajax-pvmodal').on('show', function () {
+    jQuery('#ajax-gpvmodal').on('show', function () {
         // Load view vith AJAX
-        jQuery(this).find('.modal-content').load(jQuery('a[data-target="#'+jQuery(this).attr('id')+'"]').attr('href'));
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=group&layout=default&tmpl=component&id='+window.pvid);
     })
-    jQuery('#ajax-pvmodal').on('hidden', function () {
-     //document.location.reload(true);
-     //Joomla.submitbutton('group.apply');
+    jQuery('#ajax-gpvmodal').on('hidden', function () {
+     document.location.reload(true);
     })
 });
 </script>
-<!-- quick person modal window -->
+<div class="modal fade xbpvmodal" id="ajax-gpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Group</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<!-- quick person modal window 
+<div class="modal fade xbpvmodal" id="ajax-qnpmodal" style="max-width:1100px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Quick New Person Form</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"  onclick="document.getElementById('newp').contentWindow.Joomla.submitbutton('person.save');" data-dismiss="modal">Save &amp; Close</button>
+        </div>
+        
+    </div>
+</div>
+-->
 <div class="modal fade xbqpmodal" id="ajax-modal" style="max-width:1100px;">
     <div class="modal-dialog">
         <div class="modal-content">

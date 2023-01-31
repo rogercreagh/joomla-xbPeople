@@ -2,9 +2,9 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/group.php
- * @version 1.0.2.10 15th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
- * @copyright Copyright (c) Roger Creagh-Osborne, 2022
+ * @copyright Copyright (c) Roger Creagh-Osborne, 2023
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  ******/
 defined('_JEXEC') or die;
@@ -324,9 +324,9 @@ class XbpeopleModelGroup extends JModelAdmin {
 	                $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
 	                $query = $db->getQuery(true);
     	            $query->insert($db->quoteName('#__xbeventgroup'));
-    	            $query->columns('group_id,event_id,actor_id,char_note,listorder');
+    	            $query->columns('group_id,event_id,role,role_note,listorder');
     	            $query->values($db->q($group_id).','.$db->q($item['event_id']).
-    	                ','.$db->q($item['actor_id']).','.$db->q($item['char_note']).','.$db->q($listorder));
+    	                ','.$db->q($item['role']).','.$db->q($item['role_note']).','.$db->q($listorder));
     	            $db->setQuery($query);
     	            try {
     	                $db->execute();

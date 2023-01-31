@@ -192,19 +192,19 @@ class XbpeopleModelGroups extends JModelList {
 		foreach ($items as $i=>$item) {
 		    if ($item->pcnt>0) {
 		        $item->members = XbcultureHelper::getGroupMembers($item->id);
-		        $item->memberlist = XbcultureHelper::makeLinkedNameList($item->members,'','ul',true,3);
+		        $item->memberlist = XbcultureHelper::makeItemLists($item->members,'','t',4,'ppvmodal');
 		    }
 		    if ($item->bcnt > 0) {
 		        $item->books = XbcultureHelper::getGroupBooks($item->id);
-		        $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true, 3);
+		        $item->booklist = XbcultureHelper::makeItemLists($item->books,'','t',4, 'bpvmodal');
 		    }
 		    if ($item->fcnt > 0) {
 		        $item->films = XbcultureHelper::getGroupFilms($item->id);
-		        $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true, 3);
+		        $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','t',4, 'fpvmodal');
 		    }
 		    if ($item->ecnt > 0) {
 		        $item->events = XbcultureHelper::getGroupEvents($item->id);
-		        $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true, 3);
+		        $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','t',4, 'epvmodal');
 		    }
 		    
 			$item->ext_links = json_decode($item->ext_links);

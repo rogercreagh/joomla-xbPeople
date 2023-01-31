@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.2 28th January 2023
+ * @version 1.0.3.3 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -204,7 +204,7 @@ class XbcultureHelper extends ContentHelper {
 	 * NB each item must contain $item->name, and may contain ->link ->role ->note
 	 * @param string $role default='' - filter by role type
 	 * @param string $rowfmt default='t' - t=title, r=role, n=note thre chars will define order of items eg rt=role-title trn=title-role-note
-	 * @param int $linked default=1 - 0=no link, 1=text to item, 2=text to modal, 3=eye to modal, 4=text to item eye to modal, 5=text & eye to modal 
+	 * @param int $linked default=1 - 0=no link, 1=text to item, 3=eye to modal, 4=text to item eye to modal
 	 * @param string $pvtargid default='pvmodal' - the id of the modal window to be used
 	 * @return array containing ullist and commalist
 	 */
@@ -244,8 +244,6 @@ class XbcultureHelper extends ContentHelper {
                         $link = '<a href="'.$item->link.'">'.$name.'</a>';
                     break;
                     case 2: //name to modal
-                        $link = $modref.$item->id.'" >'.$name.'</a>';
-                        break;
                     case 3: // eye to modal
                         $link = '<b>'.$name.'</b>';
                         $link .= '&nbsp;'. $modref.$item->id.';" ><i class="far fa-eye"></i></a>';
@@ -254,12 +252,9 @@ class XbcultureHelper extends ContentHelper {
                         $link = '<a href="'.$item->link.'"">'.$name.'</a>';
                         $link .= '&nbsp;'.$modref. $item->id.';" ><i class="far fa-eye"></i></a>';
                         break;
-                    case 5: //name and eye to modal
-                        $link = $modref. $item->id.';" >'.$name.'&nbsp;<i class="far fa-eye"></i></a>';
-                        // $link = $modref. $item->id.';" >'.$name.'</a>';
-                        break;
                     default:
-                    break;
+                        $link = $name;
+                        break;
                 }
                 if (!isset($item->role)) $item->role='';
                 // if we have a value for role we will not show role here unless it is 'other'

@@ -118,13 +118,18 @@ class com_xbpeopleInstallerScript
             www.crosborne.co.uk/xbpeople/changelog</a></p>';
     	Factory::getApplication()->enqueueMessage($message,'Message');
     	$delfiles = '';
-    	$delfiles .= '/models/fields/otherrole.php,/models/fields/otherrolelist.php';
+    	$delfiles .= 'models/fields/otherrole.php,models/fields/otherrolelist.php';
+    	$delfiles .= 'views/groups/modalpv.php,/views/persons/modalpv.php';
     	$delfiles = explode(',',$delfiles);
     	$cnt = 0; $dcnt=0;
     	$ecnt = 0;
-    	$message = 'Deleting Redundant Files in '.JPATH_ADMINISTRATOR.'/components/com_xbpeople/ <br />';
+    	$message = 'Deleting Redundant Files in '.JPATH_ROOT.'/[administrator/]components/com_xbpeople/ <br />';
     	foreach ($delfiles as $f) {
-    	    $name = JPATH_ADMINISTRATOR.'/components/com_xbpeople'.$f;
+    	    if (substr($f,0,1)=='/') {
+    	        $name = JPATH_ROOT.'/components/com_xbpeople'.$f;
+    	    } else {
+    	        $name = JPATH_ADMINISTRATOR.'/components/com_xbpeople/'.$f;
+    	    }
     	    if (file_exists($name)) {
     	        if (is_dir($name)) {
     	            if ($this->rrmdir($name)) {
