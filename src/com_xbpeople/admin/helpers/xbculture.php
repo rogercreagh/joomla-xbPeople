@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.3 31st January 2023
+ * @version 1.0.3.4 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -547,9 +547,20 @@ class XbcultureHelper extends ContentHelper {
 	        if ($per->pstate != 1) {
 	            $per->name = '<span class="xbhlt">'.$per->name.'</span>';
 	        }
-	        $dates = $per->joined.' - '.$per->until;
+	        $dates = '';
+	        if ($per->joined !='') {
+	            if ($per->until != '') {
+	                $dates = 'from '.$per->joined.' until '.$per->until;
+	            } else {
+	                $dates = 'since '.$per->joined;
+	            }
+	        } else {
+	            if ($per->until != '') {
+	                $dates = 'left '.$per->until;
+	            }
+	        }
 	        if (strlen(trim($dates))>3) {
-	            $per->note .= ' <i>['.$dates.']</i> ';
+	            $per->note .= ' <i>'.$dates.'</i> ';
 	        }
 	    }
 	    return $persons;

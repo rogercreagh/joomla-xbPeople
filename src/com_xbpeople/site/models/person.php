@@ -44,7 +44,7 @@ class XbpeopleModelPerson extends JModelItem {
 				a.state AS published, a.catid AS catid, a.params AS params, a.metadata AS metadata  ');
 			$query->from('#__xbpersons AS a');
 			
-			$query->select('(SELECT COUNT(DISTINCT(gp.group_id)) FROM #__xbgroupperson AS gp JOIN #__xbpersons AS p ON gp.person_id = p.id  WHERE gp.group_id = a.id AND p.state=1) AS gcnt');
+			$query->select('(SELECT COUNT(DISTINCT(gp.group_id)) FROM #__xbgroupperson AS gp JOIN #__xbgroups AS g ON gp.group_id = g.id  WHERE gp.person_id = a.id AND g.state=1) AS gcnt');
 			
 			if ($sess->get('xbbooks_ok',false)==1) {
 			    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp JOIN #__xbfilms AS f ON fp.film_id = f.id WHERE fp.person_id = a.id AND f.state=1) AS fcnt');
@@ -95,7 +95,7 @@ class XbpeopleModelPerson extends JModelItem {
 				
 				if ($item->gcnt > 0) {
 				    $item->groups = XbcultureHelper::getPersonGroups($item->id);
-				    $item->grouplist = XbcultureHelper::makeItemLists($item->groups,'','trn', 3,'gpvmodal');
+				    $item->grouplist = XbcultureHelper::makeItemLists($item->groups,'','trn', 4,'gpvmodal');
 				}
 				if ($item->bcnt > 0) {
 				    $item->books = XbcultureHelper::getPersonBooks($item->id);

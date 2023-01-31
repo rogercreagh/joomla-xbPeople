@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/character.php
- * @version 1.0.0.7 29th December 2022
+ * @version 1.0.3.4 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,7 +38,8 @@ class XbpeopleModelCharacter extends JModelItem {
 	}
 	
 	public function getItem($id = null) {
-		
+	    $sess = Factory::getSession();
+	    
 		if (!isset($this->item) || !is_null($id)) {
 			$id    = is_null($id) ? $this->getState('char.id') : $id;
 			$db = $this->getDbo();
@@ -47,6 +48,23 @@ class XbpeopleModelCharacter extends JModelItem {
 				a.summary AS summary, a.description AS description,  
 				a.state AS published, a.catid AS catid, a.params AS params, a.metadata AS metadata  ');
 			$query->from('#__xbcharacters AS a');
+			
+			if ($sess->get('xbbooks_ok',false)==1) {
+			    $query->select('(SELECT COUNT(DISTINCT(bc.book_id)) FROM #__xbbookcharacter AS bc JOIN #__xbbooks AS b ON bc.book_id = b.id WHERE bc.char_id = a.id AND b.state=1) AS bcnt');
+			} else {
+			    $query->select('0 AS bcnt');
+			}
+			if ($sess->get('xbfilms_ok',false)==1) {
+			    $query->select('(SELECT COUNT(DISTINCT(fc.film_id)) FROM #__xbfilmcharacter AS fc JOIN #__xbfilms AS f ON fc.film_id = f.id WHERE fc.char_id = a.id AND f.state=1) AS fcnt');
+			} else {
+			    $query->select('0 AS fcnt');
+			}
+			if ($sess->get('xbevents_ok',false)==1) {
+			    $query->select('(SELECT COUNT(DISTINCT(ec.event_id)) FROM #__xbeventcharacter AS ec JOIN #__xbevents AS e ON ec.event_id = e.id WHERE ec.char_id = a.id AND e.state=1) AS ecnt');
+			} else {
+			    $query->select('0 AS ecnt');
+			}
+			
 			$query->select('c.title AS category_title');
 			$query->leftJoin('#__categories AS c ON c.id = a.catid');
 			$query->where('a.id = '.$id);
@@ -65,18 +83,19 @@ class XbpeopleModelCharacter extends JModelItem {
 				$item->params = $params;
 				$target = ($params->get('extlink_target')==1) ? 'target="_blank"' : '';
 				
-				$item->filmcnt = 0;
-				if ($this->xbfilmsStatus) {
-				    $item->films = XbcultureHelper::getCharFilms($item->id,'rel_year DESC');
-				    $item->filmcnt = count($item->films);
-				    $item->filmlist = $item->filmcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,4);
+				
+				if ($item->bcnt > 0) {
+				    $item->books = XbcultureHelper::getPersonBooks($item->id);
+				    $item->booklist = XbcultureHelper::makeItemLists($item->books,'','trn',4,'bpvmodal');
 				}
-				$item->bookcnt = 0;
-				if ($this->xbbooksStatus) {
-				    $item->books = XbcultureHelper::getCharBooks($item->id,'pubyear ASC');
-				    $item->bookcnt = count($item->books);
-				    $item->booklist = $item->bookcnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,4);
-				}												
+				if ($item->ecnt > 0) {
+				    $item->events = XbcultureHelper::getPersonEvents($item->id);
+				    $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','trn', 4,'epvmodal');
+				}
+				if ($item->fcnt > 0) {
+				    $item->films = XbcultureHelper::getPersonFilms($item->id);
+				    $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','trn', 4,'fpvmodal');
+				}
 			}
 		}
 		return $this->item;

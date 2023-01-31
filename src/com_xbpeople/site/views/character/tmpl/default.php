@@ -31,11 +31,11 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 <style type="text/css" media="screen">
 	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
     <?php if($this->tmpl == 'component') : ?>
-        .fa-eye {visibility:hidden;}
+        .xbpvmodal .fa-eye {visibility:hidden;}
     <?php endif; ?>
 </style>
 <div class="xbculture">
-<div class="xbbox xbboxcyan">
+<div class="xbbox chbox">
 	<div class="row-fluid">
 		<?php if ($imgok && ($this->show_image == 1 )) : ?>
 			<div class="span2">
@@ -43,10 +43,21 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 					data-placement="right" src="<?php echo $src; ?>" border="0" alt="" style="max-width:100%;" />
 			</div>
 		<?php endif; ?>
-		<div class="<?php echo $imgok==true ? 'span10' : 'span12'; ?>">
-			<h3><?php echo $item->name; ?>
-			</h3>
-		</div>
+		<div class="<?php echo ($imgok==true && ($this->show_image > 0 )) ? 'span10' : 'span12'; ?>">
+			<h2><?php echo $item->name; ?>
+			</h2>
+             <?php if (trim($item->summary)!='') {
+                 $sum = '<i>'.Text::_('XBCULTURE_SUMMARY').'</i>: '.$item->summary;
+             } elseif (trim($item->description)!='') {
+                 $sum = '<i>'.Text::_('XBCULTURE_DESC_EXTRACT').'</i>: '.XbcultureHelper::makeSummaryText($item->description,200);                
+             } else {
+                 $sum = '<i>'.Text::_('XBCULTURE_NO_SUMMARY_DESC').'</i>';
+             } ?>						
+			<div class="xbbox xbboxwht" style="max-width:700px; margin:auto;">
+				<div><?php echo $sum; ?></div> 
+			</div>
+			<br />
+		</div>		
 		<?php if ($imgok && ($this->show_image == 2 )) : ?>
 			<div class="span2">
 				<img class="hasTooltip" title="" data-original-title="<?php echo $tip; ?>"
@@ -54,81 +65,97 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
 			</div>
 		<?php endif; ?>
 	</div>
-</div>
-<?php if (trim($item->summary) != '') : ?>
     <div class="row-fluid">
-    	<div class="span2"></div>
-    	<div class="span8">
-			<div class="xbbox xbboxwht">
-				<div class="pull-left">
-					<span class="xbnit"><?php echo Text::_('XBCULTURE_SUMMARY'); ?>  : </span>
-				</div>
-				<div><?php echo $item->summary; ?></div> 
-			</div>
-		</div>
-		<div class="span2"></div>
-	</div>
-<?php  endif;?>
-<div class="row-fluid">
-	<?php if ($item->bookcnt>0) : ?>
-    	<div class="span<?php echo $item->filmcnt>0 ? '6' : '12'; ?>">
-    		<p><b><?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?></b>
-    			<span class="xbnit">
-    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bookcnt;
-    				echo ($item->bookcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
-    			</span>
-    		</p>
-    		<?php echo $item->booklist; ?>
-    	</div>
-	<?php endif; ?>
-	<?php if ($item->filmcnt>0) : ?>
-    	<div class="span<?php echo $item->bookcnt>0 ? '6' : '12'; ?>">
-    		<p><b><?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?></b>
-    			<span class="xbnit">
-    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->filmcnt.' '.Text::_('XBCULTURE_FILMS'); ?>
-    			</span>
-    		</p>
-    		<?php echo $item->filmlist; ?>
-    	</div>
-	<?php endif; ?>
-</div>
-<?php  if (!empty($item->description)) :?>
-	<div class="xbnit xbmb8"><?php echo Text::_('XBCULTURE_DESCRIPTION');?></div>
-    <div class="xbbox xbboxcyan">
-    	<?php echo $item->description; ?>
+        	<?php if (($item->bcnt + $item->ecnt + $item->fcnt)>0) {
+        	    $cols = 0;
+        	    if ($item->bcnt>0) $cols++;
+        	    if ($item->ecnt>0) $cols++;
+        	    if ($item->fcnt>0) $cols++;
+            	$cols = intdiv(12, $cols);
+        	}
+        	?>
+    	<?php if ($item->bcnt>0) : ?>
+        	<div class="span<?php echo $cols; ?>">
+        		<p><b><?php echo ucfirst(Text::_('XBCULTURE_BOOKS')); ?></b></p>
+        		<details>
+        			<summary>
+            			<span class="xbnit">
+            				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->bcnt;
+            				echo ($item->bcnt == 1) ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>
+            			</span>
+           			</summary>
+	        		<?php echo $item->booklist['ullist']; ?>
+	        	</details>
+        	</div>
+    	<?php endif; ?>
+    	<?php if ($item->ecnt>0) : ?>
+        	<div class="span<?php echo $cols; ?>">
+        		<p><b><?php echo ucfirst(Text::_('XBCULTURE_EVENTS')); ?></b></p>
+        		<details>
+        			<summary>
+	        			<span class="xbnit">
+    	    				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->ecnt;
+            				echo ($item->ecnt == 1) ? Text::_('XBCULTURE_EVENT') : Text::_('XBCULTURE_EVENTS'); ?>
+        				</span>
+        			</summary>
+		       		<?php echo $item->eventlist['ullist']; ?>
+		        </details>
+        	</div>
+    	<?php endif; ?>
+    	<?php if ($item->fcnt>0) : ?>
+        	<div class="span<?php echo $cols; ?>">
+        		<p><b><?php echo ucfirst(Text::_('XBCULTURE_FILMS')); ?></b></p>
+        		<details>
+        			<summary>
+            			<span class="xbnit">
+            				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->fcnt.' '.Text::_('XBCULTURE_FILMS');
+             				echo ($item->fcnt == 1) ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>
+            			</span>
+        			</summary>
+        		</details>
+        		<?php echo $item->filmlist['ullist']; ?>
+        	</div>
+    	<?php endif; ?>
     </div>
-<?php else: ?>
-	<?php if (!$this->hide_empty) {
-	   echo '<p class="xbnit">'.Text::_('XBCULTURE_NO_DESCRIPTION').'</p>';
-	} ?>
-<?php endif; ?>
-<div class="row-fluid xbmt16">
-	<?php if ($this->show_cat) : ?>
-		<div class="span5">
-			<div class="pull-left xbnit xbmr10"><?php echo Text::_('XBCULTURE_CATEGORY'); ?></div>
-			<div class="pull-left">
-				<?php if ($this->show_cat==2) : ?>
-					<a href="<?php echo $clink.$item->catid; ?>" class="label label-success"><?php echo $item->category_title; ?></a>
-				<?php else : ?>
-    				<span class="label label-success"><?php  echo $item->category_title; ?></span>
-				<?php endif; ?>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	<?php endif; ?>
-	<?php if(($this->show_tags) && (!empty($item->tags))) : ?>
-		<div class="span<?php echo ($this->show_cat) ? '7' : '12';?>">
-			<div class="pull-left xbnit xbmr10"><?php echo ucfirst(Text::_('XBCULTURE_TAGS')); ?></div>
-			<div class="pull-left">
-				<?php  $tagLayout = new FileLayout('joomla.content.tags');
-			    	echo $tagLayout->render($item->tags);
-			    ?>
-			</div>	
-			<div class="clearfix"></div>
-		</div>
-	<?php endif; ?>			
+    <div class="row-fluid xbmt16">
+    	<?php if ($this->show_cat) : ?>
+    		<div class="span5">
+    			<div class="pull-left xbnit xbmr10"><?php echo Text::_('XBCULTURE_CATEGORY'); ?></div>
+    			<div class="pull-left">
+    				<?php if ($this->show_cat==2) : ?>
+    					<a href="<?php echo $clink.$item->catid; ?>" class="label label-success"><?php echo $item->category_title; ?></a>
+    				<?php else : ?>
+        				<span class="label label-success"><?php  echo $item->category_title; ?></span>
+    				<?php endif; ?>
+    			</div>
+    			<div class="clearfix"></div>
+    		</div>
+    	<?php endif; ?>
+    	<?php if(($this->show_tags) && (!empty($item->tags))) : ?>
+    		<div class="span<?php echo ($this->show_cat) ? '7' : '12';?>">
+    			<div class="pull-left xbnit xbmr10"><?php echo ucfirst(Text::_('XBCULTURE_TAGS')); ?></div>
+    			<div class="pull-left">
+    				<?php  $tagLayout = new FileLayout('joomla.content.tags');
+    			    	echo $tagLayout->render($item->tags);
+    			    ?>
+    			</div>	
+    			<div class="clearfix"></div>
+    		</div>
+    	<?php endif; ?>			
+    </div>
+    <?php  if (!empty($item->description)) :?>
+    	<div class="xbnit xbmb8"><?php echo Text::_('XBCULTURE_DESCRIPTION');?></div>
+        <div class="xbbox xbboxcyan">
+        	<?php echo $item->description; ?>
+        </div>
+    <?php else: ?>
+        <?php if (!$this->hide_empty) : ?>
+        	<div class="xbbox xbboxcyan">
+        	    <p class="xbnit"><?php echo Text::_('XBCULTURE_NO_DESCRIPTION'); ?></p>
+        	</div>
+        <?php endif; ?>
+    <?php endif; ?>	
 </div>
-
 <?php if($this->tmpl != 'component') : ?>
     <div class="row-fluid">
     	<div class="span12 xbbox xbboxgrey">
@@ -161,3 +188,64 @@ $clink = 'index.php?option=com_xbpeople&view=category'.$itemid.'&id=';
     <p><?php echo XbcultureHelper::credit('xbPeople');?></p>
     </div>
 <?php endif; ?>
+</div>
+<script>
+jQuery(document).ready(function(){
+//for preview modals
+    jQuery('#ajax-bpvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbbooks&view=book&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-epvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbevents&view=event&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-fpvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbfilms&view=film&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-bpvmodal,#ajax-epvmodal,#ajax-fpvmodal').on('hidden', function () {
+       document.location.reload(true);
+    })    
+});
+</script>
+<!-- preview modal windows -->
+<div class="modal fade xbpvmodal" id="ajax-bpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Book</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-epvmodal" style="max-width:900px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Event</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-fpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Film</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+
+

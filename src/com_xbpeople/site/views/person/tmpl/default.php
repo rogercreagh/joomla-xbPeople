@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/person/tmpl/default.php
- * @version 1.0.3.3 30th January 2023
+ * @version 1.0.3.4 31st January 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -32,7 +32,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 <style type="text/css" media="screen">
 	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
     <?php if($this->tmpl == 'component') : ?>
-        .fa-eye {visibility:hidden;}
+        .xbpvmodal .fa-eye {visibility:hidden;}
     <?php endif; ?>
 </style>
 <div class="xbculture">
@@ -119,13 +119,16 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 		<?php endif; ?>
     	<?php if ($item->ecnt>0) : ?>
         	<div class="span<?php echo $cols; ?>">
-        		<p><b><?php echo ucfirst(Text::_('XBCULTURE_EVENTS')); ?></b>
-        			<span class="xbnit">
-        				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->ecnt.' ';
-        				echo ($item->ecnt == 1) ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
-        			</span>
-        		</p>
-        		<?php echo $item->eventlist['ullist']; ?>
+        		<p><b><?php echo ucfirst(Text::_('XBCULTURE_EVENTS')); ?></b></p>
+        		<details>
+        			<summary>
+            			<span class="xbnit">
+            				<?php echo Text::_('XBCULTURE_LISTED_WITH').' '.$item->ecnt.' ';
+            				echo ($item->ecnt == 1) ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
+            			</span>
+        			</summary>
+        			<?php echo $item->eventlist['ullist']; ?>
+        		</details>
         	</div>
     	<?php endif; ?>
     </div>
@@ -209,7 +212,6 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     	<?php endif; ?>
     <?php endif; ?>
 </div>    
-</div>
 <?php if($this->tmpl != 'component') : ?>
     <div class="row-fluid">
     	<div class="span12 xbbox xbboxgrey">
@@ -241,6 +243,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
     <div class="clearfix"></div>
     <p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 <?php endif; ?>
+</div>
 <script>
 jQuery(document).ready(function(){
 //for preview modals
