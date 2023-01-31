@@ -119,7 +119,8 @@ class com_xbpeopleInstallerScript
     	Factory::getApplication()->enqueueMessage($message,'Message');
     	$delfiles = '';
     	$delfiles .= 'models/fields/otherrole.php,models/fields/otherrolelist.php';
-    	$delfiles .= 'views/groups/modalpv.php,/views/persons/modalpv.php';
+    	$delfiles .= 'views/characters/tmpl/modalpv.php,views/groups/tmpl/modalpv.php,views/persons/tmpl/modalpv.php';
+    	$delfiles .= 'views/character/tmpl/modalpv.php,views/group/tmpl/modalpv.php,views/person/tmpl/modalpv.php';
     	$delfiles = explode(',',$delfiles);
     	$cnt = 0; $dcnt=0;
     	$ecnt = 0;
