@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/people/tmpl/compact.php
- * @version 1.0.2.10 15th January 2023
+ * @version 1.0.3.5 1st February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,6 +41,9 @@ $itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
 $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 
 ?>
+<style type="text/css" media="screen">
+	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
+</style>
 <div class="xbculture">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
 	    echo XbcultureHelper::sitePageheader($this->header);
@@ -141,7 +144,10 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 					<p class="xbtitlelist">
 						<a href="<?php echo Route::_($plink.$item->id);?>" >
 							<b><?php echo $this->escape($item->firstname).' '.$this->escape($item->lastname); ?></b>
-						</a>
+							</a>&nbsp;
+    						<a href="" data-toggle="modal"  class="xbpv" data-target="#ajax-ppvmodal"  onclick="window.pvid= <?php echo $item->id; ?>;">
+                				<i class="far fa-eye"></i>
+                			</a>					
 					</p>
 					<?php if($this->show_pdates) : ?>
 						<p><?php if ($item->year_born != 0) {						
@@ -155,17 +161,17 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 					<?php endif; ?>
 				</td>
                 <?php if ($this->showcnts) : ?>
-					<?php if ($item->gcnt>0) : ?>
     				<td>
+					<?php if ($item->gcnt>0) : ?>
     					<details>
     						<summary><span class="xbnit">
 								<?php echo $item->gcnt.' ';
 								    echo $item->gcnt ==1 ? Text::_('XBCULTURE_GROUP') : Text::_('XBCULTURE_GROUPS'); ?>       					
     						</span></summary>
-    						<?php echo $item->grouplist; ?>    						
+    						<?php echo $item->grouplist['ullist']; ?>    						
     					</details>
-    				</td>
 					<?php endif; ?>
+    				</td>
 					<?php if ($this->xbbooksStatus) : ?>
         				<td>
     						<?php if ($item->bcnt>0) :?>
@@ -174,7 +180,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
         								<?php echo $item->bcnt.' ';
         								    echo $item->bcnt ==1 ? Text::_('XBCULTURE_BOOK') : Text::_('XBCULTURE_BOOKS'); ?>       					
             						</span></summary>
-            						<?php echo $item->booklist; ?>    						
+            						<?php echo $item->booklist['ullist']; ?>    						
             					</details>
         					<?php endif; ?>
         				</td>
@@ -187,7 +193,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
         								<?php echo $item->ecnt.' ';
         								    echo $item->ecnt ==1 ? lcfirst(Text::_('XBCULTURE_EVENT')) : lcfirst(Text::_('XBCULTURE_EVENTS')); ?>
             						</span></summary>
-            						<?php echo $item->eventlist; ?>    						
+            						<?php echo $item->eventlist['ullist']; ?>    						
             					</details>
         					<?php endif; ?>
         				</td>
@@ -200,7 +206,7 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
         								<?php echo $item->fcnt.' ';
         								    echo $item->fcnt ==1 ? Text::_('XBCULTURE_FILM') : Text::_('XBCULTURE_FILMS'); ?>       					
             						</span></summary>
-            						<?php echo $item->filmlist; ?>    						
+            						<?php echo $item->filmlist['ullist']; ?>    						
             					</details>
         					<?php endif; ?>
         				</td>
@@ -255,3 +261,94 @@ $clink = 'index.php?option=com_xbpeople&view=category' . $itemid.'&id=';
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>
+<script>
+jQuery(document).ready(function(){
+//for preview modals
+    jQuery('#ajax-ppvmodal').on('show', function () {
+        // Load view vith AJAX
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=person&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-gpvmodal').on('show', function () {
+        // Load view vith AJAX
+      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=group&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-bpvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbbooks&view=book&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-epvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbevents&view=event&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-fpvmodal').on('show', function () {
+        // Load view vith AJAX
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbfilms&view=film&layout=default&tmpl=component&id='+window.pvid);
+    })
+    jQuery('#ajax-ppvmodal,#ajax-gpvmodal,#ajax-bpvmodal,#ajax-epvmodal,#ajax-fpvmodal').on('hidden', function () {
+       document.location.reload(true);
+    })    
+});
+</script>
+<!-- preview modal windows -->
+<div class="modal fade xbpvmodal" id="ajax-ppvmodal" style="max-width:800px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Member</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-gpvmodal" style="max-width:900px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Group</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-bpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Book</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-epvmodal" style="max-width:900px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Event</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+<div class="modal fade xbpvmodal" id="ajax-fpvmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview Film</h4>
+        </div>
+        <div class="modal-content">
+            <!-- Ajax content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+

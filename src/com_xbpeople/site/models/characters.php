@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/characters.php
- * @version 1.0.3.0 16th January 2023
+ * @version 1.0.3.5 1st February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -216,15 +216,15 @@ class XbpeopleModelCharacters extends JModelList {
 		        //get books
 		        if ($item->bcnt>0) {
 		            $item->books = XbcultureHelper::getPersonBooks($item->id);
-		            $item->booklist = XbcultureHelper::makeLinkedNameList($item->books,'','ul',true,2);
+		            $item->booklist = XbcultureHelper::makeItemLists($item->books,'','tr',3,'bpvmodal');
 		        }
 		        if ($item->ecnt>0) {
 		            $item->events = XbcultureHelper::getPersonEvents($item->id);
-		            $item->eventlist = XbcultureHelper::makeLinkedNameList($item->events,'','ul',true,2);
+		            $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','tr',3,'epvmodal');
 		        }
 		        if ($item->fcnt>0) {
 		            $item->films = XbcultureHelper::getPersonFilms($item->id);
-		            $item->filmlist = XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,2);
+		            $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','tr',3,'fpvmodal');
 		        }
 		        
 		    } //end foreach item
