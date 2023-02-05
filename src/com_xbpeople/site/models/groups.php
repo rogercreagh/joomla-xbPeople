@@ -220,15 +220,15 @@ class XbpeopleModelGroups extends JModelList {
 			    $item->memberlist = XbcultureHelper::makeItemLists($item->members,'','tr',3,'gpvmodal');
 			}
 			if ($item->bcnt>0) {
-			    $item->books = XbcultureHelper::getPersonBooks($item->id);
+			    $item->books = XbcultureHelper::getGroupBooks($item->id);
 			    $item->booklist = XbcultureHelper::makeItemLists($item->books,'','tr',3,'bpvmodal');
 			}
 			if ($item->ecnt>0) {
-			    $item->events = XbcultureHelper::getPersonEvents($item->id);
+			    $item->events = XbcultureHelper::getGroupEvents($item->id);
 			    $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','tr',3,'epvmodal');
 			}
 			if ($item->fcnt>0) {
-			    $item->films = XbcultureHelper::getPersonFilms($item->id);
+			    $item->films = XbcultureHelper::getGroupFilms($item->id);
 			    $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','tr',3,'fpvmodal');
 			}
 			

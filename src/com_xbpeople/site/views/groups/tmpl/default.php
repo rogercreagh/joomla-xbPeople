@@ -104,7 +104,7 @@ $plink = 'index.php?option=com_xbpeople&view=group'.$itemid.'&id=';
 					<?php echo JText::_('XBCULTURE_SUMMARY');?>
 				</th>
                 <?php endif; ?>
-                <?php if ($this->showccnts) : ?>
+                <?php if ($this->showgcnts) : ?>
     				<?php if($this->xbbooksStatus) : ?>
         				<th>
         					<?php echo HtmlHelper::_('searchtools.sort','Books','bcnt',$listDirn,$listOrder ); ?>
@@ -212,7 +212,7 @@ $plink = 'index.php?option=com_xbpeople&view=group'.$itemid.'&id=';
 					<?php endif; ?>
 				</td>
 				<?php endif; ?>
-                <?php if ($this->showccnts) : ?>
+                <?php if ($this->showgcnts) : ?>
     				<?php if ($this->xbbooksStatus) : ?>
         				<td>
     						<?php if ($item->bcnt>0) :?>
