@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/models/persons.php
- * @version 1.0.2.10 15th January 2023
+ * @version 1.0.3.6 5th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -284,14 +284,14 @@ class XbpeopleModelPerson extends JModelAdmin {
 		return false;
 	}
 	
-	private function storePersonFilms($person_id, $role, $personList) {
+	private function storePersonFilms($person_id, $role, $filmList) {
 		//delete existing role list
 		$db = $this->getDbo();
 		$where = $db->qn('person_id').' = '.$db->q($person_id).' AND '.$db->qn('role').' = '.$db->q($role);
-		if (XbcultureHelper::deleteFromTable('#__xbbookperson', $where)) {
+		if (XbcultureHelper::deleteFromTable('#__xbfilmperson', $where)) {
 		    
     		//restore the new list
-    		foreach ($personList as $item) {
+    		foreach ($filmList as $item) {
     		    if ($item['film_id']>0) {
     		        $listorder = ($item['oldorder']!=='') ? $item['oldorder'] : '99';
     			    $query = $db->getQuery(true);
