@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.4 31st January 2023
+ * @version 1.0.3.6 6th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -211,6 +211,11 @@ class XbcultureHelper extends ContentHelper {
 	public static function makeItemLists($items, $role='', $rowfmt = 't', $linkfmt = 0, $pvtargid = 'pvmodal') {// $modal= array('target'=>'pvmodal','opt'=>'com_xbbooks', 'view'=>'default') ) { //
 	    $ullist = '<ul class="xblist">';
 	    $commalist = '';
+	    if ($role=='') {
+	        $valcnt = count($items);
+	    } else {
+	       $valcnt = array_count_values(array_column($items, 'role'))[$role];
+	    }
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
 	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'),
 	        'author'=>Text::_('XBCULTURE_AUTHOR'), 'editor'=>Text::_('XBCULTURE_EDITOR'), 'mention'=>''
@@ -342,7 +347,7 @@ class XbcultureHelper extends ContentHelper {
 //    	       }
     	       $ullist .= $listitem.'</li>';
     	       $commalist .= $listitem;
-    	       if ($p == 1) {
+    	       if (($p == 1) && ($valcnt==2)) {
     	           $commalist .= ' &amp; ';
     	       } else {
     	           $commalist .= ', ';
@@ -351,9 +356,9 @@ class XbcultureHelper extends ContentHelper {
 	    } //endfor
 	    $ullist .= '</ul>';
 	    $commalist = trim($commalist,', ');
-	    if (substr($commalist,-5)== '&amp;') {
-	        $commalist = substr($commalist,0,strlen($commalist)-5);
-        }
+// 	    if (substr($commalist,-5)== '&amp;') {
+// 	        $commalist = substr($commalist,0,strlen($commalist)-5);
+//         }
 	    return array('ullist' => $ullist, 'commalist' => $commalist);
 	}
 	
@@ -1446,7 +1451,7 @@ class XbcultureHelper extends ContentHelper {
 	 * @return string
 	 */
 	public static function getDateFmt(string $sqldate, $datefmt = 'D j M Y', $limityear = '2011') {
-	    if (substr($sqldate,0,4) < 2011) {
+	    if (substr($sqldate,0,4) < $limityear) {
 	        if (substr($sqldate,5,5)=='01-01') {
 	            $datefmt = 'Y';
 	        } elseif (substr($sqldate,8,2) == '01') {
