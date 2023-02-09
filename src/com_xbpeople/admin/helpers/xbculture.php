@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.6 6th February 2023
+ * @version 1.0.3.7 8th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -115,7 +115,7 @@ class XbcultureHelper extends ContentHelper {
 	            if ($linked == 1) {
 	                $name = '<a href="'.$item->link.'" class="xblistlink">'.$name.'</a>';
 	            } elseif ($linked == 2) {
-	                $name = '<a href="" data-toggle="modal" data-target="#ajax-pvmodal" onclick="window.pvid= <?php echo $item->id; ?>;">'.$name.' <i class="icon-eye xbeye"></i></a>';
+	                $name = '<a href="" data-toggle="modal" data-target="#ajax-pvmodal" data-backdrop="static" onclick="window.pvid= <?php echo $item->id; ?>;">'.$name.' <i class="icon-eye xbeye"></i></a>';
 	            }
 	            if (!isset($item->role)) $item->role='';
 	            $dorole = ((empty($role)) || ($role=='other'));
@@ -213,6 +213,8 @@ class XbcultureHelper extends ContentHelper {
 	    $commalist = '';
 	    if ($role=='') {
 	        $valcnt = count($items);
+	    } elseif ($role == 'other') {
+	        $valcnt = 3;
 	    } else {
 	       $valcnt = array_count_values(array_column($items, 'role'))[$role];
 	    }
@@ -240,7 +242,7 @@ class XbcultureHelper extends ContentHelper {
     	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
     	        $name = '<span class="xblistname">'.$name.'</span>';
                 $ullist .= '<li>';
-                $modref = '<a href="" class="xbpv" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" onclick="window.pvid=';
+                $modref = '<a href="" class="xbpv" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" data-backdrop="static" onclick="window.pvid=';
                 //$modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$modal['target'].'onclick="window.modlink='.$modal['opt'].'&view='.$modal['view'].'&layout=default&tmpl=component&id=';
                 switch ($linkfmt) {
                     case 0: //no link
