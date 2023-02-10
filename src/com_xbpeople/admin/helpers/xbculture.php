@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.7 8th February 2023
+ * @version 1.0.3.8 10th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -214,9 +214,10 @@ class XbcultureHelper extends ContentHelper {
 	    if ($role=='') {
 	        $valcnt = count($items);
 	    } elseif ($role == 'other') {
-	        $valcnt = 3;
+	        $valcnt = 3; //fudge
 	    } else {
-	       $valcnt = array_count_values(array_column($items, 'role'))[$role];
+	        $arrvals = array_column($items, 'role');
+	       $valcnt = (array_key_exists($role, $arrvals)) ? array_count_values($arrvals)[$role] : 0 ;
 	    }
 	    $roletitles = array('director'=>Text::_('XBCULTURE_DIRECTOR'),'producer'=>Text::_('XBCULTURE_PRODUCER'), 'crew'=>Text::_('XBCULTURE_CREW'), 
 	        'actor'=>Text::_('XBCULTURE_ACTOR'),'appearsin'=>'','char'=>Text::_('XBCULTURE_CHARACTER_U'),
@@ -416,6 +417,32 @@ class XbcultureHelper extends ContentHelper {
 		return $res;
 	}
 
+	/**
+	 * @name getStarStr()
+	 * @desc given a rating (int or float) and a component name returns a string of stars
+	 * @param unknown $rating
+	 * @param string $component
+	 * @return string
+	 */
+	public static function getStarStr($rating, string $component) {
+	    $starstr ='';
+	    $params = ComponentHelper::getParams('com_xbpeople');
+	    $zero_rating = $params->get('zero_rating',1);
+	    $zero_class = $params->get('zero_class','fas fa-thumbs-down xbred');
+	    $star_class = $params->get('star_class','fa fa-star xbgold');
+	    $halfstar_class = $params->get('halfstar_class','fa fa-star-half xbgold');
+	    $starcnt = (round(($rating)*2)/2);
+	    if (($zero_rating) && ($starcnt==0)) {
+		    $starstr = '<span class="'.$zero_class.'"></span>';
+	    } else {
+	        $starstr = str_repeat('<i class="'.$star_class.'"></i>',$starcnt);
+	        if (($rating - floor($rating))>0) {
+	            $starstr .= '<i class="'.$halfstar_class.'"></i>';
+	        }
+	    }
+        return $starstr;
+	}
+	
 	/**
 	 * @name credit()
 	 * @desc tests if reg code is installed and returns blank, or credit for site and PayPal button for admin
