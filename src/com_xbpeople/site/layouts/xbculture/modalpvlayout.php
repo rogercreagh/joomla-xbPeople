@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource site/layouts/xbculture/modalpvlayout.php
- * @version 1.0.3.8 9th February 2023
+ * @version 1.0.3.9 12th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $show = 'x'.strtoupper(trim($displayData['show']));
-if ($show == 'x') $show = 'xPGCFEBR';
+if ($show == 'x') $show = 'xPGCFEBOIE';
 
 ?>
 <script>
@@ -47,14 +47,22 @@ if (strpos($show,'F')) : ?>
        jQuery(this).find('.modal-content').load('/index.php?option=com_xbfilms&view=film&layout=default&tmpl=component&id='+window.pvid);
     })
 <?php endif; 
-if (strpos($show,'R')) : ?>
+if (strpos($show,'O')) : ?>
+    jQuery('#ajax-rpvmodal').on('show', function () {
+       jQuery(this).find('.modal-content').load('/index.php?option=com_xbbooks&view=bookreview&layout=default&tmpl=component&id='+window.pvid);
+    })
+<?php endif; 
+if (strpos($show,'I')) : ?>
     jQuery('#ajax-rpvmodal').on('show', function () {
        jQuery(this).find('.modal-content').load('/index.php?option=com_xbfilms&view=filmreview&layout=default&tmpl=component&id='+window.pvid);
-       jQuery(this).find('.modal-content').load('/index.php?option=com_xbbooks&view=bookreview&layout=default&tmpl=component&id='+window.pvid);
+    })
+<?php endif;
+if (strpos($show,'V')) : ?>
+    jQuery('#ajax-rpvmodal').on('show', function () {
        jQuery(this).find('.modal-content').load('/index.php?option=com_xbevents&view=eventreview&layout=default&tmpl=component&id='+window.pvid);
     })
 <?php endif; ?>
-    jQuery('#ajax-bpvmodal,#ajax-ppvmodal,#ajax-gpvmodal,#ajax-cpvmodal,#ajax-epvmodal,#ajax-fpvmodal,#ajax-rpvmodal').on('hidden', function () {
+jQuery('#ajax-bpvmodal,#ajax-ppvmodal,#ajax-gpvmodal,#ajax-cpvmodal,#ajax-epvmodal,#ajax-fpvmodal,#ajax-rpvmodal').on('hidden', function () {
     // cleanup the modal-content that was loaded
 		jQuery(this).find(".modal-content").html("");
     })    
@@ -154,7 +162,7 @@ if (strpos($show,'F')) : ?>
     </div>
 </div>
 <?php endif; 
-if (strpos($show,'R')) : ?>
+if ((strpos($show,'O')) || (strpos($show,'I')) || (strpos($show,'V')) ): ?>
 <div class="modal fade xbpvmodal" id="ajax-rpvmodal" style="max-width:900px">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
