@@ -284,7 +284,7 @@ unpublished : yellow
 }
 .xbrevlist {
 	border-bottom:1px solid lightgray;
-	padding-bottom:2px;
+	padding-bottom:4px;
 	margin-bottom:16px;
 }
 .xbgold { color:#edc500; }
