@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.8 10th February 2023
+ * @version 1.0.3.11 14th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -1071,122 +1071,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db->setQuery($query);
 	    return $db->loadColumn();
 	}
-	
-	/**
-	 * @name getPersonBookRoles()
-	 * @desc for given person returns an array of books and roles
-	 * @param int $personid
-	 * @param string $role - if not blank only get the specified role
-	 * @param string $order - field to order list by (role first if specified)
-	 * @param int $listfmt - 0=title only, 1=title,role,note  2=title,note (sort by role first)
-	 * @return array of objects with title,subtitle,pubyear,role,role_note,link,listitem
-	 * where link is [a] link to the book, 
-	 * and listitem is [li] formatted according to $listfmt with title linked to item
-	 */
-	public static function getPersonBookRoles(int $personid, $role='',$order='title ASC', $listfmt = 0) {
-	    $blink = 'index.php?option=com_xbbooks&view=book&id=';
-	    $db = Factory::getDBO();
-	    $query = $db->getQuery(true);
-	    
-	    $query->select('a.role, a.role_note, b.title, b.subtitle, b.pubyear, b.id, b.state AS bstate')
-	    ->from('#__xbbookperson AS a')
-	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
-	    ->where('a.person_id = "'.$personid.'"' );
-	    $query->where('b.state = 1');
-	    if (!empty($role)) {
-	        $query->where('a.role = "'.$role.'"');
-	    } elseif ($listfmt == 2) {
-	        $query->order('a.role ASC'); //this will order roles as author, editor, mention, other, publisher,
-	    }
-        $query->order('b.'.$order);
-	    $db->setQuery($query);
-	    $booklist = $db->loadObjectList(); //list of books for the person	    
-	    foreach ($booklist as $book){
-	        $booklink = Route::_($blink . $book->id);
-	        $book->link = "<a href='".$booklink."'>".$book->title."</a>";
-	        $book->listitem = '<li>';
-            $book->listitem .= $book->link;
-            if ($listfmt == 1) {
-                $book->listitem .= ' : ';
-                switch ($book->role) {
-                    case 'mention':
-                        $book->listitem .= Text::_('XBCULTURE_APPEARS_IN');
-                        break;
-                    case 'other':
-                        $book->listitem .= Text::_('XBCULTURE_OTHER_ROLE');
-                        break;
-                    default:
-                        $book->listitem .= ucfirst($book->role);
-                        break;
-                }
-            }
-            if (($listfmt==2) && ($book->role_note != '')) $book->listitem .= ' : ';
-            if (($listfmt > 0) && ($book->role_note != '')) {
-                $book->listitem .= ' <i>('. $book->role_note.')</i>';
-            }
-            $book->listitem .= '</li>';	    
-	    }
-	    return $booklist;
-	}
-	
-	/**
-	 * @name getPersonFilmRoles()
-	 * @desc for given person returns an array of films and roles
-	 * @param int $personid
-	 * @param string $role - if not blank only get the specified role
-	 * @param string $order - field to order list by (role first if specified)
-	 * @param int $listfmt - 0=title only, 1=title,role,note  2=title,note (sort by role first)
-	 * @return array of objects with title,subtitle,rel_year,role,role_note,link,listitem
-	 * where link is [a] link to the book, 
-	 * and listitem is [li] formatted according to $listfmt with title linked to item
-	 */
-	public static function getPersonFilmRoles(int $personid, $role='',$order='title ASC', $listfmt = 0) {
-//	    $app = Factory::getApplication();
-	    $flink = 'index.php?option=com_xbfilms&view=film';
-	    if (Factory::getApplication()->isClient('administrator')) {
-	        $flink .= '&layout=edit';
-	    }
-	    $flink .= '&id=';
-	    $db = Factory::getDBO();
-	    $query = $db->getQuery(true);
-	    
-	    $query->select('a.role, a.role_note, b.title, b.rel_year, b.id, b.state AS bstate')
-	    ->from('#__xbfilmperson AS a')
-	    ->join('LEFT','#__xbfilms AS b ON b.id=a.film_id')
-	    ->where('a.person_id = "'.$personid.'"' );
-	    $query->where('b.state = 1');
-	    if (!empty($role)) {
-	        $query->where('a.role = "'.$role.'"');
-	    } elseif ($listfmt == 2) {
-	        $query->order('a.role DESC'); //this will order roles as producer,director,crew,cast,appears
-	    }
-	    $query->order('b.'.$order);
-	    $db->setQuery($query);
-	    $filmlist = $db->loadObjectList();
-	    foreach ($filmlist as $film){
-	        $filmlink = Route::_($flink . $film->id);
-	        $film->link = "<a href='".$filmlink."'>".$film->title."</a>";
-	        $film->listitem = '<li>'.$film->link;
-	        if ($listfmt == 1) {
-	            $film->listitem .= ' : ';
-	            switch ($film->role) {
-	                case 'appearsin':
-	                    $film->listitem .= Text::_('XBCULTURE_APPEARS_IN');
-	                    break;
-	                default:
-	                    $film->listitem .= ucfirst($film->role);
-	                    break;
-	            }
-	        }
-	        if (($listfmt==2) && ($film->role_note != '')) $film->listitem .= ' : ';
-	        if (($listfmt > 0) && ($film->role_note != '')) {
-	            $film->listitem .= ' <i>('. $film->role_note.')</i>';
-	        }
-	        $film->listitem .= '</li>';
-	    }
-	    return $filmlist;
-	}
-	
+		
 	/**
 	 * @name getPersonFilms()
 	 * @desc for given person returns an array of films and roles
@@ -1204,7 +1089,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.role, a.role_note AS note, f.title AS name, f.rel_year, f.id, f.state AS fstate')
+	    $query->select('a.role, a.role_note AS note, f.title AS name, f.rel_year, f.id AS id, f.state AS fstate')
 	    ->from('#__xbfilmperson AS a')
 	    ->join('LEFT','#__xbfilms AS f ON f.id=a.film_id')
 	    ->where('a.person_id = "'.$personid.'"' );
@@ -1251,7 +1136,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.role, a.role_note AS note, b.title AS name, b.pubyear, b.id, b.state AS bstate')
+	    $query->select('a.role, a.role_note AS note, b.title AS name, b.pubyear, b.id AS id, b.state AS bstate')
 	    ->from('#__xbbookperson AS a')
 	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
 	    ->where('a.person_id = "'.$personid.'"' );
@@ -1297,7 +1182,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.role, a.role_note AS note, b.title AS name, b.id, b.state AS bstate')
+	    $query->select('a.role, a.role_note AS note, b.title AS name, b.id AS id, b.state AS bstate')
 	    ->from('#__xbeventperson AS a')
 	    ->join('LEFT','#__xbevents AS b ON b.id=a.event_id')
 	    ->where('a.person_id = "'.$personid.'"' );
@@ -1336,7 +1221,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.role, a.role_note AS note, a.joined AS joined, b.title AS name, b.id, b.state AS bstate')
+	    $query->select('a.role, a.role_note AS note, a.joined AS joined, b.title AS name, b.id AS id, b.state AS bstate')
 	    ->from('#__xbgroupperson AS a')
 	    ->join('LEFT','#__xbgroups AS b ON b.id=a.group_id')
 	    ->where('a.person_id = "'.$personid.'"' );
@@ -1375,7 +1260,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.char_note, b.title, b.pubyear, b.id, b.state AS bstate')
+	    $query->select('a.char_note, b.title, b.pubyear, b.id AS id, b.state AS bstate')
 	    ->from('#__xbbookcharacter AS a')
 	    ->join('LEFT','#__xbbooks AS b ON b.id=a.book_id')
 	    ->where('a.char_id = "'.$charid.'"' );
@@ -1411,7 +1296,7 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.char_note AS note,a.actor_id AS actorid, f.title AS name, f.id, f.state AS fstate')
+	    $query->select('a.char_note AS note,a.actor_id AS actorid, f.title AS name, f.id AS id, f.state AS fstate')
 	    ->from('#__xbeventcharacter AS a')
 	    ->join('LEFT','#__xbevents AS f ON f.id=a.event_id')
 	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
@@ -1449,11 +1334,11 @@ class XbcultureHelper extends ContentHelper {
 	    $db = Factory::getDBO();
 	    $query = $db->getQuery(true);
 	    
-	    $query->select('a.char_note AS note, f.title AS name, f.rel_year, f.id, f.state AS fstate')
+	    $query->select('a.char_note AS note, f.title AS name, f.rel_year, f.id AS id, f.state AS fstate')
 	    ->from('#__xbfilmcharacter AS a')
 	    ->join('LEFT','#__xbfilms AS f ON f.id=a.film_id')
-	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
-	    ->select('CONCAT(p.firstname,'.$db->quote(' '). ',p.lastname) AS role, p.id')
+//	    ->join('LEFT','#__xbpersons AS p ON p.id=a.actor_id')
+//	    ->select('CONCAT(p.firstname,'.$db->quote(' '). ',p.lastname) AS role, p.id')
 	    ->where('a.char_id = "'.$charid.'"' );
 	    if (!$isadmin) {
 	        $query->where('f.state = 1');

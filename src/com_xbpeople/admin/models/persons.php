@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/persons.php
- * @version 1.0.3.3 31st January 2023
+ * @version 1.0.3.10 14th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2023
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -228,7 +228,6 @@ class XbpeopleModelPersons extends JModelList {
 			if ($item->fcnt>0) {
     			$item->films = XbcultureHelper::getPersonFilms($item->id);
     			$item->frolecnt = count($item->films);
-    //			$item->filmlist = $item->frolecnt==0 ? '' : XbcultureHelper::makeLinkedNameList($item->films,'','ul',true,3);
     			
     			$froles = array_column($item->films,'role');
     			$item->dircnt = count(array_keys($froles, 'director'));
