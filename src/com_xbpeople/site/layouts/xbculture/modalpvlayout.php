@@ -75,7 +75,7 @@ jQuery(document).bind('DOMNodeInserted', function(e) {
            jQuery(".modal-backdrop").not(':last').remove();
        }
 	}    
-})
+});
 </script>
 <!-- preview modal windows -->
 <?php if (strpos($show,'P')) : ?>
