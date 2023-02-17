@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource admin/model/groups.php
- * @version 1.0.2.1 8th January 2023
+ * @version 1.0.3.14 17th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -192,19 +192,19 @@ class XbpeopleModelGroups extends JModelList {
 		foreach ($items as $i=>$item) {
 		    if ($item->pcnt>0) {
 		        $item->members = XbcultureHelper::getGroupMembers($item->id);
-		        $item->memberlist = XbcultureHelper::makeItemLists($item->members,'','t',4,'ppvmodal');
+		        $item->memberlist = XbcultureHelper::makeItemLists($item->members,'','t',4,'person');
 		    }
 		    if ($item->bcnt > 0) {
 		        $item->books = XbcultureHelper::getGroupBooks($item->id);
-		        $item->booklist = XbcultureHelper::makeItemLists($item->books,'','t',4, 'bpvmodal');
+		        $item->booklist = XbcultureHelper::makeItemLists($item->books,'','t',4, 'book');
 		    }
 		    if ($item->ecnt > 0) {
 		        $item->events = XbcultureHelper::getGroupEvents($item->id);
-		        $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','t',4, 'epvmodal');
+		        $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','t',4, 'event');
 		    }
 		    if ($item->fcnt > 0) {
 		        $item->films = XbcultureHelper::getGroupFilms($item->id);
-		        $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','t',4, 'fpvmodal');
+		        $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','t',4, 'film');
 		    }
 		    
 			$item->ext_links = json_decode($item->ext_links);

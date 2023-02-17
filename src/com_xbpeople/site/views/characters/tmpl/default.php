@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/views/characters/tmpl/default.php
- * @version 1.0.3.5 1st February 2023
+ * @version 1.0.3.14 17th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -40,7 +40,8 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
 
 ?>
 <style type="text/css" media="screen">
-	.xbpvmodal .modal-content {padding:15px;max-height:calc(100vh - 190px); overflow:scroll; }
+    .xbpvmodal .modal-body iframe { max-height:calc(100vh - 190px);}
+    .xbpvmodal .modal-body { max-height:none; height:auto;}
 </style>
 <div class="xbculture">
 	<?php if(($this->header['showheading']) || ($this->header['title'] != '') || ($this->header['text'] != '')) {
@@ -79,10 +80,33 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
 	</div>
 <?php } else { ?>
 		<table class="table table-striped table-hover" style="table-layout:fixed;" id="xbcharacters">	
+    		<colgroup>
+    			<?php if($this->show_pic) : ?>
+    				<col style="width:80px"><!-- picture -->
+                <?php endif; ?>
+    			<col ><!-- title -->
+    			<?php if($this->show_sum) : ?>
+    				<col class="hidden-phone"><!-- summary -->
+                <?php endif; ?>
+                <?php if ($this->showccnts != 0 ) : ?>
+        			<?php if($this->xbbooksStatus) : ?>
+    					<col style="width:150px;"><!-- books -->
+                    <?php endif; ?>
+        			<?php if($this->xbeventsStatus) : ?>
+    					<col style="width:150px;"><!-- events -->
+                    <?php endif; ?>
+        			<?php if($this->xbfilmsStatus) : ?>
+    					<col style="width:150px;"><!-- films -->
+                    <?php endif; ?>
+    			<?php endif; ?>
+    			<?php if($this->showcat || $this->showtags) : ?>
+    				<col class="hidden-tablet hidden-phone"><!-- cats&tags -->
+    			<?php endif; ?>
+    		</colgroup>
 		<thead>
 			<tr>
 				<?php if($this->show_pic) : ?>
-					<th class="center" style="width:80px">
+					<th class="center">
 						<?php echo JText::_( 'XBCULTURE_PORTRAIT' ); ?>
 					</th>	
                 <?php endif; ?>
@@ -113,7 +137,7 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
                    <?php endif; ?>
                 <?php endif; ?>
 				<?php if($this->showcat || $this->showtags) : ?>
-    				<th class="hidden-tablet hidden-phone">
+    				<th>
     					<?php if ($this->showcat) {
     						echo HtmlHelper::_('searchtools.sort','XBCULTURE_CATEGORY','category_title',$listDirn,$listOrder );
     					}
@@ -149,8 +173,8 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
 					<p class="xbtitlelist">
 						<a href="<?php echo Route::_($plink.$item->id);?>" >
 							<b><?php echo $this->escape($item->name); ?></b>
-							</a>&nbsp;
-    						<a href="" data-toggle="modal"  class="xbpv" data-target="#ajax-cpvmodal"  onclick="window.pvid= <?php echo $item->id; ?>;">
+							</a>&nbsp;<a href="#ajax-xbmodal" data-toggle="modal" class="xbpv" data-target="#ajax-xbmodal"  
+    							onclick="window.com='people';window.view='character';window.pvid= <?php echo $item->id; ?>;">
                 				<i class="far fa-eye"></i>
                 			</a>					
 					</p>
@@ -252,77 +276,6 @@ $plink = 'index.php?option=com_xbpeople&view=character'.$itemid.'&id=';
 <div class="clearfix"></div>
 <p><?php echo XbcultureHelper::credit('xbPeople');?></p>
 </div>
-<script>
-jQuery(document).ready(function(){
-//for preview modals
-    jQuery('#ajax-cpvmodal').on('show', function () {
-        // Load view vith AJAX
-      jQuery(this).find('.modal-content').load('/index.php?option=com_xbpeople&view=character&layout=default&tmpl=component&id='+window.pvid);
-    })
-    jQuery('#ajax-bpvmodal').on('show', function () {
-        // Load view vith AJAX
-       jQuery(this).find('.modal-content').load('/index.php?option=com_xbbooks&view=book&layout=default&tmpl=component&id='+window.pvid);
-    })
-    jQuery('#ajax-epvmodal').on('show', function () {
-        // Load view vith AJAX
-       jQuery(this).find('.modal-content').load('/index.php?option=com_xbevents&view=event&layout=default&tmpl=component&id='+window.pvid);
-    })
-    jQuery('#ajax-fpvmodal').on('show', function () {
-        // Load view vith AJAX
-       jQuery(this).find('.modal-content').load('/index.php?option=com_xbfilms&view=film&layout=default&tmpl=component&id='+window.pvid);
-    })
-    jQuery('#ajax-cpvmodal,#ajax-bpvmodal,#ajax-epvmodal,#ajax-fpvmodal').on('hidden', function () {
-       document.location.reload(true);
-    })    
-});
-</script>
-<!-- preview modal windows -->
-<div class="modal fade xbpvmodal" id="ajax-cpvmodal" style="max-width:800px">
-    <div class="modal-dialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
-            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
-             <h4 class="modal-title" style="margin:5px;">Preview Group</h4>
-        </div>
-        <div class="modal-content">
-            <!-- Ajax content will be loaded here -->
-        </div>
-    </div>
-</div>
-<div class="modal fade xbpvmodal" id="ajax-bpvmodal" style="max-width:1000px">
-    <div class="modal-dialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
-            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
-             <h4 class="modal-title" style="margin:5px;">Preview Book</h4>
-        </div>
-        <div class="modal-content">
-            <!-- Ajax content will be loaded here -->
-        </div>
-    </div>
-</div>
-<div class="modal fade xbpvmodal" id="ajax-epvmodal" style="max-width:900px">
-    <div class="modal-dialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
-            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
-             <h4 class="modal-title" style="margin:5px;">Preview Event</h4>
-        </div>
-        <div class="modal-content">
-            <!-- Ajax content will be loaded here -->
-        </div>
-    </div>
-</div>
-<div class="modal fade xbpvmodal" id="ajax-fpvmodal" style="max-width:1000px">
-    <div class="modal-dialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
-            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
-             <h4 class="modal-title" style="margin:5px;">Preview Film</h4>
-        </div>
-        <div class="modal-content">
-            <!-- Ajax content will be loaded here -->
-        </div>
-    </div>
-</div>
+
+<?php echo LayoutHelper::render('xbculture.layoutpvmodal', array(), JPATH_ROOT .'/components/com_xbpeople/layouts');   ?>
 

@@ -14,6 +14,7 @@ use Joomla\CMS\Uri\Uri;
 ?>
 <script>
 jQuery(document).ready(function(){
+    jQuery(this).find('.modal-body iframe').attr("src","");
     jQuery('#ajax-xbmodal').on('show', function () {
         jQuery(this).find('.modal-body iframe').attr("src",
             "/index.php?option=com_xb"+window.com+"\&view="+window.view+"\&layout=default\&tmpl=component&id="+window.pvid);
@@ -41,7 +42,7 @@ jQuery(document).bind('DOMNodeInserted', function(e) {
     <div class="modal-dialog">
     	<div class="modal-header">
     		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-        		style="opacity:unset;line-height:unset;border:none;">&times;</button>
+        		style="opacity:unset;line-height:unset;border:none;font-size:2rem;">&times;</button>
         	<h4 class="modal-title" style="margin:5px;">Preview</h4>
         </div>
         <div class="modal-body">

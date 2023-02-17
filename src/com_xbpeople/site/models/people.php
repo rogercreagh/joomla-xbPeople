@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/people.php
- * @version 1.0.3.5 1st February 2023
+ * @version 1.0.3.14 17th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -254,19 +254,19 @@ class XbpeopleModelPeople extends JModelList {
 	
 			if ($item->gcnt>0) {
 			    $item->groups = XbcultureHelper::getPersonGroups($item->id);
-			    $item->grouplist = XbcultureHelper::makeItemLists($item->groups,'','tr',3,'gpvmodal');
+			    $item->grouplist = XbcultureHelper::makeItemLists($item->groups,'','tr',3,'group');
 			}
 			if ($item->bcnt>0) {
 			    $item->books = XbcultureHelper::getPersonBooks($item->id);
-			    $item->booklist = XbcultureHelper::makeItemLists($item->books,'','tr',3,'bpvmodal');
+			    $item->booklist = XbcultureHelper::makeItemLists($item->books,'','tr',3,'book');
 			}
 			if ($item->ecnt>0) {
 			    $item->events = XbcultureHelper::getPersonEvents($item->id);
-			    $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','tr',3,'epvmodal');
+			    $item->eventlist = XbcultureHelper::makeItemLists($item->events,'','tr',3,'event');
 			}
 			if ($item->fcnt>0) {
 			    $item->films = XbcultureHelper::getPersonFilms($item->id);
-			    $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','tr',3,'fpvmodal');
+			    $item->filmlist = XbcultureHelper::makeItemLists($item->films,'','tr',3,'film');
 			}
 			
 		} //end foreach item

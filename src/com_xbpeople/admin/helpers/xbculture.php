@@ -86,6 +86,7 @@ class XbcultureHelper extends ContentHelper {
 	            $click = "window.com='people';window.view='group';window.pvid=";
 	            break;
 	        case 'char' :
+	        case 'character' :
 	            $click = "window.com='people';window.view='character';window.pvid=";
 	            break;
 	        case 'film' :
