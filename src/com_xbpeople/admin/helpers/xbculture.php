@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople for all xbCulture extensions
  * @filesource admin/helpers/xbculture.php
- * @version 1.0.3.12 14th February 2023
+ * @version 1.0.3.14 17th February 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2021
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -76,6 +76,40 @@ class XbcultureHelper extends ContentHelper {
 	 * @return array containing ullist and commalist
 	 */
 	public static function makeItemLists($items, $role='', $rowfmt = 't', $linkfmt = 0, $pvtargid = 'pvmodal') {// $modal= array('target'=>'pvmodal','opt'=>'com_xbbooks', 'view'=>'default') ) { //
+	    $targ = 'xbmodal';
+	    $click= "window.pvid=";
+	    switch ($pvtargid) {
+	        case 'person' :
+	            $click = "window.com='people';window.view='person';window.pvid=";
+	            break;
+	        case 'group' :
+	            $click = "window.com='people';window.view='group';window.pvid=";
+	            break;
+	        case 'char' :
+	            $click = "window.com='people';window.view='character';window.pvid=";
+	            break;
+	        case 'film' :
+	            $click = "window.com='films';window.view='film';window.pvid=";
+	            break;
+	        case 'event' :
+	            $click = "window.com='events';window.view='event';window.pvid=";
+	            break;
+	        case 'book' :
+	            $click = "window.com='books';window.view='book';window.pvid=";
+	            break;
+	        case 'freview' :
+	            $click = "window.com='films';window.view='filmreview';window.pvid=";
+	            break;
+	        case 'ereview' :
+	            $click = "window.com='events';window.view='eventreview';window.pvid=";
+	            break;
+	        case 'breview' :
+	            $click = "window.com='books';window.view='bookreview';window.pvid=";
+	            break;
+	        default:
+	            $targ = $pvtargid;
+	        break;
+ 	    }
 	    $ullist = '<ul class="xblist">';
 	    $commalist = '';
 	    if ($role=='') {
@@ -110,8 +144,10 @@ class XbcultureHelper extends ContentHelper {
     	        $name = (empty($item->name)) ? $item->title : $item->name;   //for items that have titles instead of names
     	        $name = '<span class="xblistname">'.$name.'</span>';
                 $ullist .= '<li>';
-                $modref = '<a href="" class="xbpv" data-toggle="modal" data-target="#ajax-'.$pvtargid.'" data-backdrop="static" onclick="window.pvid=';
+                $modref = '<a href="#ajax-'.$targ.'" class="xbpv" data-toggle="modal" data-target="#ajax-'.$targ.'" data-backdrop="static" onclick="'.$click;
                 //$modref = '<a href="" data-toggle="modal" data-target="#ajax-'.$modal['target'].'onclick="window.modlink='.$modal['opt'].'&view='.$modal['view'].'&layout=default&tmpl=component&id=';
+//                $modref = '<a href="" class="xbpv" data-toggle="modal" data-target="#ajax-'.$targ.'" ';
+//                $modref .= 'onclick="window.com='.$com.';window.view='.$view.'window.pvid=';
                 switch ($linkfmt) {
                     case 0: //no link
                         $link = $name;

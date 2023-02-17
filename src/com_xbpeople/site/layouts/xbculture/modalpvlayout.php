@@ -9,6 +9,8 @@
  ******/
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+use Joomla\CMS\Uri\Uri;
+
 $show = 'x'.strtoupper(trim($displayData['show']));
 if ($show == 'x') $show = 'xPGCFEBOIE';
 
@@ -78,6 +80,21 @@ jQuery(document).bind('DOMNodeInserted', function(e) {
 });
 </script>
 <!-- preview modal windows -->
+<div class="modal fade xbpvmodal" id="ajax-xbmodal" style="max-width:1000px">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" 
+            	style="opacity:unset;line-height:unset;border:none;">&times;</button>
+             <h4 class="modal-title" style="margin:5px;">Preview</h4>
+        </div>
+        <div class="modal-body">
+            <div style="margin:0 30px;">
+        		<iframe id="xbif" src="" title="Preview"></iframe>   
+        	</div>
+        </div>
+    </div>
+</div>
+
 <?php if (strpos($show,'P')) : ?>
 <div class="modal fade xbpvmodal" id="ajax-ppvmodal" style="max-width:800px">
     <div class="modal-dialog">
