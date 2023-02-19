@@ -76,7 +76,7 @@ class XbpeopleModelPeople extends JModelList {
  		if ($sess->get('xbevents_ok',false)==1) {
  		    $query->select('(SELECT COUNT(DISTINCT(ep.event_id)) FROM #__xbeventperson AS ep JOIN #__xbevents AS e ON ep.event_id = e.id WHERE ep.person_id = a.id AND e.state=1) AS ecnt');
  		} else {
- 		    $query->select('0 AS fcnt');
+ 		    $query->select('0 AS ecnt');
  		}
  		if ($sess->get('xbfilms_ok',false)==1) {
  		    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp JOIN #__xbbooks AS b ON bp.book_id = b.id WHERE bp.person_id = a.id AND b.state=1) AS bcnt');

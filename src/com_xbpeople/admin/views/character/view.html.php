@@ -67,7 +67,7 @@ class XbpeopleViewCharacter extends JViewLegacy {
         if ($isNew) {
             $title .= Text::_('XBPEOPLE_TITLE_NEWCHAR');
         } elseif ($checkedOut) {
-            $title .= Text::_('XBCULTURE_TITLE_VIEWPERSON');
+            $title .= Text::_('XBPEOPLE_TITLE_VIEWCHAR');
         } else {
             $title .= Text::_('XBPEOPLE_TITLE_EDITCHAR');
         }
@@ -88,7 +88,7 @@ class XbpeopleViewCharacter extends JViewLegacy {
         if ($this->item->id > 0) {
             $dhtml = '<a href=""
              	data-toggle="modal" data-target="#ajax-cpvmodal"  onclick="window.pvid='.$this->item->id.';"
-             	class="btn btn-small btn-primary"><i class="far fa-eye"></i> '.Text::_('Preview').'</a>';
+             	class="btn btn-small btn-primary"><i class="far fa-eye"></i> '.Text::_('XBCULTURE_PREVIEW').'</a>';
             $bar->appendButton('Custom', $dhtml);
         }
 //         $dhtml = '<a href="index.php?option=com_xbpeople&view=character&layout=modalpv&tmpl=component&id='.$this->item->id.'"

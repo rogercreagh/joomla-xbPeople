@@ -215,7 +215,7 @@ $plink = 'index.php?option=com_xbpeople&view=group'.$itemid.'&id=';
     						<?php echo $item->memberlist['ullist']; ?>    						
     					</details>
 					<?php else : ?>
-						<p class="xbnit"><?php echo Text::_('None listed')?></p>
+						<p class="xbnit"><?php echo Text::_('XBCULTURE_NONE_LISTED')?></p>
 					<?php endif; ?>
 				</td>
 				<?php if($this->show_sum) : ?>

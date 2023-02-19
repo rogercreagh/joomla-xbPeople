@@ -99,7 +99,7 @@ class XbpeopleViewGroup extends JViewLegacy {
         if ($this->item->id > 0) {
             $dhtml = '<a href=""
              	data-toggle="modal" data-target="#ajax-gpvmodal"  onclick="window.pvid='.$this->item->id.';"
-             	class="btn btn-small btn-primary"><i class="far fa-eye"></i> '.Text::_('Preview').'</a>';
+             	class="btn btn-small btn-primary"><i class="far fa-eye"></i> '.Text::_('XBCULTURE_PREVIEW').'</a>';
             $bar->appendButton('Custom', $dhtml);
         }
 
