@@ -97,7 +97,7 @@
 				>
 					xbculture_iconmenu_tags					
 			</menu>
-			<menu link="option=com_config&amp;view=component&amp;component=com_xbbooks"
+			<menu link="option=com_config&amp;view=component&amp;component=com_xbpeople"
 					>xbculture_iconmenu_options				
 			</menu>
 		</submenu>
