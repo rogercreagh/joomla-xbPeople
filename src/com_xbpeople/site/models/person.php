@@ -2,7 +2,7 @@
 /*******
  * @package xbPeople
  * @filesource site/models/person.php
- * @version 1.0.2.6 12th January 2023
+ * @version 1.1.0.3 29th March 2023
  * @author Roger C-O
  * @copyright Copyright (c) Roger Creagh-Osborne, 2022
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -46,7 +46,7 @@ class XbpeopleModelPerson extends JModelItem {
 			
 			$query->select('(SELECT COUNT(DISTINCT(gp.group_id)) FROM #__xbgroupperson AS gp JOIN #__xbgroups AS g ON gp.group_id = g.id  WHERE gp.person_id = a.id AND g.state=1) AS gcnt');
 			
-			if ($sess->get('xbbooks_ok',false)==1) {
+			if ($sess->get('xbfilms_ok',false)==1) {
 			    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp JOIN #__xbfilms AS f ON fp.film_id = f.id WHERE fp.person_id = a.id AND f.state=1) AS fcnt');
 			} else {
 			    $query->select('0 AS fcnt');
@@ -56,7 +56,7 @@ class XbpeopleModelPerson extends JModelItem {
 			} else {
 			    $query->select('0 AS ecnt');
 			}
-			if ($sess->get('xbfilms_ok',false)==1) {
+			if ($sess->get('xbbooks_ok',false)==1) {
 			    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp JOIN #__xbbooks AS b ON bp.book_id = b.id WHERE bp.person_id = a.id AND b.state=1) AS bcnt');
 			} else {
 			    $query->select('0 AS bcnt');
