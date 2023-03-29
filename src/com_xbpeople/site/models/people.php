@@ -68,7 +68,7 @@ class XbpeopleModelPeople extends JModelList {
  		
  		$query->select('(SELECT COUNT(DISTINCT(gp.group_id)) FROM #__xbgroupperson AS gp JOIN #__xbgroups AS g ON gp.group_id = g.id  WHERE gp.person_id = a.id AND g.state=1) AS gcnt');
  		
- 		if ($sess->get('xbbooks_ok',false)==1) {
+ 		if ($sess->get('xbfilms_ok',false)==1) {
  		    $query->select('(SELECT COUNT(DISTINCT(fp.film_id)) FROM #__xbfilmperson AS fp JOIN #__xbfilms AS f ON fp.film_id = f.id WHERE fp.person_id = a.id AND f.state=1) AS fcnt');
  		} else {
  		    $query->select('0 AS fcnt');
@@ -78,7 +78,7 @@ class XbpeopleModelPeople extends JModelList {
  		} else {
  		    $query->select('0 AS ecnt');
  		}
- 		if ($sess->get('xbfilms_ok',false)==1) {
+ 		if ($sess->get('xbbooks_ok',false)==1) {
  		    $query->select('(SELECT COUNT(DISTINCT(bp.book_id)) FROM #__xbbookperson AS bp JOIN #__xbbooks AS b ON bp.book_id = b.id WHERE bp.person_id = a.id AND b.state=1) AS bcnt');
  		} else {
  		    $query->select('0 AS bcnt');
